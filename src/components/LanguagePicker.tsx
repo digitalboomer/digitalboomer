@@ -111,7 +111,7 @@ export const LanguagePicker: React.FC<{ value: UiLanguage; onChange: (lang: UiLa
   };
 
   return (
-    <div ref={wrapRef} className="relative w-full md:w-auto">
+    <div ref={wrapRef} className="relative">
       <button
         ref={buttonRef}
         type="button"
@@ -138,7 +138,7 @@ export const LanguagePicker: React.FC<{ value: UiLanguage; onChange: (lang: UiLa
           aria-label={label}
           aria-activedescendant={`${listId}-${UI_LANGUAGES[active].id}`}
           onKeyDown={onListKey}
-          className="absolute left-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-0 top-full mt-1 z-50 min-w-[12rem] py-1 rounded-xl bg-[#FFFFFF] border-2 border-[#17324D] shadow-lg focus:outline-none"
+          className="absolute right-0 top-full mt-1 z-50 min-w-[12rem] py-1 rounded-xl bg-[#FFFFFF] border-2 border-[#17324D] shadow-lg focus:outline-none"
         >
           {UI_LANGUAGES.map((l, i) => {
             const selected = l.id === value;

@@ -75,7 +75,8 @@ export const Header: React.FC<HeaderProps> = ({
     }
   };
 
-  const toolButton = 'w-full h-full md:w-auto md:h-auto inline-flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 px-1 md:px-3 py-1 md:py-0 min-h-[56px] md:min-h-[44px] rounded-xl text-white text-sm leading-tight text-center font-bold hover:bg-white/15';
+  // Small, like "Progress" and "Menu": these are tools, not the main actions of the page.
+  const toolButton = 'inline-flex items-center gap-1 md:gap-2 px-1.5 md:px-3 min-h-[44px] rounded-xl text-white text-sm font-bold whitespace-nowrap hover:bg-white/15';
 
   const searchForm = (id: string) => (
     <form onSubmit={handleSearch} role="search" className="flex items-center gap-2">
@@ -98,9 +99,9 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <>
       {/* Tools. Scrolls away, so small screens keep room for the lesson. */}
-      {/* Phones: three equal buttons across the full width, icon above the word. Larger screens: one row on the right. */}
-      <div className="bg-[#17324D] text-white px-2 sm:px-8 py-1">
-        <div className="max-w-[1200px] mx-auto grid grid-cols-3 gap-1 md:flex md:flex-wrap md:items-center md:justify-end md:gap-2">
+      {/* One slim row on the right. Phones use the short word "Settings" so everything fits in one row. */}
+      <div className="bg-[#17324D] text-white px-1 sm:px-8 py-0.5 md:py-1">
+        <div className="max-w-[1200px] mx-auto flex flex-wrap items-center justify-end gap-0.5 md:gap-2">
           <div className="hidden md:block mr-auto">{searchForm('search-top')}</div>
           <button type="button" onClick={onOpenSupportModal} className={toolButton}>
             <Icon name="help" className="text-xl" />
@@ -115,7 +116,8 @@ export const Header: React.FC<HeaderProps> = ({
             className={toolButton}
           >
             <Icon name="format_size" className="text-xl" />
-            {isEn ? 'Text, colours & sound' : 'Schrift, Farben & Ton'}
+            <span className="md:hidden">{isEn ? 'Settings' : 'Ansicht'}</span>
+            <span className="hidden md:inline">{isEn ? 'Text, colours & sound' : 'Schrift, Farben & Ton'}</span>
           </button>
         </div>
       </div>
