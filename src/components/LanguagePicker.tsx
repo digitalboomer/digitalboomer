@@ -64,7 +64,7 @@ const Flag: React.FC<{ lang: UiLanguage }> = ({ lang }) => (
   </span>
 );
 
-export const LanguagePicker: React.FC<{ value: UiLanguage; onChange: (lang: UiLanguage) => void; label: string }> = ({ value, onChange, label }) => {
+export const LanguagePicker: React.FC<{ value: UiLanguage; onChange: (lang: UiLanguage) => void; label: string; buttonClassName?: string }> = ({ value, onChange, label, buttonClassName }) => {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -111,7 +111,7 @@ export const LanguagePicker: React.FC<{ value: UiLanguage; onChange: (lang: UiLa
   };
 
   return (
-    <div ref={wrapRef} className="relative">
+    <div ref={wrapRef} className="relative w-full md:w-auto">
       <button
         ref={buttonRef}
         type="button"
@@ -120,12 +120,14 @@ export const LanguagePicker: React.FC<{ value: UiLanguage; onChange: (lang: UiLa
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-controls={open ? listId : undefined}
-        className="inline-flex items-center gap-2 px-3 min-h-[44px] rounded-xl text-white text-sm font-bold hover:bg-white/15"
+        className={buttonClassName ?? 'inline-flex items-center gap-2 px-3 min-h-[44px] rounded-xl text-white text-sm font-bold hover:bg-white/15'}
       >
         <span className="sr-only">{label}:</span>
         <Flag lang={current.id} />
-        <span lang={current.id} translate="no">{current.name}</span>
-        <Icon name="expand_more" className={`text-lg transition-transform ${open ? 'rotate-180' : ''}`} />
+        <span className="inline-flex items-center gap-1">
+          <span lang={current.id} translate="no">{current.name}</span>
+          <Icon name="expand_more" className={`text-lg transition-transform ${open ? 'rotate-180' : ''}`} />
+        </span>
       </button>
       {open && (
         <ul
@@ -136,7 +138,7 @@ export const LanguagePicker: React.FC<{ value: UiLanguage; onChange: (lang: UiLa
           aria-label={label}
           aria-activedescendant={`${listId}-${UI_LANGUAGES[active].id}`}
           onKeyDown={onListKey}
-          className="absolute right-0 top-full mt-1 z-50 min-w-[12rem] py-1 rounded-xl bg-[#FFFFFF] border-2 border-[#17324D] shadow-lg focus:outline-none"
+          className="absolute left-1/2 -translate-x-1/2 md:left-auto md:right-0 md:translate-x-0 top-full mt-1 z-50 min-w-[12rem] py-1 rounded-xl bg-[#FFFFFF] border-2 border-[#17324D] shadow-lg focus:outline-none"
         >
           {UI_LANGUAGES.map((l, i) => {
             const selected = l.id === value;

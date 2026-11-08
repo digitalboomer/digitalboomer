@@ -75,7 +75,7 @@ export const Header: React.FC<HeaderProps> = ({
     }
   };
 
-  const toolButton = 'inline-flex items-center gap-2 px-3 min-h-[44px] rounded-xl text-white text-sm font-bold hover:bg-white/15';
+  const toolButton = 'w-full h-full md:w-auto md:h-auto inline-flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 px-1 md:px-3 py-1 md:py-0 min-h-[56px] md:min-h-[44px] rounded-xl text-white text-sm leading-tight text-center font-bold hover:bg-white/15';
 
   const searchForm = (id: string) => (
     <form onSubmit={handleSearch} role="search" className="flex items-center gap-2">
@@ -98,15 +98,16 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <>
       {/* Tools. Scrolls away, so small screens keep room for the lesson. */}
-      <div className="bg-[#17324D] text-white px-4 sm:px-8 py-1">
-        <div className="max-w-[1200px] mx-auto flex flex-wrap items-center justify-end gap-2">
+      {/* Phones: three equal buttons across the full width, icon above the word. Larger screens: one row on the right. */}
+      <div className="bg-[#17324D] text-white px-2 sm:px-8 py-1">
+        <div className="max-w-[1200px] mx-auto grid grid-cols-3 gap-1 md:flex md:flex-wrap md:items-center md:justify-end md:gap-2">
           <div className="hidden md:block mr-auto">{searchForm('search-top')}</div>
           <button type="button" onClick={onOpenSupportModal} className={toolButton}>
             <Icon name="help" className="text-xl" />
             {isEn ? 'Help' : 'Hilfe'}
           </button>
           {/* Language: its own control. Language names stay in their own language (translate="no"). */}
-          <LanguagePicker value={uiLang} onChange={onLangChange} label={isEn ? 'Language' : 'Sprache'} />
+          <LanguagePicker value={uiLang} onChange={onLangChange} label={isEn ? 'Language' : 'Sprache'} buttonClassName={toolButton} />
           <button
             type="button"
             onClick={() => setSettingsOpen(!settingsOpen)}
