@@ -206,8 +206,8 @@ export const AccessibilityPrivacyScreen: React.FC<AccessibilityPrivacyScreenProp
               </p>
               <p>
                 {isEn
-                  ? 'If you write to us with the form on the Help page, we receive your name, your email address, the topic and your message. We use them only to answer you. The message is stored with our provider Supabase on servers in the EU, and only our team can read it. We answer from our team email address (Gmail). We delete messages when they are answered and no longer needed.'
-                  : 'Wenn Sie uns über das Formular auf der Hilfe-Seite schreiben, erhalten wir Ihren Namen, Ihre E-Mail-Adresse, das Thema und Ihre Nachricht. Wir nutzen sie nur, um Ihnen zu antworten. Die Nachricht wird bei unserem Anbieter Supabase auf Servern in der EU gespeichert, und nur unser Team kann sie lesen. Wir antworten von der E-Mail-Adresse unseres Teams (Gmail). Wir löschen Nachrichten, wenn sie beantwortet sind und nicht mehr gebraucht werden.'}
+                  ? 'If you write to us with the form on the Help page, we receive your name, your email address, the topic and your message. We use them only to answer you. The message is stored with our provider Supabase on servers in the EU, and only our team can read it. A copy is sent to our team email address (Gmail) through our email provider Brevo, and we answer from there. We delete messages when they are answered and no longer needed.'
+                  : 'Wenn Sie uns über das Formular auf der Hilfe-Seite schreiben, erhalten wir Ihren Namen, Ihre E-Mail-Adresse, das Thema und Ihre Nachricht. Wir nutzen sie nur, um Ihnen zu antworten. Die Nachricht wird bei unserem Anbieter Supabase auf Servern in der EU gespeichert, und nur unser Team kann sie lesen. Eine Kopie geht über unseren E-Mail-Anbieter Brevo an die E-Mail-Adresse unseres Teams (Gmail), und wir antworten von dort. Wir löschen Nachrichten, wenn sie beantwortet sind und nicht mehr gebraucht werden.'}
               </p>
 
               <h3 className="text-lg font-bold text-[#17324D] dark:text-white">

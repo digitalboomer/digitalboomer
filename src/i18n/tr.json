@@ -2957,5 +2957,6 @@
  "We use them only to answer you.": "Bunları yalnızca size yanıt vermek için kullanırız.",
  "The message is stored with our provider Supabase on servers in the EU, and only our team can read it.": "Mesaj, hizmet sağlayıcımız Supabase'de AB'deki sunucularda saklanır ve onu yalnızca ekibimiz okuyabilir.",
  "We answer from our team email address (Gmail).": "Ekibimizin e-posta adresinden (Gmail) yanıt veririz.",
- "We delete messages when they are answered and no longer needed.": "Mesajları yanıtlandıktan ve artık gerekmediğinde sileriz."
+ "We delete messages when they are answered and no longer needed.": "Mesajları yanıtlandıktan ve artık gerekmediğinde sileriz.",
+ "A copy is sent to our team email address (Gmail) through our email provider Brevo, and we answer from there.": "Ekibimizin e-posta adresine (Gmail) e-posta hizmet sağlayıcımız Brevo aracılığıyla bir kopya gönderilir ve oradan yanıt veririz."
 }

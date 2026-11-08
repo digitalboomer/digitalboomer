@@ -2953,5 +2953,6 @@
  "We use them only to answer you.": "Los usamos solo para responderle.",
  "The message is stored with our provider Supabase on servers in the EU, and only our team can read it.": "El mensaje se guarda con nuestro proveedor Supabase en servidores de la UE, y solo nuestro equipo puede leerlo.",
  "We answer from our team email address (Gmail).": "Respondemos desde la dirección de correo de nuestro equipo (Gmail).",
- "We delete messages when they are answered and no longer needed.": "Borramos los mensajes cuando ya están respondidos y no se necesitan."
+ "We delete messages when they are answered and no longer needed.": "Borramos los mensajes cuando ya están respondidos y no se necesitan.",
+ "A copy is sent to our team email address (Gmail) through our email provider Brevo, and we answer from there.": "Se envía una copia a la dirección de correo de nuestro equipo (Gmail) a través de nuestro proveedor de correo Brevo, y respondemos desde allí."
 }

@@ -2953,5 +2953,6 @@
  "We use them only to answer you.": "Koristimo ih samo kako bismo Vam odgovorili.",
  "The message is stored with our provider Supabase on servers in the EU, and only our team can read it.": "Poruka se čuva kod našeg pružatelja usluge Supabase na poslužiteljima u EU-u i samo je naš tim može pročitati.",
  "We answer from our team email address (Gmail).": "Odgovaramo s adrese e-pošte našeg tima (Gmail).",
- "We delete messages when they are answered and no longer needed.": "Poruke brišemo kad su odgovorene i više nisu potrebne."
+ "We delete messages when they are answered and no longer needed.": "Poruke brišemo kad su odgovorene i više nisu potrebne.",
+ "A copy is sent to our team email address (Gmail) through our email provider Brevo, and we answer from there.": "Kopija se putem našeg pružatelja usluge e-pošte Brevo šalje na adresu e-pošte našeg tima (Gmail), a odgovaramo odande."
 }
