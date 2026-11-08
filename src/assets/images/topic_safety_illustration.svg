@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 670" role="img" aria-label="A shield with a padlock protecting a smartphone">
+  <rect width="1200" height="670" fill="#E3F1F0"/>
+  <circle cx="170" cy="130" r="80" fill="#FFFFFF"/>
+  <circle cx="1040" cy="540" r="120" fill="#EAF2F8"/>
+  <rect x="300" y="140" width="210" height="400" rx="32" fill="#17324D"/>
+  <rect x="318" y="178" width="174" height="322" rx="10" fill="#FFFFFF"/>
+  <rect x="340" y="205" width="130" height="16" rx="8" fill="#667382"/>
+  <rect x="340" y="240" width="130" height="16" rx="8" fill="#667382"/>
+  <rect x="340" y="275" width="90" height="16" rx="8" fill="#667382"/>
+  <path d="M740 95 L950 170 L950 340 C950 470 850 550 740 600 C630 550 530 470 530 340 L530 170 Z" fill="#176B68"/>
+  <path d="M740 135 L915 198 L915 340 C915 450 830 515 740 560 Z" fill="#0F514F"/>
+  <rect x="655" y="300" width="170" height="135" rx="20" fill="#FFFFFF"/>
+  <path d="M690 300 L690 255 C690 185 790 185 790 255 L790 300" fill="none" stroke="#FFFFFF" stroke-width="24"/>
+  <circle cx="740" cy="355" r="21" fill="#17324D"/>
+  <rect x="730" y="360" width="20" height="44" rx="8" fill="#17324D"/>
+</svg>

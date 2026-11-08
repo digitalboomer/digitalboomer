@@ -1,0 +1,641 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Style guide type scale. Sizes stay in rem, so browser text enlargement keeps working. */
+@theme {
+  --font-sans: 'Atkinson Hyperlegible', 'Source Sans 3', Verdana, Arial, sans-serif;
+  --text-xs: 1rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: 1.125rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1.25rem;
+  --text-base--line-height: 1.6;
+  --text-lg: 1.375rem;
+  --text-lg--line-height: 1.5;
+  --text-xl: 1.5rem;
+  --text-xl--line-height: 1.35;
+  --text-2xl: 1.75rem;
+  --text-2xl--line-height: 1.25;
+  --text-3xl: 2.25rem;
+  --text-3xl--line-height: 1.25;
+  --text-4xl: 3rem;
+  --text-4xl--line-height: 1.2;
+  --text-5xl: 3rem;
+  --text-5xl--line-height: 1.2;
+  --font-weight-medium: 400;
+  --font-weight-semibold: 700;
+  --font-weight-extrabold: 700;
+  --font-weight-black: 700;
+}
+
+/* Phones: more fits on the screen. "Text, colours & sound" makes it larger for anyone who wants that. */
+@media (max-width: 599px) {
+  :root {
+    --spacing: 0.2rem;
+    --text-sm: 1rem;
+    --text-base: 1rem;
+    --text-base--line-height: 1.5;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.375rem;
+    --text-3xl: 1.5rem;
+    --text-4xl: 1.75rem;
+    --text-5xl: 1.875rem;
+  }
+  /* The simulated phone keeps its own sizes, so it looks like a real phone. */
+  .phone-sim {
+    --spacing: 0.25rem;
+    --text-base: 1.125rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.375rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+  }
+}
+
+/* Emphasis is bold only: no capitals, wide spacing or italics */
+.uppercase { text-transform: none; }
+.tracking-wider, .tracking-widest, .tracking-tight { letter-spacing: normal; }
+.italic { font-style: normal; }
+
+@layer base {
+  :root {
+    --font-scale: 1;
+    --color-navy: #17324D;
+    --color-teal: #176B68;
+    --color-teal-dark: #0f514e;
+    --color-offwhite: #F7F8F5;
+    --color-surface: #FFFFFF;
+    --color-darktext: #202B36;
+    --color-border: #E5E9ED;
+    --color-paleblue: #EAF2F8;
+    --color-amber-bg: #FEF3C7;
+    --color-amber-text: #92400E;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    background-color: var(--color-offwhite);
+    color: var(--color-darktext);
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+/* ==========================================================================
+   THEME 1: DARK MODE (Triggered by .dark or [data-theme="dark"])
+   WCAG AA Compliant dark palette with high legibility
+   ========================================================================== */
+html.dark,
+html.dark body:not(.phone-sim *),
+body.dark,
+[data-theme="dark"],
+[data-theme="dark"] body {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Page background containers */
+html.dark [class*="bg-[#F5FAFF]"]:not(.phone-sim *),
+html.dark [class*="bg-[#F7F8F5]"]:not(.phone-sim *),
+html.dark [class*="bg-[#FAFCFF]"]:not(.phone-sim *),
+html.dark [class*="bg-slate-50"]:not(.phone-sim *),
+html.dark .bg-slate-50:not(.phone-sim *) {
+  background-color: #0b1120 !important;
+  color: #f1f5f9 !important;
+}
+
+/* White card surfaces & elevated blocks */
+html.dark [class*="bg-[#FFFFFF]"]:not(.phone-sim *),
+html.dark [class*="bg-white"]:not(.phone-sim *),
+html.dark .bg-white:not(.phone-sim *) {
+  background-color: #162032 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Subtle light-blue tint blocks -> dark slate tint */
+html.dark [class*="bg-[#E5F1FC]"]:not(.phone-sim *),
+html.dark [class*="bg-[#EAF2F8]"]:not(.phone-sim *),
+html.dark [class*="bg-slate-100"]:not(.phone-sim *),
+html.dark .bg-slate-100:not(.phone-sim *) {
+  background-color: #1e293b !important;
+  color: #cbd5e1 !important;
+}
+
+/* Secondary light surfaces */
+html.dark [class*="bg-slate-200"]:not(.phone-sim *),
+html.dark .bg-slate-200:not(.phone-sim *) {
+  background-color: #334155 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Dark mode borders */
+html.dark [class*="border-[#D7E5F2]"]:not(.phone-sim *),
+html.dark [class*="border-[#E5E9ED]"]:not(.phone-sim *),
+html.dark [class*="border-slate-200"]:not(.phone-sim *),
+html.dark [class*="border-slate-300"]:not(.phone-sim *),
+html.dark .border-slate-200:not(.phone-sim *) {
+  border-color: #334155 !important;
+}
+
+/* Headings and primary text in dark mode */
+html.dark h1:not(.phone-sim *),
+html.dark h2:not(.phone-sim *),
+html.dark h3:not(.phone-sim *),
+html.dark h4:not(.phone-sim *),
+html.dark h5:not(.phone-sim *),
+html.dark h6:not(.phone-sim *),
+html.dark [class*="text-[#356789]"]:not(.phone-sim *),
+html.dark [class*="text-[#17324D]"]:not(.phone-sim *),
+html.dark [class*="text-[#202B36]"]:not(.phone-sim *),
+html.dark .text-slate-900:not(.phone-sim *),
+html.dark .text-slate-800:not(.phone-sim *) {
+  color: #f8fafc !important;
+}
+
+/* Secondary & muted text in dark mode */
+html.dark p:not(.phone-sim *),
+html.dark [class*="text-[#3976A8]"]:not(.phone-sim *),
+html.dark .text-slate-700:not(.phone-sim *),
+html.dark .text-slate-600:not(.phone-sim *),
+html.dark .text-slate-500:not(.phone-sim *) {
+  color: #cbd5e1 !important;
+}
+
+/* Accent teal colors & links in dark mode */
+html.dark [class*="text-[#176B68]"]:not(.phone-sim *) {
+  color: #2dd4bf !important;
+}
+
+/* Form inputs in dark mode */
+html.dark input:not(.phone-sim *),
+html.dark select:not(.phone-sim *),
+html.dark textarea:not(.phone-sim *) {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-color: #475569 !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Badges in dark mode */
+html.dark [class*="bg-[#FEF3C7]"]:not(.phone-sim *) {
+  background-color: #78350f !important;
+  color: #fef3c7 !important;
+}
+
+html.dark [class*="bg-[#DEF7EC]"]:not(.phone-sim *) {
+  background-color: #064e3b !important;
+  color: #a7f3d0 !important;
+}
+
+
+/* ==========================================================================
+   THEME 2: HIGH CONTRAST MODE (Triggered by .high-contrast or [data-theme="high-contrast"])
+   WCAG 2.2 AAA Extreme Contrast: Pure Black (#000000), Pure White (#FFFFFF),
+   and Vivid Yellow (#FFFF00 / #FACC15) with distinct 2px borders.
+   ========================================================================== */
+html.high-contrast,
+html.high-contrast body:not(.phone-sim *),
+body.high-contrast,
+[data-theme="high-contrast"],
+[data-theme="high-contrast"] body {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Force dark surface for all containers */
+html.high-contrast [class*="bg-[#"]:not(.phone-sim *),
+html.high-contrast [class*="bg-white"]:not(.phone-sim *),
+html.high-contrast [class*="bg-slate-"]:not(.phone-sim *),
+html.high-contrast [class*="bg-amber-"]:not(.phone-sim *),
+html.high-contrast [class*="bg-emerald-"]:not(.phone-sim *),
+html.high-contrast [class*="bg-teal-"]:not(.phone-sim *),
+html.high-contrast main:not(.phone-sim *),
+html.high-contrast section:not(.phone-sim *),
+html.high-contrast article:not(.phone-sim *),
+html.high-contrast header:not(.phone-sim *),
+html.high-contrast footer:not(.phone-sim *),
+html.high-contrast nav:not(.phone-sim *) {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* High contrast card & container borders: bold 2px solid white */
+html.high-contrast [class*="rounded-"]:not(.phone-sim *),
+html.high-contrast [class*="border"]:not(.phone-sim *),
+html.high-contrast .border:not(.phone-sim *) {
+  border: 2px solid #ffffff !important;
+}
+
+/* High contrast headings and text */
+html.high-contrast h1:not(.phone-sim *),
+html.high-contrast h2:not(.phone-sim *),
+html.high-contrast h3:not(.phone-sim *),
+html.high-contrast h4:not(.phone-sim *),
+html.high-contrast h5:not(.phone-sim *),
+html.high-contrast h6:not(.phone-sim *),
+html.high-contrast p:not(.phone-sim *),
+html.high-contrast span:not(.phone-sim *),
+html.high-contrast label:not(.phone-sim *),
+html.high-contrast li:not(.phone-sim *) {
+  color: #ffffff !important;
+}
+
+/* High contrast links, icons, and special text in vivid yellow */
+html.high-contrast a:not(.phone-sim *),
+html.high-contrast [class*="text-[#176B68]"]:not(.phone-sim *),
+html.high-contrast [class*="text-teal"]:not(.phone-sim *),
+html.high-contrast [class*="text-emerald"]:not(.phone-sim *),
+html.high-contrast .ui-icon:not(.phone-sim *) {
+  color: #ffff00 !important;
+}
+
+html.high-contrast a:not(.phone-sim *) {
+  text-decoration: underline !important;
+  text-underline-offset: 4px !important;
+}
+
+/* Interactive Buttons in High Contrast */
+html.high-contrast button:not(.phone-sim *) {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  font-weight: 700 !important;
+}
+
+html.high-contrast button:hover:not(.phone-sim *),
+html.high-contrast button:focus:not(.phone-sim *),
+html.high-contrast button:focus-visible:not(.phone-sim *) {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+  outline: 3px solid #ffffff !important;
+}
+
+/* Active pressed state for buttons & tabs in high contrast */
+html.high-contrast button[aria-pressed="true"]:not(.phone-sim *),
+html.high-contrast [role="tab"][aria-selected="true"]:not(.phone-sim *) {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+  font-weight: 900 !important;
+}
+
+html.high-contrast button[aria-pressed="true"] *:not(.phone-sim *),
+html.high-contrast button:hover *:not(.phone-sim *),
+html.high-contrast button:focus-visible *:not(.phone-sim *) {
+  color: #000000 !important;
+}
+
+/* Forms in High Contrast */
+html.high-contrast input:not(.phone-sim *),
+html.high-contrast select:not(.phone-sim *),
+html.high-contrast textarea:not(.phone-sim *) {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+
+html.high-contrast input::placeholder,
+html.high-contrast textarea::placeholder {
+  color: #ffff00 !important;
+}
+
+
+/* ==========================================================================
+   SIMULATED PHONE: always looks like the real app, in every site theme
+   ========================================================================== */
+.phone-sim {
+  font-family: Roboto, 'Segoe UI', system-ui, -apple-system, sans-serif;
+  line-height: 1.3;
+  color: #111b21;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.phone-sim.is-ios {
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', 'Segoe UI', sans-serif;
+}
+
+/* In the base layer, so text size and bold classes on phone buttons still apply */
+@layer base {
+  .phone-sim button {
+    font: inherit;
+    color: inherit;
+  }
+}
+
+/* Short confirmation directly on the spot that was tapped */
+.practice-correct {
+  z-index: 3;
+  box-shadow: 0 0 0 3px #ffffff, 0 0 0 7px #176b68 !important;
+}
+
+.sim-fade {
+  animation: page-enter 0.2s ease-out;
+}
+
+.sim-typing span {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 3px;
+  border-radius: 50%;
+  background: #667781;
+  animation: sim-typing 1.2s infinite ease-in-out;
+}
+
+.sim-typing span:nth-child(2) { animation-delay: 0.15s; }
+.sim-typing span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes sim-typing {
+  0%, 60%, 100% { opacity: 0.35; }
+  30% { opacity: 1; }
+}
+
+/* Text size choice. Percent, so the browser's own text size setting still counts. */
+html[data-text-scale="100"] { font-size: 100%; }
+html[data-text-scale="115"] { font-size: 115%; }
+html[data-text-scale="130"] { font-size: 130%; }
+
+/* Smooth font-size and color transitions */
+html {
+  transition: font-size 0.2s ease-in-out;
+}
+
+* {
+  touch-action: manipulation;
+}
+
+/* Accessible focus outlines: 3 px navy ring with a 2 px gap (light ring on dark themes) */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid #17324D;
+  outline-offset: 2px;
+}
+
+html.dark button:focus-visible:not(.phone-sim *),
+html.dark a:focus-visible:not(.phone-sim *),
+html.dark input:focus-visible:not(.phone-sim *),
+html.dark textarea:focus-visible:not(.phone-sim *),
+html.dark select:focus-visible:not(.phone-sim *) {
+  outline-color: #ffffff;
+}
+
+/* A control shows it was pressed: it dips slightly and darkens. Works with touch, mouse and keyboard. */
+button,
+a,
+[role="button"],
+select {
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.08s ease, filter 0.08s ease;
+}
+
+button:active:not(:disabled),
+a:active,
+[role="button"]:active,
+.is-pressed {
+  transform: scale(0.97);
+  filter: brightness(0.9);
+}
+
+/* Every control is large enough to hit, also on the older pages (keys on the simulated phone are the exception) */
+button:not(.phone-sim *),
+select:not(.phone-sim *),
+input:not([type="checkbox"], [type="radio"], .phone-sim *) {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* New page or step appears gently, so the click visibly did something */
+.page-enter {
+  animation: page-enter 0.22s ease-out;
+}
+
+@keyframes page-enter {
+  from { opacity: 0.2; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Links are always underlined */
+main a,
+footer a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  button:active:not(:disabled),
+  a:active,
+  [role="button"]:active,
+  .is-pressed {
+    transform: none;
+  }
+}
+
+/* Guided practice: the correct spot is framed in navy with a white outline (style guide 6.3) */
+.practice-target {
+  z-index: 1;
+  border-radius: 12px;
+  box-shadow: 0 0 0 3px #ffffff, 0 0 0 6px #17324d;
+}
+
+.practice-show-me {
+  z-index: 2;
+  animation: practice-nudge 0.8s ease-in-out 2;
+}
+
+@keyframes practice-nudge {
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .practice-show-me {
+    animation: none;
+  }
+}
+
+/* Interactive touch target guarantee (min 44px) */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* ==========================================================================
+   INTERACTIVE HAND CURSOR & HOVER STATES (Requirement 4)
+   Ensure that every genuinely clickable button, link, topic card, and other
+   interactive element displays a pointer cursor (the hand symbol) when the mouse
+   hovers over it. Standard default cursor for non-interactive text.
+   ========================================================================== */
+button,
+a,
+[role="button"],
+[role="tab"],
+[role="link"],
+summary,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+input[type="checkbox"],
+input[type="radio"],
+select,
+.clickable,
+[onclick] {
+  cursor: pointer !important;
+}
+
+/* Disabled controls show not-allowed */
+button:disabled,
+[aria-disabled="true"],
+input:disabled,
+select:disabled {
+  cursor: not-allowed !important;
+}
+
+
+/* Celebration when a lesson is finished: one slow fall, no flashing. */
+.confetti-piece {
+  position: absolute;
+  top: 0;
+  animation-name: confetti-fall;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+}
+
+@keyframes confetti-fall {
+  0% { transform: translateY(-5vh) rotate(0deg); opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(105vh) rotate(420deg); opacity: 0; }
+}
+
+.celebration-card {
+  animation: celebration-in 300ms ease-out both;
+}
+
+.celebration-badge {
+  display: flex;
+  animation: celebration-badge 500ms ease-out 100ms both;
+}
+
+@keyframes celebration-in {
+  from { transform: translateY(12px); opacity: 0; }
+  to { transform: none; opacity: 1; }
+}
+
+@keyframes celebration-badge {
+  0% { transform: scale(0.5); }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .confetti-piece {
+    display: none;
+  }
+}
+
+/* The certificate prints on its own sheet, without the page behind it. */
+.certificate-print {
+  display: none;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 15mm;
+  }
+  html,
+  body {
+    background: #ffffff !important;
+    font-size: 100% !important;
+  }
+  #root,
+  .certificate-dialog {
+    display: none !important;
+  }
+  .certificate-print {
+    display: block;
+    color: #202b36;
+    font-size: 11pt;
+    line-height: 1.35;
+  }
+  .certificate-print header {
+    text-align: center;
+    border-bottom: 2pt solid #17324d;
+    padding-bottom: 10pt;
+    margin-bottom: 12pt;
+    position: static;
+  }
+  .certificate-print .cert-brand {
+    font-size: 10pt;
+    font-weight: 700;
+    letter-spacing: 1pt;
+    color: #176b68;
+  }
+  .certificate-print h2 {
+    font-size: 24pt;
+    margin: 4pt 0;
+    color: #17324d;
+  }
+  .certificate-print .cert-name {
+    font-size: 18pt;
+    font-weight: 700;
+    color: #176b68;
+    margin: 4pt 0;
+  }
+  .certificate-print h3 {
+    font-size: 12pt;
+    margin: 0 0 3pt;
+    color: #17324d;
+  }
+  .certificate-print .cert-group {
+    break-inside: avoid;
+    margin-bottom: 9pt;
+  }
+  .certificate-print .cert-list {
+    columns: 2;
+    column-gap: 18pt;
+  }
+  .certificate-print .cert-list.is-short {
+    columns: 1;
+  }
+  .certificate-print ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .certificate-print li {
+    break-inside: avoid;
+    padding: 1pt 0;
+    font-size: 10pt;
+  }
+  .certificate-print footer {
+    break-inside: avoid;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 14pt;
+    padding-top: 8pt;
+    border-top: 1pt solid #667382;
+    font-size: 9pt;
+  }
+}

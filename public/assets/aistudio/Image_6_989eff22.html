@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-tertiary-container": "#7a8594",
+          "outline": "#7e7576",
+          "background": "#f9f9f9",
+          "tertiary-fixed": "#d9e3f4",
+          "surface-container": "#eeeeee",
+          "inverse-surface": "#2f3131",
+          "outline-variant": "#cfc4c5",
+          "on-primary-container": "#848484",
+          "on-background": "#1a1c1c",
+          "primary-fixed-dim": "#c6c6c6",
+          "on-primary-fixed-variant": "#474747",
+          "surface": "#f9f9f9",
+          "on-tertiary-fixed": "#121c28",
+          "surface-container-high": "#e8e8e8",
+          "on-surface": "#1a1c1c",
+          "on-primary": "#ffffff",
+          "primary-container": "#1b1b1b",
+          "surface-bright": "#f9f9f9",
+          "on-surface-variant": "#4c4546",
+          "surface-container-highest": "#e2e2e2",
+          "on-secondary-fixed-variant": "#3d4756",
+          "primary-fixed": "#e2e2e2",
+          "tertiary-fixed-dim": "#bdc7d8",
+          "surface-variant": "#e2e2e2",
+          "tertiary": "#000000",
+          "secondary": "#555f6f",
+          "on-secondary-fixed": "#121c2a",
+          "on-secondary-container": "#596373",
+          "primary": "#000000",
+          "secondary-fixed-dim": "#bdc7d9",
+          "on-error": "#ffffff",
+          "error": "#ba1a1a",
+          "inverse-primary": "#c6c6c6",
+          "secondary-fixed": "#d9e3f6",
+          "on-secondary": "#ffffff",
+          "secondary-container": "#d6e0f3",
+          "surface-dim": "#dadada",
+          "tertiary-container": "#121c28",
+          "inverse-on-surface": "#f0f1f1",
+          "on-tertiary-fixed-variant": "#3e4755",
+          "on-tertiary": "#ffffff",
+          "error-container": "#ffdad6",
+          "on-primary-fixed": "#1b1b1b",
+          "surface-tint": "#5e5e5e",
+          "surface-container-lowest": "#ffffff",
+          "surface-container-low": "#f3f3f4",
+          "on-error-container": "#93000a"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "space-sm": "0.75rem",
+          "space-xl": "3rem",
+          "space-xs": "0.5rem",
+          "space-md": "1.25rem",
+          "gutter": "2rem",
+          "space-lg": "2rem",
+          "margin": "3rem"
+        },
+        "fontFamily": {
+          "headline-lg": [
+            "Inter"
+          ],
+          "body-bold": [
+            "Inter"
+          ],
+          "body-lg": [
+            "Inter"
+          ],
+          "headline-xl": [
+            "Inter"
+          ],
+          "headline-md": [
+            "Inter"
+          ],
+          "body-xl": [
+            "Inter"
+          ],
+          "label-lg": [
+            "Inter"
+          ],
+          "headline-sm": [
+            "Inter"
+          ],
+          "label-md": [
+            "Inter"
+          ],
+          "instructional": [
+            "Inter"
+          ]
+        },
+        "fontSize": {
+          "headline-lg": [
+            "36px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "700"
+            }
+          ],
+          "body-bold": [
+            "20px",
+            {
+              "lineHeight": "32px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-lg": [
+            "20px",
+            {
+              "lineHeight": "32px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-xl": [
+            "48px",
+            {
+              "lineHeight": "60px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "800"
+            }
+          ],
+          "headline-md": [
+            "28px",
+            {
+              "lineHeight": "38px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-xl": [
+            "22px",
+            {
+              "lineHeight": "36px",
+              "fontWeight": "400"
+            }
+          ],
+          "label-lg": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-sm": [
+            "24px",
+            {
+              "lineHeight": "34px",
+              "fontWeight": "700"
+            }
+          ],
+          "label-md": [
+            "18px",
+            {
+              "lineHeight": "26px",
+              "fontWeight": "600"
+            }
+          ],
+          "instructional": [
+            "20px",
+            {
+              "lineHeight": "30px",
+              "fontWeight": "500"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-surface font-body-lg text-body-lg text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b-2 border-primary"><div class="h-[88px] max-w-[1320px] mx-auto px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><a class="flex flex-col text-left" data-path="dashboard-skills-hub" href="#"><span class="font-headline-sm text-headline-sm text-primary tracking-tight">Digital Boomer</span><span class="font-label-md text-label-md text-on-surface-variant">Simple Everyday Digital Skills</span></a><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-primary text-on-primary border-primary"><a class="px-space-md py-space-xs border-2 border-transparent font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="dashboard-skills-hub" href="#">Practice Modules</a><a aria-current="page" class="px-space-md py-space-xs font-label-md transition-colors bg-primary text-on-primary border-primary" data-path="email-simulator-exercise" href="#">Email Practice</a><a class="px-space-md py-space-xs border-2 border-transparent font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="safe-browsing-tutorial" href="#">Safe Browsing</a><a class="px-space-md py-space-xs border-2 border-transparent font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="device-basics-guide" href="#">Device Basics</a></nav></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-1 border-2 border-primary rounded-lg"><span class="font-label-md text-label-md text-primary select-none">Text size:</span><button aria-label="Decrease text size" class="w-12 h-12 flex items-center justify-center border-2 border-primary bg-surface-container-lowest font-headline-sm text-headline-sm text-primary hover:bg-surface-container hover:text-on-surface transition-colors" type="button">A-</button><button aria-label="Increase text size" class="w-12 h-12 flex items-center justify-center border-2 border-primary bg-surface-container-lowest font-headline-sm text-headline-sm text-primary hover:bg-surface-container hover:text-on-surface transition-colors" type="button">A+</button></div><a class="min-h-[48px] px-space-md flex items-center gap-space-xs bg-primary text-on-primary border-2 border-primary rounded-lg font-label-lg text-label-lg hover:bg-primary-container transition-colors" data-path="help-support-center" href="#"><span class="material-symbols-outlined text-[24px]">help</span><span>Help / Ask AI Assistant</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-[88px] min-h-[calc(100vh-88px)] bg-surface"><div class="max-w-[1320px] mx-auto px-margin py-space-xl"><div class="flex flex-col w-full">
+<!-- Top Sub-Navigation Bar -->
+<div class="w-full bg-surface-container-lowest p-space-md mb-space-lg shadow-sm flex flex-col md:flex-row items-center justify-between gap-space-md">
+<!-- Back to Lessons Button -->
+<a class="min-h-[56px] px-space-md flex items-center gap-space-xs bg-surface-container text-primary hover:bg-surface-container-high transition-colors font-label-lg text-label-lg" data-path="dashboard-skills-hub" href="#">
+<span class="material-symbols-outlined text-[28px]">arrow_back</span>
+<span>← Back to Lessons</span>
+</a>
+<!-- Step Progress Indicator -->
+<div class="flex flex-col items-center gap-space-xs">
+<div class="font-body-bold text-body-bold text-primary text-center">
+        Lesson: Send your first WhatsApp message — <span class="bg-primary text-on-primary px-2 py-0.5">Step 3 of 6</span>
+</div>
+<!-- Visual Step Segments (1, 2 filled, 3 active, 4, 5, 6 pending) -->
+<div class="flex items-center gap-2">
+<!-- Step 1 Complete -->
+<div class="flex items-center gap-1.5">
+<div class="w-9 h-9 bg-primary text-on-primary font-body-bold text-label-md flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<span class="font-label-md text-label-md text-primary hidden lg:inline">1. Open</span>
+</div>
+<div class="w-4 h-1 bg-primary"></div>
+<!-- Step 2 Complete -->
+<div class="flex items-center gap-1.5">
+<div class="w-9 h-9 bg-primary text-on-primary font-body-bold text-label-md flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">check</span>
+</div>
+<span class="font-label-md text-label-md text-primary hidden lg:inline">2. Select</span>
+</div>
+<div class="w-4 h-1 bg-primary"></div>
+<!-- Step 3 Active -->
+<div class="flex items-center gap-1.5">
+<div class="w-9 h-9 bg-primary text-on-primary font-body-bold text-label-md flex items-center justify-center shadow-md animate-pulse">
+            3
+          </div>
+<span class="font-body-bold text-body-bold text-primary underline underline-offset-4">3. Tap Field</span>
+</div>
+<div class="w-4 h-1 bg-outline-variant"></div>
+<!-- Step 4 Pending -->
+<div class="flex items-center gap-1.5">
+<div class="w-9 h-9 bg-surface-container text-on-surface-variant font-label-md text-label-md flex items-center justify-center">
+            4
+          </div>
+<span class="font-label-md text-label-md text-on-surface-variant hidden lg:inline">4. Type</span>
+</div>
+<div class="w-4 h-1 bg-outline-variant"></div>
+<!-- Step 5 Pending -->
+<div class="flex items-center gap-1.5">
+<div class="w-9 h-9 bg-surface-container text-on-surface-variant font-label-md text-label-md flex items-center justify-center">
+            5
+          </div>
+<span class="font-label-md text-label-md text-on-surface-variant hidden lg:inline">5. Send</span>
+</div>
+<div class="w-4 h-1 bg-outline-variant"></div>
+<!-- Step 6 Pending -->
+<div class="flex items-center gap-1.5">
+<div class="w-9 h-9 bg-surface-container text-on-surface-variant font-label-md text-label-md flex items-center justify-center">
+            6
+          </div>
+<span class="font-label-md text-label-md text-on-surface-variant hidden lg:inline">6. Done</span>
+</div>
+</div>
+</div>
+<!-- Help Action Button -->
+<button class="min-h-[56px] px-space-md flex items-center gap-space-xs bg-surface-container-highest text-primary hover:bg-surface-container-high transition-colors font-label-lg text-label-lg" onclick="document.getElementById('ai-assistant-anchor').scrollIntoView({behavior: 'smooth'})" type="button">
+<span class="material-symbols-outlined text-[26px]">contact_support</span>
+<span>Help / Ask AI Assistant</span>
+</button>
+</div>
+<!-- Main Instructional Workspace (Two Columns) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start mb-space-xl">
+<!-- LEFT COLUMN: 60% Width (7 of 12 cols) - Smartphone Simulator -->
+<div class="lg:col-span-7 bg-surface-container-low p-space-lg flex flex-col items-center justify-center shadow-sm relative">
+<div class="w-full flex items-center justify-between mb-space-md px-space-xs">
+<span class="font-body-bold text-body-bold text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[24px]">smartphone</span>
+          Interactive Practice Phone
+        </span>
+<span class="font-instructional text-instructional text-on-surface-variant bg-surface-container px-3 py-1">
+          Touch or click directly on the phone screen below
+        </span>
+</div>
+<!-- Smartphone Frame Container -->
+<div class="w-[380px] max-w-full bg-primary p-3 shadow-xl relative select-none">
+<!-- Phone Speaker & Camera Notch -->
+<div class="w-full h-6 bg-primary flex items-center justify-center gap-3 mb-1">
+<div class="w-16 h-1.5 bg-on-primary/40 rounded-full"></div>
+<div class="w-3 h-3 bg-on-primary/40 rounded-full"></div>
+</div>
+<!-- Inner Smartphone Screen -->
+<div class="w-full h-[650px] bg-surface flex flex-col justify-between overflow-hidden relative">
+<!-- WhatsApp Top App Bar Wireframe -->
+<div class="w-full bg-primary text-on-primary p-3 flex items-center justify-between shadow-sm">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[24px]">arrow_back</span>
+<div class="w-10 h-10 bg-surface-container text-primary flex items-center justify-center font-body-bold text-body-bold">
+                A
+              </div>
+<div class="flex flex-col text-left">
+<span class="font-body-bold text-label-lg leading-tight text-on-primary">Anna (Granddaughter)</span>
+<span class="font-instructional text-[14px] text-surface-container-high leading-tight">Online today at 10:14 AM</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[24px]">videocam</span>
+<span class="material-symbols-outlined text-[24px]">call</span>
+<span class="material-symbols-outlined text-[24px]">more_vert</span>
+</div>
+</div>
+<!-- Chat Conversation Scroll Area -->
+<div class="flex-1 bg-surface-container-low p-space-md flex flex-col gap-4 overflow-y-auto">
+<!-- Message Date Chip -->
+<div class="self-center bg-surface-container px-3 py-1 text-center font-instructional text-[14px] text-on-surface-variant">
+              Today
+            </div>
+<!-- Message 1: Incoming from Anna -->
+<div class="self-start max-w-[80%] bg-surface-container-lowest p-3 shadow-sm text-left">
+<p class="font-body-lg text-body-lg text-primary">Hi Grandma! So happy we can chat here now ❤️</p>
+<div class="text-right font-instructional text-[13px] text-on-surface-variant mt-1">10:12 AM</div>
+</div>
+<!-- Message 2: Photo from Anna -->
+<div class="self-start max-w-[80%] bg-surface-container-lowest p-3 shadow-sm text-left">
+<div class="w-full h-40 bg-surface-container flex flex-col items-center justify-center gap-2 p-2">
+<span class="material-symbols-outlined text-[48px] text-outline">photo_camera</span>
+<span class="font-instructional text-label-md text-on-surface-variant text-center">Photo from the family garden</span>
+</div>
+<p class="font-body-lg text-body-lg text-primary mt-2">Planted the hydrangeas you gave us!</p>
+<div class="text-right font-instructional text-[13px] text-on-surface-variant mt-1">10:14 AM</div>
+</div>
+<!-- Safety notice in chat -->
+<div class="self-center bg-surface-container-high px-3 py-1.5 text-center font-instructional text-[14px] text-on-surface-variant">
+              Practice simulation • Try tapping the white text box below
+            </div>
+</div>
+<!-- Bottom WhatsApp Message Input Bar with Focus/Pulsing Affordance -->
+<div class="w-full bg-surface-container-low p-2 relative shadow-lg">
+<!-- Callout pointer element pointing to the message field -->
+<div class="absolute -top-16 left-4 bg-primary text-on-primary px-3 py-2 shadow-lg flex items-center gap-2 animate-bounce z-20">
+<span class="font-headline-sm text-headline-sm">▼</span>
+<span class="font-body-bold text-label-lg whitespace-nowrap">Tap this white box to type</span>
+</div>
+<div class="flex items-center gap-2">
+<!-- HIGHLIGHTED INPUT FIELD -->
+<div aria-label="WhatsApp Message Input Field" class="flex-1 min-h-[58px] bg-surface-container-lowest p-3 shadow-inner flex items-center justify-between cursor-pointer ring-4 ring-primary hover:bg-surface-container transition-all" id="simulated-message-field" role="button" tabindex="0">
+<div class="flex items-center gap-2 overflow-hidden">
+<span class="material-symbols-outlined text-outline text-[24px]">mood</span>
+<span class="font-instructional text-instructional text-outline" id="input-placeholder-text">Type a message...</span>
+</div>
+<div class="flex items-center gap-2 text-outline">
+<span class="material-symbols-outlined text-[24px]">attach_file</span>
+<span class="material-symbols-outlined text-[24px]">photo_camera</span>
+</div>
+</div>
+<!-- Audio/Send Button Mock -->
+<div class="w-14 h-14 bg-primary text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[28px]">mic</span>
+</div>
+</div>
+<!-- Simulated On-Screen Touch Keyboard (Revealed or emphasized) -->
+<div class="w-full bg-surface-container mt-2 p-2 flex flex-col gap-1.5" id="simulated-keyboard-panel">
+<div class="flex justify-center gap-1">
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">Q</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">W</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">E</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">R</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">T</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">Y</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">U</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">I</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">O</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">P</span>
+</div>
+<div class="flex justify-center gap-1">
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">A</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">S</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">D</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">F</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">G</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">H</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">J</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">K</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">L</span>
+</div>
+<div class="flex justify-center items-center gap-1">
+<span class="bg-surface-container-highest px-3 py-1 font-instructional text-[14px] text-primary">Shift</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">Z</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">X</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">C</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">V</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">B</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">N</span>
+<span class="bg-surface-container-lowest px-2 py-1 font-body-bold text-label-md text-primary">M</span>
+<span class="bg-surface-container-highest px-2 py-1 font-instructional text-[14px] text-primary">Delete</span>
+</div>
+<div class="flex justify-center gap-1 mt-0.5">
+<span class="bg-surface-container-highest px-3 py-1 font-instructional text-[14px] text-primary">123</span>
+<span class="bg-surface-container-lowest flex-1 py-1 font-instructional text-[14px] text-on-surface-variant text-center">space bar</span>
+<span class="bg-primary text-on-primary px-4 py-1 font-body-bold text-[14px]">return</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: 40% Width (5 of 12 cols) - Step Explanation & Actions -->
+<div class="lg:col-span-5 flex flex-col gap-space-lg text-left">
+<!-- Lesson Step Title -->
+<div class="bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Instruction Card</span>
+<h1 class="font-headline-md text-headline-md text-primary">
+          Step 3: Tap where you type
+        </h1>
+<p class="font-body-xl text-body-xl text-primary font-medium mt-1">
+          Look at the bottom of the phone screen and click on the white box.
+        </p>
+</div>
+<!-- Numbered Explanation Wireframe Box -->
+<div class="bg-surface-container p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="font-headline-sm text-headline-sm text-primary flex items-center gap-2">
+<span class="material-symbols-outlined text-[28px]">lightbulb</span>
+<span>Why we do this</span>
+</div>
+<div class="flex flex-col gap-space-md">
+<div class="flex items-start gap-space-sm bg-surface-container-lowest p-space-md shadow-sm">
+<span class="w-10 h-10 bg-primary text-on-primary font-body-bold text-body-bold flex items-center justify-center shrink-0">1</span>
+<p class="font-body-bold text-body-bold text-primary">
+              The white box at the bottom is called the message field.
+            </p>
+</div>
+<div class="flex items-start gap-space-sm bg-surface-container-lowest p-space-md shadow-sm">
+<span class="w-10 h-10 bg-primary text-on-primary font-body-bold text-body-bold flex items-center justify-center shrink-0">2</span>
+<p class="font-body-bold text-body-bold text-primary">
+              Clicking or tapping it makes your letters appear on screen.
+            </p>
+</div>
+</div>
+</div>
+<!-- Action Area: Video Demo + Primary Next Step Button -->
+<div class="bg-surface-container-lowest p-space-lg shadow-sm flex flex-col gap-space-md">
+<!-- Video Demonstration Button -->
+<button class="w-full min-h-[52px] px-space-md bg-surface-container-high hover:bg-surface-container text-primary font-body-bold text-body-bold flex items-center justify-center gap-space-xs transition-colors" type="button">
+<span class="material-symbols-outlined text-[28px]">play_circle</span>
+<span>Show me (Play short video)</span>
+</button>
+<!-- Big Primary Progression Button -->
+<a class="w-full min-h-[64px] px-space-md bg-primary hover:bg-primary-container text-on-primary font-body-bold text-body-xl flex items-center justify-center gap-space-xs shadow-md transition-all text-center" data-path="lesson-step-4" href="#">
+<span>Next step: Type your greeting →</span>
+</a>
+<!-- Practice Hint -->
+<p class="font-instructional text-instructional text-on-surface-variant text-center">
+          Take all the time you need. There is no rush or timer.
+        </p>
+</div>
+</div>
+</div>
+<!-- Bottom Panel Across Screen: Friendly AI Learning Assistant -->
+<div class="w-full bg-surface-container p-space-lg shadow-md flex flex-col md:flex-row items-center gap-space-lg" id="ai-assistant-anchor">
+<!-- Assistant Avatar & Label -->
+<div class="flex items-center gap-space-md shrink-0">
+<div class="w-16 h-16 bg-primary text-on-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[36px]">smart_toy</span>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-body-bold text-body-bold text-primary">AI Learning Helper</span>
+<span class="font-instructional text-instructional text-on-surface-variant">Always here to help you</span>
+</div>
+</div>
+<!-- Speech Bubble Container with Exact Text -->
+<div class="flex-1 bg-surface-container-lowest p-space-md shadow-sm relative text-left">
+<div class="font-instructional text-label-md text-on-surface-variant mb-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">chat_bubble</span>
+        Helper's Message:
+      </div>
+<p class="font-body-xl text-body-xl text-primary font-bold">
+        “Tap the white field at the bottom and type your message.”
+      </p>
+</div>
+<!-- Assistant Controls & Interaction Options -->
+<div class="flex flex-col sm:flex-row items-center gap-space-sm shrink-0 w-full md:w-auto">
+<!-- Read Aloud Option -->
+<button class="w-full sm:w-auto min-h-[56px] px-space-md bg-surface-container-lowest hover:bg-surface-container-high text-primary font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-sm transition-colors" id="read-aloud-button" type="button">
+<span class="material-symbols-outlined text-[26px]">volume_up</span>
+<span>Need more time? Read aloud to me</span>
+</button>
+<!-- Ask Question Option -->
+<button class="w-full sm:w-auto min-h-[56px] px-space-md bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-2 shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[26px]">help_center</span>
+<span>Ask a question</span>
+</button>
+</div>
+</div>
+<!-- Interactive JavaScript logic for learning simulation -->
+<script>
+    (function initWhatsAppStepSimulation() {
+      const field = document.getElementById('simulated-message-field');
+      const placeholder = document.getElementById('input-placeholder-text');
+      const readBtn = document.getElementById('read-aloud-button');
+
+      if (field) {
+        field.addEventListener('click', function() {
+          if (placeholder) {
+            placeholder.textContent = "Hello Anna! ";
+            placeholder.classList.remove('text-outline');
+            placeholder.classList.add('text-primary', 'font-bold');
+          }
+          field.classList.add('bg-surface-container-high');
+        });
+      }
+
+      if (readBtn) {
+        readBtn.addEventListener('click', function() {
+          const originalText = readBtn.innerHTML;
+          readBtn.innerHTML = '<span class="material-symbols-outlined text-[26px]">graphic_eq</span><span>Reading aloud now...</span>';
+          setTimeout(function() {
+            readBtn.innerHTML = originalText;
+          }, 3500);
+        });
+      }
+    })();
+  </script>
+</div></div></main><footer class="w-full bg-surface-container-lowest border-t-2 border-primary mt-space-xl"><div class="max-w-[1320px] mx-auto px-margin py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md bg-surface-container-low border-2 border-primary px-space-lg py-space-md rounded-lg"><span class="material-symbols-outlined text-primary text-[32px]">verified_user</span><div class="flex flex-col"><span class="font-body-bold text-body-bold text-primary">Safe practice environment</span><span class="font-instructional text-instructional text-on-surface-variant">No real data is saved or sent — you cannot break anything here.</span></div></div><div class="flex flex-col sm:flex-row items-center gap-space-md"><a class="min-h-[56px] px-space-lg flex items-center gap-space-xs border-2 border-primary bg-surface-container-lowest text-primary font-label-lg text-label-lg hover:bg-surface-container transition-colors rounded-lg" data-path="help-support-center" href="#"><span class="material-symbols-outlined text-[24px]">phone_in_talk</span><span>Call Free Phone Support</span></a><a class="min-h-[56px] px-space-lg flex items-center gap-space-xs border-2 border-primary bg-surface-container-lowest text-primary font-label-lg text-label-lg hover:bg-surface-container transition-colors rounded-lg" data-path="help-support-center" href="#"><span class="material-symbols-outlined text-[24px]">support_agent</span><span>Live Voice Guide</span></a></div></div><div class="max-w-[1320px] mx-auto px-margin pb-space-lg pt-space-xs border-t border-outline-variant text-center font-label-md text-label-md text-on-surface-variant">© 2024 Digital Boomer Learning Systems. Engineered for seniors and curious beginners.</div></footer></body></html>

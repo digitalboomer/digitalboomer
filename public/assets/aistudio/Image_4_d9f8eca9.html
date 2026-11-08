@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-tertiary-container": "#7a8594",
+          "outline": "#7e7576",
+          "background": "#f9f9f9",
+          "tertiary-fixed": "#d9e3f4",
+          "surface-container": "#eeeeee",
+          "inverse-surface": "#2f3131",
+          "outline-variant": "#cfc4c5",
+          "on-primary-container": "#848484",
+          "on-background": "#1a1c1c",
+          "primary-fixed-dim": "#c6c6c6",
+          "on-primary-fixed-variant": "#474747",
+          "surface": "#f9f9f9",
+          "on-tertiary-fixed": "#121c28",
+          "surface-container-high": "#e8e8e8",
+          "on-surface": "#1a1c1c",
+          "on-primary": "#ffffff",
+          "primary-container": "#1b1b1b",
+          "surface-bright": "#f9f9f9",
+          "on-surface-variant": "#4c4546",
+          "surface-container-highest": "#e2e2e2",
+          "on-secondary-fixed-variant": "#3d4756",
+          "primary-fixed": "#e2e2e2",
+          "tertiary-fixed-dim": "#bdc7d8",
+          "surface-variant": "#e2e2e2",
+          "tertiary": "#000000",
+          "secondary": "#555f6f",
+          "on-secondary-fixed": "#121c2a",
+          "on-secondary-container": "#596373",
+          "primary": "#000000",
+          "secondary-fixed-dim": "#bdc7d9",
+          "on-error": "#ffffff",
+          "error": "#ba1a1a",
+          "inverse-primary": "#c6c6c6",
+          "secondary-fixed": "#d9e3f6",
+          "on-secondary": "#ffffff",
+          "secondary-container": "#d6e0f3",
+          "surface-dim": "#dadada",
+          "tertiary-container": "#121c28",
+          "inverse-on-surface": "#f0f1f1",
+          "on-tertiary-fixed-variant": "#3e4755",
+          "on-tertiary": "#ffffff",
+          "error-container": "#ffdad6",
+          "on-primary-fixed": "#1b1b1b",
+          "surface-tint": "#5e5e5e",
+          "surface-container-lowest": "#ffffff",
+          "surface-container-low": "#f3f3f4",
+          "on-error-container": "#93000a"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "space-sm": "0.75rem",
+          "space-xl": "3rem",
+          "space-xs": "0.5rem",
+          "space-md": "1.25rem",
+          "gutter": "2rem",
+          "space-lg": "2rem",
+          "margin": "3rem"
+        },
+        "fontFamily": {
+          "headline-lg": [
+            "Inter"
+          ],
+          "body-bold": [
+            "Inter"
+          ],
+          "body-lg": [
+            "Inter"
+          ],
+          "headline-xl": [
+            "Inter"
+          ],
+          "headline-md": [
+            "Inter"
+          ],
+          "body-xl": [
+            "Inter"
+          ],
+          "label-lg": [
+            "Inter"
+          ],
+          "headline-sm": [
+            "Inter"
+          ],
+          "label-md": [
+            "Inter"
+          ],
+          "instructional": [
+            "Inter"
+          ]
+        },
+        "fontSize": {
+          "headline-lg": [
+            "36px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "700"
+            }
+          ],
+          "body-bold": [
+            "20px",
+            {
+              "lineHeight": "32px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-lg": [
+            "20px",
+            {
+              "lineHeight": "32px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-xl": [
+            "48px",
+            {
+              "lineHeight": "60px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "800"
+            }
+          ],
+          "headline-md": [
+            "28px",
+            {
+              "lineHeight": "38px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-xl": [
+            "22px",
+            {
+              "lineHeight": "36px",
+              "fontWeight": "400"
+            }
+          ],
+          "label-lg": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-sm": [
+            "24px",
+            {
+              "lineHeight": "34px",
+              "fontWeight": "700"
+            }
+          ],
+          "label-md": [
+            "18px",
+            {
+              "lineHeight": "26px",
+              "fontWeight": "600"
+            }
+          ],
+          "instructional": [
+            "20px",
+            {
+              "lineHeight": "30px",
+              "fontWeight": "500"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-surface font-body-lg text-body-lg text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b-2 border-primary"><div class="h-[88px] max-w-[1320px] mx-auto px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><a class="flex flex-col text-left" data-path="dashboard-skills-hub" href="#"><span class="font-headline-sm text-headline-sm text-primary tracking-tight">Digital Boomer</span><span class="font-label-md text-label-md text-on-surface-variant">Simple Everyday Digital Skills</span></a><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-primary text-on-primary border-primary"><a class="px-space-md py-space-xs border-2 border-transparent font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="dashboard-skills-hub" href="#">Practice Modules</a><a class="px-space-md py-space-xs border-2 border-transparent font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="email-simulator-exercise" href="#">Email Practice</a><a class="px-space-md py-space-xs border-2 border-transparent font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="safe-browsing-tutorial" href="#">Safe Browsing</a><a class="px-space-md py-space-xs border-2 border-transparent font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="device-basics-guide" href="#">Device Basics</a></nav></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-1 border-2 border-primary rounded-lg"><span class="font-label-md text-label-md text-primary select-none">Text size:</span><button aria-label="Decrease text size" class="w-12 h-12 flex items-center justify-center border-2 border-primary bg-surface-container-lowest font-headline-sm text-headline-sm text-primary hover:bg-surface-container hover:text-on-surface transition-colors" type="button">A-</button><button aria-label="Increase text size" class="w-12 h-12 flex items-center justify-center border-2 border-primary bg-surface-container-lowest font-headline-sm text-headline-sm text-primary hover:bg-surface-container hover:text-on-surface transition-colors" type="button">A+</button></div><a class="min-h-[48px] px-space-md flex items-center gap-space-xs bg-primary text-on-primary border-2 border-primary rounded-lg font-label-lg text-label-lg hover:bg-primary-container transition-colors" data-path="help-support-center" href="#"><span class="material-symbols-outlined text-[24px]">help</span><span>Help / Ask AI Assistant</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-[88px] min-h-[calc(100vh-88px)] bg-surface"><div class="max-w-[1320px] mx-auto px-margin py-space-xl"><div class="flex flex-col w-full">
+<!-- Persistent Orientation Sub-bar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md pb-space-lg mb-space-lg border-b-2 border-primary">
+<div class="flex items-center gap-space-sm">
+<a class="inline-flex items-center gap-space-xs min-h-[56px] px-space-md bg-surface-container-low text-primary font-label-lg text-label-lg border-2 border-primary rounded hover:bg-surface-container-high transition-colors" data-path="dashboard-skills-hub" href="#">
+<span class="material-symbols-outlined text-[28px]">arrow_back</span>
+<span>Back to Previous Screen</span>
+</a>
+<span class="text-outline hidden md:inline">|</span>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[24px]">map</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Experience Blueprint • Stage 4 Curriculum</span>
+</div>
+</div>
+<!-- Quick Legend / Safe Marker -->
+<div class="flex items-center gap-space-sm bg-surface-container-low px-space-md py-space-xs border-2 border-primary rounded">
+<span class="w-4 h-4 rounded-full bg-error border border-primary"></span>
+<span class="font-label-md text-label-md text-primary font-bold">Stage 5: High Abandonment Risk Zone</span>
+</div>
+</div>
+<!-- Persona & Header Card: Maria -->
+<div class="bg-surface-container-lowest border-2 border-primary rounded-lg p-space-lg mb-space-xl">
+<div class="flex flex-col xl:flex-row xl:items-start justify-between gap-space-lg">
+<div class="max-w-[840px]">
+<div class="inline-flex items-center gap-2 px-space-sm py-1 bg-surface-container-high border-2 border-primary rounded mb-space-sm font-label-md text-label-md text-primary font-bold">
+<span class="material-symbols-outlined text-[20px]">person_celebrate</span>
+          Primary Learner Persona
+        </div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight mb-space-xs">
+          User Journey Map: Maria (71, Retired) Learns WhatsApp
+        </h1>
+<p class="font-body-xl text-body-xl text-on-surface-variant mb-space-md">
+          A behavioral assessment tracking emotional friction, cognitive hesitation, and system reassurance mechanisms across her first hands-on simulated session.
+        </p>
+<!-- Detailed Persona Highlights -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md pt-space-xs">
+<div class="p-space-md bg-surface-container-low border-2 border-primary rounded">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-1">Background Profile</span>
+<span class="font-body-bold text-body-bold text-primary block">Maria, Age 71</span>
+<span class="font-instructional text-instructional text-on-surface">Retired elementary school secretary. Uses phone strictly for standard incoming/outgoing voice calls.</span>
+</div>
+<div class="p-space-md bg-surface-container-low border-2 border-primary rounded">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-1">Primary Barrier</span>
+<span class="font-body-bold text-body-bold text-error flex items-center gap-1">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+              Fear of "Breaking It"
+            </span>
+<span class="font-instructional text-instructional text-on-surface">Deep dread of accidental bills, deleting critical files, or bothering family with repeated questions.</span>
+</div>
+<div class="p-space-md bg-surface-container-low border-2 border-primary rounded">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-1">Core Motivation</span>
+<span class="font-body-bold text-body-bold text-primary block">Grandchildren on WhatsApp</span>
+<span class="font-instructional text-instructional text-on-surface">Wants to exchange daily words and photos with Anna (14) and Lucas (11) without feeling helpless.</span>
+</div>
+</div>
+</div>
+<!-- Persona Photo & Assurance Callout -->
+<div class="xl:w-[360px] flex flex-col gap-space-md shrink-0">
+<div class="relative bg-surface-container border-2 border-primary rounded overflow-hidden p-space-md flex flex-col items-center text-center">
+<img class="w-28 h-28 rounded-full border-2 border-primary object-cover mb-space-sm" data-alt="High contrast black and white realistic studio portrait of a 71-year-old grandmother with warm smile, silver hair, wearing classic cardigan and spectacles, minimal wireframe aesthetic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgAJVvh-5DqbvanxLX5tmu4mGZlG4DJFdqupL5esU8NE8uBq7HfytIsMVHesEOoPUkAYxyIwyD2wblDknDHjKDKyli7rgujpcjTggB8IT6jq7FJVPE5wZmdWfERRttQpSHdZtq7xiPTYwxX-fxkADucrthHI-Gi515puHH-zBAgIIBqpy3gcXrCS4AEWcwOuQCdgLF-qynpxsR57mC-2e2ouAX3vkqSJ1MX7JamvUmxz3_1pUW8GwD"/>
+<span class="font-headline-sm text-headline-sm text-primary">Maria Elena Rossi</span>
+<span class="font-instructional text-instructional text-on-surface-variant">Venice, FL • Tablet &amp; Android User</span>
+<div class="w-full mt-space-md pt-space-sm border-t-2 border-primary text-left">
+<div class="flex items-center justify-between text-label-md font-label-md">
+<span class="text-on-surface-variant">Tech Confidence:</span>
+<span class="font-bold text-primary">Level 1 (Beginner)</span>
+</div>
+<div class="w-full bg-surface-container-highest border border-primary h-3 mt-1 rounded-sm overflow-hidden">
+<div class="bg-primary h-full w-[20%]"></div>
+</div>
+</div>
+</div>
+<div class="p-space-md bg-surface-container border-l-4 border-l-primary border-2 border-primary rounded">
+<span class="font-body-bold text-body-bold text-primary block mb-1">The Golden Sandbox Rule</span>
+<p class="font-instructional text-instructional text-on-surface-variant">
+            Maria can press any key safely. Nothing here connects to real bank accounts, real carriers, or active contacts.
+          </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Interactive Matrix Controller -->
+<div class="flex flex-wrap items-center justify-between gap-space-md mb-space-md p-space-md bg-surface-container-low border-2 border-primary rounded-lg">
+<div class="flex items-center gap-space-md">
+<span class="font-body-bold text-body-bold text-primary">Matrix Dimensions:</span>
+<span class="font-label-md text-label-md bg-surface-container-lowest border border-primary px-space-sm py-1 rounded">7 Learning Stages</span>
+<span class="font-label-md text-label-md bg-surface-container-lowest border border-primary px-space-sm py-1 rounded">7 UX Evaluative Lenses</span>
+</div>
+<div class="flex items-center gap-space-xs font-instructional text-instructional text-on-surface-variant">
+<span class="material-symbols-outlined text-[22px]">swap_horiz</span>
+<span>Scroll horizontally if viewing on narrow displays</span>
+</div>
+</div>
+<!-- Big Grayscale Wireframe Journey Grid (7 Stages x 7 Rows) -->
+<div class="w-full overflow-x-auto pb-space-lg">
+<div class="min-w-[1720px] flex flex-col border-2 border-primary bg-surface-container-lowest">
+<!-- STAGE HEADERS (Row 0) -->
+<div class="grid grid-cols-[260px_repeat(7,1fr)] bg-surface-container-high border-b-2 border-primary">
+<div class="p-space-md flex flex-col justify-end border-r-2 border-primary bg-surface-container-highest">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Evaluation Layer</span>
+<span class="font-headline-sm text-headline-sm text-primary">Sequential Phases</span>
+</div>
+<!-- Stage 1 -->
+<div class="p-space-md border-r-2 border-primary flex flex-col justify-between">
+<div>
+<span class="inline-block px-2 py-0.5 bg-primary text-on-primary font-bold text-label-md rounded mb-1">Step 1</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">1. Discover</h2>
+</div>
+<span class="font-instructional text-instructional text-on-surface-variant">Opening Link on Phone</span>
+</div>
+<!-- Stage 2 -->
+<div class="p-space-md border-r-2 border-primary flex flex-col justify-between">
+<div>
+<span class="inline-block px-2 py-0.5 bg-primary text-on-primary font-bold text-label-md rounded mb-1">Step 2</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">2. Choose Level</h2>
+</div>
+<span class="font-instructional text-instructional text-on-surface-variant">Selecting Pacing</span>
+</div>
+<!-- Stage 3 -->
+<div class="p-space-md border-r-2 border-primary flex flex-col justify-between">
+<div>
+<span class="inline-block px-2 py-0.5 bg-primary text-on-primary font-bold text-label-md rounded mb-1">Step 3</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">3. Start Lesson</h2>
+</div>
+<span class="font-instructional text-instructional text-on-surface-variant">Sandbox Loading</span>
+</div>
+<!-- Stage 4 -->
+<div class="p-space-md border-r-2 border-primary flex flex-col justify-between">
+<div>
+<span class="inline-block px-2 py-0.5 bg-primary text-on-primary font-bold text-label-md rounded mb-1">Step 4</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">4. Practice</h2>
+</div>
+<span class="font-instructional text-instructional text-on-surface-variant">Entering Chat Screen</span>
+</div>
+<!-- Stage 5: CRITICAL HIGHLIGHT -->
+<div class="p-space-md border-r-2 border-primary bg-surface-container-highest flex flex-col justify-between">
+<div>
+<span class="inline-block px-2 py-0.5 bg-error text-on-error font-bold text-label-md rounded mb-1">Crucial Friction</span>
+<h2 class="font-headline-sm text-headline-sm text-error">5. Get Stuck</h2>
+</div>
+<span class="font-instructional text-instructional text-on-surface font-bold">Hesitation Point</span>
+</div>
+<!-- Stage 6 -->
+<div class="p-space-md border-r-2 border-primary flex flex-col justify-between">
+<div>
+<span class="inline-block px-2 py-0.5 bg-primary text-on-primary font-bold text-label-md rounded mb-1">Step 6</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">6. Succeed</h2>
+</div>
+<span class="font-instructional text-instructional text-on-surface-variant">Message Dispatched</span>
+</div>
+<!-- Stage 7 -->
+<div class="p-space-md flex flex-col justify-between">
+<div>
+<span class="inline-block px-2 py-0.5 bg-primary text-on-primary font-bold text-label-md rounded mb-1">Step 7</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">7. Continue</h2>
+</div>
+<span class="font-instructional text-instructional text-on-surface-variant">Looking Ahead</span>
+</div>
+</div>
+<!-- ROW 1: What Maria Does -->
+<div class="grid grid-cols-[260px_repeat(7,1fr)] border-b-2 border-primary">
+<div class="p-space-md bg-surface-container-low border-r-2 border-primary flex items-start gap-2">
+<span class="material-symbols-outlined text-[28px] text-primary shrink-0">directions_walk</span>
+<div>
+<span class="font-body-bold text-body-bold text-primary block">1. What Maria Does</span>
+<span class="font-instructional text-instructional text-on-surface-variant">Physical actions &amp; navigation</span>
+</div>
+</div>
+<div class="p-space-md border-r-2 border-primary font-body-lg text-body-lg text-on-surface">
+          Opens SMS from daughter Laura containing direct link. Uses both hands, holds phone 12 inches away.
+        </div>
+<div class="p-space-md border-r-2 border-primary font-body-lg text-body-lg text-on-surface">
+          Reads the two oversized option boxes. Hesitates between "First Time Ever" and "Practice Some More".
+        </div>
+<div class="p-space-md border-r-2 border-primary font-body-lg text-body-lg text-on-surface">
+          Taps large black button: <strong class="underline decoration-2">"Open Safe WhatsApp Sandbox"</strong>. Waits patiently for visual cues.
+        </div>
+<div class="p-space-md border-r-2 border-primary font-body-lg text-body-lg text-on-surface">
+          Identifies granddaughter Anna's simulated contact row. Taps Anna's face badge to launch chat interface.
+        </div>
+<div class="p-space-md border-r-2 border-primary bg-surface-container-highest font-body-lg text-body-lg text-on-surface">
+          Taps blank gray space instead of text field. Simulated keyboard does not appear. Maria stops moving her hand completely.
+        </div>
+<div class="p-space-md border-r-2 border-primary font-body-lg text-body-lg text-on-surface">
+          Taps pulsing border highlighted by AI Assistant. Types: "Hello sweet Anna!". Presses thick black paper-plane send button.
+        </div>
+<div class="p-space-md font-body-lg text-body-lg text-on-surface">
+          Watches simulated green double checkmark appear. Calls daughter Laura immediately to report her milestone.
+        </div>
+</div>
+<!-- ROW 2: What Maria Thinks (Verbatim Quotes) -->
+<div class="grid grid-cols-[260px_repeat(7,1fr)] border-b-2 border-primary bg-surface">
+<div class="p-space-md bg-surface-container-low border-r-2 border-primary flex items-start gap-2">
+<span class="material-symbols-outlined text-[28px] text-primary shrink-0">format_quote</span>
+<div>
+<span class="font-body-bold text-body-bold text-primary block">2. What Maria Thinks</span>
+<span class="font-instructional text-instructional text-on-surface-variant">Verbatim internal voice</span>
+</div>
+</div>
+<div class="p-space-md border-r-2 border-primary italic font-instructional text-instructional text-primary bg-surface-container-lowest">
+          “My daughter sent this link... Can I really learn this at my age, or will it be too fast for me?”
+        </div>
+<div class="p-space-md border-r-2 border-primary italic font-instructional text-instructional text-primary bg-surface-container-lowest">
+          “I don't know fancy tech words. I just want simple baby steps without someone shouting instructions.”
+        </div>
+<div class="p-space-md border-r-2 border-primary italic font-instructional text-instructional text-primary bg-surface-container-lowest">
+          “A phone inside a computer screen? It says 'Safe Practice'. Okay, let me follow carefully.”
+        </div>
+<div class="p-space-md border-r-2 border-primary italic font-instructional text-instructional text-primary bg-surface-container-lowest">
+          “I see Anna's little picture! But where do my words actually go? There are too many tiny icons.”
+        </div>
+<!-- Stage 5 quote: High stress -->
+<div class="p-space-md border-r-2 border-primary italic font-instructional text-instructional text-error bg-surface-container-highest border-l-4 border-l-error">
+          “Wait, nothing is typing! Did I break it? Is it charging money? I want to stop before I ruin it.”
+        </div>
+<div class="p-space-md border-r-2 border-primary italic font-instructional text-instructional text-primary bg-surface-container-lowest">
+          “Oh! The voice and line showed me right where to tap. Anna got my message! I really did it!”
+        </div>
+<div class="p-space-md italic font-instructional text-instructional text-primary bg-surface-container-lowest">
+          “I did it myself without bothering Laura! What can I learn next? Maybe sending a family photo?”
+        </div>
+</div>
+<!-- ROW 3: Emotional Curve & Intensity -->
+<div class="grid grid-cols-[260px_repeat(7,1fr)] border-b-2 border-primary">
+<div class="p-space-md bg-surface-container-low border-r-2 border-primary flex items-start gap-2">
+<span class="material-symbols-outlined text-[28px] text-primary shrink-0">sentiment_satisfied</span>
+<div>
+<span class="font-body-bold text-body-bold text-primary block">3. Emotional Curve</span>
+<span class="font-instructional text-instructional text-on-surface-variant">Psychological sentiment</span>
+</div>
+</div>
+<!-- 1 -->
+<div class="p-space-md border-r-2 border-primary flex flex-col justify-between">
+<div class="flex items-center gap-2 mb-2">
+<span class="font-headline-sm text-headline-sm text-primary">🤔</span>
+<span class="font-body-bold text-body-bold text-on-surface">Apprehensive</span>
+</div>
+<span class="font-instructional text-instructional text-on-surface-variant">Skeptical about personal ability.</span>
+<div class="mt-2 h-2 bg-surface-container-high border border-primary"><div class="bg-outline h-full w-[40%]"></div></div>
+</div>
+<!-- 2 -->
+<div class="p-space-md border-r-2 border-primary flex flex-col justify-between">
+<div class="flex items-center gap-2 mb-2">
+<span class="font-headline-sm text-headline-sm text-primary">😌</span>
+<span class="font-body-bold text-body-bold text-primary">Hopeful</span>
+</div>
+<span class="font-instructional text-instructional text-on-surface-variant">Relieved by plain English words.</span>
+<div class="mt-2 h-2 bg-surface-container-high border border-primary"><div class="bg-primary h-full w-[65%]"></div></div>
+</div>
+<!-- 3 -->
+<div class="p-space-md border-r-2 border-primary flex flex-col justify-between">
+<div class="flex items-center gap-2 mb-2">
+<span class="font-headline-sm text-headline-sm text-primary">🧐</span>
+<span class="font-body-bold text-body-bold text-primary">Focused</span>
+</div>
+<span class="font-instructional text-instructional text-on-surface-variant">Attentive, reading every line.</span>
+<div class="mt-2 h-2 bg-surface-container-high border border-primary"><div class="bg-primary h-full w-[60%]"></div></div>
+</div>
+<!-- 4 -->
+<div class="p-space-md border-r-2 border-primary flex flex-col justify-between">
+<div class="flex items-center gap-2 mb-2">
+<span class="font-headline-sm text-headline-sm text-primary">😬</span>
+<span class="font-body-bold text-body-bold text-primary">Tense</span>
+</div>
+<span class="font-instructional text-instructional text-on-surface-variant">Curious, but body language is stiff.</span>
+<div class="mt-2 h-2 bg-surface-container-high border border-primary"><div class="bg-outline h-full w-[45%]"></div></div>
+</div>
+<!-- 5 Drop -->
+<div class="p-space-md border-r-2 border-primary bg-surface-container-highest flex flex-col justify-between">
+<div class="flex items-center gap-2 mb-2">
+<span class="font-headline-sm text-headline-sm text-error">😰</span>
+<span class="font-body-bold text-body-bold text-error">Panicked</span>
+</div>
+<span class="font-instructional text-instructional text-on-surface font-semibold">Critical drop. High risk of quitting.</span>
+<div class="mt-2 h-2 bg-error-container border border-error"><div class="bg-error h-full w-[15%]"></div></div>
+</div>
+<!-- 6 Peak -->
+<div class="p-space-md border-r-2 border-primary flex flex-col justify-between bg-surface-container-lowest">
+<div class="flex items-center gap-2 mb-2">
+<span class="font-headline-sm text-headline-sm text-primary">🎉</span>
+<span class="font-body-bold text-body-bold text-primary">Empowered</span>
+</div>
+<span class="font-instructional text-instructional text-on-surface">Joyful, proud milestone peak.</span>
+<div class="mt-2 h-2 bg-surface-container-high border border-primary"><div class="bg-primary h-full w-[95%]"></div></div>
+</div>
+<!-- 7 Motivated -->
+<div class="p-space-md flex flex-col justify-between">
+<div class="flex items-center gap-2 mb-2">
+<span class="font-headline-sm text-headline-sm text-primary">🌟</span>
+<span class="font-body-bold text-body-bold text-primary">Motivated</span>
+</div>
+<span class="font-instructional text-instructional text-on-surface-variant">Confident and eager to discover.</span>
+<div class="mt-2 h-2 bg-surface-container-high border border-primary"><div class="bg-primary h-full w-[90%]"></div></div>
+</div>
+</div>
+<!-- ROW 4: Pain Points & Obstacles -->
+<div class="grid grid-cols-[260px_repeat(7,1fr)] border-b-2 border-primary">
+<div class="p-space-md bg-surface-container-low border-r-2 border-primary flex items-start gap-2">
+<span class="material-symbols-outlined text-[28px] text-primary shrink-0">report_problem</span>
+<div>
+<span class="font-body-bold text-body-bold text-primary block">4. Pain Points</span>
+<span class="font-instructional text-instructional text-on-surface-variant">Fears &amp; cognitive frictions</span>
+</div>
+</div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface-variant">
+          • Tiny SMS link text.<br/>
+          • Fear of phishing spam.<br/>
+          • Hesitant to tap unknown blue links.
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface-variant">
+          • Tech jargon ("Level", "Module", "UI").<br/>
+          • Shame of admitting she is a total beginner.
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface-variant">
+          • Double device confusion (computer vs phone screen).<br/>
+          • Overwhelmed by too many buttons.
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface-variant">
+          • Ambiguous icons (paperclip, mic, smiley).<br/>
+          • Afraid clicking will call someone accidentally.
+        </div>
+<!-- Pain Point 5 (Critical) -->
+<div class="p-space-md border-r-2 border-primary bg-surface-container-highest font-instructional text-instructional text-on-surface font-medium">
+<span class="text-error font-bold block mb-1">FATAL MOMENT:</span>
+          • Taps outside active zone.<br/>
+          • Silence from app feels like a breakdown.<br/>
+          • Instinctive impulse to shut browser down.
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface-variant">
+          • Uncertainty whether message actually delivered.<br/>
+          • Not knowing what checkmarks signify.
+        </div>
+<div class="p-space-md font-instructional text-instructional text-on-surface-variant">
+          • Fear of forgetting steps tomorrow without permanent paper notes.
+        </div>
+</div>
+<!-- ROW 5: Touchpoints on Digital Boomer -->
+<div class="grid grid-cols-[260px_repeat(7,1fr)] border-b-2 border-primary bg-surface">
+<div class="p-space-md bg-surface-container-low border-r-2 border-primary flex items-start gap-2">
+<span class="material-symbols-outlined text-[28px] text-primary shrink-0">touch_app</span>
+<div>
+<span class="font-body-bold text-body-bold text-primary block">5. Boomer Touchpoints</span>
+<span class="font-instructional text-instructional text-on-surface-variant">Physical interface components</span>
+</div>
+</div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface">
+<strong>Safe Landing Screen:</strong> Single prominent 36px heading, high contrast white card with black boundary.
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface">
+<strong>2 Giant Choice Tiles:</strong> 64px hit targets with large checkboxes &amp; explanatory subtitles.
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface">
+<strong>Orientation Banner:</strong> "You are now practicing inside a fake phone. You cannot break anything."
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface">
+<strong>Sandbox Phone Mockup:</strong> 2px solid wireframe smartphone frame with simplified oversized buttons.
+        </div>
+<!-- Touchpoint 5 -->
+<div class="p-space-md border-r-2 border-primary bg-surface-container-highest font-instructional text-instructional text-on-surface font-semibold">
+<strong>Target Highlighter:</strong> Pulsing 3px solid black border around the text entry bar + Audio chime cue.
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface">
+<strong>Success Card:</strong> Big bold checkmark dialog: "Success! Anna received: Hello sweet Anna!"
+        </div>
+<div class="p-space-md font-instructional text-instructional text-on-surface">
+<strong>Next Chapter Picker:</strong> 2 distinct paths: "Practice again" or "Learn photo sharing".
+        </div>
+</div>
+<!-- ROW 6: How the AI Assistant Helps -->
+<div class="grid grid-cols-[260px_repeat(7,1fr)] border-b-2 border-primary">
+<div class="p-space-md bg-surface-container-low border-r-2 border-primary flex items-start gap-2">
+<span class="material-symbols-outlined text-[28px] text-primary shrink-0">support_agent</span>
+<div>
+<span class="font-body-bold text-body-bold text-primary block">6. AI Assistant Role</span>
+<span class="font-instructional text-instructional text-on-surface-variant">Calm voice &amp; text guidance</span>
+</div>
+</div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface-variant">
+          Pops gentle speech bubble: "Welcome Maria! I am your companion. We will take this step-by-step together."
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface-variant">
+          Suggests: "Let's tap 'Start from Beginning'. It takes only 3 minutes and there are no wrong answers."
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface-variant">
+          Reassures: "This is a practice zone. No real phone numbers are connected. Relax your shoulders!"
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface-variant">
+          Spoken cue: "Look for Anna's name at the top. When you see it, give it one firm tap."
+        </div>
+<!-- AI Rescue at 5 -->
+<div class="p-space-md border-r-2 border-primary bg-surface-container-highest font-instructional text-instructional text-primary font-semibold">
+<strong>Instant Intervention:</strong> Detects 6 seconds of zero input. Calm voice: "You didn't break anything, Maria! Look right where the black box is blinking. Tap once inside."
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface-variant">
+          Celebratory spoken feedback: "Wonderful job! You just sent your first WhatsApp message completely on your own!"
+        </div>
+<div class="p-space-md font-instructional text-instructional text-on-surface-variant">
+          Offers 1-click printable summary: "Would you like me to make a clear printout with simple steps for your fridge?"
+        </div>
+</div>
+<!-- ROW 7: Design Opportunities & Preventative Rules -->
+<div class="grid grid-cols-[260px_repeat(7,1fr)] bg-surface-container-low">
+<div class="p-space-md bg-surface-container border-r-2 border-primary flex items-start gap-2">
+<span class="material-symbols-outlined text-[28px] text-primary shrink-0">lightbulb</span>
+<div>
+<span class="font-body-bold text-body-bold text-primary block">7. Design Safeguards</span>
+<span class="font-instructional text-instructional text-on-surface-variant">How our UI prevents quitting</span>
+</div>
+</div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface">
+<strong>Failsafe:</strong> No login or password required to start. 1 tap entry directly from trusted SMS.
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface">
+<strong>Clarity:</strong> Zero marketing jargon. All buttons state explicit verbs ("Start Practice").
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface">
+<strong>Perpetual Backdoor:</strong> Always-visible 56px "Back to Start" button on top-left of the viewport.
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface">
+<strong>De-cluttered Interface:</strong> Irrelevant WhatsApp icons (status stories, calls, channels) stripped out.
+        </div>
+<!-- Opportunity 5: Crucial design defense -->
+<div class="p-space-md border-r-2 border-primary bg-surface-container-highest font-instructional text-instructional text-on-surface font-semibold">
+<strong>Forgiving Targets:</strong> Whole bottom third of simulator acts as clickable hit-area for typing field.
+        </div>
+<div class="p-space-md border-r-2 border-primary font-instructional text-instructional text-on-surface">
+<strong>High-Contrast Confirmation:</strong> Audio click confirmation + prominent visual status badge.
+        </div>
+<div class="p-space-md font-instructional text-instructional text-on-surface">
+<strong>Tangible Retention:</strong> "Printable Fridge Cheat Sheet" download with large 24px diagrams.
+        </div>
+</div>
+</div>
+</div>
+<!-- Deep Dive Analysis Section: Stage 5 Critical Friction Point -->
+<div class="mt-space-xl p-space-lg bg-surface-container-lowest border-2 border-primary rounded-lg">
+<div class="flex items-center gap-space-sm mb-space-md">
+<span class="w-10 h-10 rounded bg-error text-on-error flex items-center justify-center font-bold font-headline-sm">!</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary">In-Depth Analysis: The Stage 5 "Hesitation Void"</h3>
+<span class="font-instructional text-instructional text-on-surface-variant">Why senior learners abandon self-guided tools and how the wireframe UI acts as an immediate safety net.</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-lg">
+<div class="p-space-md bg-surface-container border-2 border-primary rounded">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-1">The Psychology of Tech Guilt</span>
+<p class="font-instructional text-instructional text-on-surface">
+          Older adults disproportionately internalize system stalls as personal failure. If a keyboard fails to emerge, Maria assumes: <em>“I broke the screen and now Anna will be angry with me.”</em>
+</p>
+</div>
+<div class="p-space-md bg-surface-container border-2 border-primary rounded">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-1">The Automated Safe Net</span>
+<p class="font-instructional text-instructional text-on-surface">
+          Digital Boomer listens for <strong>idle hesitation (&gt;5.0s)</strong> without input and immediately suppresses any error tones. Instead, it pulses a 3px architectural highlight around the actionable field.
+        </p>
+</div>
+<div class="p-space-md bg-surface-container border-2 border-primary rounded">
+<span class="font-label-md text-label-md text-on-surface-variant block mb-1">Design Metric Impact</span>
+<p class="font-instructional text-instructional text-on-surface">
+          By deploying the non-judgmental AI prompt bubble paired with expanded tap zones, completion of the first message module improves from <strong>34% to 91%</strong> among users aged 68+.
+        </p>
+</div>
+</div>
+<!-- Practical Simulator Preview / Sandbox Wireframe Teaser -->
+<div class="mt-space-lg p-space-md bg-surface-container-high border-2 border-primary rounded flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<span class="material-symbols-outlined text-primary text-[36px]">smartphone</span>
+<div>
+<span class="font-body-bold text-body-bold text-primary block">Test Maria's Interactive WhatsApp Sandbox</span>
+<span class="font-instructional text-instructional text-on-surface-variant">Experience Stage 4 and Stage 5 live in the wireframe simulator module.</span>
+</div>
+</div>
+<a class="min-h-[56px] px-space-lg flex items-center justify-center gap-space-xs bg-primary text-on-primary font-label-lg text-label-lg rounded hover:bg-primary-container transition-colors shrink-0" data-path="email-simulator-exercise" href="#">
+<span>Open Interactive Simulator</span>
+<span class="material-symbols-outlined text-[24px]">arrow_forward</span>
+</a>
+</div>
+</div>
+</div></div></main><footer class="w-full bg-surface-container-lowest border-t-2 border-primary mt-space-xl"><div class="max-w-[1320px] mx-auto px-margin py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md bg-surface-container-low border-2 border-primary px-space-lg py-space-md rounded-lg"><span class="material-symbols-outlined text-primary text-[32px]">verified_user</span><div class="flex flex-col"><span class="font-body-bold text-body-bold text-primary">Safe practice environment</span><span class="font-instructional text-instructional text-on-surface-variant">No real data is saved or sent — you cannot break anything here.</span></div></div><div class="flex flex-col sm:flex-row items-center gap-space-md"><a class="min-h-[56px] px-space-lg flex items-center gap-space-xs border-2 border-primary bg-surface-container-lowest text-primary font-label-lg text-label-lg hover:bg-surface-container transition-colors rounded-lg" data-path="help-support-center" href="#"><span class="material-symbols-outlined text-[24px]">phone_in_talk</span><span>Call Free Phone Support</span></a><a class="min-h-[56px] px-space-lg flex items-center gap-space-xs border-2 border-primary bg-surface-container-lowest text-primary font-label-lg text-label-lg hover:bg-surface-container transition-colors rounded-lg" data-path="help-support-center" href="#"><span class="material-symbols-outlined text-[24px]">support_agent</span><span>Live Voice Guide</span></a></div></div><div class="max-w-[1320px] mx-auto px-margin pb-space-lg pt-space-xs border-t border-outline-variant text-center font-label-md text-label-md text-on-surface-variant">© 2024 Digital Boomer Learning Systems. Engineered for seniors and curious beginners.</div></footer></body></html>

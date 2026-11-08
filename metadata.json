@@ -1,0 +1,6 @@
+{
+  "name": "Digital Boomer - Accessible Learning & Practice Sandbox",
+  "description": "WCAG 2.1 AA accessible prototype for seniors to practice everyday digital skills like WhatsApp and online banking in a safe sandbox.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

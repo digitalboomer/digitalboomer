@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-tertiary-container": "#7a8594",
+          "outline": "#7e7576",
+          "background": "#f9f9f9",
+          "tertiary-fixed": "#d9e3f4",
+          "surface-container": "#eeeeee",
+          "inverse-surface": "#2f3131",
+          "outline-variant": "#cfc4c5",
+          "on-primary-container": "#848484",
+          "on-background": "#1a1c1c",
+          "primary-fixed-dim": "#c6c6c6",
+          "on-primary-fixed-variant": "#474747",
+          "surface": "#f9f9f9",
+          "on-tertiary-fixed": "#121c28",
+          "surface-container-high": "#e8e8e8",
+          "on-surface": "#1a1c1c",
+          "on-primary": "#ffffff",
+          "primary-container": "#1b1b1b",
+          "surface-bright": "#f9f9f9",
+          "on-surface-variant": "#4c4546",
+          "surface-container-highest": "#e2e2e2",
+          "on-secondary-fixed-variant": "#3d4756",
+          "primary-fixed": "#e2e2e2",
+          "tertiary-fixed-dim": "#bdc7d8",
+          "surface-variant": "#e2e2e2",
+          "tertiary": "#000000",
+          "secondary": "#555f6f",
+          "on-secondary-fixed": "#121c2a",
+          "on-secondary-container": "#596373",
+          "primary": "#000000",
+          "secondary-fixed-dim": "#bdc7d9",
+          "on-error": "#ffffff",
+          "error": "#ba1a1a",
+          "inverse-primary": "#c6c6c6",
+          "secondary-fixed": "#d9e3f6",
+          "on-secondary": "#ffffff",
+          "secondary-container": "#d6e0f3",
+          "surface-dim": "#dadada",
+          "tertiary-container": "#121c28",
+          "inverse-on-surface": "#f0f1f1",
+          "on-tertiary-fixed-variant": "#3e4755",
+          "on-tertiary": "#ffffff",
+          "error-container": "#ffdad6",
+          "on-primary-fixed": "#1b1b1b",
+          "surface-tint": "#5e5e5e",
+          "surface-container-lowest": "#ffffff",
+          "surface-container-low": "#f3f3f4",
+          "on-error-container": "#93000a"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "space-sm": "0.75rem",
+          "space-xl": "3rem",
+          "space-xs": "0.5rem",
+          "space-md": "1.25rem",
+          "gutter": "2rem",
+          "space-lg": "2rem",
+          "margin": "3rem"
+        },
+        "fontFamily": {
+          "headline-lg": [
+            "Inter"
+          ],
+          "body-bold": [
+            "Inter"
+          ],
+          "body-lg": [
+            "Inter"
+          ],
+          "headline-xl": [
+            "Inter"
+          ],
+          "headline-md": [
+            "Inter"
+          ],
+          "body-xl": [
+            "Inter"
+          ],
+          "label-lg": [
+            "Inter"
+          ],
+          "headline-sm": [
+            "Inter"
+          ],
+          "label-md": [
+            "Inter"
+          ],
+          "instructional": [
+            "Inter"
+          ]
+        },
+        "fontSize": {
+          "headline-lg": [
+            "36px",
+            {
+              "lineHeight": "48px",
+              "letterSpacing": "-0.01em",
+              "fontWeight": "700"
+            }
+          ],
+          "body-bold": [
+            "20px",
+            {
+              "lineHeight": "32px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-lg": [
+            "20px",
+            {
+              "lineHeight": "32px",
+              "fontWeight": "400"
+            }
+          ],
+          "headline-xl": [
+            "48px",
+            {
+              "lineHeight": "60px",
+              "letterSpacing": "-0.02em",
+              "fontWeight": "800"
+            }
+          ],
+          "headline-md": [
+            "28px",
+            {
+              "lineHeight": "38px",
+              "fontWeight": "700"
+            }
+          ],
+          "body-xl": [
+            "22px",
+            {
+              "lineHeight": "36px",
+              "fontWeight": "400"
+            }
+          ],
+          "label-lg": [
+            "20px",
+            {
+              "lineHeight": "28px",
+              "fontWeight": "600"
+            }
+          ],
+          "headline-sm": [
+            "24px",
+            {
+              "lineHeight": "34px",
+              "fontWeight": "700"
+            }
+          ],
+          "label-md": [
+            "18px",
+            {
+              "lineHeight": "26px",
+              "fontWeight": "600"
+            }
+          ],
+          "instructional": [
+            "20px",
+            {
+              "lineHeight": "30px",
+              "fontWeight": "500"
+            }
+          ]
+        }
+      },
+    },
+  }</script></head><body class="bg-surface font-body-lg text-body-lg text-on-surface antialiased"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest border-b-2 border-primary"><div class="h-[88px] max-w-[1320px] mx-auto px-margin flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><a class="flex flex-col text-left" data-path="dashboard-skills-hub" href="#"><span class="font-headline-sm text-headline-sm text-primary tracking-tight">Digital Boomer</span><span class="font-label-md text-label-md text-on-surface-variant">Simple Everyday Digital Skills</span></a><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-primary text-on-primary border-primary"><a class="px-space-md py-space-xs border-2 border-transparent font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="dashboard-skills-hub" href="#">Practice Modules</a><a class="px-space-md py-space-xs border-2 border-transparent font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="email-simulator-exercise" href="#">Email Practice</a><a class="px-space-md py-space-xs border-2 border-transparent font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="safe-browsing-tutorial" href="#">Safe Browsing</a><a aria-current="page" class="px-space-md py-space-xs font-label-md transition-colors bg-primary text-on-primary border-primary" data-path="device-basics-guide" href="#">Device Basics</a></nav></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-sm py-1 border-2 border-primary rounded-lg"><span class="font-label-md text-label-md text-primary select-none">Text size:</span><button aria-label="Decrease text size" class="w-12 h-12 flex items-center justify-center border-2 border-primary bg-surface-container-lowest font-headline-sm text-headline-sm text-primary hover:bg-surface-container hover:text-on-surface transition-colors" type="button">A-</button><button aria-label="Increase text size" class="w-12 h-12 flex items-center justify-center border-2 border-primary bg-surface-container-lowest font-headline-sm text-headline-sm text-primary hover:bg-surface-container hover:text-on-surface transition-colors" type="button">A+</button></div><a class="min-h-[48px] px-space-md flex items-center gap-space-xs bg-primary text-on-primary border-2 border-primary rounded-lg font-label-lg text-label-lg hover:bg-primary-container transition-colors" data-path="help-support-center" href="#"><span class="material-symbols-outlined text-[24px]">help</span><span>Help / Ask AI Assistant</span></a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-[88px] min-h-[calc(100vh-88px)] bg-surface"><div class="max-w-[1320px] mx-auto px-margin py-space-xl"><div class="flex flex-col w-full">
+<!-- Top Navigation & Orientation -->
+<div class="flex items-center justify-between pb-space-lg">
+<a class="inline-flex items-center gap-space-xs min-h-[56px] px-space-md bg-surface-container-lowest text-primary font-label-lg text-label-lg hover:bg-surface-container transition-colors rounded-lg" data-path="dashboard-skills-hub" href="#">
+<span class="material-symbols-outlined text-[28px]">arrow_back</span>
+<span>← Back to Lessons overview</span>
+</a>
+<div class="flex items-center gap-space-sm bg-surface-container-high px-space-md py-space-xs rounded-lg">
+<span class="material-symbols-outlined text-primary text-[28px]">school</span>
+<span class="font-label-md text-label-md text-primary">Lesson 3 of 6: Sending Money Safely</span>
+</div>
+</div>
+<!-- Safety Banner (Full-Width Wireframe Highlight) -->
+<div class="w-full bg-surface-container-lowest shadow-sm rounded-lg p-space-lg mb-space-lg">
+<div class="flex flex-col sm:flex-row items-start sm:items-center gap-space-md">
+<div class="w-14 h-14 bg-primary text-on-primary flex items-center justify-center rounded-lg shrink-0">
+<span class="material-symbols-outlined text-[36px]">shield</span>
+</div>
+<div class="flex flex-col">
+<div class="inline-block bg-primary text-on-primary font-headline-sm text-headline-sm px-space-sm py-1 rounded w-fit mb-1 tracking-tight">
+          PRACTICE MODE – NO REAL MONEY, NO REAL BANK DATA
+        </div>
+<p class="font-body-xl text-body-xl text-on-surface">
+          This is a safe simulation sandbox. You <strong>cannot lose any money</strong> or trigger real transfers. Feel completely free to try, type, and experiment.
+        </p>
+</div>
+</div>
+</div>
+<!-- Main Content 2-Column Split: Form + AI Assistant Sidebar -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- Left Column (8 cols): Simulated Online Banking Transfer Form -->
+<div class="lg:col-span-8 flex flex-col gap-space-lg">
+<!-- Bank Form Card -->
+<section aria-labelledby="form-heading" class="bg-surface-container-lowest p-space-lg shadow-sm rounded-lg">
+<!-- Header Strip simulating a simple bank brand -->
+<div class="flex items-center justify-between bg-surface-container-high p-space-md rounded-lg mb-space-lg">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[32px]">account_balance</span>
+<span class="font-headline-sm text-headline-sm text-primary">Practice Bank Transfer Form</span>
+</div>
+<span class="bg-surface-container-lowest px-space-sm py-1 font-label-md text-label-md text-secondary rounded">
+            Step 1 of 2: Fill Details
+          </span>
+</div>
+<form class="flex flex-col gap-space-lg" id="transfer-practice-form" onsubmit="event.preventDefault(); window.checkTransfer();">
+<!-- Field 1: Recipient Name -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-headline-sm text-headline-sm text-primary flex items-center gap-2" for="recipient-name">
+<span>1. Who are you sending money to? (Recipient Name)</span>
+<span class="text-error font-body-bold text-body-bold">*</span>
+</label>
+<div class="relative">
+<input class="w-full min-h-[64px] px-space-md bg-surface text-primary font-body-xl text-body-xl rounded-lg focus:outline-none focus:ring-4 focus:ring-primary focus:bg-surface-container-lowest transition-all" id="recipient-name" name="recipient-name" placeholder="e.g., Grandson David Miller" required="" type="text"/>
+</div>
+<p class="font-instructional text-instructional text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[20px]">info</span>
+              Type the full first and last name of the person or company.
+            </p>
+</div>
+<!-- Field 2: IBAN / Bank Account -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-headline-sm text-headline-sm text-primary flex items-center gap-2" for="recipient-iban">
+<span>2. Bank Account Number (IBAN)</span>
+<span class="text-error font-body-bold text-body-bold">*</span>
+</label>
+<input class="w-full min-h-[64px] px-space-md bg-surface text-primary font-body-xl text-body-xl tracking-wider rounded-lg focus:outline-none focus:ring-4 focus:ring-primary focus:bg-surface-container-lowest transition-all uppercase" id="recipient-iban" name="recipient-iban" placeholder="e.g. DE89 3704 0044 0532 0130 00" required="" type="text"/>
+<p class="font-instructional text-instructional text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[20px]">help_outline</span>
+              Usually starts with 2 letters (e.g. DE, FR, GB) followed by your bank digits. Spaces are added automatically.
+            </p>
+</div>
+<!-- Field 3: Transfer Amount -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-headline-sm text-headline-sm text-primary flex items-center gap-2" for="transfer-amount">
+<span>3. Amount to send (€ / $)</span>
+<span class="text-error font-body-bold text-body-bold">*</span>
+</label>
+<div class="relative flex items-center">
+<span class="absolute left-space-md font-headline-md text-headline-md text-primary select-none">€</span>
+<input class="w-full min-h-[64px] pl-14 pr-space-md bg-surface text-primary font-headline-md text-headline-md font-bold rounded-lg focus:outline-none focus:ring-4 focus:ring-primary focus:bg-surface-container-lowest transition-all" id="transfer-amount" name="transfer-amount" placeholder="25.00" required="" type="text" value="25.00"/>
+</div>
+<p class="font-instructional text-instructional text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+              Sample amount pre-filled. You can change this to any number you like.
+            </p>
+</div>
+<!-- Field 4: Reference / Reason -->
+<div class="flex flex-col gap-space-xs">
+<label class="font-headline-sm text-headline-sm text-primary" for="transfer-reference">
+              4. Purpose of payment (optional note)
+            </label>
+<input class="w-full min-h-[64px] px-space-md bg-surface text-primary font-body-xl text-body-xl rounded-lg focus:outline-none focus:ring-4 focus:ring-primary focus:bg-surface-container-lowest transition-all" id="transfer-reference" name="transfer-reference" placeholder="e.g. Birthday gift, Sunday lunch, Book club" type="text"/>
+<p class="font-instructional text-instructional text-on-surface-variant">
+              This note appears on both your account statement and the recipient's statement.
+            </p>
+</div>
+<!-- Live Result / Feedback Container -->
+<div class="hidden bg-surface-container-high p-space-md rounded-lg" id="transfer-feedback">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[32px]">check_circle</span>
+<div class="flex flex-col">
+<span class="font-body-bold text-body-bold text-primary">Transfer Check Passed!</span>
+<span class="font-body-lg text-body-lg text-on-surface" id="feedback-text">Great job! All fields are filled out correctly. In a real bank, you would now review the summary before confirming.</span>
+</div>
+</div>
+</div>
+<!-- Action Buttons Bar -->
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-space-md pt-space-md">
+<!-- Primary Action -->
+<button class="min-h-[60px] px-space-lg bg-primary text-on-primary font-headline-sm text-headline-sm rounded-lg hover:bg-primary-container transition-colors flex items-center justify-center gap-space-xs focus:ring-4 focus:ring-primary" type="submit">
+<span>Check my transfer</span>
+<span class="material-symbols-outlined text-[28px]">arrow_forward</span>
+</button>
+<!-- Secondary Action: Clear -->
+<button class="min-h-[60px] px-space-lg bg-surface-container-lowest text-primary font-headline-sm text-headline-sm rounded-lg hover:bg-surface-container-high transition-colors flex items-center justify-center gap-space-xs" onclick="window.clearForm()" type="button">
+<span class="material-symbols-outlined text-[28px]">restart_alt</span>
+<span>Start again (Clear form)</span>
+</button>
+</div>
+</form>
+</section>
+<!-- Step-by-Step Educational Callout Card -->
+<section class="bg-surface-container-low p-space-lg rounded-lg flex flex-col gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[32px]">lightbulb</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">Why We Practice This</h2>
+</div>
+<p class="font-body-xl text-body-xl text-on-surface max-w-3xl">
+          Online banking saves trips in the rain or cold to the physical branch. With this simulator, you can build confidence pressing buttons without worrying about losing money or making permanent mistakes.
+        </p>
+</section>
+</div>
+<!-- Right Column (4 cols): AI Assistant Security Box & Explainer -->
+<div class="lg:col-span-4 flex flex-col gap-space-lg">
+<!-- AI Assistant Warning / Security Alert Box (CRITICAL LEARNING COMPONENT) -->
+<aside aria-labelledby="ai-security-tip-title" class="bg-surface-container-lowest p-space-lg rounded-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 bg-primary text-on-primary flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-[24px]">smart_toy</span>
+</div>
+<span class="font-label-lg text-label-lg text-primary uppercase tracking-wider">Security Guard</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary leading-tight" id="ai-security-tip-title">
+          AI Assistant Security Tip: How to recognize fake messages
+        </h3>
+<!-- Plain Language Security Checklist -->
+<div class="bg-surface-container-low p-space-md rounded-lg flex flex-col gap-space-md">
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[28px] shrink-0 mt-0.5">block</span>
+<p class="font-body-lg text-body-lg text-on-surface">
+<strong>Your real bank will NEVER</strong> ask you for your PIN, login password, or card numbers via email or text message (SMS).
+            </p>
+</div>
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[28px] shrink-0 mt-0.5">timer_off</span>
+<p class="font-body-lg text-body-lg text-on-surface">
+<strong>Real transfers never rush you</strong> with urgent threats like <em>“Transfer within 1 hour or account permanently locked”</em>.
+            </p>
+</div>
+<div class="flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[28px] shrink-0 mt-0.5">contact_phone</span>
+<p class="font-body-lg text-body-lg text-on-surface">
+<strong>If you feel unsure:</strong> Stop. Do not click links. Call your bank using the phone number written directly on the back of your plastic bank card.
+            </p>
+</div>
+</div>
+<!-- AI Voice & Explainer Trigger -->
+<button class="w-full min-h-[56px] px-space-md bg-surface-container-high hover:bg-surface-container text-primary font-label-lg text-label-lg rounded-lg flex items-center justify-center gap-space-xs transition-colors" onclick="window.explainWithAI()" type="button">
+<span class="material-symbols-outlined text-[26px]">record_voice_over</span>
+<span>Explain this page with AI Assistant</span>
+</button>
+</aside>
+<!-- Quick Vocabulary Card (Senior friendly) -->
+<div class="bg-surface-container-lowest p-space-lg rounded-lg shadow-sm flex flex-col gap-space-sm">
+<h3 class="font-headline-sm text-headline-sm text-primary flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[24px]">menu_book</span>
+<span>Simple Words Guide</span>
+</h3>
+<dl class="flex flex-col gap-space-sm pt-space-xs">
+<div>
+<dt class="font-body-bold text-body-bold text-primary">IBAN:</dt>
+<dd class="font-body-lg text-body-lg text-on-surface-variant">International Bank Account Number. It is simply your bank account's home address.</dd>
+</div>
+<div>
+<dt class="font-body-bold text-body-bold text-primary">Recipient:</dt>
+<dd class="font-body-lg text-body-lg text-on-surface-variant">The person or business receiving the money.</dd>
+</div>
+<div>
+<dt class="font-body-bold text-body-bold text-primary">Sandbox / Simulator:</dt>
+<dd class="font-body-lg text-body-lg text-on-surface-variant">A safe testing area with toy money. Real bank balances cannot be touched.</dd>
+</div>
+</dl>
+</div>
+<!-- Need human assistance prompt -->
+<div class="bg-surface-container-high p-space-md rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[28px] text-primary">support</span>
+<span class="font-label-md text-label-md text-primary">Questions? Call telephone tutor</span>
+</div>
+<span class="font-headline-sm text-headline-sm text-primary">Free</span>
+</div>
+</div>
+</div>
+<!-- Interactive JavaScript logic for learning sandbox feedback -->
+<script>
+    window.checkTransfer = function() {
+      const recipient = document.getElementById('recipient-name').value.trim();
+      const iban = document.getElementById('recipient-iban').value.trim();
+      const amount = document.getElementById('transfer-amount').value.trim();
+      const feedback = document.getElementById('transfer-feedback');
+      const feedbackText = document.getElementById('feedback-text');
+
+      if (!recipient) {
+        alert('Please write who the money is for in Step 1.');
+        document.getElementById('recipient-name').focus();
+        return;
+      }
+
+      if (!iban) {
+        alert('Please enter an IBAN account number in Step 2.');
+        document.getElementById('recipient-iban').focus();
+        return;
+      }
+
+      if (!amount) {
+        alert('Please enter an amount to send in Step 3.');
+        document.getElementById('transfer-amount').focus();
+        return;
+      }
+
+      feedback.classList.remove('hidden');
+      feedbackText.innerHTML = '<strong>Excellent work!</strong> You typed a transfer of <strong>€ ' + amount + '</strong> to <strong>' + recipient + '</strong>.<br>In real banking, a review screen would appear next with a final button saying "Authorize with Security Code". You are now ready for the next lesson!';
+      feedback.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    };
+
+    window.clearForm = function() {
+      document.getElementById('transfer-practice-form').reset();
+      document.getElementById('transfer-feedback').classList.add('hidden');
+      document.getElementById('recipient-name').focus();
+    };
+
+    window.explainWithAI = function() {
+      alert('AI Assistant:\n\n"Hello! You are looking at a practice transfer screen. First, write the person\'s name in box 1. Next, enter their account number in box 2. Remember: this is safe practice, so you can type anything without fear."');
+    };
+  </script>
+</div></div></main><footer class="w-full bg-surface-container-lowest border-t-2 border-primary mt-space-xl"><div class="max-w-[1320px] mx-auto px-margin py-space-xl flex flex-col md:flex-row items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md bg-surface-container-low border-2 border-primary px-space-lg py-space-md rounded-lg"><span class="material-symbols-outlined text-primary text-[32px]">verified_user</span><div class="flex flex-col"><span class="font-body-bold text-body-bold text-primary">Safe practice environment</span><span class="font-instructional text-instructional text-on-surface-variant">No real data is saved or sent — you cannot break anything here.</span></div></div><div class="flex flex-col sm:flex-row items-center gap-space-md"><a class="min-h-[56px] px-space-lg flex items-center gap-space-xs border-2 border-primary bg-surface-container-lowest text-primary font-label-lg text-label-lg hover:bg-surface-container transition-colors rounded-lg" data-path="help-support-center" href="#"><span class="material-symbols-outlined text-[24px]">phone_in_talk</span><span>Call Free Phone Support</span></a><a class="min-h-[56px] px-space-lg flex items-center gap-space-xs border-2 border-primary bg-surface-container-lowest text-primary font-label-lg text-label-lg hover:bg-surface-container transition-colors rounded-lg" data-path="help-support-center" href="#"><span class="material-symbols-outlined text-[24px]">support_agent</span><span>Live Voice Guide</span></a></div></div><div class="max-w-[1320px] mx-auto px-margin pb-space-lg pt-space-xs border-t border-outline-variant text-center font-label-md text-label-md text-on-surface-variant">© 2024 Digital Boomer Learning Systems. Engineered for seniors and curious beginners.</div></footer></body></html>
