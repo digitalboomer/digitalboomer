@@ -11,7 +11,7 @@ import { UI_LANGUAGES, type UiLanguage } from '../i18n/translate';
 const FLAGS: Record<UiLanguage, React.ReactNode> = {
   // United Kingdom
   en: (
-    <svg viewBox="0 0 60 30">
+    <svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 60 30">
       <clipPath id="flag-uk-clip"><path d="M0 0v30h60V0z" /></clipPath>
       <clipPath id="flag-uk-diag"><path d="M30 15h30v15zv15H0zH0V0zV0h30z" /></clipPath>
       <g clipPath="url(#flag-uk-clip)">
@@ -24,14 +24,14 @@ const FLAGS: Record<UiLanguage, React.ReactNode> = {
     </svg>
   ),
   de: (
-    <svg viewBox="0 0 5 3">
+    <svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 5 3">
       <path d="M0 0h5v3H0z" fill="#000" />
       <path d="M0 1h5v2H0z" fill="#DD0000" />
       <path d="M0 2h5v1H0z" fill="#FFCE00" />
     </svg>
   ),
   tr: (
-    <svg viewBox="0 0 30 20">
+    <svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 30 20">
       <path d="M0 0h30v20H0z" fill="#E30A17" />
       <circle cx="11" cy="10" r="5" fill="#fff" />
       <circle cx="12.25" cy="10" r="4" fill="#E30A17" />
@@ -39,13 +39,13 @@ const FLAGS: Record<UiLanguage, React.ReactNode> = {
     </svg>
   ),
   es: (
-    <svg viewBox="0 0 3 2">
+    <svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 3 2">
       <path d="M0 0h3v2H0z" fill="#AA151B" />
       <path d="M0 .5h3v1H0z" fill="#F1BF00" />
     </svg>
   ),
   hr: (
-    <svg viewBox="0 0 30 15">
+    <svg preserveAspectRatio="xMidYMid slice" viewBox="0 0 30 15">
       <path d="M0 0h30v15H0z" fill="#171796" />
       <path d="M0 0h30v10H0z" fill="#fff" />
       <path d="M0 0h30v5H0z" fill="#FF0000" />
@@ -59,7 +59,7 @@ const FLAGS: Record<UiLanguage, React.ReactNode> = {
 };
 
 const Flag: React.FC<{ lang: UiLanguage }> = ({ lang }) => (
-  <span aria-hidden="true" className="inline-flex w-7 h-5 shrink-0 overflow-hidden rounded-[3px] ring-1 ring-black/25 [&>svg]:w-full [&>svg]:h-full [&>svg]:block" style={{ background: '#fff' }}>
+  <span aria-hidden="true" className="inline-flex w-7 h-5 shrink-0 overflow-hidden rounded-[3px] ring-1 ring-black/25 [&>svg]:w-full [&>svg]:h-full [&>svg]:block">
     {FLAGS[lang]}
   </span>
 );
