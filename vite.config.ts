@@ -19,8 +19,8 @@ function excludeLeftovers(): Plugin {
 
 export default defineConfig(() => {
   return {
-    // GitHub Pages serves the site under /digital-boomer/. Locally (npm run dev) it stays at /.
-    base: process.env.GITHUB_ACTIONS ? '/digital-boomer/' : '/',
+    // GitHub Pages serves the site under /digitalboomer/ (the repository name). Locally (npm run dev) it stays at /.
+    base: process.env.GITHUB_ACTIONS ? '/digitalboomer/' : '/',
     plugins: [react(), tailwindcss(), excludeLeftovers()],
     resolve: {
       alias: {
