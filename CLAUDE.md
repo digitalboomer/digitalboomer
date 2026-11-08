@@ -29,9 +29,9 @@ npm install
 npm run dev                      # http://localhost:3000
 npm run build
 npm run lint                     # tsc --noEmit
-npx netlify-cli deploy --prod --dir=dist --no-build --site=e4f69fc5-ac58-48e7-9af5-6aabaa8feaf6   # publish after npm run build
+git push                         # publishes: GitHub Actions builds and deploys to GitHub Pages
 ```
-Hosted at https://digital-boomer.netlify.app (public; Netlify team "Digital Boomer", login email digitalboomer.team@gmail.com). The site does not update by itself: build and deploy after changes. The build leaves `public/assets/aistudio`, `public/images` and `public/src` out of the published site.
+Hosted at https://digitalboomer.github.io/digitalboomer/ (GitHub Pages, public repository https://github.com/digitalboomer/digitalboomer, account of digitalboomer.team@gmail.com). Every push to `main` runs `.github/workflows/deploy.yml` (lint, build, publish); the base path `/digitalboomer/` is set in `vite.config.ts`, public settings in `.env.production` (only the Supabase URL and publishable key). Moved from Netlify in November 2026 because Netlify's free deploy credits ran out; the old site https://digital-boomer.netlify.app still shows an older version until the credits reset on 6 Dec 2026. The build leaves `public/assets/aistudio`, `public/images` and `public/src` out of the published site.
 
 ## Tech stack
 React 19 + TypeScript + Vite 8 + Tailwind CSS 4, `lucide-react`, `@fontsource/atkinson-hyperlegible` (self-hosted font), `motion`, `qrcode`, `@supabase/supabase-js` (accounts; Supabase project in Frankfurt, emails sent through Brevo SMTP, keys in `.env.local`). No own server yet (`express` and `@google/genai` are installed but unused).
@@ -71,7 +71,7 @@ Works: hash routing with browser Back and links to every page and step, guest st
 Simulated, and labelled as such:
 - **The help assistant is not AI.** `SupportModal.tsx` picks pre-written answers by matching words. Real Gemini integration is planned for December.
 - **Accounts are real once Supabase is connected** (`src/utils/auth.ts`, setup in `docs/accounts-setup.md`): sign up with email confirmation, sign in, forgotten password, progress saved to the account. Without the two `VITE_SUPABASE_*` values the sign-in pages say that accounts are not switched on yet. Accounts stay optional; guests type their own name for the certificate.
-- **The contact form is real:** the Help page form is sent with Netlify Forms, and Netlify emails each message to digitalboomer.team@gmail.com (`src/utils/contact.ts`, `public/contact-form.html`, setup in `docs/contact-form-setup.md`). It only works on the published site. The help window's Email tab opens Gmail or Outlook in a new tab with a filled-in email to the team.
+- **The contact form is real:** the Help page form saves each message in the Supabase table `contact_messages` (insert only; the team reads them in the Supabase dashboard; no email notification yet). Code in `src/utils/contact.ts`, setup in `docs/contact-form-setup.md`. The help window's Email tab opens Gmail or Outlook in a new tab with a filled-in email to the team.
 - **The simulated apps** are built from how the apps generally look. They are not copies of the real screens: no screenshots, real artwork or real content are used. App updates change their look, so check the flows against the real apps before a usability test.
 - **The picture quiz** states which pictures are real or AI. Our AI pictures come from Google AI Studio. Keep the photo credits if you change it.
 - **Bank practice** deliberately shows a neutral "Practice bank" with fictional data and layout families, never a bank's logo, name or copied design inside the simulated screen, and no login fields: that would look like phishing. Do not copy real bank apps or landing pages. Logos appear only on the choice page.
@@ -80,7 +80,8 @@ Simulated, and labelled as such:
 A text lesson can only be finished when every step was opened, all warning signs and exercises were done and all questions answered (`missing` in `TutorialDetailScreen.tsx`). Leaving a started, unfinished lesson asks first (`setLeaveGuard` in `router.ts`, `LeaveLessonDialog.tsx`). Printing the certificate uses its own sheet in `CertificateModal.tsx` with `@media print` in `index.css`.
 
 ## Known issues
-- Netlify shows a floating "Powered by Netlify" badge at the bottom right that we could not switch off. It would cover controls, so the Back/Next bar in `GuidedPractice.tsx` (`pb-[76px]`) and the footer (`pb-24`) keep space for it. Check any new fixed-position control against the badge. If the badge goes away, this space can be removed.
+- The extra bottom space in `GuidedPractice.tsx` (`pb-[76px]`, the 80 px in the step scroll) and the footer (`pb-24`) was for Netlify's "Powered by Netlify" badge. GitHub Pages has no badge, so this space can be reduced.
+- Supabase pauses free projects after 7 days without activity (accounts and contact form then fail until "Restore" is pressed in the dashboard). Check before tests and presentations.
 - `bun.lock` is out of date. The team uses npm, so `package-lock.json` is the lockfile to trust.
 - The style guide says the website is in German with formal "Sie"; the app currently defaults to English. **Ask the team before changing the default language.**
 
