@@ -362,20 +362,23 @@ function bankingLesson(lang: Language, bank?: Service, mode: 'transfer' | 'balan
     });
   };
 
-  const whereUnlock = t('"Unlock" is the white button in the middle.', '„Entsperren“ ist der weiße Knopf in der Mitte.');
+  const whereUnlock = t('"Unlock" is the big button at the bottom.', '„Entsperren“ ist der große Knopf unten.');
   step(t('Open and unlock the app', 'App öffnen und entsperren'), t('Tap "Unlock".', 'Tippen Sie auf „Entsperren“.'),
     [t('In a real banking app you now enter your app password, or use your fingerprint or face. Here you enter nothing. Never enter real login data on a practice site.', 'In einer echten Banking-App geben Sie jetzt Ihr App-Passwort ein, oder nutzen Fingerabdruck oder Gesicht. Hier geben Sie nichts ein. Geben Sie echte Zugangsdaten niemals auf einer Übungsseite ein.')],
     'unlock', 'unlock', whereUnlock, t('That was right. You are on the home screen of the app.', 'Das war richtig. Sie sind auf der Startseite der App.'));
 
   if (mode === 'balance') {
-    const whereAcc = layout === 'neo' ? t('Your balance is the big number at the top.', 'Ihr Kontostand ist die große Zahl oben.') : t('Your account is the white card with the balance.', 'Ihr Konto ist die weiße Karte mit dem Kontostand.');
+    const whereAcc = layout === 'neo' ? t('Your balance is the big number at the top.', 'Ihr Kontostand ist die große Zahl oben.')
+      : layout === 'action' ? t('Your current account is under "Accounts and cards".', 'Ihr Girokonto steht unter „Konten und Karten“.')
+      : layout === 'direct' ? t('Your balance is the big number in the blue card.', 'Ihr Kontostand ist die große Zahl in der blauen Karte.')
+      : t('Your account is the white card with the balance.', 'Ihr Konto ist die weiße Karte mit dem Kontostand.');
     step(t('Open your account', 'Konto öffnen'), whereAcc, [t('The first thing you usually see is how much money is in the account.', 'Als Erstes sehen Sie meist, wie viel Geld auf dem Konto ist.')], 'overview', 'account', whereAcc, t('That was right. These are your latest payments.', 'Das war richtig. Das sind Ihre letzten Zahlungen.'));
     const wherePay = t('The supermarket is the first line.', 'Der Supermarkt ist die erste Zeile.');
     step(t('Look at one payment', 'Eine Zahlung ansehen'), t('Tap the payment to the supermarket.', 'Tippen Sie auf die Zahlung an den Supermarkt.'), [t('Look through your payments regularly. If you do not recognise one, call your bank using the number on your bank card.', 'Schauen Sie Ihre Zahlungen regelmäßig durch. Kennen Sie eine nicht, rufen Sie Ihre Bank unter der Nummer auf Ihrer Bankkarte an.')], 'payments', 'payment-one', wherePay, t('That was right.', 'Das war richtig.'));
   } else {
     if (layout === 'action') {
-      const whereSend = t('"Send money" is the big button at the top.', '„Geld senden“ ist der große Knopf oben.');
-      step(t('Tap "Send money"', 'Tippen Sie auf „Geld senden“'), whereSend, [t('The home screen shows your account. Actions you often need are at the top.', 'Die Startseite zeigt Ihr Konto. Häufige Aktionen sind oben.')], 'overview', 'send-money', whereSend, t('That was right. A short list has opened.', 'Das war richtig. Eine kurze Liste ist offen.'));
+      const whereSend = t('"Send money" is the first round button under "Quick access".', '„Geld senden“ ist der erste runde Knopf unter „Schnellzugriffe“.');
+      step(t('Tap "Send money"', 'Tippen Sie auf „Geld senden“'), whereSend, [t('The start page shows your accounts. Actions you often need are under "Quick access".', 'Die Startseite zeigt Ihre Konten. Häufige Aktionen finden Sie unter „Schnellzugriffe“.')], 'overview', 'send-money', whereSend, t('That was right. A short list has opened.', 'Das war richtig. Eine kurze Liste ist offen.'));
       const whereT = t('"Transfer" is the first line.', '„Überweisung“ ist die erste Zeile.');
       step(t('Choose "Transfer"', 'Wählen Sie „Überweisung“'), whereT, [t('A standing order is a payment that repeats on its own.', 'Ein Dauerauftrag ist eine Zahlung, die sich von selbst wiederholt.')], 'sendmenu', 'transfer', whereT, t('That was right. Now choose who gets the money.', 'Das war richtig. Jetzt wählen Sie, wer das Geld bekommt.'));
     } else {
@@ -420,12 +423,12 @@ function bankingLesson(lang: Language, bank?: Service, mode: 'transfer' | 'balan
       nextTutorialId: mode === 'balance' && bank ? `${bank.id}-transfer` : 'online-banking-grundlagen',
       labels: {
         tapHere: common[lang].tapHere, phoneLabel: common[lang].phoneLabel, phoneBadge: common[lang].phoneBadge, back: common[lang].back,
-        layout, brandColor: bank?.color ?? '#14457A', brandText: bank?.fg ?? '#FFFFFF',
+        layout, brandColor: '#14457A', brandText: '#FFFFFF', // one neutral practice-bank colour for every bank: no real bank's look
         bankName: t('Practice bank', 'Übungsbank'), fictional: t('Not real', 'Nicht echt'), account: t('Current account', 'Girokonto'),
         unlock: t('Unlock', 'Entsperren'), unlockNote: t('In the real app you enter your password here. Here, enter nothing.', 'In der echten App geben Sie hier Ihr Passwort ein. Hier geben Sie nichts ein.'),
         balance: '1.250,00 €', balanceAfter: '1.225,00 €', transfer: t('Transfer', 'Überweisung'), statements: t('Payments', 'Umsätze'), sendMoney: t('Send money', 'Geld senden'),
         standing: t('Standing order', 'Dauerauftrag'), ownTransfer: t('Between my accounts', 'Zwischen meinen Konten'),
-        navHome: t('Home', 'Start'), navMoney: t('Accounts', 'Konten'), navOffers: t('Saving', 'Sparen'), navMore: t('More', 'Mehr'), navCard: t('Card', 'Karte'),
+        navHome: t('Home', 'Start'), navMoney: t('Accounts', 'Konten'), navOffers: t('Saving', 'Sparen'), navMore: layout === 'action' ? t('Services', 'Services') : t('More', 'Mehr'), navCard: t('Card', 'Karte'),
         latest: t('Latest payment', 'Letzte Zahlung'), bookingOne: t('Supermarket', 'Supermarkt'), bookingTwo: t('Pharmacy', 'Apotheke'), bookingThree: t('Pension', 'Rente'),
         dateLabel: t('Date', 'Datum'), dateValue: t('Yesterday', 'Gestern'), bookingPurpose: t('Card payment', 'Kartenzahlung'),
         whoGets: t('Who should get the money?', 'Wer soll das Geld bekommen?'), recipient: 'Anna Beispiel', peterFull: 'Peter Muster',

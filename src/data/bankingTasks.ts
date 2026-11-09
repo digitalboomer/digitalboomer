@@ -33,7 +33,7 @@ export function bankingTasks(lang: Language, bank: Service, base: Tutorial, layo
   const baseLabels = base.practice!.labels;
 
   const common: Record<string, string> = {
-    moreTitle: t('More', 'Mehr'),
+    moreTitle: layout === 'action' ? t('Services', 'Services') : t('More', 'Mehr'),
     menuAbroad: t('Transfer abroad', 'Auslandsüberweisung'),
     menuStanding: t('Standing orders', 'Daueraufträge'),
     menuScheduled: t('Transfer for later', 'Terminüberweisung'),
@@ -122,10 +122,12 @@ export function bankingTasks(lang: Language, bank: Service, base: Tutorial, layo
     practice: { screen, targetId, successText, hints: hints(where), fallbackHint: where, showMeText: t(`The frame shows where to tap. ${where}`, `Der Rahmen zeigt, wohin Sie tippen. ${where}`) },
   });
 
-  const whereUnlock = t('"Unlock" is the white button in the middle.', '„Entsperren“ ist der weiße Knopf in der Mitte.');
+  const whereUnlock = t('"Unlock" is the big button at the bottom.', '„Entsperren“ ist der große Knopf unten.');
   const unlock = step(t('Open and unlock the app', 'App öffnen und entsperren'), t('Tap "Unlock".', 'Tippen Sie auf „Entsperren“.'), [t('In a real app you enter your password or use your fingerprint. Here you enter nothing.', 'In einer echten App geben Sie Ihr Passwort ein oder nutzen den Fingerabdruck. Hier geben Sie nichts ein.')], 'unlock', 'unlock', whereUnlock);
-  const whereMore = t('"More" is at the bottom right.', '„Mehr“ ist unten rechts.');
-  const more = step(t('Open "More"', '„Mehr“ öffnen'), whereMore, [t('Banking apps keep less common services in a menu. In your app it may be called "Services" or "Banking".', 'Banking-Apps legen seltenere Dienste in ein Menü. In Ihrer App heißt es vielleicht „Services“ oder „Banking“.')], 'overview', 'more', whereMore);
+  const whereMore = layout === 'action'
+    ? t('"Services" is in the bar at the bottom, the third button.', '„Services“ ist in der Leiste unten, der dritte Knopf.')
+    : t('"More" is at the bottom right.', '„Mehr“ ist unten rechts.');
+  const more = step(layout === 'action' ? t('Open "Services"', '„Services“ öffnen') : t('Open "More"', '„Mehr“ öffnen'), whereMore, [t('Banking apps keep less common services in a menu. In your app it may be called "Services" or "Banking".', 'Banking-Apps legen seltenere Dienste in ein Menü. In Ihrer App heißt es vielleicht „Services“ oder „Banking“.')], 'overview', 'more', whereMore);
   const menu = (title: string, id: string, label: string) => {
     const where = t(`"${label}" is in the list.`, `„${label}“ steht in der Liste.`);
     return step(title, where, [t('Take your time to read the list.', 'Nehmen Sie sich Zeit, die Liste zu lesen.')], 'more', id, where);
@@ -136,7 +138,7 @@ export function bankingTasks(lang: Language, bank: Service, base: Tutorial, layo
   const approve = step(t('Approve', 'Freigeben'), t('Check once more, then tap "Approve".', 'Prüfen Sie noch einmal, dann tippen Sie auf „Freigeben“.'), [approvalNote(lang, bank), t('Only approve what you started yourself.', 'Geben Sie nur frei, was Sie selbst begonnen haben.')], 'approve', 'approve-ok', t('"Approve" is the coloured button.', '„Freigeben“ ist der farbige Knopf.'));
   const startTransfer = layout === 'action'
     ? [
-        step(t('Tap "Send money"', 'Tippen Sie auf „Geld senden“'), t('It is the big button at the top.', 'Das ist der große Knopf oben.'), [t('Actions you often need are at the top.', 'Häufige Aktionen sind oben.')], 'overview', 'send-money', t('"Send money" is the big button at the top.', '„Geld senden“ ist der große Knopf oben.')),
+        step(t('Tap "Send money"', 'Tippen Sie auf „Geld senden“'), t('It is the first round button under "Quick access".', 'Das ist der erste runde Knopf unter „Schnellzugriffe“.'), [t('Actions you often need are under "Quick access".', 'Häufige Aktionen finden Sie unter „Schnellzugriffe“.')], 'overview', 'send-money', t('"Send money" is the first round button under "Quick access".', '„Geld senden“ ist der erste runde Knopf unter „Schnellzugriffe“.')),
         step(t('Choose "Transfer"', 'Wählen Sie „Überweisung“'), t('It is the first line.', 'Das ist die erste Zeile.'), [t('Now you can choose who gets the money.', 'Jetzt können Sie wählen, wer das Geld bekommt.')], 'sendmenu', 'transfer', t('"Transfer" is the first line.', '„Überweisung“ ist die erste Zeile.')),
       ]
     : [step(t('Find the transfer', 'Überweisung finden'), t('Tap "Transfer".', 'Tippen Sie auf „Überweisung“.'), [t('It is on the home screen, near your account.', 'Sie finden sie auf der Startseite, in der Nähe Ihres Kontos.')], 'overview', 'transfer', layout === 'neo' ? t('The button is under your balance, on the left.', 'Der Knopf ist unter Ihrem Kontostand, links.') : layout === 'direct' ? t('It is the first line under your account.', 'Das ist die erste Zeile unter Ihrem Konto.') : t('It is the left tile under your account.', 'Das ist die linke Kachel unter Ihrem Konto.'))];

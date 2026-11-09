@@ -103,10 +103,6 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="bg-[#17324D] text-white px-1 sm:px-8 py-0.5 md:py-1">
         <div className="max-w-[1200px] mx-auto flex flex-wrap items-center justify-end gap-0.5 md:gap-2">
           <div className="hidden md:block mr-auto">{searchForm('search-top')}</div>
-          <button type="button" onClick={onOpenSupportModal} className={toolButton}>
-            <Icon name="help" className="text-xl" />
-            {isEn ? 'Help' : 'Hilfe'}
-          </button>
           {/* Language: its own control. Language names stay in their own language (translate="no"). */}
           <LanguagePicker value={uiLang} onChange={onLangChange} label={isEn ? 'Language' : 'Sprache'} buttonClassName={toolButton} />
           <button
@@ -118,6 +114,11 @@ export const Header: React.FC<HeaderProps> = ({
             <Icon name="format_size" className="text-xl" />
             <span className="md:hidden">{isEn ? 'Settings' : 'Ansicht'}</span>
             <span className="hidden md:inline">{isEn ? 'Text, colours & sound' : 'Schrift, Farben & Ton'}</span>
+          </button>
+          {/* Help on the far right edge */}
+          <button type="button" onClick={onOpenSupportModal} className={toolButton}>
+            <Icon name="help" className="text-xl" />
+            {isEn ? 'Help' : 'Hilfe'}
           </button>
         </div>
       </div>
@@ -187,19 +188,32 @@ export const Header: React.FC<HeaderProps> = ({
           </nav>
 
           <div className="flex items-center gap-2 shrink-0">
-            <button
-              type="button"
-              onClick={() => { onNavigate('dashboard'); setMenuOpen(false); }}
-              aria-current={currentPage === 'dashboard' ? 'page' : undefined}
-              className="inline-flex items-center gap-2 px-3 min-h-[48px] rounded-xl border-2 border-[#17324D] bg-[#FFFFFF] text-[#17324D] font-bold text-sm hover:bg-[#EAF2F8]"
-            >
-              <Icon name="task_alt" className="text-xl" />
-              <span className="hidden sm:inline whitespace-nowrap">{isEn ? 'My progress' : 'Mein Fortschritt'}</span>
-              <span className="sm:hidden max-[379px]:sr-only">{isEn ? 'Progress' : 'Fortschritt'}</span>
-              <span className="sr-only">
-                {isEn ? `, ${user.completedTutorialIds.length} lessons completed` : `, ${user.completedTutorialIds.length} Lektionen abgeschlossen`}
-              </span>
-            </button>
+            {/* Signed in: "My progress". Guests: "Sign in" (their progress page stays in the menu and the footer). */}
+            {user.isLoggedIn ? (
+              <button
+                type="button"
+                onClick={() => { onNavigate('dashboard'); setMenuOpen(false); }}
+                aria-current={currentPage === 'dashboard' ? 'page' : undefined}
+                className="inline-flex items-center gap-2 px-3 min-h-[48px] rounded-xl border-2 border-[#17324D] bg-[#FFFFFF] text-[#17324D] font-bold text-sm hover:bg-[#EAF2F8]"
+              >
+                <Icon name="task_alt" className="text-xl" />
+                <span className="hidden sm:inline whitespace-nowrap">{isEn ? 'My progress' : 'Mein Fortschritt'}</span>
+                <span className="sm:hidden max-[379px]:sr-only">{isEn ? 'Progress' : 'Fortschritt'}</span>
+                <span className="sr-only">
+                  {isEn ? `, ${user.completedTutorialIds.length} lessons completed` : `, ${user.completedTutorialIds.length} Lektionen abgeschlossen`}
+                </span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => { onNavigate('anmelden'); setMenuOpen(false); }}
+                aria-current={currentPage === 'anmelden' ? 'page' : undefined}
+                className="inline-flex items-center gap-2 px-3 min-h-[48px] rounded-xl border-2 border-[#17324D] bg-[#FFFFFF] text-[#17324D] font-bold text-sm hover:bg-[#EAF2F8]"
+              >
+                <Icon name="account_circle" className="text-xl" />
+                <span className="whitespace-nowrap max-[339px]:sr-only">{isEn ? 'Sign in' : 'Anmelden'}</span>
+              </button>
+            )}
             <button
               type="button"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -229,6 +243,20 @@ export const Header: React.FC<HeaderProps> = ({
                   {item.label}
                 </button>
               ))}
+              {/* Guests reach their progress here (signed-in users have the button in the header). */}
+              {!user.isLoggedIn && (
+                <button
+                  type="button"
+                  onClick={() => { onNavigate('dashboard'); setMenuOpen(false); }}
+                  aria-current={currentPage === 'dashboard' ? 'page' : undefined}
+                  className={`flex items-center gap-3 px-3 min-h-[52px] rounded-xl text-left text-base text-[#17324D] hover:bg-[#EAF2F8] dark:hover:bg-slate-800 ${
+                    currentPage === 'dashboard' ? 'font-bold underline decoration-4 underline-offset-4' : ''
+                  }`}
+                >
+                  <Icon name="task_alt" className="text-2xl text-[#176B68]" />
+                  {isEn ? 'My progress' : 'Mein Fortschritt'}
+                </button>
+              )}
             </nav>
             <div className="md:hidden">{searchForm('search-menu')}</div>
           </div>

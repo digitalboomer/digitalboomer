@@ -18,8 +18,6 @@ interface TutorialsScreenProps {
   lang?: Language;
 }
 
-const levelOf = (difficulty: string) =>
-  difficulty === 'Easy' || difficulty === 'Einfach' ? 'easy' : difficulty === 'Intermediate' || difficulty === 'Mittel' ? 'medium' : 'advanced';
 
 export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
   onNavigate,
@@ -31,7 +29,8 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
   lang = 'en',
 }) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedDifficulty, setSelectedDifficulty] = useState<'all' | string>('all');
+  // "Saved for later" shows only the tutorials the learner has saved (bookmarked).
+  const [onlySaved, setOnlySaved] = useState(false);
   const [visibleCount, setVisibleCount] = useState(12);
 
   const isEn = lang === 'en';
@@ -42,15 +41,13 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
   const filteredTutorials = tutorials.filter((tut) => {
     const matchesCategory =
       activeCategoryFilter === 'all' || tut.categoryId === activeCategoryFilter;
-    const matchesDifficulty =
-      selectedDifficulty === 'all' ||
-      levelOf(tut.difficulty) === selectedDifficulty;
+    const matchesSaved = !onlySaved || savedTutorialIds.includes(tut.id);
     const matchesSearch =
       tut.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       tut.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
       tut.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()));
 
-    return matchesCategory && matchesDifficulty && matchesSearch;
+    return matchesCategory && matchesSaved && matchesSearch;
   });
 
   return (
@@ -133,26 +130,25 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
               </select>
             </div>
 
-            {/* Difficulty selector */}
+            {/* Saved for later */}
             <div className="md:col-span-3">
-              <label htmlFor="filter-diff" className="block font-bold text-[#17324D] mb-1">
-                {isEn ? 'Level' : 'Stufe'}
+              <label htmlFor="filter-saved" className="block font-bold text-[#17324D] mb-1">
+                {isEn ? 'Show' : 'Anzeigen'}
               </label>
               <select
-                id="filter-diff"
-                value={selectedDifficulty}
-                onChange={(e) => setSelectedDifficulty(e.target.value)}
+                id="filter-saved"
+                value={onlySaved ? 'saved' : 'all'}
+                onChange={(e) => setOnlySaved(e.target.value === 'saved')}
                 className="w-full px-4 py-3 rounded-xl border-2 border-[#667382] dark:border-slate-700 bg-[#FFFFFF] dark:bg-slate-800 text-[#202B36] dark:text-white text-base focus:border-[#176B68] focus:outline-none font-medium"
               >
-                <option value="all">{isEn ? 'All Levels' : 'Alle Schwierigkeiten'}</option>
-                <option value="easy">{isEn ? 'Easy (Beginners)' : 'Nur Einfach (für Einsteiger)'}</option>
-                <option value="medium">{isEn ? 'Intermediate' : 'Mittel (etwas Erfahrung)'}</option>
+                <option value="all">{isEn ? 'All tutorials' : 'Alle Anleitungen'}</option>
+                <option value="saved">{isEn ? `Saved for later (${savedTutorialIds.length})` : `Für später gemerkt (${savedTutorialIds.length})`}</option>
               </select>
             </div>
           </div>
 
           {/* Quick Active Filter Badges */}
-          {(activeCategoryFilter !== 'all' || selectedDifficulty !== 'all' || searchTerm) && (
+          {(activeCategoryFilter !== 'all' || onlySaved || searchTerm) && (
             <div className="flex items-center gap-2 pt-2 border-t border-[#E5E9ED] dark:border-slate-800 flex-wrap text-xs">
               <span className="font-bold text-[#17324D] dark:text-slate-300">
                 {isEn ? 'Active filters:' : 'Aktive Filter:'}
@@ -163,10 +159,10 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
                   <button onClick={() => onSetCategoryFilter('all')} className="hover:text-red-600 font-bold ml-1">✕</button>
                 </span>
               )}
-              {selectedDifficulty !== 'all' && (
+              {onlySaved && (
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#EAF2F8] dark:bg-slate-800 text-[#17324D] dark:text-teal-300 font-bold border border-[#E5E9ED] dark:border-slate-700">
-                  Level: {selectedDifficulty}
-                  <button onClick={() => setSelectedDifficulty('all')} className="hover:text-red-600 font-bold ml-1">✕</button>
+                  {isEn ? 'Saved for later' : 'Für später gemerkt'}
+                  <button onClick={() => setOnlySaved(false)} className="hover:text-red-600 font-bold ml-1" aria-label={isEn ? 'Show all tutorials' : 'Alle Anleitungen zeigen'}>✕</button>
                 </span>
               )}
               {searchTerm && (
@@ -178,7 +174,7 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
               <button
                 onClick={() => {
                   onSetCategoryFilter('all');
-                  setSelectedDifficulty('all');
+                  setOnlySaved(false);
                   setSearchTerm('');
                 }}
                 className="text-[#176B68] hover:underline font-bold ml-2"
@@ -194,17 +190,21 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
           <div className="bg-[#FFFFFF] dark:bg-slate-900 rounded-2xl p-12 text-center border-2 border-dashed border-[#E5E9ED] dark:border-slate-800 space-y-4">
             <Icon name="search_off" className="text-6xl text-[#176B68]/60" />
             <h3 className="text-2xl font-bold text-[#17324D] dark:text-white">
-              {isEn ? 'No guides found for your selection' : 'Keine Anleitungen für Ihre Auswahl gefunden'}
+              {onlySaved && savedTutorialIds.length === 0
+                ? (isEn ? 'You have not saved any tutorials yet' : 'Sie haben noch keine Anleitungen gemerkt')
+                : (isEn ? 'No guides found for your selection' : 'Keine Anleitungen für Ihre Auswahl gefunden')}
             </h3>
             <p className="text-[#202B36] dark:text-slate-300 max-w-md mx-auto">
-              {isEn
-                ? 'Try a different search query or reset your active filters.'
-                : 'Versuchen Sie es mit einem anderen Suchbegriff oder setzen Sie die Filter zurück.'}
+              {onlySaved && savedTutorialIds.length === 0
+                ? (isEn ? 'Press "Save" on a tutorial, and it appears here.' : 'Drücken Sie bei einer Anleitung auf „Merken“, dann erscheint sie hier.')
+                : (isEn
+                  ? 'Try a different search query or reset your active filters.'
+                  : 'Versuchen Sie es mit einem anderen Suchbegriff oder setzen Sie die Filter zurück.')}
             </p>
             <button
               onClick={() => {
                 onSetCategoryFilter('all');
-                setSelectedDifficulty('all');
+                setOnlySaved(false);
                 setSearchTerm('');
               }}
               className="px-6 py-3 bg-[#17324D] hover:bg-[#0f2336] text-white rounded-xl font-bold transition-colors"
