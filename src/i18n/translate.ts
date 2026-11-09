@@ -134,7 +134,11 @@ const ATTRIBUTES = ['placeholder', 'aria-label', 'title', 'alt', 'aria-descripti
 const attributeOriginals = new WeakMap<Element, Record<string, string>>();
 let observer: MutationObserver | null = null;
 
-const skip = (el: Element | null) => !!el?.closest('[translate="no"], .notranslate, script, style, textarea, code');
+// The page-wide "do not translate" on <html> is meant for the browser, not for this layer.
+const skip = (el: Element | null) => {
+  const hit = el?.closest('[translate="no"], .notranslate, script, style, textarea, code');
+  return !!hit && hit !== document.documentElement;
+};
 
 function translateTextNode(node: Text) {
   const current = node.nodeValue ?? '';
@@ -225,6 +229,11 @@ function stop() {
  */
 export async function setPageLanguage(lang: UiLanguage): Promise<void> {
   document.documentElement.lang = lang;
+  // Our own Turkish, Spanish and Croatian must not be translated again by the browser
+  // (Chrome's Google Translate turned "tip" into "napojnica", a tip for a waiter).
+  // English and German stay open to the browser's "Translate" for all other languages.
+  document.documentElement.translate = !isExtraLanguage(lang);
+  document.documentElement.classList.toggle('notranslate', isExtraLanguage(lang));
   if (!isExtraLanguage(lang)) {
     active = null;
     stop();
