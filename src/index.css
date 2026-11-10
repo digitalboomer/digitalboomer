@@ -639,3 +639,14 @@ select:disabled {
     font-size: 9pt;
   }
 }
+
+/* Scrolling inside a simulated phone screen: a thin visible bar, and the web page behind does not scroll along. */
+.sim-scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
+}
+.sim-scroll::-webkit-scrollbar { width: 6px; }
+.sim-scroll::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.35); border-radius: 3px; }
+.sim-scroll::-webkit-scrollbar-track { background: transparent; }

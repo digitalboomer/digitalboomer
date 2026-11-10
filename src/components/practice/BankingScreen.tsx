@@ -147,7 +147,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
   const listScreen = (title: string, question: string | undefined, rows: React.ReactNode) => (
     <>
       {header(title, true)}
-      <div className="flex-1 min-h-0 overflow-y-auto px-3 py-2 flex flex-col gap-1 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
+      <div className="flex-1 min-h-0 sim-scroll px-3 py-2 flex flex-col gap-1 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
         {question && <p className="font-bold text-[1rem] py-1">{question}</p>}
         {rows}
       </div>
@@ -162,7 +162,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
   const confirmScreen = (text: string, yesId: string, yesLabel: string) => (
     <>
       {header(labels.checkTitle, true)}
-      <div className="flex-1 p-4 flex flex-col gap-3 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
+      <div className="flex-1 min-h-0 sim-scroll p-4 flex flex-col gap-3 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
         <p className="flex items-start gap-2 text-[1.02rem] p-3 rounded-xl" style={{ background: '#FDECEA' }}><TriangleAlert size={22} className="shrink-0" style={{ color: MINUS }} aria-hidden="true" />{text}</p>
         <div className="mt-auto flex flex-col gap-2">
           {primaryButton(yesId, yesLabel)}
@@ -180,7 +180,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
     body = kind === 'balance' ? (
       <>
         {header(labels.statements, false)}
-        <div className="flex-1 p-4 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
+        <div className="flex-1 min-h-0 sim-scroll p-4 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
           <div className="flex items-center gap-3 mb-2">
             <span className="w-12 h-12 rounded-full flex items-center justify-center" style={{ background: '#E8F1FB' }}><ShoppingCart size={22} aria-hidden="true" /></span>
             <span className="flex-1"><span className="block text-[1.15rem] font-bold">{labels.bookingOne}</span><span className="block text-[0.85rem]" style={{ color: MUTED }}>{t('Groceries', 'Lebensmittel')}</span></span>
@@ -195,7 +195,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
     ) : (
       <>
         {header(labels.bankName, false)}
-        <div className="flex-1 p-4 flex flex-col items-center text-center gap-2 sim-fade" style={{ color: INK, background: '#FFFFFF' }}>
+        <div className="flex-1 min-h-0 sim-scroll p-4 flex flex-col items-center text-center gap-2 sim-fade" style={{ color: INK, background: '#FFFFFF' }}>
           <CheckCircle2 size={64} style={{ color: PLUS }} aria-hidden="true" />
           <h3 className="text-[1.25rem] font-bold">{labels.doneTitle}</h3>
           <div className="w-full text-left">
@@ -217,7 +217,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
   } else if (screen === 'unlock') {
     // Login: practice mark, a password field that only shows dots, fingerprint, and "Unlock".
     body = (
-      <div className="flex-1 flex flex-col items-center gap-4 px-5 pt-10 pb-6 text-center sim-fade" style={{ background: '#FFFFFF', color: INK }}>
+      <div className="flex-1 min-h-0 sim-scroll flex flex-col items-center gap-4 px-5 pt-10 pb-6 text-center sim-fade" style={{ background: '#FFFFFF', color: INK }}>
         <span className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{ background: brand, color: onBrand }}><Landmark size={34} aria-hidden="true" /></span>
         <h3 className="text-[1.3rem] font-bold">{labels.bankName}</h3>
         <p className="text-[0.92rem]" style={{ color: MUTED }}>{labels.unlockNote}</p>
@@ -240,7 +240,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
             <PracticeMark brand={brand} name={labels.bankName} text={accent} />
             <span className="flex items-center gap-3" aria-hidden="true"><CircleHelp size={22} /><Bell size={22} /></span>
           </div>
-          <div className="flex-1 min-h-0 overflow-y-auto px-3 pb-3 flex flex-col gap-3" style={{ background: '#FFFFFF', color: INK }}>
+          <div className="flex-1 min-h-0 sim-scroll px-3 pb-3 flex flex-col gap-3" style={{ background: '#FFFFFF', color: INK }}>
             <div aria-hidden="true" className="flex items-center gap-2 mt-2 px-3 py-2.5 rounded-xl text-[0.95rem]" style={{ background: '#F1F2F4', color: MUTED }}>
               <Search size={18} /><span className="flex-1">{t('What would you like to do?', 'Was möchten Sie tun?')}</span><Mic size={18} />
             </div>
@@ -288,7 +288,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
               <PracticeTap id="statements" label={labels.statements} className="flex-1 rounded-full font-bold" style={{ background: '#F1F2F4', color: INK }}>{labels.statements}</PracticeTap>
             </div>
           </div>
-          <div className="flex-1 min-h-0 overflow-y-auto px-4 py-1" style={{ background: '#FFFFFF', color: INK, borderTop: `8px solid #F4F5F6` }}>
+          <div className="flex-1 min-h-0 sim-scroll px-4 py-1" style={{ background: '#FFFFFF', color: INK, borderTop: `8px solid #F4F5F6` }}>
             {bookingList(false)}
           </div>
           {nav([[labels.navHome, House], [labels.navMoney, PiggyBank], [labels.navCard, CreditCard], [labels.navMore, MoreHorizontal]])}
@@ -302,7 +302,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
             <span className="flex items-center gap-2 font-bold"><Landmark size={20} aria-hidden="true" />{labels.bankName}</span>
             <span className="flex items-center gap-3" aria-hidden="true"><Search size={20} /><Bell size={20} /></span>
           </div>
-          <div className="flex-1 min-h-0 overflow-y-auto px-3 py-2 flex flex-col gap-2" style={{ background: '#F3F5F8', color: INK }}>
+          <div className="flex-1 min-h-0 sim-scroll px-3 py-2 flex flex-col gap-2" style={{ background: '#F3F5F8', color: INK }}>
             <p className="flex justify-between text-[0.85rem] font-bold pt-1" style={{ color: MUTED }}><span>{t('Accounts', 'Konten')}</span><span>{labels.fictional}</span></p>
             <div className="rounded-2xl" style={{ background: '#FFFFFF', border: `1px solid ${LINE}` }}>
               {accountLine('row')}
@@ -324,16 +324,17 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
       // Big-bank style: a dark block with the total, a white account box on top of it, round actions, transactions.
       body = (
         <>
-          <div className="px-4 pt-3 pb-10 shrink-0" style={{ background: brand, color: onBrand }}>
-            <p className="flex items-center justify-between text-[0.85rem]">
-              <span className="flex items-center gap-2 font-bold"><Landmark size={18} aria-hidden="true" />{labels.bankName}</span>
-              <span className="flex items-center gap-3" aria-hidden="true"><Eye size={19} /><Bell size={19} /></span>
-            </p>
-            <p className="mt-3 text-[0.85rem] opacity-90">{t('Total assets', 'Gesamtvermögen')}</p>
-            <p className="text-[1.9rem] font-bold leading-tight">{labels.balance}</p>
-          </div>
-          <div className="flex-1 min-h-0 overflow-y-auto px-3 pb-2 flex flex-col gap-3" style={{ background: '#F4F5F7', color: INK }}>
-            <div className="-mt-8 rounded-2xl" style={{ background: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
+          {/* Only the top row stays fixed. The total and the white box scroll together, so the box can overlap the block without being cut off. */}
+          <p className="flex items-center justify-between text-[0.85rem] px-4 pt-3 pb-1 shrink-0" style={{ background: brand, color: onBrand }}>
+            <span className="flex items-center gap-2 font-bold"><Landmark size={18} aria-hidden="true" />{labels.bankName}</span>
+            <span className="flex items-center gap-3" aria-hidden="true"><Eye size={19} /><Bell size={19} /></span>
+          </p>
+          <div className="flex-1 min-h-0 sim-scroll pb-2 flex flex-col gap-3" style={{ background: '#F4F5F7', color: INK }}>
+            <div className="px-4 pt-2 pb-10 shrink-0" style={{ background: brand, color: onBrand }}>
+              <p className="text-[0.85rem] opacity-90">{t('Total assets', 'Gesamtvermögen')}</p>
+              <p className="text-[1.9rem] font-bold leading-tight">{labels.balance}</p>
+            </div>
+            <div className="-mt-10 mx-3 rounded-2xl shrink-0" style={{ background: '#FFFFFF', boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
               {accountLine('row')}
               <div className="flex justify-around px-2 pb-2 pt-1 border-t" style={{ borderColor: LINE }}>
                 {roundAction('transfer', labels.transfer, ArrowRightLeft, true)}
@@ -341,7 +342,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
                 {roundAction(null, t('Cards', 'Karten'), CreditCard)}
               </div>
             </div>
-            <div className="rounded-2xl px-3 pb-1" style={{ background: '#FFFFFF' }}>{bookingList(false, 3)}</div>
+            <div className="mx-3 rounded-2xl px-3 pb-1 shrink-0" style={{ background: '#FFFFFF' }}>{bookingList(false, 3)}</div>
           </div>
           {nav([[t('Overview', 'Übersicht'), House], [t('Payments', 'Zahlungen'), ArrowRightLeft], [t('Products', 'Produkte'), LayoutGrid], [labels.navMore, MoreHorizontal]])}
         </>
@@ -354,7 +355,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
             <PracticeMark brand={brand} name={labels.bankName} text={accent} />
             <span className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-[0.85rem]" style={{ background: brand, color: onBrand }} aria-hidden="true">KB</span>
           </div>
-          <div className="flex-1 min-h-0 overflow-y-auto px-3 py-2 flex flex-col gap-3" style={{ background: '#F5F5F3', color: INK }}>
+          <div className="flex-1 min-h-0 sim-scroll px-3 py-2 flex flex-col gap-3" style={{ background: '#F5F5F3', color: INK }}>
             <p className="font-bold text-[1.1rem]">{t('Good morning', 'Guten Morgen')}</p>
             <div aria-hidden="true" className="flex items-center gap-2 px-3 py-2 rounded-2xl text-[0.9rem]" style={{ background: '#FFFFFF', border: `1px solid ${LINE}` }}>
               <span className="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style={{ background: brand, color: onBrand }}><Sparkles size={16} /></span>
@@ -380,7 +381,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
             <p className="flex items-center justify-between font-bold"><span className="flex items-center gap-2"><Landmark size={19} aria-hidden="true" />{labels.bankName}</span><span className="text-[0.75rem] font-semibold flex items-center gap-1"><Lock size={13} aria-hidden="true" />{labels.fictional}</span></p>
             <p className="text-[1.15rem] font-bold mt-1">{t('Financial status', 'Finanzstatus')}</p>
           </div>
-          <div className="flex-1 min-h-0 overflow-y-auto px-3 py-2 flex flex-col gap-2" style={{ background: '#FFFFFF', color: INK }}>
+          <div className="flex-1 min-h-0 sim-scroll px-3 py-2 flex flex-col gap-2" style={{ background: '#FFFFFF', color: INK }}>
             <p className="flex justify-between items-center py-1 border-b font-bold" style={{ borderColor: LINE }}><span>{t('Total', 'Gesamt')}</span>{money('4.650,00 €', '1.05rem')}</p>
             <p className="text-[0.8rem] font-bold" style={{ color: MUTED }}>{t('Current accounts', 'Girokonten')}</p>
             {accountLine('row')}
@@ -399,7 +400,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
             <span className="font-bold text-[1.1rem]">{t('Hello', 'Hallo')}</span>
             <PracticeMark brand={brand} name={labels.bankName} text={accent} />
           </div>
-          <div className="flex-1 min-h-0 overflow-y-auto px-3 py-2 flex flex-col gap-3" style={{ background: '#F4F4F4', color: INK }}>
+          <div className="flex-1 min-h-0 sim-scroll px-3 py-2 flex flex-col gap-3" style={{ background: '#F4F4F4', color: INK }}>
             <div className="rounded-2xl p-3" style={{ background: '#FFFFFF', borderLeft: `6px solid ${brand}` }}>
               <PracticeTap id="account" label={`${labels.account}, ${labels.balance}`} className="w-full text-left rounded-lg">
                 <span className="block text-[0.85rem]" style={{ color: MUTED }}>{labels.account}</span>
@@ -426,7 +427,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
             <PracticeMark brand={brand} name={labels.bankName} text={accent} />
             <span className="flex items-center gap-3" aria-hidden="true" style={{ color: MUTED }}><Search size={20} /><Bell size={20} /></span>
           </div>
-          <div className="flex-1 min-h-0 overflow-y-auto px-3 py-2 flex flex-col gap-2" style={{ background: '#F2F4F7', color: INK }}>
+          <div className="flex-1 min-h-0 sim-scroll px-3 py-2 flex flex-col gap-2" style={{ background: '#F2F4F7', color: INK }}>
             <p className="font-bold text-[1.15rem]">{t('Financial overview', 'Finanzübersicht')}</p>
             <div className="rounded-2xl" style={{ background: '#FFFFFF' }}>
               <p className="flex items-center justify-between px-3 pt-2 font-bold text-[0.95rem]" aria-hidden="true"><span className="flex items-center gap-1"><ChevronUp size={17} />{t('Accounts', 'Konten')}</span>{money(labels.balance)}</p>
@@ -453,7 +454,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
             <PracticeMark brand={brand} name={labels.bankName} text={accent} />
             <span className="flex items-center gap-3" aria-hidden="true" style={{ color: MUTED }}><Bell size={21} /><User size={21} /></span>
           </div>
-          <div className="flex-1 min-h-0 overflow-y-auto p-3 flex flex-col gap-3" style={{ background: '#F4F5F6', color: INK }}>
+          <div className="flex-1 min-h-0 sim-scroll p-3 flex flex-col gap-3" style={{ background: '#F4F5F6', color: INK }}>
             <p className="font-bold text-[1.05rem]">{t('Good morning', 'Guten Morgen')}</p>
             {accountLine('card')}
             <div className="grid grid-cols-2 gap-2">
@@ -512,7 +513,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
   } else if (screen === 'push-notice') {
     // Lock screen with a notification from the approval app.
     body = (
-      <div className="flex-1 flex flex-col p-4 sim-fade" style={{ background: 'linear-gradient(180deg, #2B3A4A 0%, #16202A 100%)' }}>
+      <div className="flex-1 min-h-0 sim-scroll flex flex-col p-4 sim-fade" style={{ background: 'linear-gradient(180deg, #2B3A4A 0%, #16202A 100%)' }}>
         <p className="text-center text-white text-[3rem] font-light mt-6" aria-hidden="true">9:41</p>
         <p className="text-center text-white/80 text-[0.9rem] mb-6" aria-hidden="true">{t('Monday, 9 November', 'Montag, 9. November')}</p>
         <PracticeTap id="open-request" label={`${labels.pushTitle}. ${labels.pushText}`} className="w-full p-3 rounded-2xl text-left flex items-start gap-3" style={{ background: 'rgba(255,255,255,0.92)', color: INK }}>
@@ -546,7 +547,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
     body = (
       <>
         {header(labels.sendMoney, true)}
-        <div className="flex-1 px-3 py-2 flex flex-col gap-1 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
+        <div className="flex-1 min-h-0 sim-scroll px-3 py-2 flex flex-col gap-1 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
           <PracticeTap id="transfer" label={labels.transfer} className="flex items-center gap-3 px-2 rounded-xl text-left text-[1.02rem] font-bold border-b" style={{ borderColor: LINE }}>
             <span className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: '#E8EEF5', color: accent }}><ArrowRightLeft size={19} aria-hidden="true" /></span>
             <span className="flex-1">{labels.transfer}<span className="block text-[0.8rem] font-normal" style={{ color: MUTED }}>{t('To any account', 'An ein beliebiges Konto')}</span></span><ChevronRight size={18} aria-hidden="true" />
@@ -564,7 +565,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
     body = (
       <>
         {header(labels.statements, true)}
-        <div className="flex-1 min-h-0 overflow-y-auto px-3 py-2 flex flex-col sim-fade" style={{ background: '#FFFFFF', color: INK }}>
+        <div className="flex-1 min-h-0 sim-scroll px-3 py-2 flex flex-col sim-fade" style={{ background: '#FFFFFF', color: INK }}>
           <div className="flex items-center justify-between py-1">
             <span className="text-[0.9rem]" style={{ color: MUTED }}>{labels.account}</span>{money(labels.balance, '1.1rem')}
           </div>
@@ -577,7 +578,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
     body = (
       <>
         {header(labels.transfer, true)}
-        <div className="flex-1 px-3 py-2 flex flex-col gap-1 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
+        <div className="flex-1 min-h-0 sim-scroll px-3 py-2 flex flex-col gap-1 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
           <div aria-hidden="true" className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-[0.92rem]" style={{ background: '#F1F2F4', color: MUTED }}><Search size={17} />{t('Name or IBAN', 'Name oder IBAN')}</div>
           <p className="font-bold text-[1rem] pt-2">{labels.whoGets}</p>
           {[
@@ -600,7 +601,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
     body = (
       <>
         {header(labels.transfer, true)}
-        <div className="flex-1 px-3 py-2 flex flex-col gap-2 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
+        <div className="flex-1 min-h-0 sim-scroll px-3 py-2 flex flex-col gap-2 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
           <div className="flex items-center gap-3 py-1 border-b" style={{ borderColor: LINE }}>
             <span className="w-9 h-9 rounded-full flex items-center justify-center font-bold text-[0.85rem]" style={{ background: '#E8EEF5', color: accent }}>{initials(checkName)}</span>
             <span><span className="block text-[0.78rem]" style={{ color: MUTED }}>{labels.to}</span><span className="font-semibold">{checkName}</span></span>
@@ -624,7 +625,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
           <ShieldCheck size={22} aria-hidden="true" /><span className="font-bold text-[1rem] flex-1">{t('Approval app', 'Freigabe-App')}</span>
           <span className="flex items-center gap-1 text-[0.75rem]"><Lock size={13} aria-hidden="true" />{labels.fictional}</span>
         </div>
-        <div className="flex-1 flex flex-col gap-2 p-4 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
+        <div className="flex-1 min-h-0 sim-scroll flex flex-col gap-2 p-4 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
           <Smartphone size={44} style={{ color: accent }} aria-hidden="true" className="self-center" />
           <h3 className="text-[1.15rem] font-bold text-center">{labels.approveTitle}</h3>
           <p className="text-[0.9rem] text-center" style={{ color: MUTED }}>{labels.approveText}</p>
@@ -642,7 +643,7 @@ export const BankingScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, k
     body = (
       <>
         {header(labels.checkTitle, true)}
-        <div className="flex-1 min-h-0 overflow-y-auto px-3 py-2 flex flex-col gap-0.5 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
+        <div className="flex-1 min-h-0 sim-scroll px-3 py-2 flex flex-col gap-0.5 sim-fade" style={{ background: '#FFFFFF', color: INK }}>
           <p className="text-center text-[2rem] font-bold py-2">{labels.amount}</p>
           <Row label={labels.to} value={checkName} />
           <Row label="IBAN" value={labels.ibanValue ?? 'DE00 1111 1111 1111 1111 11'} />
