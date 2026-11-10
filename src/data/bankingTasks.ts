@@ -27,13 +27,34 @@ export function approvalNote(lang: Language, bank?: Service): string {
   return isEn ? `${bank.name} customers often approve with ${app}. Ask your bank which method you have.` : `Bei ${bank.name} geben viele Kunden mit ${app} frei. Fragen Sie Ihre Bank, welches Verfahren Sie haben.`;
 }
 
+/**
+ * Where things are in each bank's practice layout: the menu with more services, the
+ * transfer button and the current account. The lesson texts use these, so they always
+ * match the screen (src/components/practice/BankingScreen.tsx).
+ */
+export function bankWhere(lang: Language, layout: string) {
+  const t = (en: string, de: string) => (lang === 'en' ? en : de);
+  const W: Record<string, { moreLabel: string; more: string; transfer: string; account: string }> = {
+    action: { moreLabel: t('Services', 'Services'), more: t('"Services" is in the bar at the bottom, the third button.', '„Services“ ist in der Leiste unten, der dritte Knopf.'), transfer: t('"Send money" is the first round button under "Quick access".', '„Geld senden“ ist der erste runde Knopf unter „Schnellzugriffe“.'), account: t('Your current account is under "Accounts and cards".', 'Ihr Girokonto steht unter „Konten und Karten“.') },
+    vr: { moreLabel: t('Menu', 'Menü'), more: t('"Menu" is at the bottom right.', '„Menü“ ist unten rechts.'), transfer: t('"Transfer" is the button under your accounts.', '„Überweisung“ ist der Knopf unter Ihren Konten.'), account: t('Your current account is the first line under "Accounts".', 'Ihr Girokonto ist die erste Zeile unter „Konten“.') },
+    db: { moreLabel: t('More', 'Mehr'), more: t('"More" is at the bottom right.', '„Mehr“ ist unten rechts.'), transfer: t('"Transfer" is the first round button under your account.', '„Überweisung“ ist der erste runde Knopf unter Ihrem Konto.'), account: t('Your current account is in the white box under the total.', 'Ihr Girokonto ist im weißen Feld unter der Gesamtsumme.') },
+    cb: { moreLabel: t('Banking', 'Banking'), more: t('"Banking" is in the bar at the bottom, the second button.', '„Banking“ ist in der Leiste unten, der zweite Knopf.'), transfer: t('"Transfer" is the first button under your account.', '„Überweisung“ ist der erste Knopf unter Ihrem Konto.'), account: t('Your current account is the box with the balance.', 'Ihr Girokonto ist das Feld mit dem Kontostand.') },
+    pb: { moreLabel: t('More', 'Mehr'), more: t('"More" is at the bottom right.', '„Mehr“ ist unten rechts.'), transfer: t('"Transfer" is in the bar at the bottom, the second button.', '„Überweisung“ ist in der Leiste unten, der zweite Knopf.'), account: t('Your current account is the first line of your financial status.', 'Ihr Girokonto ist die erste Zeile im Finanzstatus.') },
+    ing: { moreLabel: t('Orders', 'Aufträge'), more: t('"Orders" is in the bar at the bottom, the second button.', '„Aufträge“ ist in der Leiste unten, der zweite Knopf.'), transfer: t('"Transfer" is the button inside your account card.', '„Überweisung“ ist der Knopf in Ihrer Kontokarte.'), account: t('Your current account is the first card.', 'Ihr Girokonto ist die erste Karte.') },
+    dkb: { moreLabel: t('Orders', 'Aufträge'), more: t('"Orders" is in the bar at the bottom, the second button.', '„Aufträge“ ist in der Leiste unten, der zweite Knopf.'), transfer: t('"Transfer" is the first button under your financial overview.', '„Überweisung“ ist der erste Knopf unter Ihrer Finanzübersicht.'), account: t('Your current account is the first line under "Accounts".', 'Ihr Girokonto ist die erste Zeile unter „Konten“.') },
+    neo: { moreLabel: t('More', 'Mehr'), more: t('"More" is at the bottom right.', '„Mehr“ ist unten rechts.'), transfer: t('The button is under your balance, on the left.', 'Der Knopf ist unter Ihrem Kontostand, links.'), account: t('Your balance is the big number at the top.', 'Ihr Kontostand ist die große Zahl oben.') },
+    classic: { moreLabel: t('More', 'Mehr'), more: t('"More" is at the bottom right.', '„Mehr“ ist unten rechts.'), transfer: t('It is the left tile under your account.', 'Das ist die linke Kachel unter Ihrem Konto.'), account: t('Your account is the white card with the balance.', 'Ihr Konto ist die weiße Karte mit dem Kontostand.') },
+  };
+  return W[layout] ?? W.classic;
+}
+
 export function bankingTasks(lang: Language, bank: Service, base: Tutorial, layout: string): Tutorial[] {
   const isEn = lang === 'en';
   const t = (en: string, de: string) => (isEn ? en : de);
   const baseLabels = base.practice!.labels;
 
   const common: Record<string, string> = {
-    moreTitle: layout === 'action' ? t('Services', 'Services') : t('More', 'Mehr'),
+    moreTitle: bankWhere(lang, layout).moreLabel,
     menuAbroad: t('Transfer abroad', 'Auslandsüberweisung'),
     menuStanding: t('Standing orders', 'Daueraufträge'),
     menuScheduled: t('Transfer for later', 'Terminüberweisung'),
@@ -124,10 +145,9 @@ export function bankingTasks(lang: Language, bank: Service, base: Tutorial, layo
 
   const whereUnlock = t('"Unlock" is the big button at the bottom.', '„Entsperren“ ist der große Knopf unten.');
   const unlock = step(t('Open and unlock the app', 'App öffnen und entsperren'), t('Tap "Unlock".', 'Tippen Sie auf „Entsperren“.'), [t('In a real app you enter your password or use your fingerprint. Here you enter nothing.', 'In einer echten App geben Sie Ihr Passwort ein oder nutzen den Fingerabdruck. Hier geben Sie nichts ein.')], 'unlock', 'unlock', whereUnlock);
-  const whereMore = layout === 'action'
-    ? t('"Services" is in the bar at the bottom, the third button.', '„Services“ ist in der Leiste unten, der dritte Knopf.')
-    : t('"More" is at the bottom right.', '„Mehr“ ist unten rechts.');
-  const more = step(layout === 'action' ? t('Open "Services"', '„Services“ öffnen') : t('Open "More"', '„Mehr“ öffnen'), whereMore, [t('Banking apps keep less common services in a menu. In your app it may be called "Services" or "Banking".', 'Banking-Apps legen seltenere Dienste in ein Menü. In Ihrer App heißt es vielleicht „Services“ oder „Banking“.')], 'overview', 'more', whereMore);
+  const where = bankWhere(lang, layout);
+  const whereMore = where.more;
+  const more = step(t(`Open "${where.moreLabel}"`, `„${where.moreLabel}“ öffnen`), whereMore, [t('Banking apps keep less common services in a menu. In your app it may be called "Services" or "Banking".', 'Banking-Apps legen seltenere Dienste in ein Menü. In Ihrer App heißt es vielleicht „Services“ oder „Banking“.')], 'overview', 'more', whereMore);
   const menu = (title: string, id: string, label: string) => {
     const where = t(`"${label}" is in the list.`, `„${label}“ steht in der Liste.`);
     return step(title, where, [t('Take your time to read the list.', 'Nehmen Sie sich Zeit, die Liste zu lesen.')], 'more', id, where);
@@ -141,7 +161,7 @@ export function bankingTasks(lang: Language, bank: Service, base: Tutorial, layo
         step(t('Tap "Send money"', 'Tippen Sie auf „Geld senden“'), t('It is the first round button under "Quick access".', 'Das ist der erste runde Knopf unter „Schnellzugriffe“.'), [t('Actions you often need are under "Quick access".', 'Häufige Aktionen finden Sie unter „Schnellzugriffe“.')], 'overview', 'send-money', t('"Send money" is the first round button under "Quick access".', '„Geld senden“ ist der erste runde Knopf unter „Schnellzugriffe“.')),
         step(t('Choose "Transfer"', 'Wählen Sie „Überweisung“'), t('It is the first line.', 'Das ist die erste Zeile.'), [t('Now you can choose who gets the money.', 'Jetzt können Sie wählen, wer das Geld bekommt.')], 'sendmenu', 'transfer', t('"Transfer" is the first line.', '„Überweisung“ ist die erste Zeile.')),
       ]
-    : [step(t('Find the transfer', 'Überweisung finden'), t('Tap "Transfer".', 'Tippen Sie auf „Überweisung“.'), [t('It is on the home screen, near your account.', 'Sie finden sie auf der Startseite, in der Nähe Ihres Kontos.')], 'overview', 'transfer', layout === 'neo' ? t('The button is under your balance, on the left.', 'Der Knopf ist unter Ihrem Kontostand, links.') : layout === 'direct' ? t('It is the first line under your account.', 'Das ist die erste Zeile unter Ihrem Konto.') : t('It is the left tile under your account.', 'Das ist die linke Kachel unter Ihrem Konto.'))];
+    : [step(t('Find the transfer', 'Überweisung finden'), t('Tap "Transfer".', 'Tippen Sie auf „Überweisung“.'), [t('It is on the start page.', 'Sie finden sie auf der Startseite.')], 'overview', 'transfer', where.transfer)];
   const noReal = t('This was only practice. No real money moved.', 'Das war nur eine Übung. Es ist kein echtes Geld geflossen.');
 
   return [

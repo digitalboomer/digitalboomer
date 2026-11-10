@@ -3,7 +3,7 @@
  * generated per app, so every app shows its own real sequence of taps. Interfaces
  * change with app updates, so check these flows against the real apps now and then.
  */
-import { approvalNote, bankingTasks, generalBankingLessons } from './bankingTasks';
+import { approvalNote, bankingTasks, bankWhere, generalBankingLessons } from './bankingTasks';
 import { emailExtraLabels, emailTasks, generalEmailLessons } from './emailTasks';
 import { moreGeneralSocialLessons, socialTasks } from './socialTasks';
 import { desktopLesson } from './desktopLessons';
@@ -331,7 +331,8 @@ function messagingLessons(lang: Language, app: AppId, platform: 'iphone' | 'andr
   return lessons;
 }
 
-const BANK_LAYOUT: Record<string, string> = { sparkasse: 'action', volksbank: 'classic', deutschebank: 'classic', commerzbank: 'classic', postbank: 'classic', ing: 'direct', dkb: 'direct', n26: 'neo' };
+/** Each bank's practice screens follow how that bank's app is organised (see BankingScreen). */
+const BANK_LAYOUT: Record<string, string> = { sparkasse: 'action', volksbank: 'vr', deutschebank: 'db', commerzbank: 'cb', postbank: 'pb', ing: 'ing', dkb: 'dkb', n26: 'neo' };
 
 function bankingLesson(lang: Language, bank?: Service, mode: 'transfer' | 'balance' = 'transfer'): Tutorial {
   const isEn = lang === 'en';
@@ -368,10 +369,7 @@ function bankingLesson(lang: Language, bank?: Service, mode: 'transfer' | 'balan
     'unlock', 'unlock', whereUnlock, t('That was right. You are on the home screen of the app.', 'Das war richtig. Sie sind auf der Startseite der App.'));
 
   if (mode === 'balance') {
-    const whereAcc = layout === 'neo' ? t('Your balance is the big number at the top.', 'Ihr Kontostand ist die große Zahl oben.')
-      : layout === 'action' ? t('Your current account is under "Accounts and cards".', 'Ihr Girokonto steht unter „Konten und Karten“.')
-      : layout === 'direct' ? t('Your balance is the big number in the blue card.', 'Ihr Kontostand ist die große Zahl in der blauen Karte.')
-      : t('Your account is the white card with the balance.', 'Ihr Konto ist die weiße Karte mit dem Kontostand.');
+    const whereAcc = bankWhere(lang, layout).account;
     step(t('Open your account', 'Konto öffnen'), whereAcc, [t('The first thing you usually see is how much money is in the account.', 'Als Erstes sehen Sie meist, wie viel Geld auf dem Konto ist.')], 'overview', 'account', whereAcc, t('That was right. These are your latest payments.', 'Das war richtig. Das sind Ihre letzten Zahlungen.'));
     const wherePay = t('The supermarket is the first line.', 'Der Supermarkt ist die erste Zeile.');
     step(t('Look at one payment', 'Eine Zahlung ansehen'), t('Tap the payment to the supermarket.', 'Tippen Sie auf die Zahlung an den Supermarkt.'), [t('Look through your payments regularly. If you do not recognise one, call your bank using the number on your bank card.', 'Schauen Sie Ihre Zahlungen regelmäßig durch. Kennen Sie eine nicht, rufen Sie Ihre Bank unter der Nummer auf Ihrer Bankkarte an.')], 'payments', 'payment-one', wherePay, t('That was right.', 'Das war richtig.'));
@@ -382,7 +380,7 @@ function bankingLesson(lang: Language, bank?: Service, mode: 'transfer' | 'balan
       const whereT = t('"Transfer" is the first line.', '„Überweisung“ ist die erste Zeile.');
       step(t('Choose "Transfer"', 'Wählen Sie „Überweisung“'), whereT, [t('A standing order is a payment that repeats on its own.', 'Ein Dauerauftrag ist eine Zahlung, die sich von selbst wiederholt.')], 'sendmenu', 'transfer', whereT, t('That was right. Now choose who gets the money.', 'Das war richtig. Jetzt wählen Sie, wer das Geld bekommt.'));
     } else {
-      const whereT = layout === 'neo' ? t('The button is under your balance, on the left.', 'Der Knopf ist unter Ihrem Kontostand, links.') : layout === 'direct' ? t('It is the first line under your account.', 'Das ist die erste Zeile unter Ihrem Konto.') : t('It is the left tile under your account.', 'Das ist die linke Kachel unter Ihrem Konto.');
+      const whereT = bankWhere(lang, layout).transfer;
       step(t('Find the transfer', 'Überweisung finden'), t(`Tap "Transfer". ${whereT}`, `Tippen Sie auf „Überweisung“. ${whereT}`), [t('You start on the home screen with your account. Every bank arranges this a little differently.', 'Sie starten auf der Startseite mit Ihrem Konto. Jede Bank ordnet das etwas anders an.')], 'overview', 'transfer', whereT, t('That was right. Now choose who gets the money.', 'Das war richtig. Jetzt wählen Sie, wer das Geld bekommt.'));
     }
     step(t('Choose the person', 'Person wählen'), t('Tap "Anna Beispiel".', 'Tippen Sie auf „Anna Beispiel“.'), [t('People you have paid before are saved here.', 'Personen, denen Sie schon einmal Geld geschickt haben, sind hier gespeichert.')], 'recipient', 'person-anna', t('Anna is the first line.', 'Anna ist die erste Zeile.'), t('That was right. Now choose the amount.', 'Das war richtig. Jetzt wählen Sie den Betrag.'));
@@ -423,12 +421,12 @@ function bankingLesson(lang: Language, bank?: Service, mode: 'transfer' | 'balan
       nextTutorialId: mode === 'balance' && bank ? `${bank.id}-transfer` : 'online-banking-grundlagen',
       labels: {
         tapHere: common[lang].tapHere, phoneLabel: common[lang].phoneLabel, phoneBadge: common[lang].phoneBadge, back: common[lang].back,
-        layout, brandColor: '#14457A', brandText: '#FFFFFF', // one neutral practice-bank colour for every bank: no real bank's look
+        layout, brandColor: bank?.color ?? '#14457A', brandText: bank?.fg ?? '#FFFFFF', // the bank's colour as an accent; name and mark stay "Practice bank"
         bankName: t('Practice bank', 'Übungsbank'), fictional: t('Not real', 'Nicht echt'), account: t('Current account', 'Girokonto'),
         unlock: t('Unlock', 'Entsperren'), unlockNote: t('In the real app you enter your password here. Here, enter nothing.', 'In der echten App geben Sie hier Ihr Passwort ein. Hier geben Sie nichts ein.'),
         balance: '1.250,00 €', balanceAfter: '1.225,00 €', transfer: t('Transfer', 'Überweisung'), statements: t('Payments', 'Umsätze'), sendMoney: t('Send money', 'Geld senden'),
         standing: t('Standing order', 'Dauerauftrag'), ownTransfer: t('Between my accounts', 'Zwischen meinen Konten'),
-        navHome: t('Home', 'Start'), navMoney: t('Accounts', 'Konten'), navOffers: t('Saving', 'Sparen'), navMore: layout === 'action' ? t('Services', 'Services') : t('More', 'Mehr'), navCard: t('Card', 'Karte'),
+        navHome: t('Home', 'Start'), navMoney: t('Accounts', 'Konten'), navOffers: t('Saving', 'Sparen'), navMore: bankWhere(lang, layout).moreLabel, navCard: t('Card', 'Karte'),
         latest: t('Latest payment', 'Letzte Zahlung'), bookingOne: t('Supermarket', 'Supermarkt'), bookingTwo: t('Pharmacy', 'Apotheke'), bookingThree: t('Pension', 'Rente'),
         dateLabel: t('Date', 'Datum'), dateValue: t('Yesterday', 'Gestern'), bookingPurpose: t('Card payment', 'Kartenzahlung'),
         whoGets: t('Who should get the money?', 'Wer soll das Geld bekommen?'), recipient: 'Anna Beispiel', peterFull: 'Peter Muster',
