@@ -281,7 +281,7 @@ export const FreeRoam: React.FC<{ appId: string; onExit: () => void; lang: Langu
             </PracticeContext.Provider>
           </div>
         ) : (
-        <div className="w-full max-w-[23rem] mx-auto rounded-[2rem] p-2 lg:sticky lg:top-[5.5rem]" style={{ background: '#202B36' }} role="group" aria-label={scenario.labels.phoneLabel}>
+        <div className="w-full max-w-[23rem] lg:max-w-[min(23rem,calc(max(24rem,100dvh_-_10rem)*0.564_+_1rem))] mx-auto rounded-[2rem] p-2 lg:sticky lg:top-[5.5rem]" style={{ background: '#202B36' }} role="group" aria-label={scenario.labels.phoneLabel}>
           <p className="px-2 pb-1 text-center text-[1rem] font-bold" style={{ color: '#FFFFFF' }}>{scenario.labels.phoneBadge}</p>
           <PracticeContext.Provider value={{ showMe: false, tapHereLabel: scenario.labels.tapHere, onTap, typed, setTyped, fields, needsText: false, lastWrongId, clearWrong: () => setLastWrongId(undefined), freeRoam: true, platform, computer: onComputer }}>
             <div

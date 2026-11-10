@@ -33,7 +33,7 @@ const BottomNav: React.FC<{ app: AppStyle; lang: string; active?: number }> = ({
           <span className="px-3 py-0.5 rounded-full" style={on && app.fab === 'chat-plus' && !app.dark ? { background: '#D9FDD3' } : undefined}>
             <Glyph size={20} fill={on && item.icon === 'chat' ? 'currentColor' : 'none'} />
           </span>
-          <span className="truncate max-w-full">{lang === 'de' ? item.de : item.en}</span>
+          <span className="truncate max-w-full tracking-[-0.03em]">{lang === 'de' ? item.de : item.en}</span>
         </span>
       );
     })}

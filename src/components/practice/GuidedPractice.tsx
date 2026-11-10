@@ -390,7 +390,7 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
           {/* Simulated phone */}
           <div
             ref={phoneFrameRef}
-            className={isDesktop ? 'lg:row-start-4 w-full rounded-xl p-2' : 'lg:col-start-2 lg:row-start-1 lg:row-span-5 w-full max-w-[23rem] mx-auto rounded-[2rem] p-2 lg:sticky lg:top-[5.5rem]'}
+            className={isDesktop ? 'lg:row-start-4 w-full rounded-xl p-2' : 'lg:col-start-2 lg:row-start-1 lg:row-span-5 w-full max-w-[23rem] lg:max-w-[min(23rem,calc(max(24rem,100dvh_-_10rem)*0.564_+_1rem))] mx-auto rounded-[2rem] p-2 lg:sticky lg:top-[5.5rem]'}
             style={{ background: '#202B36' }}
             role="group"
             aria-label={scenario.labels.phoneLabel}
