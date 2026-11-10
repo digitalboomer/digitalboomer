@@ -11,6 +11,7 @@ import { computerLesson } from '../../data/computerWords';
 import { DesktopShell } from './DesktopShell';
 import { iphoneLesson } from '../../data/practiceLessons';
 import { DesktopStage } from './DesktopScreens';
+import { emailDesktopLesson } from '../../data/emailDesktop';
 import { HomeIndicator } from './PhoneParts';
 import { playCorrect, playSent, playTryAgain } from '../../utils/feedback';
 import { PracticeContext } from './PracticeTap';
@@ -58,9 +59,13 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
   const isEn = lang === 'en';
   const device = useDevice();
   const platform = device === 'iphone' ? 'iphone' : 'android';
-  const onComputer = device === 'computer' && givenTutorial.practice?.device !== 'desktop';
+  // Banking apps are phone apps; the computer choice does not apply to them.
+  const phoneOnly = givenTutorial.practice?.screenId === 'banking';
+  const onComputer = device === 'computer' && givenTutorial.practice?.device !== 'desktop' && !phoneOnly;
   // On iPhone some apps put their buttons elsewhere; on the computer you click instead of tap. The lesson text follows.
-  const tutorial = onComputer ? computerLesson(givenTutorial, lang) : platform === 'iphone' ? iphoneLesson(lang, givenTutorial) : givenTutorial;
+  const shownLesson = onComputer ? computerLesson(givenTutorial, lang) : platform === 'iphone' ? iphoneLesson(lang, givenTutorial) : givenTutorial;
+  // Email on the computer: each service's website has its buttons elsewhere, and some phone steps are not needed.
+  const tutorial = onComputer || givenTutorial.practice?.screenId === 'desktop-email' ? emailDesktopLesson(shownLesson, lang) : shownLesson;
   const scenario = tutorial.practice!;
   const isDesktop = scenario.device === 'desktop' || onComputer;
   const Screen = PRACTICE_SCREENS[scenario.screenId];
@@ -332,7 +337,7 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
                   ))}
                 </ol>
                 <HelpLevelPicker lang={lang} />
-                {scenario.device !== 'desktop' && <PhonePicker lang={lang} />}
+                {scenario.device !== 'desktop' && <PhonePicker lang={lang} phoneOnly={phoneOnly} />}
               </>
             ) : (
               <>
@@ -349,8 +354,8 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
                 )}
               </>
             )}
-            {isIntro && (scenario.appId || scenario.screenId === 'ai') && (
-              <button onClick={() => goTo({ page: 'free-roam', tutorialId: scenario.appId ?? 'ai' })} className={secondaryButton}>
+            {isIntro && scenario.appId && (
+              <button onClick={() => goTo({ page: 'free-roam', tutorialId: scenario.appId })} className={secondaryButton}>
                 <Icon name="smartphone" className="text-xl" />
                 {isEn ? 'Free roam: click around without a task' : 'Frei erkunden: ohne Aufgabe ausprobieren'}
               </button>
@@ -398,7 +403,7 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
             <p className="px-2 pb-1 text-center text-[1rem] font-bold" style={{ color: '#FFFFFF' }}>{isDesktop ? (isEn ? 'Simulated computer – practice, not real' : 'Simulierter Computer – Übung, nicht echt') : scenario.labels.phoneBadge}</p>
             {/* Small screens: what to do now, right on the phone frame, so instruction and phone are seen together */}
             {!isIntro && !isDone && (
-              <p aria-hidden="true" className={`${isDesktop ? '' : 'lg:hidden'} mx-1 mb-2 px-3 py-2 rounded-xl text-base font-bold leading-snug`} style={{ background: '#FFFFFF', color: '#17324D' }}>
+              <p aria-hidden="true" className={`sim-strip ${isDesktop ? '' : 'lg:hidden'} mx-1 mb-2 px-3 py-2 rounded-xl text-base font-bold leading-snug`} style={{ background: '#FFFFFF', color: '#17324D' }}>
                 {step.stepNumber}. {help === 'none' ? step.title : step.lead}
               </p>
             )}
@@ -408,7 +413,7 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
                 computer: onComputer,
                 targetId: isIntro || isDone ? undefined : practiceStep.targetId,
                 showMe: help === 'full' || showMeStep === currentIndex,
-                tapHereLabel: scenario.labels.tapHere,
+                tapHereLabel: isDesktop ? (isEn ? 'Click here' : 'Hier klicken') : scenario.labels.tapHere,
                 correctId,
                 onTap: isIntro || isDone ? () => {} : handleTap,
                 typed,
@@ -465,7 +470,7 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
               </button>
             )}
             {!isIntro && !isDone && <HelpLevelPicker lang={lang} compact />}
-            {!isIntro && !isDone && scenario.device !== 'desktop' && <PhonePicker lang={lang} compact />}
+            {!isIntro && !isDone && scenario.device !== 'desktop' && <PhonePicker lang={lang} compact phoneOnly={phoneOnly} />}
 
             {isDone && (
               <div className="flex flex-wrap gap-3">

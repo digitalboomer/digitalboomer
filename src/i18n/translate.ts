@@ -223,17 +223,25 @@ function stop() {
   restoreTree(document.body);
 }
 
+/** The browser's own language is one the site offers (English, German, Turkish, Spanish, Croatian). Same check as in index.html. */
+export function browserHasOurLanguage(): boolean {
+  const first = (navigator.languages?.[0] ?? navigator.language ?? '').slice(0, 2).toLowerCase();
+  return ['en', 'de', 'tr', 'es', 'hr'].includes(first);
+}
+
 /**
  * Switches the page language. English and German are rendered by the site itself;
  * the other languages load their dictionary and translate the English page.
  */
 export async function setPageLanguage(lang: UiLanguage): Promise<void> {
   document.documentElement.lang = lang;
-  // Our own Turkish, Spanish and Croatian must not be translated again by the browser
-  // (Chrome's Google Translate turned "tip" into "napojnica", a tip for a waiter).
-  // English and German stay open to the browser's "Translate" for all other languages.
-  document.documentElement.translate = !isExtraLanguage(lang);
-  document.documentElement.classList.toggle('notranslate', isExtraLanguage(lang));
+  // The browser may only translate the page for people whose language we do not offer.
+  // Our own Turkish, Spanish and Croatian must not be translated again (Chrome turned "tip"
+  // into "napojnica", a tip for a waiter), and a browser set to one of our five languages
+  // should not translate the page on its own: the language menu has that language.
+  const block = isExtraLanguage(lang) || browserHasOurLanguage();
+  document.documentElement.translate = !block;
+  document.documentElement.classList.toggle('notranslate', block);
   if (!isExtraLanguage(lang)) {
     active = null;
     stop();

@@ -5,6 +5,7 @@ import {
 import { PracticeContext, PracticeTap } from './PracticeTap';
 import { Avatar, PhoneKeyboard, StatusBar, clockTime, BackGlyph } from './PhoneParts';
 import type { PracticeScreenProps } from './practiceScreens';
+import { EmailWeb } from './EmailWeb';
 
 const iconBtn = 'flex items-center justify-center rounded-full shrink-0';
 type L = Record<string, string>;
@@ -411,7 +412,12 @@ const OpenMail: React.FC<{ layout: Layout; style: (typeof STYLES)[string]; label
 };
 
 /** Each email service has its own inbox and compose layout. All content is fictional. */
-export const EmailScreen: React.FC<PracticeScreenProps> = ({ screen, isDone, appId, kind, labels, lang }) => {
+export const EmailScreen: React.FC<PracticeScreenProps> = (props) => {
+  // On the computer: the service's website (or the Mac program), not the phone app in a window.
+  return useContext(PracticeContext).computer ? <EmailWeb {...props} /> : <EmailPhone {...props} />;
+};
+
+const EmailPhone: React.FC<PracticeScreenProps> = ({ screen, isDone, appId, kind, labels, lang }) => {
   const { fields, typed } = useContext(PracticeContext);
   const style = STYLES[appId ?? 'gmail'] ?? STYLES.gmail;
   const layout = style.layout;

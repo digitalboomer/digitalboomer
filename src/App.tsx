@@ -24,6 +24,7 @@ import { TopicsScreen } from './screens/TopicsScreen';
 import { TutorialsScreen } from './screens/TutorialsScreen';
 import { TutorialDetailScreen } from './screens/TutorialDetailScreen';
 import { SecurityScreen } from './screens/SecurityScreen';
+import { AiLessonsScreen } from './screens/AiLessonsScreen';
 import { DashboardScreen } from './screens/DashboardScreen';
 import { AuthScreens } from './screens/AuthScreens';
 import { AboutHelpScreen } from './screens/AboutHelpScreen';
@@ -372,6 +373,8 @@ export default function App() {
   const handleSelectCategoryFilter = (catId: string) => {
     const group = groupOfCategory(catId);
     if (group) goTo({ page: GROUP_PAGE[group] });
+    else if (catId === 'sicherheit') goTo({ page: 'sicherheit' }); // their own pages with all lessons
+    else if (catId === 'ki') goTo({ page: 'ki-alltag' });
     else goTo({ page: 'tutorials', category: catId });
   };
 
@@ -509,6 +512,10 @@ export default function App() {
           />
         )}
 
+        {currentPage === 'ki-alltag' && (
+          <AiLessonsScreen onNavigate={handleNavigate} onSelectTutorial={handleOpenTutorial} completedIds={user.completedTutorialIds} lang={lang} />
+        )}
+
         {currentPage === 'dashboard' && (
           <DashboardScreen
             onNavigate={handleNavigate}
@@ -534,7 +541,7 @@ export default function App() {
             key={currentPage}
             initialView={currentPage}
             onNavigate={handleNavigate}
-            onContinueAsGuest={() => handleNavigate('themen')}
+            onContinueAsGuest={() => handleNavigate('dashboard')}
             linkFailed={authLinkFailed}
             lang={lang}
           />

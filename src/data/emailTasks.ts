@@ -28,7 +28,7 @@ export function emailExtraLabels(lang: Language, provider?: Service): Record<str
   return {
     forward: t('Forward', 'Weiterleiten'), moreOptions: t('More options', 'Weitere Optionen'),
     starWord: pick(term.star), starredFolder: pick(term.starred), spamFolder: pick(term.spam), reportSpam: pick(term.report), trashFolder: pick(term.trash),
-    sentFolder: t('Sent', 'Gesendet'), inboxFolder: t('Inbox', 'Posteingang'), folders: t('Folders', 'Ordner'),
+    sentFolder: t('Sent', 'Gesendet'), draftsFolder: t('Drafts', 'Entwürfe'), inboxFolder: t('Inbox', 'Posteingang'), folders: t('Folders', 'Ordner'),
     markUnread: t('Mark as unread', 'Als ungelesen markieren'),
     toastDeleted: t('Moved to the trash', 'In den Papierkorb verschoben'), moveToInbox: t('Move to inbox', 'In den Posteingang verschieben'),
     prizeFrom: t('Prize Office', 'Gewinn-Büro'), prizeSubject: t('You have won 5,000 euros!!!', 'Sie haben 5.000 Euro gewonnen!!!'), prizePreview: t('Click now to claim...', 'Klicken Sie jetzt...'),

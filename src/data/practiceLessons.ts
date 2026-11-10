@@ -477,7 +477,10 @@ function emailLesson(lang: Language, provider?: Service, mode: 'reply' | 'new' =
     outlook: { en: 'New mail', de: 'Neue E-Mail' },
     applemail: { en: 'New Message', de: 'Neue E-Mail' },
     yahoo: { en: 'Compose', de: 'Verfassen' },
-    proton: { en: 'Compose', de: 'Verfassen' },
+    proton: { en: 'New message', de: 'Neue Nachricht' },
+    gmx: { en: 'Write email', de: 'E-Mail schreiben' },
+    webde: { en: 'Write email', de: 'E-Mail schreiben' },
+    tonline: { en: 'Write email', de: 'E-Mail schreiben' },
   };
   const compose = composeWord[provider?.id ?? '']?.[lang] ?? t('Write', 'Schreiben');
   const whereCompose: Record<string, { en: string; de: string }> = {
@@ -584,7 +587,7 @@ export function practiceLessons(lang: Language): Tutorial[] {
       bankingLesson(lang, undefined, 'balance'),
       ...services('banking').flatMap((bank) => {
         const transfer = bankingLesson(lang, bank, 'transfer');
-        return [bankingLesson(lang, bank, 'balance'), transfer, ...bankingTasks(lang, bank, transfer, BANK_LAYOUT[bank.id] ?? 'classic'), desktopLesson(lang, bank, transfer)];
+        return [bankingLesson(lang, bank, 'balance'), transfer, ...bankingTasks(lang, bank, transfer, BANK_LAYOUT[bank.id] ?? 'classic')]; // phone only: banking apps are made for the phone
       }),
       ...generalBankingLessons(lang, bankingLesson(lang)),
       emailLesson(lang),

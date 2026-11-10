@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useRef } from 'react';
+import React, { createContext, useContext, useLayoutEffect, useRef, useState } from 'react';
 import { ArrowDown, ArrowUp, Check } from 'lucide-react';
 
 interface PracticeContextValue {
@@ -63,13 +63,56 @@ export const PracticeTap: React.FC<PracticeTapProps> = ({ id, label, className =
   const holdTimer = useRef<number | undefined>(undefined);
   const didHold = useRef(false);
   const shortTaps = useRef(0);
+  const tipRef = useRef<HTMLSpanElement>(null);
+  const [flipped, setFlipped] = useState(false);
+  const showTip = isTarget && showMe && !isCorrect;
 
+  // Keep "Tap here" inside the screen: slide it sideways, or put it on the other side of the button when there is no room.
+  useLayoutEffect(() => {
+    const tip = tipRef.current;
+    if (!showTip || !tip) {
+      setFlipped(false);
+      return;
+    }
+    tip.style.transform = '';
+    let box = tip.parentElement?.parentElement ?? null;
+    while (box && box !== document.body) {
+      const css = getComputedStyle(box);
+      if (/hidden|auto|scroll|clip/.test(css.overflowX + css.overflowY)) break;
+      box = box.parentElement;
+    }
+    if (!box || box === document.body) return;
+    // The clipping box, but never wider than the simulated screen itself.
+    const clip = box.getBoundingClientRect();
+    const screen = tip.closest('.phone-sim')?.getBoundingClientRect() ?? clip;
+    const area = { left: Math.max(clip.left, screen.left), right: Math.min(clip.right, screen.right), top: Math.max(clip.top, screen.top), bottom: Math.min(clip.bottom, screen.bottom) };
+    const own = tip.getBoundingClientRect();
+    const button = tip.parentElement!.getBoundingClientRect();
+    const scale = own.width / (tip.offsetWidth || own.width) || 1; // the computer screen is drawn scaled
+    const gap = 6 * scale;
+    let dx = 0;
+    if (own.right > area.right - gap) dx = area.right - gap - own.right;
+    if (own.left + dx < area.left + gap) dx = area.left + gap - own.left;
+    tip.style.transform = dx ? `translateX(${dx / scale}px)` : ''; // transform, not margin: it also moves a label anchored on the right
+    const below = pointer.startsWith('below');
+    const room = own.height + 12 * scale;
+    if (!flipped) {
+      if (below && own.bottom > area.bottom - gap && button.top - room >= area.top) setFlipped(true);
+      if (!below && own.top < area.top + gap && button.bottom + room <= area.bottom) setFlipped(true);
+    }
+  }, [showTip, pointer, flipped]);
+
+  const shownPointer = flipped
+    ? ({ below: 'above', 'below-right': 'above-right', 'above-right': 'below-right', 'above-left': 'below-left' } as const)[pointer]
+    : pointer;
   const pointerPlace = {
     below: 'top-full mt-3 left-1/2 -translate-x-1/2',
+    above: 'bottom-full mb-3 left-1/2 -translate-x-1/2',
     'below-right': 'top-full mt-3 right-0',
+    'below-left': 'top-full mt-3 left-0',
     'above-right': 'bottom-full mb-3 right-0',
     'above-left': 'bottom-full mb-3 left-0',
-  }[pointer];
+  }[shownPointer];
 
   const startHold = () => {
     didHold.current = false;
@@ -111,13 +154,14 @@ export const PracticeTap: React.FC<PracticeTapProps> = ({ id, label, className =
           <Check size={16} strokeWidth={3} />
         </span>
       )}
-      {isTarget && showMe && !isCorrect && (
+      {showTip && (
         <span
+          ref={tipRef}
           aria-hidden="true"
           className={`absolute z-20 flex items-center gap-1 px-3 py-2 rounded-xl text-[1rem] font-bold whitespace-nowrap ${pointerPlace}`}
           style={{ background: '#17324D', color: '#FFFFFF' }}
         >
-          {pointer.startsWith('below') ? <ArrowUp size={20} /> : <ArrowDown size={20} />}
+          {shownPointer.startsWith('below') ? <ArrowUp size={20} /> : <ArrowDown size={20} />}
           {tapHereLabel}
         </span>
       )}

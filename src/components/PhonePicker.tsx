@@ -4,22 +4,31 @@ import { Icon } from './Icon';
 import { Language } from '../types';
 import { Device, setDevice, useChosenDevice } from '../utils/phoneType';
 
-/** "Where do you use this app?" iPhone, Android phone or computer. The practice screens follow it. */
-export const PhonePicker: React.FC<{ lang: Language; compact?: boolean }> = ({ lang, compact }) => {
+/**
+ * "Where do you use this app?" iPhone, Android phone or computer. The practice screens follow it.
+ * `phoneOnly`: banking apps are made for the phone (on the computer it is "internet banking"), so there is no computer choice.
+ */
+export const PhonePicker: React.FC<{ lang: Language; compact?: boolean; phoneOnly?: boolean }> = ({ lang, compact, phoneOnly }) => {
   const isEn = lang === 'en';
   const chosen = useChosenDevice();
   const name = useId();
-  const options: { id: Device; label: string; text: string; Glyph: React.ElementType }[] = [
+  const allOptions: { id: Device; label: string; text: string; Glyph: React.ElementType }[] = [
     { id: 'iphone', label: 'iPhone', text: isEn ? 'Made by Apple. There is an apple on the back.' : 'Von Apple. Auf der Rückseite ist ein Apfel.', Glyph: Smartphone },
     { id: 'android', label: isEn ? 'Android phone' : 'Android-Handy', text: isEn ? 'For example Samsung, Google Pixel, Xiaomi or Motorola.' : 'Zum Beispiel Samsung, Google Pixel, Xiaomi oder Motorola.', Glyph: Smartphone },
     { id: 'computer', label: isEn ? 'Computer' : 'Computer', text: isEn ? 'A laptop or desktop computer, with Windows or Mac.' : 'Ein Laptop oder Standrechner, mit Windows oder Mac.', Glyph: Laptop },
   ];
+  const options = allOptions.filter((option) => !phoneOnly || option.id !== 'computer');
 
   return (
     <fieldset className="space-y-2 min-w-0">
       <legend className={`font-bold text-[#17324D] ${compact ? 'text-base mb-1' : 'text-xl mb-2'}`}>
-        {isEn ? 'Where do you use your apps?' : 'Wo nutzen Sie Ihre Apps?'}
+        {phoneOnly ? (isEn ? 'Which phone do you use?' : 'Welches Handy nutzen Sie?') : isEn ? 'Where do you use your apps?' : 'Wo nutzen Sie Ihre Apps?'}
       </legend>
+      {phoneOnly && chosen === 'computer' && (
+        <p className="text-[#202B36] dark:text-slate-100">
+          {isEn ? 'Banking apps are made for the phone, so these lessons show a phone.' : 'Banking-Apps sind für das Handy gemacht, darum zeigen diese Lektionen ein Handy.'}
+        </p>
+      )}
       {!compact && !chosen && (
         <p className="text-[#202B36] dark:text-slate-100">
           {isEn ? 'The practice screens then look like yours. You can change this at any time.' : 'Die Übungsbildschirme sehen dann aus wie Ihrer. Sie können das jederzeit ändern.'}

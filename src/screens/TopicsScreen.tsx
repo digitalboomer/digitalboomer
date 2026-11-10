@@ -5,7 +5,6 @@ import { CATEGORIES_EN, CATEGORIES_DE, TUTORIALS_EN, TUTORIALS_DE } from '../dat
 import { OfficialTopicIcon } from '../components/OfficialTopicIcon';
 import { handleImageError } from '../assets/images';
 import { fitsDevice, useChosenDevice } from '../utils/phoneType';
-import { goTo } from '../utils/router';
 import { ServiceLogo } from '../components/ServiceLogo';
 import { SERVICES, groupOfCategory } from '../data/services';
 
@@ -80,11 +79,6 @@ export const TopicsScreen: React.FC<TopicsScreenProps> = ({ onNavigate, onSelect
                     : (isEn ? `All ${lessons.length} lessons` : `Alle ${lessons.length} Lektionen`)}
                   <Icon name="arrow_forward" className="text-xl" />
                 </button>
-                {cat.id === 'ki' && (
-                  <button onClick={() => goTo({ page: 'free-roam', tutorialId: 'ai' })} className="ml-2 inline-flex items-center gap-2 px-5 min-h-[48px] rounded-xl border-2 border-[#17324D] text-[#17324D] font-bold text-base hover:bg-[#EAF2F8]">
-                    {isEn ? 'Free roam: try a chatbot' : 'Frei erkunden: Chatbot ausprobieren'}
-                  </button>
-                )}
               </div>
             </section>
           );

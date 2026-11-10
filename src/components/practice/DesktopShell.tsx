@@ -1,7 +1,7 @@
 import React from 'react';
-import { Archive, Bell, Compass, FileText, Home, Inbox, Landmark, Lock, MessageCircle, Monitor, Repeat, Send, Settings, Sparkles, Star, Trash2, User, Users } from 'lucide-react';
+import {Bell, Compass, FileText, Home, Landmark, Lock, MessageCircle, Monitor, Repeat, Send, Settings, Sparkles, User, Users } from 'lucide-react';
 import { Avatar } from './PhoneParts';
-import { MESSAGING_DESKTOP, EMAIL_URL, SOCIAL_URL } from '../../data/desktopLessons';
+import { MESSAGING_DESKTOP, SOCIAL_URL } from '../../data/desktopLessons';
 import { appStyle, type AppId } from './messaging/apps';
 
 /**
@@ -86,23 +86,8 @@ export const DesktopShell: React.FC<{ screenId: string; appId?: string; screen: 
     );
   }
 
-  if (screenId === 'email') {
-    const url = EMAIL_URL[appId ?? 'gmail'];
-    const brand = labels.brandColor;
-    return (
-      <Chrome url={url} title={url ? labels.appTitle : 'Mail'}>
-        <Rail
-          items={[[Inbox, labels.inbox], [Star, labels.starredFolder ?? labels.chipStarred], [Send, labels.sentFolder ?? 'Sent'], [Archive, labels.archive], [Trash2, labels.trashFolder ?? labels.deleteMail]]}
-          bg={url ? '#F6F8FC' : '#ECECEC'} color="#1F1F1F" activeBg={brand ? `${brand}33` : '#D3E3FD'}
-        />
-        <Pane width={600}>{children}</Pane>
-        <div aria-hidden="true" className="flex-1 flex flex-col items-center justify-center gap-2 p-6 text-center" style={{ background: '#FAFAFA', color: '#5F6368' }}>
-          <Inbox size={48} /><p className="text-[1rem]">{de ? 'Hier erscheint die geöffnete E-Mail.' : 'The opened email appears here.'}</p>
-        </div>
-      </Chrome>
-    );
-  }
-
+  // Email draws its own website or program window (EmailWeb).
+  if (screenId === 'email') return <>{children}</>;
   if (screenId === 'social') {
     const url = SOCIAL_URL[appId ?? 'facebook'];
     return (

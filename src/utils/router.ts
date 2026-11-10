@@ -37,6 +37,7 @@ const SLUGS: Record<ListPageId, string> = {
   'bank-apps': 'banks',
   tutorials: 'tutorials',
   sicherheit: 'safety',
+  'ki-alltag': 'everyday-ai',
   dashboard: 'progress',
   anmelden: 'sign-in',
   registrieren: 'register',

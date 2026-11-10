@@ -84,7 +84,7 @@ export const ServiceHubScreen: React.FC<ServiceHubScreenProps> = ({ group, selec
           </nav>
           <h1 className="text-4xl font-bold text-[#17324D]">{title}</h1>
           <p className="text-[#202B36] max-w-[65ch]">{intro}</p>
-          <PhonePicker lang={lang} compact />
+          <PhonePicker lang={lang} compact phoneOnly={group === 'banking'} />
         </div>
 
         {/* "dense" lets the next tiles fill the row, so the task list opens directly under the clicked tile */}

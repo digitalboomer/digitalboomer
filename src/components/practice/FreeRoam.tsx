@@ -161,10 +161,11 @@ function withoutLessonWords(all: Record<string, string>, own: Record<string, str
 export const FreeRoam: React.FC<{ appId: string; onExit: () => void; lang: Language }> = ({ appId, onExit, lang }) => {
   const isEn = lang === 'en';
   const device = useDevice();
-  const onComputer = device === 'computer';
   const platform: 'iphone' | 'android' = appId === 'imessage' || appId === 'applemail' || device === 'iphone' ? 'iphone' : 'android';
   const lessons = isEn ? TUTORIALS_EN : TUTORIALS_DE;
   const lesson = lessons.find((t) => (appId === 'ai' ? t.id === 'ai-first-question' : t.practice?.appId === appId && t.practice?.device !== 'desktop'));
+  const phoneOnly = lesson?.practice?.screenId === 'banking'; // banking apps are phone apps
+  const onComputer = device === 'computer' && !phoneOnly;
   // Free roam can reach every screen, so it needs the words of all lessons for this app.
   const scenario = lesson?.practice && {
     ...lesson.practice,
@@ -257,7 +258,7 @@ export const FreeRoam: React.FC<{ appId: string; onExit: () => void; lang: Langu
               </p>
             )}
           </div>
-          <PhonePicker lang={lang} compact />
+          <PhonePicker lang={lang} compact phoneOnly={phoneOnly} />
           <div className="flex flex-wrap gap-3">
             <button onClick={onExit} className={`${button} border-2 border-[#17324D] text-[#17324D] hover:bg-[#EAF2F8]`}>
               <Icon name="arrow_back" className="text-xl" />{isEn ? 'Back' : 'Zurück'}

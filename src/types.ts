@@ -14,6 +14,7 @@ export type PageId =
   | 'tutorial-detail'
   | 'free-roam'
   | 'sicherheit'
+  | 'ki-alltag'
   | 'dashboard'
   | 'anmelden'
   | 'registrieren'

@@ -11,6 +11,21 @@
     <meta property="og:image" content="assets/images/digital_boomer_logo.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/png" href="/assets/images/digital_boomer_logo.png" />
+    <script>
+      // Before the browser looks at the page: if its language is one we offer (English, German,
+      // Turkish, Spanish, Croatian), it must not translate the page by itself. The language menu has it.
+      // Other languages may still use the browser's "Translate". Same check in src/i18n/translate.ts.
+      (function () {
+        var first = ((navigator.languages && navigator.languages[0]) || navigator.language || '').slice(0, 2).toLowerCase();
+        if (['en', 'de', 'tr', 'es', 'hr'].indexOf(first) === -1) return;
+        document.documentElement.setAttribute('translate', 'no');
+        document.documentElement.classList.add('notranslate');
+        var meta = document.createElement('meta');
+        meta.name = 'google';
+        meta.content = 'notranslate';
+        document.head.appendChild(meta);
+      })();
+    </script>
   </head>
   <body class="antialiased min-h-screen transition-colors duration-200">
     <div id="root"></div>

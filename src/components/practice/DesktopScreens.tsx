@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Archive, ArrowRightLeft, Bell, CheckCircle2, ChevronDown, FileText, Heart, Home, Inbox, Landmark, Lock, LogOut, MessageCircle, Monitor, Paperclip, PenSquare, Repeat, Search, Send, Share2, Smartphone, Star, ThumbsUp, Trash2, User, Users } from 'lucide-react';
+import {ArrowRightLeft, Bell, CheckCircle2, ChevronDown, FileText, Heart, Home, Landmark, Lock, LogOut, MessageCircle, Monitor, Paperclip, PenSquare, Repeat, Search, Send, Share2, Smartphone, ThumbsUp, User, Users } from 'lucide-react';
 import { PracticeContext, PracticeTap } from './PracticeTap';
 import { Avatar, FlowersPhoto } from './PhoneParts';
 import { appStyle, type AppId } from './messaging/apps';
 import type { PracticeScreenProps } from './practiceScreens';
+import { EmailWeb } from './EmailWeb';
 
 /** The simulated computer is drawn at this size and scaled to fit the page. */
 const W = 960;
@@ -63,7 +64,7 @@ export const DesktopStage: React.FC<{ children: React.ReactNode }> = ({ children
 };
 
 /** Typing on the computer: the real keyboard works, and the buttons type a word for anyone without one. */
-const TypingHelper: React.FC<{ words: string[]; deleteLabel: string; lang: string }> = ({ words, deleteLabel, lang }) => {
+export const TypingHelper: React.FC<{ words: string[]; deleteLabel: string; lang: string }> = ({ words, deleteLabel, lang }) => {
   const { typed, setTyped, needsText, showMe } = useContext(PracticeContext);
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
@@ -94,10 +95,10 @@ const TypingHelper: React.FC<{ words: string[]; deleteLabel: string; lang: strin
   );
 };
 
-const Cursor: React.FC = () => <span aria-hidden="true" className="inline-block w-[2px] h-[1.1em] align-text-bottom ml-px" style={{ background: '#111B21' }} />;
+export const Cursor: React.FC = () => <span aria-hidden="true" className="inline-block w-[2px] h-[1.1em] align-text-bottom ml-px" style={{ background: '#111B21' }} />;
 
 /** A browser window with tabs and an address bar. The lock can be clicked, like in a real browser. */
-const Browser: React.FC<{ url: string; tab: string; labels: Record<string, string>; checked?: boolean; children: React.ReactNode }> = ({ url, tab, labels, checked, children }) => (
+export const Browser: React.FC<{ url: string; tab: string; labels: Record<string, string>; checked?: boolean; children: React.ReactNode }> = ({ url, tab, labels, checked, children }) => (
   <div className="flex flex-col h-full rounded-lg overflow-hidden" style={{ background: '#FFFFFF', border: '1px solid #9AA4AE', color: '#111B21' }}>
     <div className="flex items-end gap-2 px-3 pt-2 shrink-0" style={{ background: '#DEE1E6' }} aria-hidden="true">
       <span className="flex gap-1.5 pb-2.5">{['#FF5F57', '#FEBC2E', '#28C840'].map((c) => <span key={c} className="w-3 h-3 rounded-full" style={{ background: c }} />)}</span>
@@ -120,7 +121,7 @@ const Browser: React.FC<{ url: string; tab: string; labels: Record<string, strin
 );
 
 /** A program window on the computer, for apps that are installed. */
-const AppWindow: React.FC<{ title: string; bar: string; barText: string; children: React.ReactNode }> = ({ title, bar, barText, children }) => (
+export const AppWindow: React.FC<{ title: string; bar: string; barText: string; children: React.ReactNode }> = ({ title, bar, barText, children }) => (
   <div className="flex flex-col h-full rounded-lg overflow-hidden" style={{ border: '1px solid #9AA4AE' }}>
     <div aria-hidden="true" className="flex items-center gap-2 px-3 h-8 shrink-0 text-[0.85rem]" style={{ background: bar, color: barText }}>
       <span className="flex gap-1.5">{['#FF5F57', '#FEBC2E', '#28C840'].map((c) => <span key={c} className="w-3 h-3 rounded-full" style={{ background: c }} />)}</span>
@@ -235,74 +236,8 @@ export const DesktopMessenger: React.FC<PracticeScreenProps> = ({ screen, isDone
   );
 };
 
-/** Email in the browser: folders on the left, emails in the middle, writing in a window. */
-export const DesktopEmail: React.FC<PracticeScreenProps> = ({ screen, isDone, labels, lang }) => {
-  const { typed, fields } = useContext(PracticeContext);
-  const accent = labels.brandColor ?? '#0B57D0';
-  const accentText = labels.brandText ?? '#FFFFFF';
-  const composing = ['web-to', 'web-subject', 'web-body'].includes(screen);
-  const mails = [
-    { from: labels.anna, subject: labels.subjectAnna, preview: labels.previewAnna, bold: true },
-    { from: labels.club, subject: labels.subjectClub, preview: labels.previewClub, bold: false },
-    { from: labels.news, subject: labels.subjectNews, preview: labels.previewNews, bold: false },
-  ];
-  const field = (label: string, value: React.ReactNode) => (
-    <div className="flex items-center gap-2 px-3 py-2 text-[1rem]" style={{ borderBottom: '1px solid #E0E0E0' }}><span style={{ color: '#5F6368' }}>{label}</span><span className="flex-1 min-w-0 truncate">{value}</span></div>
-  );
-
-  const body = isDone ? (
-    <Done title={labels.sent} text={`${labels.toLabel}: ${labels.anna} · ${labels.subjectLabel}: ${fields.subject || labels.subj1}`} note={labels.noRealMail} />
-  ) : (
-    <div className="flex-1 min-h-0 flex relative" style={{ color: '#1F1F1F' }}>
-      <div className="w-[210px] shrink-0 p-3 flex flex-col gap-1" style={{ background: '#F6F8FC' }}>
-        <PracticeTap id="compose" label={labels.compose} pointer="below" className="flex items-center gap-2 px-4 rounded-2xl font-bold text-[1rem] mb-2" style={{ background: accent, color: accentText }}><PenSquare size={20} aria-hidden="true" />{labels.compose}</PracticeTap>
-        {[[Inbox, labels.inbox], [Star, labels.starredFolder ?? labels.chipStarred], [Send, labels.sentFolder ?? 'Sent'], [Archive, labels.archive], [Trash2, labels.trashFolder ?? labels.deleteMail]].map(([Glyph, name], i) => {
-          const G = Glyph as React.ElementType;
-          return <span key={String(name)} aria-hidden="true" className="flex items-center gap-3 px-3 py-1.5 rounded-full text-[0.95rem]" style={i === 0 ? { background: '#D3E3FD', fontWeight: 700 } : undefined}><G size={18} />{name as string}</span>;
-        })}
-      </div>
-      <div className="flex-1 min-w-0 flex flex-col" style={{ background: '#FFFFFF' }}>
-        <div aria-hidden="true" className="m-3 flex items-center gap-2 px-4 py-2 rounded-full text-[0.95rem]" style={{ background: '#EAF1FB', color: '#444746' }}><Search size={18} />{labels.search}</div>
-        {mails.map((m) => (
-          <div key={m.from} aria-hidden="true" className="flex items-center gap-3 px-4 py-2 text-[0.95rem]" style={{ borderBottom: '1px solid #F1F3F4', fontWeight: m.bold ? 700 : 400 }}>
-            <span className="w-40 truncate">{m.from}</span><span className="flex-1 truncate">{m.subject} <span style={{ color: '#5F6368', fontWeight: 400 }}>– {m.preview}</span></span>
-          </div>
-        ))}
-      </div>
-      {composing && (
-        <div className="absolute right-4 bottom-0 w-[480px] rounded-t-xl shadow-2xl flex flex-col sim-fade" style={{ background: '#FFFFFF', border: '1px solid #C8D0D8', height: 420 }}>
-          <div className="px-4 py-2 rounded-t-xl font-bold text-[1rem]" style={{ background: '#F2F6FC' }}>{labels.compose}</div>
-          <div className="relative">
-            {field(labels.toLabel, screen === 'web-to' ? <>{typed}<Cursor /></> : labels.anna)}
-            {screen === 'web-to' && typed && (
-              <div className="absolute left-0 right-0 top-full z-10 shadow-lg" style={{ background: '#FFFFFF' }}>
-                <PracticeTap id="contact-anna" label={`${labels.anna}, ${labels.mailAnna}`} pointer="below" className="flex items-center gap-3 px-3 py-2 w-full text-left"><Avatar name={labels.anna} color="#C0689B" size={34} /><span><span className="block font-bold">{labels.anna}</span><span className="block text-[0.9rem]" style={{ color: '#5F6368' }}>{labels.mailAnna}</span></span></PracticeTap>
-                <PracticeTap id="contact-peter" label={`${labels.peter}, ${labels.mailPeter}`} className="flex items-center gap-3 px-3 py-2 w-full text-left"><Avatar name={labels.peter} color="#7E9B5D" size={34} /><span><span className="block font-bold">{labels.peter}</span><span className="block text-[0.9rem]" style={{ color: '#5F6368' }}>{labels.mailPeter}</span></span></PracticeTap>
-              </div>
-            )}
-          </div>
-          {field(labels.subjectLabel, screen === 'web-subject' ? <>{typed}<Cursor /></> : screen === 'web-body' ? fields.subject : '')}
-          {screen === 'web-subject' ? (
-            <PracticeTap id="body-field" label={labels.writeHere} pointer="above-left" className="flex-1 m-2 px-2 text-left text-[1rem] rounded-lg items-start" style={{ color: '#747775' }}>{labels.writeHere}</PracticeTap>
-          ) : (
-            <p className="flex-1 px-3 py-2 text-[1rem] break-words">{screen === 'web-body' ? <>{typed}<Cursor /></> : null}</p>
-          )}
-          <div className="flex items-center gap-2 p-2">
-            <PracticeTap id="send" label={labels.send} pointer="above-left" className="px-5 rounded-full font-bold text-[1rem]" style={{ background: accent, color: accentText }}>{labels.send}</PracticeTap>
-            <span aria-hidden="true" style={{ color: '#5F6368' }}><Paperclip size={20} /></span>
-          </div>
-          <TypingHelper words={screen === 'web-to' ? ['Anna', 'Peter'] : screen === 'web-subject' ? [labels.subj1, labels.subj2] : [labels.suggest1, labels.suggest2, labels.suggest3]} deleteLabel={labels.deleteKey} lang={lang} />
-        </div>
-      )}
-    </div>
-  );
-
-  return labels.deskUrl ? (
-    <Browser url={labels.deskUrl} tab={labels.deskWindow} labels={labels} checked={screen === 'web-checked'}>{body}</Browser>
-  ) : (
-    <AppWindow title={labels.deskWindow} bar="#E9ECEF" barText="#111B21">{body}</AppWindow>
-  );
-};
+/** Email in the browser (or the Mail program on a Mac): each service's own layout, see EmailWeb. */
+export const DesktopEmail: React.FC<PracticeScreenProps> = (props) => <EmailWeb {...props} />;
 
 /** A social network in the browser: menu on the left, the feed in the middle. */
 export const DesktopSocial: React.FC<PracticeScreenProps> = ({ screen, isDone, labels, lang }) => {
