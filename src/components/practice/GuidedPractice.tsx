@@ -98,12 +98,20 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
   // On small screens a practice step brings the whole phone into view, with the step's instruction at its top,
   // instead of jumping up to the heading, so nobody has to scroll down to the phone after every tap.
   useEffect(() => {
-    const small = window.innerWidth < 1024;
+    // The computer view puts the window below the instructions on every screen size, so it behaves like a small screen here.
+    const small = window.innerWidth < 1024 || isDesktop;
     if (!isFirstRender.current) headingRef.current?.focus({ preventScroll: !small || (!isIntro && !isDone) });
     if (small && !isIntro && !isDone && !isFirstRender.current) {
+      // Wait one frame: the computer window first scales itself to the room it has.
+      requestAnimationFrame(() => {
+        const frame = phoneFrameRef.current?.getBoundingClientRect();
+        if (frame) window.scrollTo({ top: Math.max(0, window.scrollY + frame.bottom - (window.innerHeight - 16)), behavior: 'instant' });
+      });
+    } else if (!isIntro && !isDone && !isFirstRender.current) {
+      // Large screens: the phone sits beside the instructions; scroll down just enough that all of it is visible.
       const frame = phoneFrameRef.current?.getBoundingClientRect();
-      // 80 px stay free at the bottom for the "Powered by Netlify" badge.
-      if (frame) window.scrollTo({ top: Math.max(0, window.scrollY + frame.bottom - (window.innerHeight - 80)), behavior: 'instant' });
+      const overflow = frame ? frame.bottom - (window.innerHeight - 16) : 0;
+      if (overflow > 0) window.scrollBy({ top: overflow, behavior: 'instant' });
     }
     isFirstRender.current = false;
     return () => {
@@ -382,7 +390,7 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
           {/* Simulated phone */}
           <div
             ref={phoneFrameRef}
-            className={isDesktop ? 'lg:row-start-4 w-full rounded-xl p-2' : 'lg:col-start-2 lg:row-start-1 lg:row-span-5 w-full max-w-[23rem] mx-auto rounded-[2rem] p-2 lg:sticky lg:top-24'}
+            className={isDesktop ? 'lg:row-start-4 w-full rounded-xl p-2' : 'lg:col-start-2 lg:row-start-1 lg:row-span-5 w-full max-w-[23rem] mx-auto rounded-[2rem] p-2 lg:sticky lg:top-[5.5rem]'}
             style={{ background: '#202B36' }}
             role="group"
             aria-label={scenario.labels.phoneLabel}
@@ -390,7 +398,7 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
             <p className="px-2 pb-1 text-center text-[1rem] font-bold" style={{ color: '#FFFFFF' }}>{isDesktop ? (isEn ? 'Simulated computer – practice, not real' : 'Simulierter Computer – Übung, nicht echt') : scenario.labels.phoneBadge}</p>
             {/* Small screens: what to do now, right on the phone frame, so instruction and phone are seen together */}
             {!isIntro && !isDone && (
-              <p aria-hidden="true" className="lg:hidden mx-1 mb-2 px-3 py-2 rounded-xl text-base font-bold leading-snug" style={{ background: '#FFFFFF', color: '#17324D' }}>
+              <p aria-hidden="true" className={`${isDesktop ? '' : 'lg:hidden'} mx-1 mb-2 px-3 py-2 rounded-xl text-base font-bold leading-snug`} style={{ background: '#FFFFFF', color: '#17324D' }}>
                 {step.stepNumber}. {help === 'none' ? step.title : step.lead}
               </p>
             )}
@@ -417,7 +425,7 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
                 onClick={() => {
                   if (!isIntro && !isDone) handleTap('');
                 }}
-                className={`phone-sim flex flex-col ${isDesktop ? 'rounded-lg' : `${isIntro || isDone ? 'h-[clamp(24rem,calc(100svh_-_7.5rem),39rem)]' : 'h-[clamp(24rem,calc(100svh_-_11rem),39rem)]'} lg:h-[39rem] rounded-[1.5rem]`} overflow-hidden ${isIos && !isDesktop ? 'is-ios' : ''} ${isIntro ? 'pointer-events-none' : ''}`}
+                className={`phone-sim flex flex-col ${isDesktop ? 'rounded-lg' : `${isIntro || isDone ? 'h-[clamp(24rem,calc(100svh_-_7.5rem),39rem)]' : 'h-[clamp(24rem,calc(100svh_-_11rem),39rem)]'} lg:h-[clamp(24rem,calc(100dvh_-_10rem),39rem)] rounded-[1.5rem]`} overflow-hidden ${isIos && !isDesktop ? 'is-ios' : ''} ${isIntro ? 'pointer-events-none' : ''}`}
                 style={{ background: isDesktop ? '#3B4A54' : '#FFFFFF' }}
                 inert={isIntro}
               >

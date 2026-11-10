@@ -9,29 +9,51 @@ import type { PracticeScreenProps } from './practiceScreens';
 const W = 960;
 const H = 580;
 
-/** Scales the computer screen to the available width, so it fits on any device. */
+/**
+ * Scales the computer screen to the available width. On large screens it also fits the height of
+ * the browser window (below the sticky header), so the whole simulated computer is visible without scrolling.
+ */
 export const DesktopStage: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const outer = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
+  const update = () => {
+    const element = outer.current;
+    if (!element) return;
+    let next = Math.min(1, element.clientWidth / W);
+    if (window.innerWidth >= 1024) {
+      const frame = (element.closest('[role=group]') as HTMLElement | null) ?? element;
+      const header = document.querySelector('header')?.getBoundingClientRect().height ?? 0;
+      // Room above the stage inside the frame (the "practice, not real" line and the current step), the frame's padding below, and a small gap.
+      const above = element.getBoundingClientRect().top - frame.getBoundingClientRect().top;
+      const room = window.innerHeight - header - above - 8 - 24;
+      next = Math.min(element.clientWidth / W, room / H, 1.25);
+    }
+    next = Math.max(0.3, Math.round(next * 1000) / 1000);
+    setScale(next);
+  };
+  // The text above the stage changes from step to step, so measure after every render.
+  useLayoutEffect(update);
   useLayoutEffect(() => {
     const element = outer.current;
     if (!element) return;
-    const update = () => setScale(Math.min(1, element.clientWidth / W));
-    update();
     const observer = new ResizeObserver(update);
     observer.observe(element);
-    return () => observer.disconnect();
+    window.addEventListener('resize', update);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', update);
+    };
   }, []);
   return (
     <div ref={outer} className="w-full">
-      {scale < 0.7 && (
+      {scale < 0.7 && window.innerWidth < 1024 && (
         <p className="m-2 p-3 rounded-lg text-[1rem] font-bold" style={{ background: '#EAF2F8', color: '#17324D' }}>
           {document.documentElement.lang === 'de'
             ? 'Diese Übung zeigt einen Computer-Bildschirm. Am Computer oder Tablet ist sie leichter zu sehen. Drehen Sie das Handy quer, dann wird sie größer.'
             : 'This practice shows a computer screen. It is easier to see on a computer or tablet. Turn your phone sideways to make it bigger.'}
         </p>
       )}
-      <div style={{ height: H * scale }}>
+      <div style={{ height: H * scale, width: W * scale }} className="mx-auto">
         <div style={{ width: W, height: H, transform: `scale(${scale})`, transformOrigin: 'top left' }} className="flex flex-col">
           {children}
         </div>

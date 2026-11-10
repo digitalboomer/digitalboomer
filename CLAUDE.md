@@ -80,7 +80,7 @@ Simulated, and labelled as such:
 A text lesson can only be finished when every step was opened, all warning signs and exercises were done and all questions answered (`missing` in `TutorialDetailScreen.tsx`). Leaving a started, unfinished lesson asks first (`setLeaveGuard` in `router.ts`, `LeaveLessonDialog.tsx`). Printing the certificate uses its own sheet in `CertificateModal.tsx` with `@media print` in `index.css`.
 
 ## Known issues
-- The extra bottom space in `GuidedPractice.tsx` (`pb-[76px]`, the 80 px in the step scroll) and the footer (`pb-24`) was for Netlify's "Powered by Netlify" badge. GitHub Pages has no badge, so this space can be reduced.
+- The extra bottom space in `GuidedPractice.tsx` (`pb-[76px]`) and the footer (`pb-24`) was for Netlify's "Powered by Netlify" badge. GitHub Pages has no badge, so this space can be reduced.
 - Supabase pauses free projects after 7 days without activity (accounts and contact form then fail until "Restore" is pressed in the dashboard). Check before tests and presentations.
 - `bun.lock` is out of date. The team uses npm, so `package-lock.json` is the lockfile to trust.
 - The style guide says the website is in German with formal "Sie"; the app currently defaults to English. **Ask the team before changing the default language.**

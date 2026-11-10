@@ -281,13 +281,13 @@ export const FreeRoam: React.FC<{ appId: string; onExit: () => void; lang: Langu
             </PracticeContext.Provider>
           </div>
         ) : (
-        <div className="w-full max-w-[23rem] mx-auto rounded-[2rem] p-2" style={{ background: '#202B36' }} role="group" aria-label={scenario.labels.phoneLabel}>
+        <div className="w-full max-w-[23rem] mx-auto rounded-[2rem] p-2 lg:sticky lg:top-[5.5rem]" style={{ background: '#202B36' }} role="group" aria-label={scenario.labels.phoneLabel}>
           <p className="px-2 pb-1 text-center text-[1rem] font-bold" style={{ color: '#FFFFFF' }}>{scenario.labels.phoneBadge}</p>
           <PracticeContext.Provider value={{ showMe: false, tapHereLabel: scenario.labels.tapHere, onTap, typed, setTyped, fields, needsText: false, lastWrongId, clearWrong: () => setLastWrongId(undefined), freeRoam: true, platform, computer: onComputer }}>
             <div
               key={`${state.screen}-${state.isDone}`}
               onClick={() => setMessage(inertNote)}
-              className={`phone-sim flex flex-col h-[clamp(24rem,calc(100svh_-_7.5rem),39rem)] lg:h-[39rem] rounded-[1.5rem] overflow-hidden ${appId === 'imessage' || appId === 'applemail' ? 'is-ios' : ''}`}
+              className={`phone-sim flex flex-col h-[clamp(24rem,calc(100svh_-_7.5rem),39rem)] lg:h-[clamp(24rem,calc(100dvh_-_10rem),39rem)] rounded-[1.5rem] overflow-hidden ${appId === 'imessage' || appId === 'applemail' ? 'is-ios' : ''}`}
               style={{ background: '#FFFFFF' }}
             >
               <Screen screen={state.screen} isDone={state.isDone} appId={scenario.appId} kind={state.kind ?? scenario.kind} labels={screenLabels ?? scenario.labels} lang={lang} />
