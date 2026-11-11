@@ -212,12 +212,7 @@ export default function App() {
     if (celebratedId && (currentPage !== 'tutorial-detail' || selectedTutorialId !== celebratedId)) setCelebratedId(null);
   }, [celebratedId, currentPage, selectedTutorialId]);
 
-  // Sync document language attribute
-  useEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.documentElement.lang = lang;
-    }
-  }, [lang]);
+  // The page language (<html lang>) is set by setPageLanguage above, also for Turkish, Spanish and Croatian.
 
   // Apply textScale to root html element for true rem/em typography scaling
   useEffect(() => {
