@@ -7,7 +7,7 @@ import { clearProgress, loadProgress, saveProgress, type SavedProgress } from '.
 import { handleAuthLink, loadAccountProgress, onAccountChange, saveAccountProgress, signOut } from './utils/auth';
 import { clearHelpLevel } from './utils/helpLevel';
 import { clearPhoneType } from './utils/phoneType';
-import { setPageLanguage, UI_LANGUAGES, type UiLanguage } from './i18n/translate';
+import { setPageLanguage, startLanguage, UI_LANGUAGES, type UiLanguage } from './i18n/translate';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { SupportModal } from './components/SupportModal';
@@ -48,16 +48,10 @@ export default function App() {
     return '100';
   });
 
-  // Language: English by default. Turkish, Spanish and Croatian show the English page,
-  // translated while it runs (src/i18n/translate.ts), so `lang` (the language the page is built in) is 'en' for them.
-  const [uiLang, setLangState] = useState<UiLanguage>(() => {
-    try {
-      const saved = localStorage.getItem('digital-boomer-language');
-      return UI_LANGUAGES.some((l) => l.id === saved) ? (saved as UiLanguage) : 'en';
-    } catch {
-      return 'en';
-    }
-  });
+  // Language: the visitor's choice from the menu, else the browser's language if the site offers it, else English.
+  // Turkish, Spanish and Croatian show the English page, translated while it runs (src/i18n/translate.ts),
+  // so `lang` (the language the page is built in) is 'en' for them.
+  const [uiLang, setLangState] = useState<UiLanguage>(startLanguage);
   const lang: Language = uiLang === 'de' ? 'de' : 'en';
   useEffect(() => {
     void setPageLanguage(uiLang);

@@ -224,6 +224,26 @@ function stop() {
 }
 
 /** The browser's own language is one the site offers (English, German, Turkish, Spanish, Croatian). Same check as in index.html. */
+/**
+ * The language the site starts in: the visitor's own choice from the language menu if they made one,
+ * otherwise the first of the browser's preferred languages that the site offers, otherwise English.
+ */
+export function startLanguage(): UiLanguage {
+  try {
+    const saved = localStorage.getItem('digital-boomer-language');
+    if (UI_LANGUAGES.some((l) => l.id === saved)) return saved as UiLanguage;
+  } catch {
+    // no storage: use the browser's language
+  }
+  const preferred = navigator.languages?.length ? navigator.languages : [navigator.language ?? ''];
+  for (const tag of preferred) {
+    const base = (tag ?? '').slice(0, 2).toLowerCase();
+    const match = UI_LANGUAGES.find((l) => l.id === base);
+    if (match) return match.id;
+  }
+  return 'en';
+}
+
 export function browserHasOurLanguage(): boolean {
   const first = (navigator.languages?.[0] ?? navigator.language ?? '').slice(0, 2).toLowerCase();
   return ['en', 'de', 'tr', 'es', 'hr'].includes(first);
