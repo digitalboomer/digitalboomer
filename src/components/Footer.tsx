@@ -27,7 +27,7 @@ const ResetDialog: React.FC<{ isOpen: boolean; signedIn: boolean; isEn: boolean;
       onClick={(event) => {
         if (event.target === event.currentTarget) onKeep();
       }}
-      className="fixed inset-0 z-50 overflow-y-auto flex p-4 pb-[76px] bg-black/60"
+      className="fixed inset-0 z-50 overflow-y-auto flex p-4 bg-black/60"
     >
       <div className="m-auto w-full max-w-lg bg-[#FFFFFF] dark:bg-slate-900 rounded-2xl border-2 border-[#B3261E] p-6 space-y-4 text-[#202B36] dark:text-slate-100">
         <h2 id="reset-title" className="text-2xl font-bold text-[#17324D] dark:text-white flex items-start gap-3">
@@ -47,7 +47,7 @@ const ResetDialog: React.FC<{ isOpen: boolean; signedIn: boolean; isEn: boolean;
           </p>
           {signedIn && <p className="font-bold">{isEn ? 'This cannot be undone.' : 'Das kann nicht rückgängig gemacht werden.'}</p>}
         </div>
-        <div className="flex flex-col sm:flex-row gap-2">
+        <div className="flex flex-col gap-2">
           <button onClick={onKeep} className="flex-1 inline-flex items-center justify-center gap-2 px-5 min-h-[48px] rounded-xl bg-[#17324D] hover:bg-[#0F2438] active:bg-[#0A1A2A] text-white font-bold text-base">
             {isEn ? 'No, keep my progress' : 'Nein, Fortschritt behalten'}
           </button>
@@ -68,8 +68,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSupportModal, 
 
   return (
     <footer className="bg-[#17324D] text-white mt-auto">
-      {/* Extra bottom space: the "Powered by Netlify" badge must not cover the last links */}
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-8 pt-10 pb-24">
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-8 pt-10 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="space-y-3">
             <div className="bg-white rounded-xl p-2 inline-flex">

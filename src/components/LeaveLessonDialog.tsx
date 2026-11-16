@@ -19,7 +19,7 @@ export const LeaveLessonDialog: React.FC<{ isOpen: boolean; onStay: () => void; 
       onClick={(event) => {
         if (event.target === event.currentTarget) onStay();
       }}
-      className="fixed inset-0 z-50 overflow-y-auto flex p-4 pb-[76px] bg-black/60"
+      className="fixed inset-0 z-50 overflow-y-auto flex p-4 bg-black/60"
     >
       <div className="m-auto w-full max-w-lg bg-[#FFFFFF] dark:bg-slate-900 rounded-2xl border-2 border-[#17324D] p-6 space-y-4">
         <h2 id="leave-title" className="text-2xl font-bold text-[#17324D] flex items-start gap-3">

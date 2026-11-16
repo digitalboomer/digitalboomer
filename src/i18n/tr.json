@@ -20,7 +20,7 @@
  "Issue Date:": "Veriliş tarihi:",
  "Print Certificate / Save as PDF": "Sertifikayı yazdır / PDF olarak kaydet",
  "has completed {0} {1}:": "{0} {1} tamamlamıştır:",
- "Issue date:": "Veriliş tarihi:",
+ "Issue date:": "Düzenlenme tarihi:",
  "Are you sure you want to delete your progress?": "İlerlemenizi silmek istediğinizden emin misiniz?",
  "This deletes your finished lessons, your saved lessons, the places where you stopped, and your choices for device and help.": "Bu işlem bitirdiğiniz dersleri, kaydettiğiniz dersleri, kaldığınız yerleri ve cihaz ile yardım seçimlerinizi siler.",
  "You are signed in, so the progress saved in your account is deleted too, on all your devices. You stay signed in.": "Giriş yapmış durumdasınız, bu yüzden hesabınızda kayıtlı ilerleme de tüm cihazlarınızda silinir. Oturumunuz açık kalır.",
@@ -3233,5 +3233,14 @@
  "Show all lessons again": "Tüm dersleri yeniden göster",
  "Practice email (fake)": "Alıştırma e-postası (sahte)",
  "Show warning sign": "Uyarı işaretini göster",
- "Important": "Önemli"
+ "Important": "Önemli",
+ "Please fill in \"{0}\".": "Lütfen \"{0}\" alanını doldurun.",
+ "Please enter a complete email address, for example name@example.com.": "Lütfen tam bir e-posta adresi girin, örneğin name@example.com.",
+ "Please check \"{0}\".": "Lütfen \"{0}\" alanını kontrol edin.",
+ "Certificate of completion": "Tamamlama belgesi",
+ "Digital Boomer – student prototype": "Digital Boomer – öğrenci prototipi",
+ "Print certificate or save as PDF": "Belgeyi yazdır veya PDF olarak kaydet",
+ "What would you like to do with {0}?": "{0} ile ne yapmak istersiniz?",
+ "What would you like to do on {0}?": "{0} üzerinde ne yapmak istersiniz?",
+ "Good to know": "Bilmekte fayda var"
 }

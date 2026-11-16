@@ -493,18 +493,18 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
             )}
           </div>
 
-          {/* Large screens: Back and Next sit under the instructions, clear of the "Powered by Netlify" badge. */}
+          {/* Large screens: Back and Next sit under the instructions. */}
           {!isDone && <div className={`hidden lg:flex ${isDesktop ? 'lg:row-start-6' : 'lg:col-start-1 lg:row-start-5'} items-center justify-between gap-3 pb-8`}>{navButtons}</div>}
         </div>
 
         {/* Small screens: Back and Next below everything, not fixed, so the phone gets the whole screen.
-            A correct tap moves on by itself. The bottom space keeps them clear of the "Powered by Netlify" badge. */}
+            A correct tap moves on by itself. */}
         {!isDone && !isIntro ? (
-          <div className="lg:hidden flex flex-wrap items-center justify-between gap-3 pt-3 pb-[76px]">
+          <div className="lg:hidden flex flex-wrap items-center justify-between gap-3 pt-3 pb-8">
             {navButtons}
           </div>
         ) : (
-          <div className="pb-[76px] lg:pb-8" />
+          <div className="pb-8" />
         )}
       </div>
     </div>

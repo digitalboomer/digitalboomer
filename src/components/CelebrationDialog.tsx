@@ -78,7 +78,7 @@ export const CelebrationDialog: React.FC<CelebrationDialogProps> = ({
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
-      className="fixed inset-0 z-50 overflow-y-auto flex p-4 pb-[76px] bg-black/60"
+      className="fixed inset-0 z-50 overflow-y-auto flex p-4 bg-black/60"
     >
       <Confetti />
       <div className="celebration-card m-auto w-full max-w-lg bg-[#FFFFFF] dark:bg-slate-900 rounded-2xl border-4 border-[#176B68] p-6 space-y-4">

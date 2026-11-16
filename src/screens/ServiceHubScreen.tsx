@@ -112,7 +112,7 @@ export const ServiceHubScreen: React.FC<ServiceHubScreenProps> = ({ group, selec
               {isSelected && (
                 <section ref={panelRef} aria-live="polite" className="col-span-full scroll-mb-24 page-enter bg-[#EAF2F8] dark:bg-slate-900 rounded-2xl border-2 border-[#17324D] p-4 sm:p-5 space-y-3">
             <h2 className="text-2xl font-bold text-[#17324D]">
-              {isEn ? `What would you like to do in ${selected.name}?` : `Was möchten Sie in ${selected.name} tun?`}
+              {isEn ? `What would you like to do ${group === 'banking' ? 'with' : group === 'social' ? 'on' : 'in'} ${selected.name}?` : `Was möchten Sie ${group === 'banking' ? 'bei' : group === 'social' ? 'auf' : 'in'} ${selected.name} tun?`}
             </h2>
                 <button
                   onClick={() => goTo({ page: 'free-roam', tutorialId: selected.id })}
@@ -150,7 +150,7 @@ export const ServiceHubScreen: React.FC<ServiceHubScreenProps> = ({ group, selec
 
         {generalLessons.length > 0 && (
           <section className="space-y-3">
-            <h2 className="text-2xl font-bold text-[#17324D]">{isEn ? 'Good to know, for every service' : 'Gut zu wissen, für jeden Dienst'}</h2>
+            <h2 className="text-2xl font-bold text-[#17324D]">{isEn ? 'Good to know' : 'Gut zu wissen'}</h2>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {generalLessons.map((tut) => lessonButton(tut.id, tut.title))}
             </ul>

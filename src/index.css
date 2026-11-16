@@ -98,44 +98,58 @@ body.dark,
 }
 
 /* Page background containers */
-html.dark [class*="bg-[#F5FAFF]"]:not(.phone-sim *),
-html.dark [class*="bg-[#F7F8F5]"]:not(.phone-sim *),
-html.dark [class*="bg-[#FAFCFF]"]:not(.phone-sim *),
-html.dark [class*="bg-slate-50"]:not(.phone-sim *),
+html.dark [class^="bg-[#F5FAFF]"]:not(.phone-sim *),
+html.dark [class*=" bg-[#F5FAFF]"]:not(.phone-sim *),
+html.dark [class^="bg-[#F7F8F5]"]:not(.phone-sim *),
+html.dark [class*=" bg-[#F7F8F5]"]:not(.phone-sim *),
+html.dark [class^="bg-[#FAFCFF]"]:not(.phone-sim *),
+html.dark [class*=" bg-[#FAFCFF]"]:not(.phone-sim *),
+html.dark [class^="bg-slate-50"]:not(.phone-sim *),
+html.dark [class*=" bg-slate-50"]:not(.phone-sim *),
 html.dark .bg-slate-50:not(.phone-sim *) {
   background-color: #0b1120 !important;
   color: #f1f5f9 !important;
 }
 
 /* White card surfaces & elevated blocks */
-html.dark [class*="bg-[#FFFFFF]"]:not(.phone-sim *),
-html.dark [class*="bg-white"]:not(.phone-sim *),
+html.dark [class^="bg-[#FFFFFF]"]:not(.phone-sim *),
+html.dark [class*=" bg-[#FFFFFF]"]:not(.phone-sim *),
+html.dark [class^="bg-white"]:not(.phone-sim *),
+html.dark [class*=" bg-white"]:not(.phone-sim *),
 html.dark .bg-white:not(.phone-sim *) {
   background-color: #162032 !important;
   color: #f1f5f9 !important;
 }
 
 /* Subtle light-blue tint blocks -> dark slate tint */
-html.dark [class*="bg-[#E5F1FC]"]:not(.phone-sim *),
-html.dark [class*="bg-[#EAF2F8]"]:not(.phone-sim *),
-html.dark [class*="bg-slate-100"]:not(.phone-sim *),
+html.dark [class^="bg-[#E5F1FC]"]:not(.phone-sim *),
+html.dark [class*=" bg-[#E5F1FC]"]:not(.phone-sim *),
+html.dark [class^="bg-[#EAF2F8]"]:not(.phone-sim *),
+html.dark [class*=" bg-[#EAF2F8]"]:not(.phone-sim *),
+html.dark [class^="bg-slate-100"]:not(.phone-sim *),
+html.dark [class*=" bg-slate-100"]:not(.phone-sim *),
 html.dark .bg-slate-100:not(.phone-sim *) {
   background-color: #1e293b !important;
   color: #cbd5e1 !important;
 }
 
 /* Secondary light surfaces */
-html.dark [class*="bg-slate-200"]:not(.phone-sim *),
+html.dark [class^="bg-slate-200"]:not(.phone-sim *),
+html.dark [class*=" bg-slate-200"]:not(.phone-sim *),
 html.dark .bg-slate-200:not(.phone-sim *) {
   background-color: #334155 !important;
   color: #f1f5f9 !important;
 }
 
 /* Dark mode borders */
-html.dark [class*="border-[#D7E5F2]"]:not(.phone-sim *),
-html.dark [class*="border-[#E5E9ED]"]:not(.phone-sim *),
-html.dark [class*="border-slate-200"]:not(.phone-sim *),
-html.dark [class*="border-slate-300"]:not(.phone-sim *),
+html.dark [class^="border-[#D7E5F2]"]:not(.phone-sim *),
+html.dark [class*=" border-[#D7E5F2]"]:not(.phone-sim *),
+html.dark [class^="border-[#E5E9ED]"]:not(.phone-sim *),
+html.dark [class*=" border-[#E5E9ED]"]:not(.phone-sim *),
+html.dark [class^="border-slate-200"]:not(.phone-sim *),
+html.dark [class*=" border-slate-200"]:not(.phone-sim *),
+html.dark [class^="border-slate-300"]:not(.phone-sim *),
+html.dark [class*=" border-slate-300"]:not(.phone-sim *),
 html.dark .border-slate-200:not(.phone-sim *) {
   border-color: #334155 !important;
 }
@@ -147,9 +161,12 @@ html.dark h3:not(.phone-sim *),
 html.dark h4:not(.phone-sim *),
 html.dark h5:not(.phone-sim *),
 html.dark h6:not(.phone-sim *),
-html.dark [class*="text-[#356789]"]:not(.phone-sim *),
-html.dark [class*="text-[#17324D]"]:not(.phone-sim *),
-html.dark [class*="text-[#202B36]"]:not(.phone-sim *),
+html.dark [class^="text-[#356789]"]:not(.phone-sim *),
+html.dark [class*=" text-[#356789]"]:not(.phone-sim *),
+html.dark [class^="text-[#17324D]"]:not(.phone-sim *),
+html.dark [class*=" text-[#17324D]"]:not(.phone-sim *),
+html.dark [class^="text-[#202B36]"]:not(.phone-sim *),
+html.dark [class*=" text-[#202B36]"]:not(.phone-sim *),
 html.dark .text-slate-900:not(.phone-sim *),
 html.dark .text-slate-800:not(.phone-sim *) {
   color: #f8fafc !important;
@@ -157,7 +174,8 @@ html.dark .text-slate-800:not(.phone-sim *) {
 
 /* Secondary & muted text in dark mode */
 html.dark p:not(.phone-sim *),
-html.dark [class*="text-[#3976A8]"]:not(.phone-sim *),
+html.dark [class^="text-[#3976A8]"]:not(.phone-sim *),
+html.dark [class*=" text-[#3976A8]"]:not(.phone-sim *),
 html.dark .text-slate-700:not(.phone-sim *),
 html.dark .text-slate-600:not(.phone-sim *),
 html.dark .text-slate-500:not(.phone-sim *) {
@@ -165,7 +183,8 @@ html.dark .text-slate-500:not(.phone-sim *) {
 }
 
 /* Accent teal colors & links in dark mode */
-html.dark [class*="text-[#176B68]"]:not(.phone-sim *) {
+html.dark [class^="text-[#176B68]"]:not(.phone-sim *),
+html.dark [class*=" text-[#176B68]"]:not(.phone-sim *) {
   color: #2dd4bf !important;
 }
 
@@ -184,12 +203,14 @@ html.dark textarea::placeholder {
 }
 
 /* Badges in dark mode */
-html.dark [class*="bg-[#FEF3C7]"]:not(.phone-sim *) {
+html.dark [class^="bg-[#FEF3C7]"]:not(.phone-sim *),
+html.dark [class*=" bg-[#FEF3C7]"]:not(.phone-sim *) {
   background-color: #78350f !important;
   color: #fef3c7 !important;
 }
 
-html.dark [class*="bg-[#DEF7EC]"]:not(.phone-sim *) {
+html.dark [class^="bg-[#DEF7EC]"]:not(.phone-sim *),
+html.dark [class*=" bg-[#DEF7EC]"]:not(.phone-sim *) {
   background-color: #064e3b !important;
   color: #a7f3d0 !important;
 }
@@ -210,12 +231,18 @@ body.high-contrast,
 }
 
 /* Force dark surface for all containers */
-html.high-contrast [class*="bg-[#"]:not(.phone-sim *),
-html.high-contrast [class*="bg-white"]:not(.phone-sim *),
-html.high-contrast [class*="bg-slate-"]:not(.phone-sim *),
-html.high-contrast [class*="bg-amber-"]:not(.phone-sim *),
-html.high-contrast [class*="bg-emerald-"]:not(.phone-sim *),
-html.high-contrast [class*="bg-teal-"]:not(.phone-sim *),
+html.high-contrast [class^="bg-[#"]:not(.phone-sim *),
+html.high-contrast [class*=" bg-[#"]:not(.phone-sim *),
+html.high-contrast [class^="bg-white"]:not(.phone-sim *),
+html.high-contrast [class*=" bg-white"]:not(.phone-sim *),
+html.high-contrast [class^="bg-slate-"]:not(.phone-sim *),
+html.high-contrast [class*=" bg-slate-"]:not(.phone-sim *),
+html.high-contrast [class^="bg-amber-"]:not(.phone-sim *),
+html.high-contrast [class*=" bg-amber-"]:not(.phone-sim *),
+html.high-contrast [class^="bg-emerald-"]:not(.phone-sim *),
+html.high-contrast [class*=" bg-emerald-"]:not(.phone-sim *),
+html.high-contrast [class^="bg-teal-"]:not(.phone-sim *),
+html.high-contrast [class*=" bg-teal-"]:not(.phone-sim *),
 html.high-contrast main:not(.phone-sim *),
 html.high-contrast section:not(.phone-sim *),
 html.high-contrast article:not(.phone-sim *),
@@ -249,9 +276,12 @@ html.high-contrast li:not(.phone-sim *) {
 
 /* High contrast links, icons, and special text in vivid yellow */
 html.high-contrast a:not(.phone-sim *),
-html.high-contrast [class*="text-[#176B68]"]:not(.phone-sim *),
-html.high-contrast [class*="text-teal"]:not(.phone-sim *),
-html.high-contrast [class*="text-emerald"]:not(.phone-sim *),
+html.high-contrast [class^="text-[#176B68]"]:not(.phone-sim *),
+html.high-contrast [class*=" text-[#176B68]"]:not(.phone-sim *),
+html.high-contrast [class^="text-teal"]:not(.phone-sim *),
+html.high-contrast [class*=" text-teal"]:not(.phone-sim *),
+html.high-contrast [class^="text-emerald"]:not(.phone-sim *),
+html.high-contrast [class*=" text-emerald"]:not(.phone-sim *),
 html.high-contrast .ui-icon:not(.phone-sim *) {
   color: #ffff00 !important;
 }
@@ -284,7 +314,7 @@ html.high-contrast [role="tab"][aria-selected="true"]:not(.phone-sim *) {
   background-color: #ffff00 !important;
   color: #000000 !important;
   border: 2px solid #ffffff !important;
-  font-weight: 900 !important;
+  font-weight: 700 !important;
 }
 
 html.high-contrast button[aria-pressed="true"] *:not(.phone-sim *),

@@ -3229,5 +3229,14 @@
  "Show all lessons again": "Ponovno prikaži sve lekcije",
  "Practice email (fake)": "E-poruka za vježbu (lažna)",
  "Show warning sign": "Prikaži znak upozorenja",
- "Important": "Važno"
+ "Important": "Važno",
+ "Please fill in \"{0}\".": "Molimo ispunite \"{0}\".",
+ "Please enter a complete email address, for example name@example.com.": "Molimo upišite potpunu adresu e-pošte, na primjer name@example.com.",
+ "Please check \"{0}\".": "Molimo provjerite \"{0}\".",
+ "Certificate of completion": "Potvrda o završetku",
+ "Digital Boomer – student prototype": "Digital Boomer – studentski prototip",
+ "Print certificate or save as PDF": "Ispiši potvrdu ili je spremi kao PDF",
+ "What would you like to do with {0}?": "Što želite raditi s {0}?",
+ "What would you like to do on {0}?": "Što želite raditi na {0}?",
+ "Good to know": "Dobro je znati"
 }

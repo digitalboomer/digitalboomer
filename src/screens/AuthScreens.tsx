@@ -3,6 +3,7 @@ import { Icon } from '../components/Icon';
 import { PageId, Language } from '../types';
 import { IMAGES, handleLogoError } from '../assets/images';
 import { accountsAvailable, friendlyError, resendConfirmation, sendPasswordReset, setNewPassword, signIn, signUp } from '../utils/auth';
+import { formProblem } from '../utils/formCheck';
 
 export type AuthView = 'anmelden' | 'registrieren' | 'passwort-vergessen' | 'konto-bestaetigt' | 'neues-passwort';
 
@@ -55,8 +56,13 @@ export const AuthScreens: React.FC<AuthScreensProps> = ({ initialView, onNavigat
     }
   };
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const problem = formProblem(e.currentTarget, isEn);
+    if (problem) {
+      setError(problem);
+      return;
+    }
     if (password.length < 8) {
       setError(isEn ? 'Please choose a password with at least 8 characters.' : 'Bitte wählen Sie ein Passwort mit mindestens 8 Zeichen.');
       return;
@@ -64,18 +70,33 @@ export const AuthScreens: React.FC<AuthScreensProps> = ({ initialView, onNavigat
     run(() => signUp(name.trim(), email.trim(), password, lang), () => setSentTo(email.trim()));
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const problem = formProblem(e.currentTarget, isEn);
+    if (problem) {
+      setError(problem);
+      return;
+    }
     run(() => signIn(email.trim(), password), () => onNavigate('dashboard'));
   };
 
-  const handleReset = (e: React.FormEvent) => {
+  const handleReset = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const problem = formProblem(e.currentTarget, isEn);
+    if (problem) {
+      setError(problem);
+      return;
+    }
     run(() => sendPasswordReset(email.trim()), () => setResetSent(true));
   };
 
-  const handleNewPassword = (e: React.FormEvent) => {
+  const handleNewPassword = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const problem = formProblem(e.currentTarget, isEn);
+    if (problem) {
+      setError(problem);
+      return;
+    }
     if (password.length < 8) {
       setError(isEn ? 'Please choose a password with at least 8 characters.' : 'Bitte wählen Sie ein Passwort mit mindestens 8 Zeichen.');
       return;
@@ -178,7 +199,7 @@ export const AuthScreens: React.FC<AuthScreensProps> = ({ initialView, onNavigat
     ));
   } else if (view === 'registrieren') {
     content = (
-      <form onSubmit={handleRegister} className="space-y-4">
+      <form noValidate onSubmit={handleRegister} className="space-y-4">
         {field('reg-name', isEn ? 'Your name' : 'Ihr Name', name, setName, 'text', 'name', isEn ? 'It appears on your certificate.' : 'Er erscheint auf Ihrer Teilnahmebestätigung.')}
         {field('reg-email', isEn ? 'Your email address' : 'Ihre E-Mail-Adresse', email, setEmail, 'email', 'email')}
         {field('reg-password', isEn ? 'Choose a password' : 'Passwort wählen', password, setPassword, 'password', 'new-password', isEn ? 'At least 8 characters. Do not use the password of your email.' : 'Mindestens 8 Zeichen. Nicht das Passwort Ihrer E-Mail verwenden.')}
@@ -188,7 +209,7 @@ export const AuthScreens: React.FC<AuthScreensProps> = ({ initialView, onNavigat
     );
   } else if (view === 'passwort-vergessen') {
     content = (
-      <form onSubmit={handleReset} className="space-y-4">
+      <form noValidate onSubmit={handleReset} className="space-y-4">
         {field('reset-email', isEn ? 'Your email address' : 'Ihre E-Mail-Adresse', email, setEmail, 'email', 'email')}
         <button type="submit" disabled={busy} className={primary}>{busy ? (isEn ? 'Please wait...' : 'Bitte warten...') : (isEn ? 'Send me a link' : 'Link senden')}</button>
         <button type="button" onClick={() => go('anmelden')} className={link}>{isEn ? 'Back to sign in' : 'Zurück zur Anmeldung'}</button>
@@ -196,7 +217,7 @@ export const AuthScreens: React.FC<AuthScreensProps> = ({ initialView, onNavigat
     );
   } else if (view === 'neues-passwort') {
     content = (
-      <form onSubmit={handleNewPassword} className="space-y-4">
+      <form noValidate onSubmit={handleNewPassword} className="space-y-4">
         {field('new-password', isEn ? 'New password' : 'Neues Passwort', password, setPassword, 'password', 'new-password')}
         {field('new-password-2', isEn ? 'Type it again' : 'Noch einmal eingeben', password2, setPassword2, 'password', 'new-password')}
         <button type="submit" disabled={busy} className={primary}>{busy ? (isEn ? 'Please wait...' : 'Bitte warten...') : (isEn ? 'Save new password' : 'Neues Passwort speichern')}</button>
@@ -204,7 +225,7 @@ export const AuthScreens: React.FC<AuthScreensProps> = ({ initialView, onNavigat
     );
   } else {
     content = (
-      <form onSubmit={handleLogin} className="space-y-4">
+      <form noValidate onSubmit={handleLogin} className="space-y-4">
         {field('login-email', isEn ? 'Your email address' : 'Ihre E-Mail-Adresse', email, setEmail, 'email', 'email')}
         {field('login-password', isEn ? 'Your password' : 'Ihr Passwort', password, setPassword, 'password', 'current-password')}
         <button type="submit" disabled={busy} className={primary}>{busy ? (isEn ? 'Please wait...' : 'Bitte warten...') : (isEn ? 'Sign in' : 'Anmelden')}</button>

@@ -3229,5 +3229,14 @@
  "Show all lessons again": "Mostrar de nuevo todas las lecciones",
  "Practice email (fake)": "Correo de práctica (falso)",
  "Show warning sign": "Mostrar señal de alarma",
- "Important": "Importante"
+ "Important": "Importante",
+ "Please fill in \"{0}\".": "Rellene «{0}», por favor.",
+ "Please enter a complete email address, for example name@example.com.": "Escriba una dirección de correo completa, por ejemplo name@example.com.",
+ "Please check \"{0}\".": "Revise «{0}», por favor.",
+ "Certificate of completion": "Certificado de finalización",
+ "Digital Boomer – student prototype": "Digital Boomer – prototipo de estudiantes",
+ "Print certificate or save as PDF": "Imprimir el certificado o guardarlo como PDF",
+ "What would you like to do with {0}?": "¿Qué le gustaría hacer con {0}?",
+ "What would you like to do on {0}?": "¿Qué le gustaría hacer en {0}?",
+ "Good to know": "Conviene saber"
 }

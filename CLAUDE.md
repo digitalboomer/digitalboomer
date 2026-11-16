@@ -81,7 +81,6 @@ Simulated, and labelled as such:
 A text lesson can only be finished when every step was opened, all warning signs and exercises were done and all questions answered (`missing` in `TutorialDetailScreen.tsx`). Leaving a started, unfinished lesson asks first (`setLeaveGuard` in `router.ts`, `LeaveLessonDialog.tsx`). Printing the certificate uses its own sheet in `CertificateModal.tsx` with `@media print` in `index.css`.
 
 ## Known issues
-- The extra bottom space in `GuidedPractice.tsx` (`pb-[76px]`) and the footer (`pb-24`) was for Netlify's "Powered by Netlify" badge. GitHub Pages has no badge, so this space can be reduced.
 - Supabase pauses free projects after 7 days without activity (accounts and contact form then fail until "Restore" is pressed in the dashboard). Check before tests and presentations.
 - `bun.lock` is out of date. The team uses npm, so `package-lock.json` is the lockfile to trust.
 - The style guide says the website is in German with formal "Sie". Since Nov 2026 (Leon's decision) the site starts in the visitor's browser language if it is English, German, Turkish, Spanish or Croatian (`startLanguage` in `src/i18n/translate.ts`), otherwise in English; a choice in the language menu always wins. **Ask the team before changing the fallback language.**
@@ -123,6 +122,6 @@ Follow these in every change. If code and style guide disagree, the style guide 
 - Keep the prototype honest: never present a simulated feature as real (e.g. label the scripted assistant as such until real AI is connected).
 - Every user-facing text exists in English and German; update both `*_EN` and `*_DE` content. New or changed English text also needs an entry in `src/i18n/tr.json`, `es.json` and `hr.json` (key = the English text, sentence by sentence for long texts), or it shows in English for those languages.
 - No real personal data, no real accounts, no secrets in the code. A future Gemini key must stay server-side, never in the browser bundle.
-- Wording (set in the Nov 2026 site review): call every learning unit a "lesson" (not guide, module or tutorial; "All tutorials" is only the name of that page); headings, buttons and topic names in sentence case ("Digital safety", "Start practice"); British English spelling (practise, colour, grey, favourite); a page's heading matches its name in the menu and footer; links are underlined; no emoji as icons.
+- Wording (set in the Nov 2026 site review): call every learning unit a "lesson" (not guide, module or tutorial; "All tutorials" is only the name of that page); headings, buttons and topic names in sentence case ("Digital safety", "Start practice"), lesson titles in title case ("WhatsApp: Send a Photo"); British English spelling (practise, colour, grey, favourite); a page's heading matches its name in the menu and footer; links are underlined; no emoji as icons.
 - Prefer small, reviewable changes; run `npm run lint` and `npm run build` before finishing.
 - Note which AI tools were used for what. The course requires a full overview of AI tool use.

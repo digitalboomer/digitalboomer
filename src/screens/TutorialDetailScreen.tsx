@@ -218,7 +218,8 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
           <p className="hidden sm:block text-base sm:text-lg text-[#202B36] dark:text-slate-300 leading-relaxed">
             {tutorial.description}
           </p>
-          <img src={tutorial.image} alt="" className="hidden sm:block w-full h-48 object-cover rounded-xl" />
+          {/* Drawn pictures are shown whole (cropping cut them in half); photos fill the box */}
+          <img src={tutorial.image} alt="" className={`hidden sm:block h-48 rounded-xl ${tutorial.image.startsWith('data:image/svg') ? 'w-auto mx-auto' : 'w-full object-cover'}`} />
 
           {/* Progress bar and Stepper Indicators */}
           <div className="pt-4 border-t border-[#E5E9ED] dark:border-slate-800 space-y-3">

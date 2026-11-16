@@ -234,7 +234,7 @@ export const FreeRoam: React.FC<{ appId: string; onExit: () => void; lang: Langu
   const button = 'inline-flex items-center justify-center gap-2 px-5 min-h-[48px] rounded-xl font-bold text-base';
 
   return (
-    <div className="flex-1 w-full bg-[#F7F8F5] dark:bg-slate-950 pt-6 pb-24 px-4 sm:px-8">
+    <div className="flex-1 w-full bg-[#F7F8F5] dark:bg-slate-950 pt-6 pb-10 px-4 sm:px-8">
       <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_23rem] gap-4 lg:gap-x-10 items-start">
         <div className="space-y-4 min-w-0">
           <h1 className="text-3xl font-bold text-[#17324D] flex items-center gap-3">

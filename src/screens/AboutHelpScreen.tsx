@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Icon } from '../components/Icon';
+import { formProblem } from '../utils/formCheck';
 import { PageId, Language } from '../types';
 import { FAQS_EN, FAQS_DE } from '../data/content';
 import { TEAM_EMAIL, sendContactMessage } from '../utils/contact';
@@ -34,9 +35,13 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
     setOpenFaqId(openFaqId === id ? null : id);
   };
 
-  const handleContactSubmit = async (e: React.FormEvent) => {
+  const [formError, setFormError] = useState('');
+  const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (sendState === 'sending' || !contactName.trim() || !contactEmail.trim() || !contactMessage.trim()) return;
+    if (sendState === 'sending') return;
+    const problem = formProblem(e.currentTarget, isEn);
+    setFormError(problem);
+    if (problem) return;
     setSendState('sending');
     const sent = await sendContactMessage({
       name: contactName.trim(),
@@ -198,7 +203,7 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
               </button>
             </div>
           ) : (
-            <form onSubmit={handleContactSubmit} className="space-y-5">
+            <form noValidate onSubmit={handleContactSubmit} className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="contact-name" className="block text-sm font-bold text-[#17324D] dark:text-white mb-1">
@@ -289,6 +294,12 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
                     <a href={`mailto:${TEAM_EMAIL}`} className="underline font-bold text-[#17324D]">{TEAM_EMAIL}</a>.
                   </p>
                 </div>
+              )}
+
+              {formError && (
+                <p role="alert" className="flex items-start gap-2 p-3 rounded-xl bg-[#FDECEA] border-2 border-[#B3261E] text-[#202B36] text-base">
+                  <Icon name="error" className="text-xl text-[#B3261E] shrink-0 mt-0.5" />{formError}
+                </p>
               )}
 
               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">

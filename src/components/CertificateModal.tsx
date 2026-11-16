@@ -75,7 +75,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
         <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 text-[#202B36] hover:text-[#17324D] dark:hover:text-white rounded-lg focus-visible:outline-2 focus-visible:outline-[#176B68]"
-          aria-label={isEn ? 'Close Certificate' : 'Zertifikat schließen'}
+          aria-label={isEn ? 'Close' : 'Schließen'}
         >
           <Icon name="close" className="text-3xl" />
         </button>
@@ -104,19 +104,19 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
           <div className="flex justify-center items-center gap-2 text-[#17324D] dark:text-[#EAF2F8] mb-3">
             <Icon name="school" className="text-4xl text-[#176B68]" />
             <span className="text-sm font-semibold tracking-widest uppercase">
-              {isEn ? 'Digital Boomer – Student Prototype' : 'Digital Boomer – Studentischer Prototyp'}
+              {isEn ? 'Digital Boomer – student prototype' : 'Digital Boomer – studentischer Prototyp'}
             </span>
           </div>
 
           <h2 id="cert-title" className="text-3xl font-extrabold text-[#17324D] dark:text-white mb-2">
-            {isEn ? 'Certificate of Completion' : 'Teilnahmebestätigung'}
+            {isEn ? 'Certificate of completion' : 'Teilnahmebestätigung'}
           </h2>
           <p className="text-base text-[#202B36] dark:text-slate-300 mb-6">
             {isEn ? 'for successful, self-paced digital learning' : 'für erfolgreiches, selbstbestimmtes digitales Lernen'}
           </p>
 
           <p className="text-lg text-[#202B36] dark:text-slate-200">
-            {isEn ? 'This certificate confirms that' : 'Diese Urkunde bestätigt, dass'}
+            {isEn ? 'This certificate confirms that' : 'Hiermit wird bestätigt, dass'}
           </p>
           <p className="text-3xl font-bold text-[#176B68] my-3">
             {learner || (isEn ? '(your name)' : '(Ihr Name)')}
@@ -139,11 +139,11 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
 
           <div className="flex justify-between items-end pt-6 border-t border-[#E5E9ED] dark:border-slate-800 text-xs text-[#202B36] dark:text-slate-400">
             <div>
-              <p className="font-bold text-[#17324D] dark:text-slate-300">Digital Boomer Initiative</p>
+              <p className="font-bold text-[#17324D] dark:text-slate-300">Digital Boomer</p>
               <p>{isEn ? 'Course project: BIS5152 Human-Centered AI Interface Design' : 'Kursprojekt: BIS5152 Human-Centered AI Interface Design'}</p>
             </div>
             <div className="text-right">
-              <p className="font-bold text-[#17324D] dark:text-slate-300">{isEn ? 'Issue Date:' : 'Ausstellungsdatum:'}</p>
+              <p className="font-bold text-[#17324D] dark:text-slate-300">{isEn ? 'Issue date:' : 'Ausstellungsdatum:'}</p>
               <p>{issued}</p>
             </div>
           </div>
@@ -156,7 +156,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
             className="flex items-center gap-2 px-5 py-3 rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#176B68] shadow-sm"
           >
             <Icon name="print" className="" />
-            {isEn ? 'Print Certificate / Save as PDF' : 'Zertifikat drucken / Als PDF speichern'}
+            {isEn ? 'Print certificate or save as PDF' : 'Teilnahmebestätigung drucken oder als PDF speichern'}
           </button>
           <button
             onClick={onClose}
@@ -171,9 +171,9 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
     {/* The printed sheet. .phone-sim keeps it readable when a dark theme is on. */}
     <div className="certificate-print phone-sim">
       <header>
-        <p className="cert-brand">{isEn ? 'Digital Boomer – Student Prototype' : 'Digital Boomer – Studentischer Prototyp'}</p>
-        <h2>{isEn ? 'Certificate of Completion' : 'Teilnahmebestätigung'}</h2>
-        <p>{isEn ? 'This certificate confirms that' : 'Diese Urkunde bestätigt, dass'}</p>
+        <p className="cert-brand">{isEn ? 'Digital Boomer – student prototype' : 'Digital Boomer – studentischer Prototyp'}</p>
+        <h2>{isEn ? 'Certificate of completion' : 'Teilnahmebestätigung'}</h2>
+        <p>{isEn ? 'This certificate confirms that' : 'Hiermit wird bestätigt, dass'}</p>
         <p className="cert-name">{learner}</p>
         <p>
           {isEn
