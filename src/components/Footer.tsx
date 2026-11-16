@@ -88,6 +88,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSupportModal, 
             <button onClick={() => onNavigate('social-apps')} className={link}>{isEn ? 'Social media' : 'Soziale Medien'}</button>
             <button onClick={() => onNavigate('bank-apps')} className={link}>{isEn ? 'Online banking' : 'Online-Banking'}</button>
             <button onClick={() => onNavigate('sicherheit')} className={link}>{isEn ? 'Digital safety' : 'Digitale Sicherheit'}</button>
+            <button onClick={() => onNavigate('ki-alltag')} className={link}>{isEn ? 'Everyday AI' : 'KI im Alltag'}</button>
             <button onClick={() => onNavigate('dashboard')} className={link}>{isEn ? 'My progress' : 'Mein Fortschritt'}</button>
           </nav>
 

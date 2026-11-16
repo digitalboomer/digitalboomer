@@ -5,11 +5,11 @@ import {
   ExternalLink, Eye, EyeOff, Fish, Globe, GraduationCap, Heart, House, Info, KeyRound, Keyboard, LayoutGrid, Library,
   Lightbulb, Link, ListChecks, Loader2, Lock, LockOpen, Mail, MailCheck, Menu, Moon, Palette, PartyPopper, Printer,
   QrCode, ScanLine, Search, SearchX, Send, Shield, ShieldCheck, ShoppingBag, Smartphone, Sun, TrendingUp, Type,
-  Volume2, X, RotateCcw, TriangleAlert, Trash2, Languages, ChevronDown, type LucideIcon,
+  Volume2, X, RotateCcw, TriangleAlert, Trash2, Languages, ChevronDown, Accessibility, type LucideIcon,
 } from 'lucide-react';
 
 const ICONS: Record<string, LucideIcon> = {
-  account_circle: CircleUserRound, arrow_back: ArrowLeft, arrow_forward: ArrowRight, bookmark: BookmarkCheck,
+  accessibility: Accessibility, account_circle: CircleUserRound, arrow_back: ArrowLeft, arrow_forward: ArrowRight, bookmark: BookmarkCheck,
   bookmark_border: Bookmark, category: LayoutGrid, celebration: PartyPopper, check: Check, check_circle: CheckCircle2,
   checklist: ListChecks, close: X, content_copy: Copy, contrast: Contrast, crop_free: ScanLine, dark_mode: Moon,
   done_all: CheckCheck, download: Download, error: CircleAlert, favorite: Heart, format_size: Type, grid_view: LayoutGrid,

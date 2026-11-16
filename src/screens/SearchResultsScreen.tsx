@@ -55,12 +55,12 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
         {/* Breadcrumb & Header */}
         <div>
           <nav className="flex items-center gap-2 text-xs text-[#202B36] dark:text-slate-400 mb-2">
-            <button onClick={() => onNavigate('home')} className="hover:underline hover:text-[#176B68]">
+            <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">
               {isEn ? 'Home' : 'Startseite'}
             </button>
             <span>/</span>
             <span className="font-bold text-[#17324D] dark:text-white">
-              {isEn ? 'Search Results' : 'Suchergebnisse'}
+              {isEn ? 'Search results' : 'Suchergebnisse'}
             </span>
           </nav>
 
@@ -69,8 +69,8 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
           </h1>
           <p className="text-base text-[#202B36] dark:text-slate-300 mt-1">
             {isEn
-              ? `${results.length} matching ${results.length === 1 ? 'guide' : 'guides'} found`
-              : `${results.length} passende ${results.length === 1 ? 'Anleitung' : 'Anleitungen'} gefunden`}
+              ? `${results.length} matching ${results.length === 1 ? 'lesson' : 'lessons'} found`
+              : `${results.length} passende ${results.length === 1 ? 'Lektion' : 'Lektionen'} gefunden`}
           </p>
         </div>
 
@@ -78,14 +78,16 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
         <div className="bg-[#FFFFFF] dark:bg-slate-900 p-4 sm:p-6 rounded-2xl border-2 border-[#E5E9ED] dark:border-slate-800 shadow-sm">
           <form onSubmit={handleSearchSubmit} className="flex gap-3">
             <div className="relative flex-1">
+              <label htmlFor="search-again" className="sr-only">{isEn ? 'Search again' : 'Erneut suchen'}</label>
               <input
+                id="search-again"
                 type="search"
                 value={localQuery}
                 onChange={(e) => setLocalQuery(e.target.value)}
-                placeholder={isEn ? 'Start a new search...' : 'Neue Suche starten...'}
-                className="w-full pl-11 pr-4 py-3 rounded-xl border border-[#E5E9ED] dark:border-slate-700 bg-[#FFFFFF] dark:bg-slate-800 text-[#202B36] dark:text-white text-base focus:border-[#176B68] focus:outline-none placeholder-[#202B36]/50"
+                placeholder={isEn ? 'Start a new search' : 'Neue Suche starten'}
+                className="w-full pl-11 pr-4 min-h-[48px] rounded-xl border-2 border-[#667382] dark:border-slate-700 bg-[#FFFFFF] dark:bg-slate-800 text-[#202B36] dark:text-white text-base placeholder-[#5B6672]"
               />
-              <Icon name="search" className="absolute left-3.5 top-3.5 text-[#17324D] text-xl pointer-events-none" />
+              <Icon name="search" className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#17324D] text-xl pointer-events-none" />
             </div>
             <button
               type="submit"
@@ -96,8 +98,8 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
           </form>
 
           {/* Quick suggestions */}
-          <div className="flex items-center gap-2 mt-3 flex-wrap text-xs text-[#202B36] dark:text-slate-300">
-            <span className="font-semibold text-[#17324D] dark:text-slate-200">{isEn ? 'Recommended keywords:' : 'Empfohlene Suchbegriffe:'}</span>
+          <div className="flex items-center gap-2 mt-3 flex-wrap text-base text-[#202B36] dark:text-slate-300">
+            <span className="font-bold text-[#17324D] dark:text-slate-200">{isEn ? 'Try for example:' : 'Versuchen Sie zum Beispiel:'}</span>
             {['Phishing', 'WhatsApp', 'Banking', 'Password', 'ChatGPT'].map((tag) => (
               <button
                 key={tag}
@@ -105,7 +107,7 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
                   setLocalQuery(tag);
                   onSearch(tag);
                 }}
-                className="px-3 py-1 bg-[#EAF2F8] dark:bg-slate-800 hover:bg-[#176B68] hover:text-white rounded-full transition-colors font-medium border border-[#E5E9ED] dark:border-slate-700"
+                className="px-4 min-h-[44px] bg-[#FFFFFF] dark:bg-slate-800 hover:bg-[#EAF2F8] text-[#17324D] rounded-full font-bold border-2 border-[#17324D]"
               >
                 {tag}
               </button>
@@ -118,7 +120,7 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
           <div className="bg-[#FFFFFF] dark:bg-slate-900 rounded-2xl p-12 text-center border-2 border-dashed border-[#E5E9ED] dark:border-slate-800 space-y-4">
             <Icon name="search_off" className="text-6xl text-[#176B68]/60" />
             <h2 className="text-2xl font-bold text-[#17324D] dark:text-white">
-              {isEn ? 'No matching guides found' : 'Leider kein passendes Ergebnis gefunden'}
+              {isEn ? 'No matching lessons found' : 'Keine passende Lektion gefunden'}
             </h2>
             <p className="text-[#202B36] dark:text-slate-300 max-w-md mx-auto">
               {isEn
@@ -127,9 +129,9 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
             </p>
             <button
               onClick={() => onNavigate('tutorials')}
-              className="px-6 py-3 rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-sm shadow-sm"
+              className="px-6 min-h-[48px] rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-base shadow-sm"
             >
-              {isEn ? 'Browse all guides' : 'Alle Anleitungen ansehen'}
+              {isEn ? 'Show all tutorials' : 'Alle Anleitungen zeigen'}
             </button>
           </div>
         ) : (
@@ -151,7 +153,7 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
                     <img
                       src={tut.image}
                       alt=""
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover"
                       loading="lazy"
                       onError={(e) => handleImageError(e, '/assets/images/hero_senior_woman_1793286326933.jpg')}
                     />
@@ -162,8 +164,9 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
 
                     <button
                       onClick={() => onToggleBookmark(tut.id)}
-                      className="absolute top-3 right-3 w-9 h-9 rounded-full bg-[#FFFFFF]/95 dark:bg-slate-900/90 flex items-center justify-center text-[#17324D] hover:text-[#176B68] shadow-sm border border-[#E5E9ED] dark:border-slate-700"
-                      aria-label={isSaved ? (isEn ? 'Saved' : 'Gemerkt') : (isEn ? 'Save' : 'Merken')}
+                      aria-pressed={isSaved}
+                      className="absolute top-3 right-3 w-11 h-11 rounded-full bg-[#FFFFFF]/95 dark:bg-slate-900/90 flex items-center justify-center text-[#17324D] hover:text-[#176B68] shadow-sm border border-[#E5E9ED] dark:border-slate-700"
+                      aria-label={`${isEn ? 'Save for later' : 'Für später merken'}: ${tut.title}`}
                     >
                       <Icon name={isSaved ? 'bookmark' : 'bookmark_border'} className={`text-xl ${isSaved ? 'text-[#176B68]' : ''}`} />
                     </button>
@@ -171,7 +174,7 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
 
                   <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
                     <div>
-                      <div className="flex items-center gap-2 text-xs text-[#202B36] dark:text-slate-400 mb-1">
+                      <div className="flex items-center gap-2 text-base text-[#202B36] dark:text-slate-400 mb-1">
                         <span>{tut.durationMinutes} {isEn ? 'min' : 'Min.'}</span>
                         <span>•</span>
                         <span>{tut.difficulty}</span>
@@ -179,7 +182,7 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
                       <h2 className="text-lg font-bold text-[#17324D] dark:text-white group-hover:text-[#176B68] transition-colors">
                         {tut.title}
                       </h2>
-                      <p className="text-sm text-[#202B36] dark:text-slate-300 mt-1 line-clamp-2">
+                      <p className="text-base text-[#202B36] dark:text-slate-300 mt-1">
                         {tut.description}
                       </p>
                     </div>
@@ -189,9 +192,9 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
                         onSelectTutorial(tut.id);
                         onNavigate('tutorial-detail');
                       }}
-                      className="w-full py-2.5 rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-sm flex items-center justify-center gap-2 transition-colors touch-target shadow-sm"
+                      className="w-full min-h-[48px] rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-base flex items-center justify-center gap-2 transition-colors shadow-sm"
                     >
-                      <span>{isEn ? 'View Guide' : 'Anleitung ansehen'}</span>
+                      <span>{tut.practice ? (isEn ? 'Start practice' : 'Übung starten') : (isEn ? 'Open lesson' : 'Lektion öffnen')}</span>
                       <Icon name="arrow_forward" className="text-base" />
                     </button>
                   </div>

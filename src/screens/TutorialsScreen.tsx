@@ -55,31 +55,31 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
       <div className="max-w-7xl mx-auto space-y-8">
         {/* Header Breadcrumb & Title */}
         <div>
-          <nav className="flex items-center gap-2 text-xs text-[#202B36] dark:text-slate-400 mb-2" aria-label="Breadcrumb">
-            <button onClick={() => onNavigate('home')} className="hover:underline hover:text-[#176B68]">
+          <nav className="flex items-center gap-2 text-sm text-[#202B36] dark:text-slate-400 mb-2" aria-label="Breadcrumb">
+            <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">
               {isEn ? 'Home' : 'Startseite'}
             </button>
             <span>/</span>
             <span className="font-bold text-[#17324D] dark:text-white">
-              {isEn ? 'Tutorials & Guides' : 'Anleitungen & Tutorials'}
+              {isEn ? 'All tutorials' : 'Alle Anleitungen'}
             </span>
           </nav>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <h1 className="text-3xl sm:text-4xl font-extrabold text-[#17324D] dark:text-white">
-                {isEn ? 'Tutorials & Step-by-Step Guides' : 'Anleitungen & Schritt-für-Schritt Guides'}
+                {isEn ? 'All tutorials' : 'Alle Anleitungen'}
               </h1>
               <p className="text-lg text-[#202B36] dark:text-slate-300 mt-2 max-w-2xl leading-relaxed">
                 {isEn
-                  ? 'Find concrete assistance for your daily digital tasks. All guides are completely ad-free and crafted for relaxed learning.'
-                  : 'Finden Sie konkrete Hilfestellungen für Ihre täglichen Fragen. Alle Guides sind werbefrei und leicht verständlich aufgebaut.'}
+                  ? 'Every lesson in one place. Search for a task, or choose a topic.'
+                  : 'Alle Lektionen an einem Ort. Suchen Sie nach einer Aufgabe, oder wählen Sie ein Thema.'}
               </p>
             </div>
 
-            <div className="text-sm font-semibold text-[#17324D] dark:text-teal-300 bg-[#EAF2F8] dark:bg-slate-800 px-3.5 py-1.5 rounded-full border border-[#E5E9ED] dark:border-slate-700">
-              {filteredTutorials.length} {isEn ? 'guides found' : 'Anleitungen gefunden'}
-            </div>
+            <p className="text-base font-bold text-[#17324D] dark:text-teal-300 bg-[#EAF2F8] dark:bg-slate-800 px-4 py-1.5 rounded-full" aria-live="polite">
+              {isEn ? `${filteredTutorials.length} ${filteredTutorials.length === 1 ? 'lesson' : 'lessons'} found` : `${filteredTutorials.length} ${filteredTutorials.length === 1 ? 'Lektion' : 'Lektionen'} gefunden`}
+            </p>
           </div>
         </div>
 
@@ -87,27 +87,30 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
         <div className="bg-[#FFFFFF] dark:bg-slate-900 p-6 rounded-2xl border-2 border-[#E5E9ED] dark:border-slate-800 shadow-sm space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
             {/* Search input */}
-            <div className="md:col-span-6 relative">
+            <div className="md:col-span-6">
               <label htmlFor="search-tutorials" className="block font-bold text-[#17324D] mb-1">
                 {isEn ? 'Search' : 'Suchen'}
               </label>
-              <input
-                id="search-tutorials"
-                type="search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder={isEn ? 'Search by app, topic or keyword...' : 'Thema, App oder Stichwort suchen...'}
-                className="w-full px-4 py-3 rounded-xl border-2 border-[#667382] dark:border-slate-700 bg-[#FFFFFF] dark:bg-slate-800 text-[#202B36] dark:text-white text-base focus:border-[#176B68] focus:outline-none placeholder-[#202B36]/50"
-              />
-              {searchTerm && (
-                <button
-                  onClick={() => setSearchTerm('')}
-                  className="absolute right-3 top-3 text-[#202B36] hover:text-[#17324D] text-sm font-bold"
-                  aria-label={isEn ? 'Clear search' : 'Suchtext löschen'}
-                >
-                  ✕
-                </button>
-              )}
+              <div className="relative">
+                <input
+                  id="search-tutorials"
+                  type="search"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder={isEn ? 'Search by app, topic or keyword' : 'Thema, App oder Stichwort suchen'}
+                  className="w-full pl-4 pr-14 min-h-[52px] rounded-xl border-2 border-[#667382] dark:border-slate-700 bg-[#FFFFFF] dark:bg-slate-800 text-[#202B36] dark:text-white text-base placeholder-[#5B6672]"
+                />
+                {searchTerm && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchTerm('')}
+                    className="absolute right-1 top-1/2 -translate-y-1/2 w-11 h-11 flex items-center justify-center rounded-lg text-[#17324D] hover:bg-[#EAF2F8]"
+                    aria-label={isEn ? 'Clear search' : 'Suchtext löschen'}
+                  >
+                    <Icon name="close" className="text-xl" />
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Category dropdown */}
@@ -121,7 +124,7 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
                 onChange={(e) => onSetCategoryFilter(e.target.value)}
                 className="w-full px-4 py-3 rounded-xl border-2 border-[#667382] dark:border-slate-700 bg-[#FFFFFF] dark:bg-slate-800 text-[#202B36] dark:text-white text-base focus:border-[#176B68] focus:outline-none font-medium"
               >
-                <option value="all">{isEn ? 'All Topic Areas' : 'Alle Themenbereiche'}</option>
+                <option value="all">{isEn ? 'All topics' : 'Alle Themen'}</option>
                 {categories.map((c) => (
                   <option key={c.id} value={c.id}>
                     {c.title}
@@ -149,27 +152,27 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
 
           {/* Quick Active Filter Badges */}
           {(activeCategoryFilter !== 'all' || onlySaved || searchTerm) && (
-            <div className="flex items-center gap-2 pt-2 border-t border-[#E5E9ED] dark:border-slate-800 flex-wrap text-xs">
+            <div className="flex items-center gap-2 pt-2 border-t border-[#E5E9ED] dark:border-slate-800 flex-wrap text-base">
               <span className="font-bold text-[#17324D] dark:text-slate-300">
                 {isEn ? 'Active filters:' : 'Aktive Filter:'}
               </span>
               {activeCategoryFilter !== 'all' && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#EAF2F8] dark:bg-slate-800 text-[#17324D] dark:text-teal-300 font-bold border border-[#E5E9ED] dark:border-slate-700">
+                <button type="button" onClick={() => onSetCategoryFilter('all')} aria-label={isEn ? `Remove filter: ${categories.find((c) => c.id === activeCategoryFilter)?.title}` : `Filter entfernen: ${categories.find((c) => c.id === activeCategoryFilter)?.title}`} className="inline-flex items-center gap-2 px-3 min-h-[44px] rounded-full bg-[#EAF2F8] dark:bg-slate-800 text-[#17324D] dark:text-teal-300 font-bold border-2 border-[#17324D] hover:bg-[#D7E5F2]">
                   {categories.find((c) => c.id === activeCategoryFilter)?.title}
-                  <button onClick={() => onSetCategoryFilter('all')} className="hover:text-red-600 font-bold ml-1">✕</button>
-                </span>
+                  <Icon name="close" className="text-lg" />
+                </button>
               )}
               {onlySaved && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#EAF2F8] dark:bg-slate-800 text-[#17324D] dark:text-teal-300 font-bold border border-[#E5E9ED] dark:border-slate-700">
+                <button type="button" onClick={() => setOnlySaved(false)} aria-label={isEn ? `Remove filter: Saved for later` : `Filter entfernen: Für später gemerkt`} className="inline-flex items-center gap-2 px-3 min-h-[44px] rounded-full bg-[#EAF2F8] dark:bg-slate-800 text-[#17324D] dark:text-teal-300 font-bold border-2 border-[#17324D] hover:bg-[#D7E5F2]">
                   {isEn ? 'Saved for later' : 'Für später gemerkt'}
-                  <button onClick={() => setOnlySaved(false)} className="hover:text-red-600 font-bold ml-1" aria-label={isEn ? 'Show all tutorials' : 'Alle Anleitungen zeigen'}>✕</button>
-                </span>
+                  <Icon name="close" className="text-lg" />
+                </button>
               )}
               {searchTerm && (
-                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-[#EAF2F8] dark:bg-slate-800 text-[#17324D] dark:text-teal-300 font-bold border border-[#E5E9ED] dark:border-slate-700">
+                <button type="button" onClick={() => setSearchTerm('')} aria-label={isEn ? `Remove search: ${searchTerm}` : `Suche entfernen: ${searchTerm}`} className="inline-flex items-center gap-2 px-3 min-h-[44px] rounded-full bg-[#EAF2F8] dark:bg-slate-800 text-[#17324D] dark:text-teal-300 font-bold border-2 border-[#17324D] hover:bg-[#D7E5F2]">
                   „{searchTerm}“
-                  <button onClick={() => setSearchTerm('')} className="hover:text-red-600 font-bold ml-1">✕</button>
-                </span>
+                  <Icon name="close" className="text-lg" />
+                </button>
               )}
               <button
                 onClick={() => {
@@ -177,7 +180,7 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
                   setOnlySaved(false);
                   setSearchTerm('');
                 }}
-                className="text-[#176B68] hover:underline font-bold ml-2"
+                className="px-2 min-h-[44px] text-[#17324D] underline font-bold"
               >
                 {isEn ? 'Reset all filters' : 'Alle Filter zurücksetzen'}
               </button>
@@ -191,8 +194,8 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
             <Icon name="search_off" className="text-6xl text-[#176B68]/60" />
             <h3 className="text-2xl font-bold text-[#17324D] dark:text-white">
               {onlySaved && savedTutorialIds.length === 0
-                ? (isEn ? 'You have not saved any tutorials yet' : 'Sie haben noch keine Anleitungen gemerkt')
-                : (isEn ? 'No guides found for your selection' : 'Keine Anleitungen für Ihre Auswahl gefunden')}
+                ? (isEn ? 'You have not saved any lessons yet' : 'Sie haben noch keine Lektionen gemerkt')
+                : (isEn ? 'No lessons found for your selection' : 'Keine Lektionen für Ihre Auswahl gefunden')}
             </h3>
             <p className="text-[#202B36] dark:text-slate-300 max-w-md mx-auto">
               {onlySaved && savedTutorialIds.length === 0
@@ -209,7 +212,7 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
               }}
               className="px-6 py-3 bg-[#17324D] hover:bg-[#0f2336] text-white rounded-xl font-bold transition-colors"
             >
-              {isEn ? 'View all guides again' : 'Alle Anleitungen wieder anzeigen'}
+              {isEn ? 'Show all lessons again' : 'Alle Lektionen wieder zeigen'}
             </button>
           </div>
         ) : (
@@ -243,9 +246,10 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
 
                     <button
                       onClick={() => onToggleBookmark(tut.id)}
-                      className="absolute top-3 right-3 w-10 h-10 rounded-full bg-[#FFFFFF]/95 dark:bg-slate-900/90 flex items-center justify-center text-[#17324D] hover:text-[#176B68] shadow-sm transition-colors touch-target border border-[#E5E9ED] dark:border-slate-700"
-                      title={isSaved ? (isEn ? 'Remove bookmark' : 'Aus Merkliste entfernen') : (isEn ? 'Save guide' : 'Merken')}
-                      aria-label={isSaved ? (isEn ? 'Bookmarked' : 'Gemerkt') : (isEn ? 'Bookmark' : 'Merken')}
+                      aria-pressed={isSaved}
+                      className="absolute top-3 right-3 w-11 h-11 rounded-full bg-[#FFFFFF]/95 dark:bg-slate-900/90 flex items-center justify-center text-[#17324D] hover:text-[#176B68] shadow-sm transition-colors touch-target border border-[#E5E9ED] dark:border-slate-700"
+                      title={isSaved ? (isEn ? 'Remove bookmark' : 'Aus Merkliste entfernen') : (isEn ? 'Save for later' : 'Merken')}
+                      aria-label={`${isEn ? 'Save for later' : 'Für später merken'}: ${tut.title}`}
                     >
                       <Icon name={isSaved ? 'bookmark' : 'bookmark_border'} className={`text-2xl ${isSaved ? 'text-[#176B68]' : ''}`} />
                     </button>
@@ -281,7 +285,7 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
                         }}
                         className="flex-1 py-3 px-4 rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-base text-center flex items-center justify-center gap-2 transition-colors touch-target shadow-sm"
                       >
-                        <span>{tut.practice ? (isEn ? 'Start practice' : 'Übung starten') : (isEn ? 'Open tutorial' : 'Anleitung öffnen')}</span>
+                        <span>{tut.practice ? (isEn ? 'Start practice' : 'Übung starten') : (isEn ? 'Open lesson' : 'Lektion öffnen')}</span>
                         <Icon name="arrow_forward" className="text-lg" />
                       </button>
                     </div>

@@ -165,7 +165,7 @@ function messagingLessons(lang: Language, app: AppId, platform: 'iphone' | 'andr
     id,
     title,
     categoryId: 'messaging',
-    categoryTitle: t('Messaging Apps', 'Nachrichten-Apps'),
+    categoryTitle: t('Messaging apps', 'Nachrichten-Apps'),
     description,
     durationMinutes: duration,
     difficulty: t('Easy', 'Einfach') as Tutorial['difficulty'],
@@ -397,7 +397,7 @@ function bankingLesson(lang: Language, bank?: Service, mode: 'transfer' | 'balan
       ? (bank ? t(`${bank.name}: Check Your Balance and Payments`, `${bank.name}: Kontostand und Zahlungen prüfen`) : t('Online Banking: Check Your Balance', 'Online-Banking: Kontostand prüfen'))
       : (bank ? t(`${bank.name}: Practise a Transfer`, `${bank.name}: Überweisung üben`) : t('Online Banking: Make a Transfer', 'Online-Banking: Eine Überweisung machen')),
     categoryId: 'banking',
-    categoryTitle: t('Online Banking', 'Online-Banking'),
+    categoryTitle: t('Online banking', 'Online-Banking'),
     description: mode === 'balance'
       ? t('Open the app and see how much money you have and what you paid. All data is made up.', 'Öffnen Sie die App und sehen Sie, wie viel Geld Sie haben und was Sie bezahlt haben. Alle Daten sind erfunden.')
       : t('Start in the app\'s home screen and make a transfer, with made-up money.', 'Starten Sie auf der Startseite der App und machen Sie eine Überweisung, mit erfundenem Geld.'),

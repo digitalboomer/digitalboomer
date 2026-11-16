@@ -56,22 +56,22 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
         {/* Breadcrumb & Title */}
         <div>
           <nav className="flex items-center gap-2 text-xs text-[#202B36] dark:text-slate-400 mb-2">
-            <button onClick={() => onNavigate('home')} className="hover:underline hover:text-[#176B68]">
+            <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">
               {isEn ? 'Home' : 'Startseite'}
             </button>
             <span>/</span>
             <span className="font-bold text-[#17324D] dark:text-white">
-              {isEn ? 'About Us & Help' : 'Über uns & Hilfe'}
+              {isEn ? 'About us' : 'Über uns'}
             </span>
           </nav>
 
           <h1 className="text-3xl sm:text-4xl font-extrabold text-[#17324D] dark:text-white">
-            {isEn ? 'About Digital Boomer & Frequently Asked Questions' : 'Über Digital Boomer & Häufige Fragen'}
+            {isEn ? 'About us and common questions' : 'Über uns und häufige Fragen'}
           </h1>
           <p className="text-lg text-[#202B36] dark:text-slate-300 mt-2 max-w-2xl leading-relaxed">
             {isEn
-              ? 'We strongly believe that no one is too old for the digital world. Discover our mission and how we are delighted to assist you.'
-              : 'Wir glauben fest daran: Niemand ist zu alt für die digitale Welt. Erfahren Sie mehr über unsere Philosophie und wie wir Ihnen gerne helfen.'}
+              ? 'No one is too old for the digital world. Here you find who we are, answers to common questions, and how to write to us.'
+              : 'Niemand ist zu alt für die digitale Welt. Hier erfahren Sie, wer wir sind, finden Antworten auf häufige Fragen und können uns schreiben.'}
           </p>
         </div>
 
@@ -83,10 +83,10 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
             </div>
             <div>
               <span className="text-xs font-bold uppercase tracking-wider text-[#176B68] dark:text-teal-400">
-                {isEn ? 'Our Educational Mission & Principles' : 'Unsere Philosophie & Bildungsauftrag'}
+                {isEn ? 'Our aim' : 'Unser Ziel'}
               </span>
               <h2 className="text-2xl font-extrabold text-[#17324D] dark:text-white">
-                {isEn ? 'Digital Participation is a Fundamental Right' : 'Digitale Teilhabe ist ein Grundrecht'}
+                {isEn ? 'Everyone should be able to take part in digital life' : 'Alle sollen am digitalen Leben teilhaben können'}
               </h2>
             </div>
           </div>
@@ -99,20 +99,20 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
             </p>
             <p>
               {isEn
-                ? 'We deliberately steer clear of patronizing language or outdated stereotypes. Older generations have successfully mastered countless societal and technological transformations throughout life. Modern digital devices are simply the next tools – and we deliver the stress-free user manual.'
+                ? 'We avoid talking down to anyone, and we avoid clichés about age. Older people have already mastered many changes in their lives. Digital devices are simply the next tool.'
                 : 'Wir verzichten bewusst auf herablassende Sprache oder klischeehafte Darstellungen. Ältere Generationen haben in ihrem Leben bereits unzählige Umbrüche gemeistert. Die digitale Welt ist lediglich das nächste Werkzeug.'}
             </p>
           </div>
 
-          <div className="pt-4 border-t border-[#E5E9ED] dark:border-slate-800 flex flex-wrap gap-3 text-xs font-bold text-[#17324D] dark:text-slate-200">
+          <div className="pt-4 border-t border-[#E5E9ED] dark:border-slate-800 flex flex-wrap gap-3 text-base font-bold text-[#17324D] dark:text-slate-200">
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#EAF2F8] dark:bg-slate-800 border border-[#E5E9ED] dark:border-slate-700">
               {isEn ? 'Designed to support WCAG 2.2 AA, testing still to come' : 'Auf WCAG 2.2 AA ausgerichtet, Prüfung folgt noch'}
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#EAF2F8] dark:bg-slate-800 border border-[#E5E9ED] dark:border-slate-700">
-              ✓ {isEn ? '100% Free & Non-Profit' : '100% Werbefrei & Gemeinnützig'}
+              <Icon name="check_circle" className="text-lg" />{isEn ? 'Free and without advertising' : 'Kostenlos und ohne Werbung'}
             </span>
             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#EAF2F8] dark:bg-slate-800 border border-[#E5E9ED] dark:border-slate-700">
-              ✓ {isEn ? 'Calm, Respectful Tone' : 'Konsequent in deutscher Sprache („Sie“-Form)'}
+              <Icon name="check_circle" className="text-lg" />{isEn ? 'Calm, respectful language' : 'Ruhige, respektvolle Sprache („Sie“-Form)'}
             </span>
           </div>
         </section>
@@ -121,10 +121,10 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
         <section className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-extrabold text-[#17324D] dark:text-white">
-              {isEn ? 'Frequently Asked Questions (FAQ)' : 'Häufig gestellte Fragen (FAQ)'}
+              {isEn ? 'Common questions' : 'Häufige Fragen'}
             </h2>
             <span className="text-xs text-[#202B36] dark:text-slate-400 font-semibold">
-              {isEn ? 'Click on any question to expand' : 'Klicken Sie auf eine Frage zum Öffnen'}
+              {isEn ? 'Click a question to see the answer.' : 'Klicken Sie auf eine Frage, um die Antwort zu sehen.'}
             </span>
           </div>
 
@@ -166,7 +166,7 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
             </div>
             <div>
               <h2 className="text-2xl font-extrabold text-[#17324D] dark:text-white">
-                {isEn ? 'Do You Have a Question or Suggestion?' : 'Haben Sie eine Frage oder Anregung?'}
+                {isEn ? 'Do you have a question or a suggestion?' : 'Haben Sie eine Frage oder Anregung?'}
               </h2>
               <p className="text-base text-[#202B36] dark:text-slate-300">
                 {isEn
@@ -202,7 +202,7 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="contact-name" className="block text-sm font-bold text-[#17324D] dark:text-white mb-1">
-                    {isEn ? 'Your Name:' : 'Ihr Name:'} <span className="text-red-600">*</span>
+                    {isEn ? 'Your name' : 'Ihr Name'} <span className="font-normal">{isEn ? '(required)' : '(Pflichtfeld)'}</span>
                   </label>
                   <input
                     id="contact-name"
@@ -218,7 +218,7 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
 
                 <div>
                   <label htmlFor="contact-email" className="block text-sm font-bold text-[#17324D] dark:text-white mb-1">
-                    {isEn ? 'Your Email Address:' : 'Ihre E-Mail-Adresse:'} <span className="text-red-600">*</span>
+                    {isEn ? 'Your email address' : 'Ihre E-Mail-Adresse'} <span className="font-normal">{isEn ? '(required)' : '(Pflichtfeld)'}</span>
                   </label>
                   <input
                     id="contact-email"
@@ -239,7 +239,7 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="contact-topic" className="block text-sm font-bold text-[#17324D] dark:text-white mb-1">
-                    {isEn ? 'Topic Area:' : 'Themenbereich:'}
+                    {isEn ? 'Topic' : 'Thema'}
                   </label>
                   <select
                     id="contact-topic"
@@ -247,8 +247,8 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
                     onChange={(e) => setContactTopic(e.target.value)}
                     className={fieldClass}
                   >
-                    <option value="General Question">{isEn ? 'General Question about navigation' : 'Allgemeine Frage zur Bedienung'}</option>
-                    <option value="Help with a tutorial">{isEn ? 'Help with a specific guide' : 'Hilfe bei einer konkreten Anleitung'}</option>
+                    <option value="General Question">{isEn ? 'General question about using the site' : 'Allgemeine Frage zur Bedienung'}</option>
+                    <option value="Help with a tutorial">{isEn ? 'Help with a specific lesson' : 'Hilfe bei einer bestimmten Lektion'}</option>
                     <option value="Topic suggestion">{isEn ? 'Suggestion for a new topic' : 'Vorschlag für neues Thema'}</option>
                     <option value="Accessibility note">{isEn ? 'Accessibility feedback' : 'Hinweis zur Barrierefreiheit'}</option>
                   </select>
@@ -257,7 +257,7 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
 
               <div>
                 <label htmlFor="contact-msg" className="block text-sm font-bold text-[#17324D] dark:text-white mb-1">
-                  {isEn ? 'Your Message:' : 'Ihre Nachricht:'} <span className="text-red-600">*</span>
+                  {isEn ? 'Your message' : 'Ihre Nachricht'} <span className="font-normal">{isEn ? '(required)' : '(Pflichtfeld)'}</span>
                 </label>
                 <textarea
                   id="contact-msg"
@@ -295,9 +295,9 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
                 <button
                   type="button"
                   onClick={triggerSupport}
-                  className="text-[#176B68] font-bold text-sm hover:underline flex items-center gap-1.5 cursor-pointer"
+                  className="text-[#17324D] font-bold text-base underline flex items-center gap-1.5 min-h-[44px] text-left"
                 >
-                  <Icon name="smart_toy" className="text-lg text-teal-500" />
+                  <Icon name="smart_toy" className="text-lg text-[#176B68]" />
                   <span>{isEn ? 'Need help now? Open the help assistant (pre-written answers)' : 'Jetzt Hilfe nötig? Zum Hilfe-Assistenten (vorgefertigte Antworten)'}</span>
                 </button>
 
@@ -307,7 +307,7 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
                   className="px-8 min-h-[56px] rounded-xl bg-[#17324D] hover:bg-[#0F2438] active:bg-[#0A1A2A] disabled:opacity-70 text-white font-bold text-base transition-colors w-full sm:w-auto flex items-center justify-center gap-2"
                 >
                   <Icon name={sendState === 'sending' ? 'progress_activity' : 'send'} className={`text-xl ${sendState === 'sending' ? 'motion-safe:animate-spin' : ''}`} />
-                  {sendState === 'sending' ? (isEn ? 'Sending…' : 'Wird gesendet…') : (isEn ? 'Send Message' : 'Nachricht absenden')}
+                  {sendState === 'sending' ? (isEn ? 'Sending…' : 'Wird gesendet…') : (isEn ? 'Send message' : 'Nachricht senden')}
                 </button>
               </div>
             </form>

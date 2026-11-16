@@ -354,16 +354,18 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
                 )}
               </>
             )}
-            {isIntro && scenario.appId && (
-              <button onClick={() => goTo({ page: 'free-roam', tutorialId: scenario.appId })} className={secondaryButton}>
-                <Icon name="smartphone" className="text-xl" />
-                {isEn ? 'Free roam: click around without a task' : 'Frei erkunden: ohne Aufgabe ausprobieren'}
+            <div className="flex flex-wrap gap-3">
+              {isIntro && scenario.appId && (
+                <button onClick={() => goTo({ page: 'free-roam', tutorialId: scenario.appId })} className={secondaryButton}>
+                  <Icon name="smartphone" className="text-xl" />
+                  {isEn ? 'Free roam: click around without a task' : 'Frei erkunden: ohne Aufgabe ausprobieren'}
+                </button>
+              )}
+              <button onClick={handleReadAloud} className={outlineButton}>
+                <Icon name={isSpeaking ? 'stop_circle' : 'volume_up'} className="text-xl" />
+                {isSpeaking ? (isEn ? 'Stop reading' : 'Vorlesen beenden') : (isEn ? 'Read aloud' : 'Vorlesen')}
               </button>
-            )}
-            <button onClick={handleReadAloud} className={outlineButton}>
-              <Icon name={isSpeaking ? 'stop_circle' : 'volume_up'} className="text-xl" />
-              {isSpeaking ? (isEn ? 'Stop reading' : 'Vorlesen beenden') : (isEn ? 'Read aloud' : 'Vorlesen')}
-            </button>
+            </div>
             {/* Small screens: "Start practice" right here, not below the phone preview */}
             {isIntro && <div className="lg:hidden flex flex-wrap items-center justify-between gap-3 pt-2">{navButtons}</div>}
           </section>

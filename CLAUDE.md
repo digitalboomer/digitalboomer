@@ -123,5 +123,6 @@ Follow these in every change. If code and style guide disagree, the style guide 
 - Keep the prototype honest: never present a simulated feature as real (e.g. label the scripted assistant as such until real AI is connected).
 - Every user-facing text exists in English and German; update both `*_EN` and `*_DE` content. New or changed English text also needs an entry in `src/i18n/tr.json`, `es.json` and `hr.json` (key = the English text, sentence by sentence for long texts), or it shows in English for those languages.
 - No real personal data, no real accounts, no secrets in the code. A future Gemini key must stay server-side, never in the browser bundle.
+- Wording (set in the Nov 2026 site review): call every learning unit a "lesson" (not guide, module or tutorial; "All tutorials" is only the name of that page); headings, buttons and topic names in sentence case ("Digital safety", "Start practice"); British English spelling (practise, colour, grey, favourite); a page's heading matches its name in the menu and footer; links are underlined; no emoji as icons.
 - Prefer small, reviewable changes; run `npm run lint` and `npm run build` before finishing.
 - Note which AI tools were used for what. The course requires a full overview of AI tool use.

@@ -6,21 +6,21 @@ import { HelpLevel, setHelpLevel, useHelpLevel } from '../utils/helpLevel';
 const OPTIONS: { id: HelpLevel; icon: string; en: [string, string]; de: [string, string] }[] = [
   {
     id: 'none',
-    icon: 'task_alt',
+    icon: 'school',
     en: ['No help', 'You only see the task and try it yourself. You can still ask for a tip.'],
     de: ['Keine Hilfe', 'Sie sehen nur die Aufgabe und probieren es selbst. Einen Tipp können Sie trotzdem anfordern.'],
   },
   {
     id: 'tips',
     icon: 'lightbulb',
-    en: ['Tips', 'You get instructions, and a hint if you tap the wrong spot.'],
-    de: ['Tipps', 'Sie bekommen eine Anleitung und einen Hinweis, wenn Sie falsch tippen.'],
+    en: ['Tips', 'You get instructions, and a hint if you choose the wrong spot.'],
+    de: ['Tipps', 'Sie bekommen eine Anleitung und einen Hinweis, wenn Sie die falsche Stelle wählen.'],
   },
   {
     id: 'full',
     icon: 'verified_user',
-    en: ['Complete help', 'Everything is explained, and each step shows you where to tap.'],
-    de: ['Volle Hilfe', 'Alles wird erklärt, und jeder Schritt zeigt Ihnen, wohin Sie tippen.'],
+    en: ['Complete help', 'Everything is explained, and each step shows you the right spot.'],
+    de: ['Volle Hilfe', 'Alles wird erklärt, und jeder Schritt zeigt Ihnen die richtige Stelle.'],
   },
 ];
 

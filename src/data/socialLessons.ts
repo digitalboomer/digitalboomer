@@ -76,7 +76,7 @@ export function socialLessons(lang: Language, service: Service): Tutorial[] {
     id: `${service.id}-${kind}`,
     title,
     categoryId: 'social-media',
-    categoryTitle: t('Social Media', 'Soziale Medien'),
+    categoryTitle: t('Social media', 'Soziale Medien'),
     description,
     durationMinutes: 4,
     difficulty: t('Easy', 'Einfach') as Tutorial['difficulty'],
@@ -145,7 +145,7 @@ export function generalSocialLessons(lang: Language): Tutorial[] {
   const t = (en: string, de: string) => (isEn ? en : de);
   const shared = {
     categoryId: 'social-media',
-    categoryTitle: t('Social Media', 'Soziale Medien'),
+    categoryTitle: t('Social media', 'Soziale Medien'),
     difficulty: t('Easy', 'Einfach') as Tutorial['difficulty'],
     image: IMAGES.topicSocialMedia,
   };

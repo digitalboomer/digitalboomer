@@ -41,13 +41,13 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
       <div className="max-w-6xl mx-auto space-y-10">
         {/* Breadcrumb & Title */}
         <div>
-          <nav className="flex items-center gap-2 text-xs text-[#202B36] dark:text-slate-400 mb-2" aria-label="Breadcrumb">
-            <button onClick={() => onNavigate('home')} className="hover:underline hover:text-[#176B68]">
+          <nav className="flex items-center gap-2 text-sm text-[#202B36] dark:text-slate-400 mb-2" aria-label="Breadcrumb">
+            <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">
               {isEn ? 'Home' : 'Startseite'}
             </button>
             <span>/</span>
             <span className="font-bold text-[#17324D] dark:text-white">
-              {isEn ? 'Digital Safety' : 'Digitale Sicherheit'}
+              {isEn ? 'Digital safety' : 'Digitale Sicherheit'}
             </span>
           </nav>
 
@@ -55,10 +55,10 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#EAF2F8] dark:bg-slate-800 text-[#17324D] dark:text-teal-300 border border-[#E5E9ED] dark:border-slate-700 text-xs font-bold mb-2">
                 <Icon name="verified_user" className="text-base text-[#176B68]" />
-                <span>{isEn ? 'Safety Guide Without Fear' : 'Sicherheitsleitfaden ohne Angst'}</span>
+                <span>{isEn ? 'Safe and calm on the internet' : 'Sicher und gelassen im Internet'}</span>
               </div>
               <h1 className="text-3xl sm:text-4xl font-extrabold text-[#17324D] dark:text-white">
-                {isEn ? 'Navigate the Internet Safely & Confidently' : 'Sicher und gelassen im Internet bewegen'}
+                {isEn ? 'Digital safety' : 'Digitale Sicherheit'}
               </h1>
               <p className="text-lg text-[#202B36] dark:text-slate-300 mt-2 max-w-2xl leading-relaxed">
                 {isEn
@@ -108,10 +108,10 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#E5E9ED] dark:border-slate-800 pb-4">
             <div>
               <span className="text-xs font-bold uppercase tracking-widest text-[#176B68] dark:text-teal-400">
-                {isEn ? 'Interactive Checklist' : 'Interaktive Praxis-Hilfe'}
+                {isEn ? 'Checklist' : 'Checkliste'}
               </span>
               <h2 className="text-2xl font-extrabold text-[#17324D] dark:text-white mt-1">
-                {isEn ? 'The 5-Point Checklist: Before You Click Any Link' : 'Die 5-Punkte-Checkliste: Bevor Sie auf einen Link klicken'}
+                {isEn ? 'Before you click a link: 5 questions' : 'Bevor Sie auf einen Link klicken: 5 Fragen'}
               </h2>
             </div>
             <div className="flex items-center gap-2 bg-[#EAF2F8] dark:bg-slate-800 px-4 py-2 rounded-xl text-sm font-bold text-[#17324D] dark:text-teal-300 border border-[#E5E9ED] dark:border-slate-700 shrink-0">
@@ -122,7 +122,7 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
 
           <p className="text-base text-[#202B36] dark:text-slate-300">
             {isEn
-              ? 'Did you receive an unsolicited email, SMS, or message? Check off these 5 points in sequence:'
+              ? 'Did you get an unexpected email, text message or chat message? Go through these 5 questions one by one:'
               : 'Haben Sie eine unaufgeforderte E-Mail, SMS oder WhatsApp-Nachricht erhalten? Haken Sie die folgenden Punkte nacheinander ab:'}
           </p>
 
@@ -177,7 +177,7 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
         {/* 4 CORE SECURITY PILLARS */}
         <div>
           <h2 className="text-2xl font-extrabold text-[#17324D] dark:text-white mb-6">
-            {isEn ? 'The 4 Golden Pillars of Digital Safety' : 'Die 4 goldenen Säulen für Ihren Schutz'}
+            {isEn ? 'Four rules that protect you' : 'Vier Regeln, die Sie schützen'}
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -199,9 +199,9 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                   onSelectTutorial('phishing-erkennen');
                   onNavigate('tutorial-detail');
                 }}
-                className="text-sm font-bold text-[#176B68] hover:underline inline-flex items-center gap-1 pt-1"
+                className="text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]"
               >
-                <span>{isEn ? 'Open Phishing Guide' : 'Phishing-Anleitung öffnen'}</span>
+                <span>{isEn ? 'Open the phishing guide' : 'Phishing-Anleitung öffnen'}</span>
                 <Icon name="arrow_forward" className="text-base" />
               </button>
             </div>
@@ -224,9 +224,9 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                   onSelectTutorial('passwoerter-erstellen');
                   onNavigate('tutorial-detail');
                 }}
-                className="text-sm font-bold text-[#176B68] hover:underline inline-flex items-center gap-1 pt-1"
+                className="text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]"
               >
-                <span>{isEn ? 'Open Password Guide' : 'Passwort-Anleitung öffnen'}</span>
+                <span>{isEn ? 'Open the password guide' : 'Passwort-Anleitung öffnen'}</span>
                 <Icon name="arrow_forward" className="text-base" />
               </button>
             </div>
@@ -246,12 +246,12 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
               </p>
               <button
                 onClick={() => {
-                  onSelectTutorial('online-banking-grundlagen');
+                  onSelectTutorial('safety-2fa');
                   onNavigate('tutorial-detail');
                 }}
-                className="text-sm font-bold text-[#176B68] hover:underline inline-flex items-center gap-1 pt-1"
+                className="text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]"
               >
-                <span>{isEn ? 'View Banking Protection' : 'Banking-Schutz ansehen'}</span>
+                <span>{isEn ? 'Open the two-step login guide' : 'Anleitung zur Anmeldung in zwei Schritten öffnen'}</span>
                 <Icon name="arrow_forward" className="text-base" />
               </button>
             </div>
@@ -274,9 +274,9 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                   onSelectTutorial('fake-shops-entlarven');
                   onNavigate('tutorial-detail');
                 }}
-                className="text-sm font-bold text-[#176B68] hover:underline inline-flex items-center gap-1 pt-1"
+                className="text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]"
               >
-                <span>{isEn ? 'Open Fake Store Guide' : 'Fake-Shop-Anleitung öffnen'}</span>
+                <span>{isEn ? 'Open the fake shop guide' : 'Fake-Shop-Anleitung öffnen'}</span>
                 <Icon name="arrow_forward" className="text-base" />
               </button>
             </div>
@@ -287,12 +287,12 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
         <div className="bg-[#EAF2F8] dark:bg-slate-900 border-2 border-[#176B68] p-8 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
           <div className="space-y-1 text-center sm:text-left">
             <h3 className="text-xl font-bold text-[#17324D] dark:text-white">
-              {isEn ? 'Emergency Help: Card Loss or Fraud Suspicion' : 'Im Ernstfall: Schnelle Hilfe bei Kartenverlust oder Verdacht'}
+              {isEn ? 'In an emergency: lost card or suspected fraud' : 'Im Ernstfall: Karte verloren oder Betrug vermutet'}
             </h3>
             <p className="text-sm text-[#202B36] dark:text-slate-300 max-w-xl">
               {isEn
-                ? 'Did you accidentally enter confidential information? Call the toll-free emergency card blocking hotline immediately.'
-                : 'Haben Sie versehentlich Daten herausgegeben? Rufen Sie den bundesweiten Sperr-Notruf unter 116 116 an.'}
+                ? 'Did you give away bank details or lose your card? In Germany, call the free blocking hotline 116 116 straight away. It works day and night.'
+                : 'Haben Sie versehentlich Bankdaten herausgegeben oder Ihre Karte verloren? Rufen Sie sofort den kostenlosen Sperr-Notruf 116 116 an. Er ist Tag und Nacht erreichbar.'}
             </p>
           </div>
           <button

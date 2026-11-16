@@ -297,7 +297,7 @@ export function enrichSafetyLessons(tutorials: Tutorial[], lang: Language): void
 export function safetyLessons(lang: Language): Tutorial[] {
   const en = lang === 'en';
   const t = (a: string, b: string) => (en ? a : b);
-  const shared = { categoryId: 'sicherheit', categoryTitle: t('Digital Safety', 'Digitale Sicherheit'), difficulty: t('Easy', 'Einfach') as Tutorial['difficulty'], image: IMAGES.topicSafety };
+  const shared = { categoryId: 'sicherheit', categoryTitle: t('Digital safety', 'Digitale Sicherheit'), difficulty: t('Easy', 'Einfach') as Tutorial['difficulty'], image: IMAGES.topicSafety };
   const tap = t('Tap each numbered mark to see why it is suspicious.', 'Tippen Sie auf jede nummerierte Markierung, um zu sehen, warum sie verdächtig ist.');
   return [
     {

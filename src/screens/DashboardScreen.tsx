@@ -69,7 +69,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
                   </span>
                 </div>
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-[#17324D] dark:text-white mt-1">
-                  {isEn ? 'My Progress' : 'Mein Fortschritt'}
+                  {isEn ? 'My progress' : 'Mein Fortschritt'}
                   {!user.isGuest && `: ${user.name}`}
                 </h1>
                 <p className="text-sm text-[#202B36] dark:text-slate-300 mt-1">
@@ -95,7 +95,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-sm transition-colors shadow-sm"
                 >
                   <Icon name="school" className="text-lg" />
-                  <span>{isEn ? 'View Certificate' : 'Teilnahmebestätigung ansehen'}</span>
+                  <span>{isEn ? 'View certificate' : 'Teilnahmebestätigung ansehen'}</span>
                 </button>
               )}
             </div>
@@ -105,18 +105,6 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
             <PhonePicker lang={lang} />
           </div>
 
-          {/* Interactive Progress Bar */}
-          <div className="mt-8 pt-6 border-t border-[#E5E9ED] dark:border-slate-800 space-y-3">
-            <div className="flex items-center justify-between text-sm font-bold text-[#17324D] dark:text-white">
-              <span className="flex items-center gap-2">
-                <Icon name="trending_up" className="text-[#176B68]" />
-                <span>{isEn ? 'Lessons completed' : 'Abgeschlossene Lektionen'}</span>
-              </span>
-              <span className="text-[#176B68]">
-                {user.completedTutorialIds.length}
-              </span>
-            </div>
-          </div>
         </div>
 
         {/* Resume: continue each unfinished lesson at the exact step */}
@@ -183,11 +171,11 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
               <Icon name="task_alt" className="text-2xl" />
             </div>
             <div>
-              <span className="text-2xl font-black text-[#17324D] dark:text-white block">
+              <span className="text-2xl font-bold text-[#17324D] dark:text-white block">
                 {user.completedTutorialIds.length}
               </span>
-              <span className="text-xs font-semibold text-[#202B36] dark:text-slate-300">
-                {isEn ? 'Completed Guides' : 'Abgeschlossene Anleitungen'}
+              <span className="text-base text-[#202B36] dark:text-slate-300">
+                {isEn ? 'Lessons completed' : 'Lektionen abgeschlossen'}
               </span>
             </div>
           </div>
@@ -197,11 +185,11 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
               <Icon name="bookmark" className="text-2xl" />
             </div>
             <div>
-              <span className="text-2xl font-black text-[#17324D] dark:text-white block">
+              <span className="text-2xl font-bold text-[#17324D] dark:text-white block">
                 {user.savedTutorialIds.length}
               </span>
-              <span className="text-xs font-semibold text-[#202B36] dark:text-slate-300">
-                {isEn ? 'Saved for Later' : 'Für später gemerkt'}
+              <span className="text-base text-[#202B36] dark:text-slate-300">
+                {isEn ? 'Saved for later' : 'Für später gemerkt'}
               </span>
             </div>
           </div>
@@ -211,11 +199,11 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
               <Icon name="play_circle" className="text-2xl" />
             </div>
             <div>
-              <span className="text-2xl font-black text-[#17324D] dark:text-white block">
+              <span className="text-2xl font-bold text-[#17324D] dark:text-white block">
                 {lessonsInProgress.length}
               </span>
-              <span className="text-xs font-semibold text-[#202B36] dark:text-slate-300">
-                {isEn ? 'Lessons in Progress' : 'Offene Lektionen'}
+              <span className="text-base text-[#202B36] dark:text-slate-300">
+                {isEn ? 'Lessons in progress' : 'Lektionen begonnen'}
               </span>
             </div>
           </div>
@@ -227,26 +215,26 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
             <div className="flex items-center gap-2">
               <Icon name="bookmark" className="text-2xl text-[#176B68]" />
               <h2 className="text-xl font-bold text-[#17324D] dark:text-white">
-                {isEn ? `Saved Guides (${savedTutorials.length})` : `Meine gemerkten Anleitungen (${savedTutorials.length})`}
+                {isEn ? `Saved for later (${savedTutorials.length})` : `Für später gemerkt (${savedTutorials.length})`}
               </h2>
             </div>
 
             <button
               onClick={() => onNavigate('tutorials')}
-              className="text-xs font-bold text-[#176B68] hover:underline"
+              className="px-2 min-h-[44px] text-base font-bold text-[#17324D] underline"
             >
-              {isEn ? 'Find more guides →' : 'Weitere Anleitungen finden →'}
+              {isEn ? 'Find more lessons' : 'Weitere Lektionen finden'}
             </button>
           </div>
 
           {savedTutorials.length === 0 ? (
             <div className="text-center py-8 text-[#202B36] dark:text-slate-400 bg-[#EAF2F8]/40 dark:bg-slate-800/40 rounded-2xl border border-[#E5E9ED] dark:border-slate-700">
-              <p>{isEn ? 'You have no saved guides yet.' : 'Sie haben sich noch keine Anleitungen gemerkt.'}</p>
+              <p>{isEn ? 'You have not saved any lessons yet. Use the bookmark symbol on a lesson to save it.' : 'Sie haben sich noch keine Lektionen gemerkt. Mit dem Lesezeichen-Symbol an einer Lektion merken Sie sie sich.'}</p>
               <button
                 onClick={() => onNavigate('tutorials')}
-                className="mt-3 px-4 py-2 bg-[#17324D] hover:bg-[#0f2336] text-white rounded-xl text-xs font-bold"
+                className="mt-3 px-5 min-h-[48px] bg-[#17324D] hover:bg-[#0f2336] text-white rounded-xl text-base font-bold"
               >
-                {isEn ? 'Browse Tutorials' : 'Anleitungen durchstöbern'}
+                {isEn ? 'Show all tutorials' : 'Alle Anleitungen zeigen'}
               </button>
             </div>
           ) : (
@@ -257,14 +245,14 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
                   className="p-4 rounded-2xl border border-[#E5E9ED] dark:border-slate-700 bg-[#EAF2F8]/30 dark:bg-slate-800/50 hover:bg-[#EAF2F8]/60 transition-colors flex flex-col justify-between space-y-3"
                 >
                   <div>
-                    <div className="flex items-center justify-between text-xs text-[#202B36] dark:text-slate-400 mb-1">
+                    <div className="flex items-center justify-between gap-2 text-base text-[#202B36] dark:text-slate-400 mb-1">
                       <span className="font-bold text-[#176B68]">{tut.categoryTitle}</span>
                       <button
                         onClick={() => onToggleBookmark(tut.id)}
-                        className="text-[#202B36] hover:text-red-600 font-bold"
-                        title={isEn ? 'Remove bookmark' : 'Aus Merkliste entfernen'}
+                        className="w-11 h-11 shrink-0 flex items-center justify-center rounded-lg text-[#17324D] hover:bg-[#EAF2F8]"
+                        aria-label={`${isEn ? 'Remove from saved' : 'Nicht mehr merken'}: ${tut.title}`}
                       >
-                        ✕
+                        <Icon name="close" className="text-xl" />
                       </button>
                     </div>
                     <h3 className="font-bold text-[#17324D] dark:text-white text-base line-clamp-2">
@@ -274,9 +262,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
 
                   <button
                     onClick={() => onSelectTutorial(tut.id, tutorialSteps[tut.id])}
-                    className="w-full py-2.5 rounded-xl bg-[#176B68] hover:bg-[#0f514e] text-white text-xs font-bold transition-colors shadow-sm"
+                    className="w-full min-h-[48px] rounded-xl bg-[#176B68] hover:bg-[#0F514F] text-white text-base font-bold transition-colors shadow-sm"
                   >
-                    {isEn ? 'Continue Guide →' : 'Jetzt fortsetzen →'}
+                    {tut.practice ? (isEn ? 'Start practice' : 'Übung starten') : (isEn ? 'Open lesson' : 'Lektion öffnen')}
                   </button>
                 </div>
               ))}
@@ -289,13 +277,13 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
           <div className="flex items-center gap-2">
             <Icon name="check_circle" className="text-2xl text-[#176B68]" />
             <h2 className="text-xl font-bold text-[#17324D] dark:text-white">
-              {isEn ? `Successfully Completed Modules (${completedTutorials.length})` : `Erfolgreich abgeschlossene Module (${completedTutorials.length})`}
+              {isEn ? `Completed lessons (${completedTutorials.length})` : `Abgeschlossene Lektionen (${completedTutorials.length})`}
             </h2>
           </div>
 
           {completedTutorials.length === 0 ? (
-            <p className="text-[#202B36] dark:text-slate-400 text-sm">
-              {isEn ? 'No modules completed yet. Start with your first tutorial!' : 'Noch keine Module abgeschlossen. Starten Sie mit Ihrem ersten Tutorial!'}
+            <p className="text-[#202B36] dark:text-slate-400 text-base">
+              {isEn ? 'No lessons completed yet. Each lesson you finish appears here.' : 'Noch keine Lektion abgeschlossen. Jede Lektion, die Sie beenden, erscheint hier.'}
             </p>
           ) : (
             <div className="space-y-3">
@@ -330,7 +318,7 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
                       onClick={() => setCertModalOpen(true)}
                       className="px-3.5 py-1.5 rounded-lg bg-[#17324D] hover:bg-[#0f2336] text-white text-xs font-bold transition-colors"
                     >
-                      {isEn ? 'View Certificate' : 'Urkunde anzeigen'}
+                      {isEn ? 'View certificate' : 'Teilnahmebestätigung ansehen'}
                     </button>
                   </div>
                 </div>

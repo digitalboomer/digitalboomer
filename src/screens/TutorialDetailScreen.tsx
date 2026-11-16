@@ -4,8 +4,7 @@ import { PageId, Language } from '../types';
 import { TUTORIALS_EN, TUTORIALS_DE } from '../data/content';
 import { speakText, stopSpeech } from '../utils/speech';
 import { LessonExample } from '../components/LessonExample';
-import { HelpLevelPicker } from '../components/HelpLevelPicker';
-import { useHelpLevel } from '../utils/helpLevel';
+import type { HelpLevel } from '../utils/helpLevel';
 
 interface TutorialDetailScreenProps {
   tutorialId: string;
@@ -19,6 +18,9 @@ interface TutorialDetailScreenProps {
   onSelectTutorial: (tutorialId: string) => void;
   lang?: Language;
 }
+
+/** Where a lesson's topic lives, for the breadcrumb. */
+const TOPIC_PAGE: Record<string, PageId> = { sicherheit: 'sicherheit', ki: 'ki-alltag', messaging: 'nachrichten-apps', email: 'email-apps', 'social-media': 'social-apps', banking: 'bank-apps' };
 
 export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
   tutorialId,
@@ -38,7 +40,8 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
   const tutorial = tutorials.find((t) => t.id === tutorialId) || tutorials[0];
 
   const [isSpeaking, setIsSpeaking] = useState(false);
-  const help = useHelpLevel();
+  // Text lessons have no practice screen to point at, so the help levels do not apply: tips and read aloud are always there.
+  const help = 'full' as HelpLevel;
   const [openTipStep, setOpenTipStep] = useState<number | null>(null);
   const [selectedHotspot, setSelectedHotspot] = useState<{ id: string; title: string; description: string; dangerLevel: string; advice: string } | null>(null);
   const [quizAnswers, setQuizAnswers] = useState<Record<string, number>>({});
@@ -142,13 +145,14 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Top Breadcrumb & Actions */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <nav className="flex flex-wrap items-center gap-2 text-xs text-[#202B36] dark:text-slate-400" aria-label="Breadcrumb">
-            <button onClick={() => onNavigate('home')} className="hover:underline hover:text-[#176B68]">
+          <nav className="flex flex-wrap items-center gap-2 text-sm text-[#202B36] dark:text-slate-400" aria-label="Breadcrumb">
+            <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">
               {isEn ? 'Home' : 'Startseite'}
             </button>
             <span>/</span>
-            <button onClick={() => onNavigate('tutorials')} className="hover:underline hover:text-[#176B68]">
-              {isEn ? 'Tutorials' : 'Anleitungen'}
+            {/* The lesson's own topic, like the practice lessons' breadcrumb */}
+            <button onClick={() => onNavigate(TOPIC_PAGE[tutorial.categoryId] ?? 'tutorials')} className="underline text-[#17324D] min-h-[44px]">
+              {tutorial.categoryTitle}
             </button>
             <span>/</span>
             <span className="font-bold text-[#17324D] dark:text-white">{tutorial.title}</span>
@@ -167,7 +171,7 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
               aria-label={isSpeaking ? (isEn ? 'Stop reading' : 'Vorlesen beenden') : (isEn ? 'Read aloud' : 'Text vorlesen')}
             >
               <Icon name={isSpeaking ? 'stop_circle' : 'volume_up'} className="text-lg text-[#176B68]" />
-              <span>{isSpeaking ? (isEn ? 'Stop Reading' : 'Vorlesen beenden') : (isEn ? 'Read Aloud' : 'Text vorlesen')}</span>
+              <span>{isSpeaking ? (isEn ? 'Stop reading' : 'Vorlesen beenden') : (isEn ? 'Read aloud' : 'Vorlesen')}</span>
             </button>
 
             {/* Bookmark button */}
@@ -218,10 +222,9 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
 
           {/* Progress bar and Stepper Indicators */}
           <div className="pt-4 border-t border-[#E5E9ED] dark:border-slate-800 space-y-3">
-            <div className="flex items-center justify-between text-xs font-bold text-[#17324D] dark:text-white">
-              <span>{isEn ? `Progress: Step ${currentStepIndex + 1} of ${totalSteps}` : `Fortschritt: Schritt ${currentStepIndex + 1} von ${totalSteps}`}</span>
-              <span className="text-[#176B68]">{progressPercent}% {isEn ? 'completed' : 'abgeschlossen'}</span>
-            </div>
+            <p className="text-base font-bold text-[#17324D] dark:text-white">
+              {isEn ? `Step ${currentStepIndex + 1} of ${totalSteps}` : `Schritt ${currentStepIndex + 1} von ${totalSteps}`}
+            </p>
 
             <div className="w-full h-3 bg-[#EAF2F8] dark:bg-slate-800 rounded-full overflow-hidden border border-[#E5E9ED] dark:border-slate-700">
               <div
@@ -258,14 +261,10 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
           </div>
         </div>
 
-        <div className="bg-[#FFFFFF] dark:bg-slate-900 p-4 rounded-2xl border-2 border-[#E5E9ED] dark:border-slate-800">
-          <HelpLevelPicker lang={lang} compact={currentStepIndex > 0} />
-        </div>
-
         {/* Current Step Content Box */}
         <article className="bg-[#FFFFFF] dark:bg-slate-900 p-6 sm:p-10 rounded-2xl border-2 border-[#E5E9ED] dark:border-slate-800 shadow-sm space-y-6">
           <div>
-            <span className="text-xs uppercase tracking-widest font-extrabold text-[#176B68] block mb-1">
+            <span className="text-base font-bold text-[#176B68] block mb-1">
               {isEn ? `Step ${currentStep.stepNumber} of ${totalSteps}` : `Schritt ${currentStep.stepNumber} von ${totalSteps}`}
             </span>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-[#17324D] dark:text-white">
@@ -301,11 +300,11 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
                     <span className="w-3 h-3 rounded-full bg-white/40 inline-block"></span>
                     <span className="w-3 h-3 rounded-full bg-white/40 inline-block"></span>
                     <span className="text-xs font-mono ml-2 text-white/90">
-                      {isEn ? 'Inbox – Suspicious Email Inspection' : 'Posteingang – Verdächtige E-Mail-Vorschau'}
+                      {isEn ? 'Practice email (fake)' : 'Übungs-E-Mail (gefälscht)'}
                     </span>
                   </div>
                   <span className="text-xs font-bold bg-[#EAF2F8] text-[#17324D] px-2.5 py-0.5 rounded">
-                    ⚠️ {isEn ? 'SCAM DEMO' : 'BETRUGS-BEISPIEL'}
+                    <Icon name="warning" className="text-base" />{isEn ? 'Scam example' : 'Betrugs-Beispiel'}
                   </span>
                 </div>
 
@@ -315,9 +314,9 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-xl bg-[#FFFFFF] dark:bg-slate-800 border border-[#E5E9ED] dark:border-slate-700">
                     <div>
                       <span className="font-bold text-[#202B36] dark:text-slate-400 mr-2">{isEn ? 'From:' : 'Von:'}</span>
-                      <span className="font-bold text-[#17324D] dark:text-white">Bank Security Alert </span>
+                      <span className="font-bold text-[#17324D] dark:text-white">{isEn ? 'Bank Security Service' : 'Musterbank-Sicherheit'} </span>
                       <span className="text-[#176B68] font-mono text-xs font-bold">
-                        &lt;service@spaar-kasse-online-sicherheit.de&gt;
+                        &lt;service@muster-bannk-sicherheit.example&gt;
                       </span>
                     </div>
                     <button
@@ -326,7 +325,7 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
                       aria-label={isEn ? 'Inspect fake sender red flag' : 'Warnung prüfen'}
                     >
                       <span className="w-4 h-4 rounded-full bg-[#176B68] text-white flex items-center justify-center text-[10px]">1</span>
-                      <span>{isEn ? 'Inspect Flag' : 'Warnung prüfen'}</span>
+                      <span>{isEn ? 'Show warning sign' : 'Warnzeichen zeigen'}</span>
                     </button>
                   </div>
 
@@ -335,7 +334,7 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
                     <div>
                       <span className="font-bold text-[#202B36] dark:text-slate-400 mr-2">{isEn ? 'Subject:' : 'Betreff:'}</span>
                       <span className="font-extrabold text-[#17324D] dark:text-white">
-                        {isEn ? 'URGENT: Your account will be locked in 24 hours!' : 'DRINGEND: Ihr Sparkassen-Konto wird in 24 Stunden gesperrt!'}
+                        {isEn ? 'URGENT: Your account will be locked in 24 hours!' : 'DRINGEND: Ihr Konto wird in 24 Stunden gesperrt!'}
                       </span>
                     </div>
                     <button
@@ -343,7 +342,7 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
                       className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF2F8] text-[#17324D] text-xs font-bold border border-[#176B68] hover:bg-[#176B68] hover:text-white transition-all self-start sm:self-auto"
                     >
                       <span className="w-4 h-4 rounded-full bg-[#176B68] text-white flex items-center justify-center text-[10px]">2</span>
-                      <span>{isEn ? 'Inspect Flag' : 'Warnung prüfen'}</span>
+                      <span>{isEn ? 'Show warning sign' : 'Warnzeichen zeigen'}</span>
                     </button>
                   </div>
 
@@ -360,7 +359,7 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
                       className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#EAF2F8] text-[#17324D] text-xs font-bold border border-[#176B68] hover:bg-[#176B68] hover:text-white transition-all self-start sm:self-auto"
                     >
                       <span className="w-4 h-4 rounded-full bg-[#176B68] text-white flex items-center justify-center text-[10px]">3</span>
-                      <span>{isEn ? 'Inspect Flag' : 'Warnung prüfen'}</span>
+                      <span>{isEn ? 'Show warning sign' : 'Warnzeichen zeigen'}</span>
                     </button>
                   </div>
                 </div>
@@ -386,13 +385,13 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
                         </span>
                       </button>
                       <div className="text-xs text-[#202B36] dark:text-slate-400 font-mono mt-2">
-                        {isEn ? 'Actually leads to:' : 'Führt zu:'} <span className="text-[#176B68] underline font-bold">http://secure-login-update-sparkasse.de-fake.com</span>
+                        {isEn ? 'Actually leads to:' : 'Führt zu:'} <span className="text-[#176B68] underline font-bold">http://muster-bannk-konto-bestaetigen.example</span>
                       </div>
                     </div>
                   </div>
 
                   <p className="text-xs text-[#202B36] dark:text-slate-400 italic">
-                    {isEn ? 'Kind regards,\nYour alleged Bank Security Team' : 'Mit freundlichen Grüßen,\nIhre angebliche Sparkassen-Zentrale'}
+                    {isEn ? 'Kind regards,\nYour alleged Bank Security Team' : 'Mit freundlichen Grüßen,\nIhr angebliches Bank-Sicherheitsteam'}
                   </p>
                 </div>
               </div>
@@ -533,7 +532,7 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
               <Icon name="lightbulb" className="text-2xl text-[#176B68] shrink-0 mt-0.5" />
               <div>
                 <strong className="block text-sm font-bold text-[#17324D] dark:text-white mb-0.5">
-                  {isEn ? 'Helpful Learning Tip:' : 'Praktischer Lerntipp:'}
+                  {isEn ? 'Tip' : 'Tipp'}
                 </strong>
                 <p className="text-sm text-[#202B36] dark:text-slate-300">{currentStep.tip}</p>
               </div>
@@ -546,7 +545,7 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
               <Icon name="security" className="text-2xl text-[#176B68] shrink-0 mt-0.5" />
               <div>
                 <strong className="block text-sm font-bold text-[#17324D] dark:text-white mb-0.5">
-                  {isEn ? 'Important Safety Notice:' : 'Wichtiger Sicherheitshinweis:'}
+                  {isEn ? 'Important' : 'Wichtig'}
                 </strong>
                 <p className="text-sm text-[#202B36] dark:text-slate-300">{currentStep.warning}</p>
               </div>
@@ -584,7 +583,7 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
               }`}
             >
               <Icon name="arrow_back" className="" />
-              <span>{isEn ? 'Previous Step' : 'Vorheriger Schritt'}</span>
+              <span>{isEn ? 'Previous step' : 'Vorheriger Schritt'}</span>
             </button>
 
             <div className="flex items-center gap-3">
@@ -601,7 +600,7 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
                   onClick={handleNextStep}
                   className="flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-base shadow-md transition-transform hover:scale-[1.01]"
                 >
-                  <span>{isEn ? 'Next Step' : 'Nächster Schritt'}</span>
+                  <span>{isEn ? 'Next step' : 'Nächster Schritt'}</span>
                   <Icon name="arrow_forward" className="" />
                 </button>
               )}

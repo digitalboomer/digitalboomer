@@ -28,8 +28,7 @@ export const OfficialTopicIcon: React.FC<OfficialTopicIconProps> = ({
           viewBox="0 0 32 32"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
-          role="img"
-          aria-label="Official WhatsApp Logo"
+          aria-hidden="true"
         >
           <path
             fillRule="evenodd"
@@ -62,8 +61,7 @@ export const OfficialTopicIcon: React.FC<OfficialTopicIconProps> = ({
           strokeWidth="2.2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          role="img"
-          aria-label="Digital Safety Shield Icon"
+          aria-hidden="true"
         >
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="#176B68" fillOpacity="0.15" />
           <path d="M9 12l2 2 4-4" stroke="#176B68" strokeWidth="2.5" />
@@ -88,8 +86,7 @@ export const OfficialTopicIcon: React.FC<OfficialTopicIconProps> = ({
           strokeWidth="2.2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          role="img"
-          aria-label="Online Banking Bank Building Icon"
+          aria-hidden="true"
         >
           <path d="M3 21h18" />
           <path d="M3 10h18" />
@@ -120,8 +117,7 @@ export const OfficialTopicIcon: React.FC<OfficialTopicIconProps> = ({
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          role="img"
-          aria-label="Artificial Intelligence Icon"
+          aria-hidden="true"
         >
           <rect x="3" y="11" width="18" height="10" rx="3" fill="#176B68" fillOpacity="0.15" />
           <circle cx="12" cy="5" r="2" />
@@ -150,8 +146,7 @@ export const OfficialTopicIcon: React.FC<OfficialTopicIconProps> = ({
           strokeWidth="2.2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          role="img"
-          aria-label="Social Media Icon"
+          aria-hidden="true"
         >
           <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
           <circle cx="9" cy="7" r="4" />
@@ -178,8 +173,7 @@ export const OfficialTopicIcon: React.FC<OfficialTopicIconProps> = ({
           strokeWidth="2.2"
           strokeLinecap="round"
           strokeLinejoin="round"
-          role="img"
-          aria-label="E-Mail Icon"
+          aria-hidden="true"
         >
           <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
           <polyline points="22,6 12,13 2,6" />

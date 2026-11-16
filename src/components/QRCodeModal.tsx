@@ -12,7 +12,7 @@ interface QRCodeModalProps {
 
 // The public address, used when this page runs on a computer that phones cannot reach
 // (set in .env.production; the published address on GitHub Pages)
-const SITE_URL = (import.meta.env.VITE_SITE_URL as string | undefined) || 'https://digital-boomer.netlify.app/';
+const SITE_URL = (import.meta.env.VITE_SITE_URL as string | undefined) || 'https://digitalboomer.github.io/digitalboomer/';
 
 export const QRCodeModal: React.FC<QRCodeModalProps> = ({
   isOpen,
@@ -103,10 +103,10 @@ export const QRCodeModal: React.FC<QRCodeModalProps> = ({
       }}
     >
       <div
-        className="w-full max-w-lg m-auto bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-[#E5E9ED] dark:border-slate-800 overflow-hidden transform transition-all"
+        className="w-full max-w-lg m-auto max-h-[calc(100dvh-2rem)] flex flex-col bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-[#E5E9ED] dark:border-slate-800 overflow-hidden"
       >
         {/* Modal Header */}
-        <div className="bg-[#17324D] text-white p-5 sm:p-6 flex items-start justify-between">
+        <div className="bg-[#17324D] text-white p-5 sm:p-6 flex items-start justify-between gap-3 shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-2xl bg-[#176B68] flex items-center justify-center text-white shrink-0">
               <Icon name="qr_code_2" className="text-2xl" />
@@ -115,126 +115,54 @@ export const QRCodeModal: React.FC<QRCodeModalProps> = ({
               <h2 id="qr-modal-title" className="text-xl font-bold leading-tight">
                 {isEn ? 'Open this page on a phone' : 'Diese Seite am Handy öffnen'}
               </h2>
-              <p className="text-xs text-slate-300 mt-0.5">
+              <p className="text-base text-white mt-0.5">
                 {isEn ? 'Point your phone camera at the square picture.' : 'Halten Sie die Handy-Kamera auf das quadratische Bild.'}
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors -mr-1 -mt-1"
-            aria-label={isEn ? 'Close dialog' : 'Fenster schließen'}
+            className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center shrink-0"
+            aria-label={isEn ? 'Close' : 'Schließen'}
           >
             <Icon name="close" className="text-xl" />
           </button>
         </div>
 
-        {/* Modal Body */}
-        <div className="p-6 space-y-6">
-
-          {/* QR Code Card Display */}
-          <div className="flex flex-col items-center justify-center bg-[#F7F8F5] dark:bg-slate-950 p-6 rounded-2xl border border-[#E5E9ED] dark:border-slate-800">
+        {/* Modal Body: scrolls on short screens, so "Close" always stays reachable */}
+        <div className="p-6 space-y-5 overflow-y-auto min-h-0">
+          <div className="flex justify-center bg-[#F7F8F5] dark:bg-slate-950 p-5 rounded-2xl">
             {generating ? (
-              <div className="w-64 h-64 flex flex-col items-center justify-center gap-3 text-[#202B36]">
-                <Icon name="progress_activity" className="text-4xl animate-spin text-[#176B68]" />
-                <span className="text-sm font-medium">
-                  {isEn ? 'Generating scannable QR code...' : 'QR-Code wird generiert...'}
-                </span>
-              </div>
+              <p className="w-56 h-56 flex items-center justify-center text-base text-[#202B36]">{isEn ? 'The picture is being made…' : 'Das Bild wird erstellt…'}</p>
             ) : qrDataUrl ? (
-              <div className="relative group">
-                {/* Visual frame with generous contrast padding */}
-                <div className="p-4 bg-white rounded-2xl shadow-md border border-[#E5E9ED]">
-                  <img
-                    src={qrDataUrl}
-                    alt={isEn ? 'QR code for Digital Boomer prototype' : 'QR-Code für den Digital Boomer Prototyp'}
-                    className="w-56 h-56 sm:w-64 sm:h-64 object-contain rounded-lg"
-                  />
-                </div>
+              <div className="p-3 bg-white rounded-2xl border-2 border-[#E5E9ED]">
+                <img src={qrDataUrl} alt={isEn ? 'QR code that opens this page' : 'QR-Code, der diese Seite öffnet'} className="w-52 h-52 sm:w-60 sm:h-60 object-contain" />
               </div>
             ) : (
-              <div className="text-red-600 p-4 text-center text-sm">
-                {isEn ? 'Error rendering QR code. Please copy link below.' : 'Fehler beim Laden des QR-Codes. Bitte Link unten kopieren.'}
-              </div>
+              <p className="flex items-start gap-2 p-3 rounded-xl bg-[#FDECEA] text-[#202B36] text-base"><Icon name="error" className="text-xl text-[#B3261E] shrink-0" />{isEn ? 'The picture could not be made. Please copy the link below instead.' : 'Das Bild konnte nicht erstellt werden. Bitte kopieren Sie stattdessen den Link unten.'}</p>
             )}
           </div>
 
-          {/* Active URL with Quick Copy Button */}
-          <div>
-            <label className="block text-xs font-bold text-[#202B36] dark:text-slate-300 uppercase tracking-wider mb-1.5">
-              {isEn ? 'Encoded Destination URL' : 'Enthaltene Ziel-Adresse'}
-            </label>
-            <div className="flex items-center gap-2">
-              <input
-                type="text"
-                readOnly
-                value={activeUrl}
-                className="flex-1 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-[#202B36] dark:text-slate-300 font-mono truncate select-all focus:outline-none focus:ring-2 focus:ring-[#176B68]"
-              />
-              <button
-                onClick={handleCopy}
-                className={`flex items-center gap-1.5 px-4 py-2.5 rounded-xl font-bold text-xs transition-all shrink-0 ${
-                  copied
-                    ? 'bg-emerald-600 text-white shadow-sm'
-                    : 'bg-[#17324D] hover:bg-[#0f2336] text-white'
-                }`}
-                aria-label={isEn ? 'Copy link to clipboard' : 'Link in Zwischenablage kopieren'}
-              >
-                <Icon name={copied ? 'check' : 'content_copy'} className="text-base" />
-                <span>{copied ? (isEn ? 'Copied!' : 'Kopiert!') : (isEn ? 'Copy Link' : 'Link kopieren')}</span>
-              </button>
-            </div>
-          </div>
+          <ol className="space-y-2 text-base text-[#202B36] dark:text-slate-200 list-decimal pl-6">
+            <li>{isEn ? 'Open the camera on your phone.' : 'Öffnen Sie die Kamera an Ihrem Handy.'}</li>
+            <li>{isEn ? 'Point it at the square picture.' : 'Halten Sie sie auf das quadratische Bild.'}</li>
+            <li>{isEn ? 'Tap the link that appears on the screen.' : 'Tippen Sie auf den Link, der auf dem Bildschirm erscheint.'}</li>
+          </ol>
 
-          {/* Step-by-Step Instructions for Evaluation & Professor Presentation */}
-          <div className="bg-[#EAF2F8] dark:bg-slate-800/60 p-4 rounded-2xl border border-sky-100 dark:border-slate-700">
-            <h3 className="text-xs font-bold text-[#17324D] dark:text-teal-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
-              <Icon name="smartphone" className="text-base" />
-              <span>{isEn ? 'How to test on your phone:' : 'So testen Sie auf Ihrem Smartphone:'}</span>
-            </h3>
-            <ol className="text-xs text-[#202B36] dark:text-slate-300 space-y-1.5 list-decimal list-inside leading-relaxed">
-              <li>
-                <strong>{isEn ? 'iOS (iPhone / iPad):' : 'iOS (iPhone / iPad):'}</strong>{' '}
-                {isEn ? 'Open Camera app and point directly at the QR code; tap the yellow link banner.' : 'Kamera-App öffnen und auf den Code richten; gelben Banner antippen.'}
-              </li>
-              <li>
-                <strong>{isEn ? 'Android:' : 'Android:'}</strong>{' '}
-                {isEn ? 'Open Camera or Google Lens to scan and launch the prototype instantly.' : 'Kamera oder Google Lens öffnen und den Vorschlag antippen.'}
-              </li>
-            </ol>
+          <div className="space-y-2">
+            <p className="text-base font-bold text-[#17324D] dark:text-white">{isEn ? 'Or send yourself the link:' : 'Oder schicken Sie sich den Link:'}</p>
+            <p className="text-base text-[#202B36] dark:text-slate-300 break-all">{activeUrl}</p>
+            <button onClick={handleCopy} className="inline-flex items-center gap-2 px-5 min-h-[48px] rounded-xl border-2 border-[#17324D] text-[#17324D] dark:text-white font-bold text-base hover:bg-[#EAF2F8]">
+              <Icon name={copied ? 'check' : 'content_copy'} className="text-xl" />
+              <span>{copied ? (isEn ? 'Link copied' : 'Link kopiert') : (isEn ? 'Copy link' : 'Link kopieren')}</span>
+            </button>
           </div>
         </div>
 
-        {/* Modal Footer Actions */}
-        <div className="bg-slate-50 dark:bg-slate-950 px-6 py-4 border-t border-[#E5E9ED] dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
-          {qrDataUrl && (
-            <a
-              href={qrDataUrl}
-              download="digital-boomer-clickable-prototype-qr.png"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 hover:bg-slate-100 text-[#17324D] dark:text-white border border-[#E5E9ED] dark:border-slate-700 rounded-xl font-bold text-xs shadow-sm transition-colors"
-            >
-              <Icon name="download" className="text-base text-[#176B68]" />
-              <span>{isEn ? 'Download QR as PNG' : 'QR-Code als PNG sichern'}</span>
-            </a>
-          )}
-
-          <div className="flex items-center gap-2 ml-auto">
-            <a
-              href={activeUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-[#176B68] dark:text-teal-400 hover:underline"
-            >
-              <span>{isEn ? 'Open URL in new tab' : 'In neuem Tab öffnen'}</span>
-              <Icon name="open_in_new" className="text-sm" />
-            </a>
-            <button
-              onClick={onClose}
-              className="px-5 py-2 bg-[#17324D] hover:bg-[#0f2336] text-white rounded-xl font-bold text-xs transition-colors"
-            >
-              {isEn ? 'Close' : 'Schließen'}
-            </button>
-          </div>
+        <div className="px-6 py-4 border-t-2 border-[#E5E9ED] dark:border-slate-800 flex justify-end shrink-0">
+          <button onClick={onClose} className="px-6 min-h-[48px] bg-[#17324D] hover:bg-[#0F2438] text-white rounded-xl font-bold text-base">
+            {isEn ? 'Close' : 'Schließen'}
+          </button>
         </div>
       </div>
     </div>

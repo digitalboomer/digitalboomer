@@ -24,53 +24,53 @@ export const AccessibilityPrivacyScreen: React.FC<AccessibilityPrivacyScreenProp
       <div className="max-w-5xl mx-auto space-y-8">
         {/* Breadcrumb & Title */}
         <div>
-          <nav className="flex items-center gap-2 text-xs text-[#202B36] dark:text-slate-400 mb-2">
-            <button onClick={() => onNavigate('home')} className="hover:underline hover:text-[#176B68]">
+          <nav className="flex items-center gap-2 text-sm text-[#202B36] dark:text-slate-400 mb-2" aria-label={isEn ? 'Breadcrumb' : 'Brotkrumen-Navigation'}>
+            <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">
               {isEn ? 'Home' : 'Startseite'}
             </button>
             <span>/</span>
             <span className="font-bold text-[#17324D] dark:text-white">
               {activeTab === 'barrierefreiheit'
-                ? (isEn ? 'Accessibility Statement' : 'Erklärung zur Barrierefreiheit')
-                : (isEn ? 'Privacy Policy & Imprint' : 'Datenschutz & Impressum')}
+                ? (isEn ? 'Accessibility' : 'Barrierefreiheit')
+                : (isEn ? 'Privacy and legal notice' : 'Datenschutz und Impressum')}
             </span>
           </nav>
 
           <h1 className="text-3xl sm:text-4xl font-extrabold text-[#17324D] dark:text-white">
-            {isEn ? 'Legal Transparency & Accessibility' : 'Rechtliches & Zugänglichkeit'}
+            {activeTab === 'barrierefreiheit' ? (isEn ? 'Accessibility' : 'Barrierefreiheit') : (isEn ? 'Privacy and legal notice' : 'Datenschutz und Impressum')}
           </h1>
           <p className="text-lg text-[#202B36] dark:text-slate-300 mt-2 max-w-2xl leading-relaxed">
             {isEn
-              ? 'Transparency, privacy protection, and barrier-free access for all users are foundational to Digital Boomer.'
-              : 'Transparenz, Datenschutz und uneingeschränkte Nutzbarkeit für alle Menschen stehen im Zentrum von Digital Boomer.'}
+              ? 'How we make the site easy to use for everyone, what happens with your data, and who is responsible.'
+              : 'Wie wir die Seite für alle leicht nutzbar machen, was mit Ihren Daten geschieht, und wer verantwortlich ist.'}
           </p>
         </div>
 
         {/* Tab Switcher */}
         <div className="flex border-b border-[#E5E9ED] dark:border-slate-800 gap-4" role="tablist">
           <button
-            onClick={() => setActiveTab('barrierefreiheit')}
-            className={`pb-4 px-2 text-base font-bold transition-colors border-b-2 ${
+            onClick={() => { setActiveTab('barrierefreiheit'); onNavigate('barrierefreiheit'); }}
+            className={`pb-3 px-2 min-h-[48px] inline-flex items-center gap-2 text-base font-bold transition-colors border-b-4 ${
               activeTab === 'barrierefreiheit'
-                ? 'border-[#176B68] text-[#17324D] dark:text-white'
+                ? 'border-[#17324D] text-[#17324D] dark:text-white dark:border-white'
                 : 'border-transparent text-[#202B36] dark:text-slate-400 hover:text-[#17324D]'
             }`}
             role="tab"
             aria-selected={activeTab === 'barrierefreiheit'}
           >
-            {isEn ? '♿ Accessibility Statement' : '♿ Erklärung zur Barrierefreiheit'}
+            <Icon name="accessibility" className="text-xl" />{isEn ? 'Accessibility' : 'Barrierefreiheit'}
           </button>
           <button
-            onClick={() => setActiveTab('datenschutz')}
-            className={`pb-4 px-2 text-base font-bold transition-colors border-b-2 ${
+            onClick={() => { setActiveTab('datenschutz'); onNavigate('datenschutz'); }}
+            className={`pb-3 px-2 min-h-[48px] inline-flex items-center gap-2 text-base font-bold transition-colors border-b-4 ${
               activeTab === 'datenschutz'
-                ? 'border-[#176B68] text-[#17324D] dark:text-white'
+                ? 'border-[#17324D] text-[#17324D] dark:text-white dark:border-white'
                 : 'border-transparent text-[#202B36] dark:text-slate-400 hover:text-[#17324D]'
             }`}
             role="tab"
             aria-selected={activeTab === 'datenschutz'}
           >
-            {isEn ? '🔒 Privacy Policy & Imprint' : '🔒 Datenschutz & Impressum'}
+            <Icon name="lock" className="text-xl" />{isEn ? 'Privacy and legal notice' : 'Datenschutz und Impressum'}
           </button>
         </div>
 
@@ -110,7 +110,7 @@ export const AccessibilityPrivacyScreen: React.FC<AccessibilityPrivacyScreenProp
                 <div className="p-4 rounded-2xl bg-[#EAF2F8] dark:bg-slate-800 border border-[#E5E9ED] dark:border-slate-700">
                   <Icon name="palette" className="text-2xl text-[#176B68] block mb-1" />
                   <strong className="block text-sm text-[#17324D] dark:text-white">
-                    {isEn ? 'Exact 7-Color Palette' : 'Exaktes 7-Farben-System'}
+                    {isEn ? 'Checked colours' : 'Geprüfte Farben'}
                   </strong>
                   <span className="text-xs text-[#202B36] dark:text-slate-400">
                     {isEn ? 'Colour contrast calculated for the design system' : 'Farbkontraste für das Design-System berechnet'}
@@ -132,7 +132,7 @@ export const AccessibilityPrivacyScreen: React.FC<AccessibilityPrivacyScreenProp
             <div className="bg-[#FFFFFF] dark:bg-slate-900 rounded-2xl p-6 sm:p-10 border-2 border-[#E5E9ED] dark:border-slate-800 shadow-sm space-y-6">
               <div>
                 <h3 className="text-2xl font-extrabold text-[#17324D] dark:text-white">
-                  {isEn ? 'Calculated Color Contrasts in Design System' : 'Berechnete Farbkontraste im Design-System'}
+                  {isEn ? 'Calculated colour contrasts' : 'Berechnete Farbkontraste'}
                 </h3>
                 <p className="text-sm text-[#202B36] dark:text-slate-400 mt-1">
                   {isEn
@@ -148,7 +148,7 @@ export const AccessibilityPrivacyScreen: React.FC<AccessibilityPrivacyScreenProp
                       <th className="py-3 px-4 font-bold text-[#17324D] dark:text-white">{isEn ? 'UI Element' : 'UI-Element'}</th>
                       <th className="py-3 px-4 font-bold text-[#17324D] dark:text-white">{isEn ? 'Foreground (Text)' : 'Vordergrund (Schrift)'}</th>
                       <th className="py-3 px-4 font-bold text-[#17324D] dark:text-white">{isEn ? 'Background' : 'Hintergrund'}</th>
-                      <th className="py-3 px-4 font-bold text-[#17324D] dark:text-white">{isEn ? 'Measured Ratio' : 'Gemessenes Verhältnis'}</th>
+                      <th className="py-3 px-4 font-bold text-[#17324D] dark:text-white">{isEn ? 'Calculated ratio' : 'Berechnetes Verhältnis'}</th>
                       <th className="py-3 px-4 font-bold text-[#17324D] dark:text-white">{isEn ? 'WCAG Status' : 'WCAG Status'}</th>
                     </tr>
                   </thead>
