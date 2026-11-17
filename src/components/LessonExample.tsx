@@ -185,6 +185,73 @@ export const LessonExample: React.FC<{ id: string; lang: Language; onDone?: () =
           </Scene>
         </Box>
       );
+    case 'chatbot-start':
+      return (
+        <Box caption={t('The three best-known chatbots. Names only: the apps look different.', 'Die drei bekanntesten Chatbots. Nur die Namen: Die Apps sehen anders aus.')}>
+          <Scene>
+          <ul className="grid grid-cols-1 sm:grid-cols-3 gap-2" style={{ color: '#202B36' }}>
+            {[['ChatGPT', 'OpenAI'], ['Gemini', 'Google'], ['Copilot', 'Microsoft']].map(([name, maker]) => (
+              <li key={name} className="p-3 rounded-2xl flex items-center gap-3" style={{ background: '#EAF2F8' }}>
+                <Sparkles size={26} className="shrink-0" style={{ color: '#176B68' }} aria-hidden="true" />
+                <span><strong className="block text-lg">{name}</strong>{t(`made by ${maker}`, `von ${maker}`)}</span>
+              </li>
+            ))}
+          </ul>
+          </Scene>
+        </Box>
+      );
+    case 'prompt-parts':
+      return (
+        <Box caption={t('One question, built from four parts.', 'Eine Frage, aus vier Teilen gebaut.')}>
+          <Scene>
+          <div className="space-y-2" style={{ color: '#202B36' }}>
+            <ul className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              {[[t('What', 'Was'), t('a thank-you card', 'eine Dankeskarte')], [t('For whom', 'Für wen'), t('my neighbour', 'meine Nachbarin')], [t('How long', 'Wie lang'), t('3 sentences', '3 Sätze')], [t('Tone', 'Ton'), t('warm and simple', 'herzlich und einfach')]].map(([part, value]) => (
+                <li key={part} className="p-2 rounded-xl" style={{ background: '#E3F1F0', border: '2px solid #176B68' }}><strong className="block">{part}</strong>{value}</li>
+              ))}
+            </ul>
+            <p className="px-3 py-2 rounded-xl" style={{ background: '#17324D', color: '#FFFFFF' }}>{t('"Write a thank-you card to my neighbour who watered my plants. 3 sentences, warm and simple."', '„Schreibe eine Dankeskarte an meine Nachbarin, die meine Pflanzen gegossen hat. 3 Sätze, herzlich und einfach.“')}</p>
+          </div>
+          </Scene>
+        </Box>
+      );
+    case 'follow-up':
+      return (
+        <Box caption={t('A conversation: the follow-up changes the answer.', 'Ein Gespräch: Die Nachfrage ändert die Antwort.')}>
+          <Scene>
+          <div className="max-w-md mx-auto space-y-2" style={{ color: '#202B36' }}>
+            <p className="px-3 py-2 rounded-2xl ml-10" style={{ background: '#17324D', color: '#FFFFFF' }}>{t('What is a heat pump?', 'Was ist eine Wärmepumpe?')}</p>
+            <p className="px-3 py-2 rounded-2xl mr-10 flex gap-2" style={{ background: '#FFFFFF', border: '1px solid #E5E9ED' }}><Sparkles size={18} className="shrink-0 mt-1" style={{ color: '#176B68' }} aria-hidden="true" />{t('A heat pump is a heating system that uses an electric compressor and a refrigerant to move thermal energy from the air or ground into...', 'Eine Wärmepumpe ist ein Heizsystem, das mit einem elektrischen Verdichter und einem Kältemittel Wärmeenergie aus Luft oder Erdreich...')}</p>
+            <p className="px-3 py-2 rounded-2xl ml-10" style={{ background: '#17324D', color: '#FFFFFF' }}>{t('Please explain that more simply.', 'Bitte erkläre das einfacher.')}</p>
+            <p className="px-3 py-2 rounded-2xl mr-10 flex gap-2" style={{ background: '#E3F1F0', border: '2px solid #176B68' }}><Sparkles size={18} className="shrink-0 mt-1" style={{ color: '#176B68' }} aria-hidden="true" />{t('It works like a fridge, but the other way round: it takes warmth from the air outside and brings it into your home.', 'Sie funktioniert wie ein Kühlschrank, nur umgekehrt: Sie holt Wärme aus der Luft draußen und bringt sie in Ihre Wohnung.')}</p>
+          </div>
+          </Scene>
+        </Box>
+      );
+    case 'ai-uses':
+      return (
+        <Box caption={t('Ideas to try. Write them in your own words.', 'Ideen zum Ausprobieren. Schreiben Sie sie in Ihren eigenen Worten.')}>
+          <Scene>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2" style={{ color: '#202B36' }}>
+            {[t('A recipe from what is in the fridge', 'Ein Rezept aus dem, was im Kühlschrank ist'), t('A shopping list for a meal', 'Eine Einkaufsliste für ein Essen'), t('A thank-you card', 'Eine Dankeskarte'), t('A difficult word explained', 'Ein schwieriges Wort erklärt'), t('Gift ideas for a grandchild', 'Geschenkideen für ein Enkelkind'), t('A day trip by train', 'Ein Tagesausflug mit dem Zug')].map((idea) => (
+              <li key={idea} className="p-3 rounded-2xl flex items-center gap-2 font-bold" style={{ background: '#EAF2F8' }}><Sparkles size={20} className="shrink-0" style={{ color: '#176B68' }} aria-hidden="true" />{idea}</li>
+            ))}
+          </ul>
+          </Scene>
+        </Box>
+      );
+    case 'check-answer':
+      return (
+        <Box caption={t('Made-up example: the answer sounds sure, but the number is invented.', 'Erfundenes Beispiel: Die Antwort klingt sicher, aber die Nummer ist erfunden.')}>
+          <Scene>
+          <div className="max-w-md mx-auto space-y-2" style={{ color: '#202B36' }}>
+            <p className="px-3 py-2 rounded-2xl ml-10" style={{ background: '#17324D', color: '#FFFFFF' }}>{t('What is the phone number of my health insurance?', 'Wie lautet die Telefonnummer meiner Krankenkasse?')}</p>
+            <p className="px-3 py-2 rounded-2xl mr-10 flex gap-2" style={{ background: '#FFFFFF', border: '1px solid #E5E9ED' }}><Sparkles size={18} className="shrink-0 mt-1" style={{ color: '#176B68' }} aria-hidden="true" />{t('You can reach them on 0800 123 456 78, every day from 7 am to 10 pm.', 'Sie erreichen sie unter 0800 123 456 78, täglich von 7 bis 22 Uhr.')}</p>
+            <p className="p-3 rounded-2xl flex gap-2" style={{ background: '#FDECEA', border: '2px solid #B3261E' }}><TriangleAlert size={22} className="shrink-0" style={{ color: '#B3261E' }} aria-hidden="true" />{t('Check it: the right number is on your insurance card and on the official website.', 'Prüfen Sie es: Die richtige Nummer steht auf Ihrer Versichertenkarte und auf der offiziellen Website.')}</p>
+          </div>
+          </Scene>
+        </Box>
+      );
     case 'ai-everyday':
       return (
         <Box caption={t('Places where you may already use AI.', 'Hier nutzen Sie KI vielleicht schon.')}>
