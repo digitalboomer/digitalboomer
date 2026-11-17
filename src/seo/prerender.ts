@@ -28,7 +28,6 @@ const BASE = import.meta.env.BASE_URL || '/';
 const DIST = path.resolve(process.cwd(), 'dist');
 const readDictionary = (lang: string) => JSON.parse(fs.readFileSync(path.resolve(process.cwd(), 'src/i18n', `${lang}.json`), 'utf8')) as Record<string, string>;
 const DICTIONARIES: Record<string, Record<string, string>> = { tr: readDictionary('tr'), es: readDictionary('es'), hr: readDictionary('hr') };
-const VERIFICATION = process.env.GOOGLE_SITE_VERIFICATION;
 
 const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
@@ -116,10 +115,9 @@ function render(route: Route, lang: UiLanguage): { file: string; html: string; i
     }
   }
 
-  const verification = VERIFICATION ? `<meta name="google-site-verification" content="${esc(VERIFICATION)}" />` : '';
   const html = template
     .replace(/<html lang="[^"]*"/, `<html lang="${lang}"`)
-    .replace('</head>', `    ${headHtml(info, verification)}\n  </head>`)
+    .replace('</head>', `    ${headHtml(info)}\n  </head>`)
     .replace('<div id="root"></div>', `<div id="root"><div class="max-w-3xl mx-auto px-4 py-8 space-y-4">${parts.filter(Boolean).join('\n')}</div></div>`);
   return { file: fileFor(route, lang), html, indexable: info.robots.startsWith('index'), url: info.canonical };
 }
