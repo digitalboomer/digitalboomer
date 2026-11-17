@@ -24,6 +24,28 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
   const isEn = lang === 'en';
   const checklist = isEn ? SECURITY_CHECKLIST_EN : SECURITY_CHECKLIST_DE;
   const guides = (isEn ? TUTORIALS_EN : TUTORIALS_DE).filter((t) => t.categoryId === 'sicherheit');
+  // The lessons in three groups, so the page reads like a short course instead of one long grid.
+  const GROUPS: { title: string; text: string; ids: string[] }[] = [
+    {
+      title: isEn ? 'Recognise scams' : 'Betrug erkennen',
+      text: isEn ? 'Emails, text messages, calls and websites that want your money or your data.' : 'E-Mails, SMS, Anrufe und Websites, die an Ihr Geld oder Ihre Daten wollen.',
+      ids: ['phishing-erkennen', 'safety-phishing-examples', 'safety-sms-scams', 'safety-phone-scams', 'e-mail-anhaenge-pruefen', 'safety-fake-websites', 'fake-shops-entlarven', 'safety-popups', 'safety-qr'],
+    },
+    {
+      title: isEn ? 'Protect your accounts and devices' : 'Konten und Geräte schützen',
+      text: isEn ? 'Passwords, codes and updates: set them up once, and you are much safer.' : 'Passwörter, Codes und Updates: einmal eingerichtet, und Sie sind viel sicherer.',
+      ids: ['passwoerter-erstellen', 'safety-2fa', 'safety-updates', 'safety-wifi'],
+    },
+    {
+      title: isEn ? 'If something has happened' : 'Wenn etwas passiert ist',
+      text: isEn ? 'Calm plans for a lost phone or a scam. Best read before you need them.' : 'Ruhige Pläne für ein verlorenes Handy oder einen Betrug. Am besten lesen, bevor Sie sie brauchen.',
+      ids: ['safety-lost-phone', 'safety-what-if'],
+    },
+  ];
+  const grouped = new Set(GROUPS.flatMap((g) => g.ids));
+  const groups = GROUPS.map((g) => ({ ...g, lessons: g.ids.map((id) => guides.find((t) => t.id === id)).filter((t): t is NonNullable<typeof t> => !!t) }));
+  const others = guides.filter((t) => !grouped.has(t.id));
+  if (others.length) groups[0].lessons.push(...others);
 
   const toggleCheck = (id: string) => {
     setCheckedItems((prev) => ({
@@ -62,8 +84,8 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
               </h1>
               <p className="text-lg text-[#202B36] dark:text-slate-300 mt-2 max-w-2xl leading-relaxed">
                 {isEn
-                  ? 'With a few simple rules, you can effectively protect yourself from scams, malware, and identity theft. You don\'t have to be a tech guru – calm judgment and attention are all it takes.'
-                  : 'Mit wenigen, einfachen Grundregeln schützen Sie sich wirkungsvoll vor Betrug, Viren und Datenklau. Sie müssen kein Computerprofi sein – gesunder Menschenverstand und Ruhe reichen völlig aus.'}
+                  ? 'A few simple rules protect you from most scams and harmful programs. You do not need to be an expert. Taking your time and checking calmly is what helps most.'
+                  : 'Wenige, einfache Regeln schützen Sie vor den meisten Betrugsversuchen und Schadprogrammen. Sie müssen kein Profi sein. Am meisten hilft es, sich Zeit zu nehmen und in Ruhe zu prüfen.'}
               </p>
             </div>
 
@@ -83,10 +105,14 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
         {/* All safety guides */}
         <section className="space-y-4">
           <h2 className="text-2xl font-extrabold text-[#17324D] dark:text-white">
-            {isEn ? `All safety guides (${guides.length})` : `Alle Sicherheits-Anleitungen (${guides.length})`}
+            {isEn ? `All safety lessons (${guides.length})` : `Alle Lektionen zur Sicherheit (${guides.length})`}
           </h2>
+          {groups.map((group) => (
+          <div key={group.title} className="space-y-3">
+          <h3 className="text-xl font-bold text-[#17324D] dark:text-white pt-2">{group.title}</h3>
+          <p className="text-base text-[#202B36] dark:text-slate-300 max-w-2xl">{group.text}</p>
           <ul className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-            {guides.map((guide) => (
+            {group.lessons.map((guide) => (
               <li key={guide.id}>
                 <button
                   onClick={() => {
@@ -101,6 +127,8 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
               </li>
             ))}
           </ul>
+          </div>
+          ))}
         </section>
 
         {/* INTERACTIVE 5-POINT CHECKLIST */}
@@ -122,39 +150,42 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
 
           <p className="text-base text-[#202B36] dark:text-slate-300">
             {isEn
-              ? 'Did you get an unexpected email, text message or chat message? Go through these 5 questions one by one:'
-              : 'Haben Sie eine unaufgeforderte E-Mail, SMS oder WhatsApp-Nachricht erhalten? Haken Sie die folgenden Punkte nacheinander ab:'}
+              ? 'Did you get an unexpected email, text message or chat message? Go through these 5 questions one by one, and tick each one you have checked:'
+              : 'Haben Sie eine unerwartete E-Mail, SMS oder Chat-Nachricht bekommen? Gehen Sie diese 5 Fragen nacheinander durch, und haken Sie jede ab, die Sie geprüft haben:'}
           </p>
 
           <div className="space-y-3">
             {checklist.map((item) => {
               const isChecked = !!checkedItems[item.id];
               return (
-                <div
+                <button
+                  type="button"
+                  role="checkbox"
+                  aria-checked={isChecked}
                   key={item.id}
                   onClick={() => toggleCheck(item.id)}
-                  className={`p-4 sm:p-5 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-4 select-none ${
+                  className={`w-full text-left p-4 sm:p-5 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-4 select-none ${
                     isChecked
                       ? 'bg-[#EAF2F8] dark:bg-slate-800 border-[#176B68]'
-                      : 'bg-[#FFFFFF] dark:bg-slate-900 border-[#E5E9ED] dark:border-slate-800 hover:border-[#176B68]'
+                      : 'bg-[#FFFFFF] dark:bg-slate-900 border-[#667382] dark:border-slate-600 hover:border-[#176B68]'
                   }`}
                 >
                   <div className={`w-7 h-7 rounded-lg border-2 flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
                     isChecked
                       ? 'bg-[#176B68] border-[#176B68] text-white'
-                      : 'border-[#E5E9ED] dark:border-slate-700 bg-[#FFFFFF] dark:bg-slate-850'
+                      : 'border-[#667382] dark:border-slate-400 bg-[#FFFFFF] dark:bg-slate-850'
                   }`}>
                     {isChecked && <Icon name="check" className="text-xl" />}
                   </div>
                   <div>
-                    <h3 className="font-bold text-base text-[#17324D] dark:text-white">
+                    <span className="block font-bold text-base text-[#17324D] dark:text-white">
                       {item.title}
-                    </h3>
-                    <p className="text-sm text-[#202B36] dark:text-slate-300 mt-1 leading-relaxed">
+                    </span>
+                    <span className="block text-base text-[#202B36] dark:text-slate-300 mt-1 leading-relaxed">
                       {item.explanation}
-                    </p>
+                    </span>
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>
@@ -163,12 +194,12 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
             <div className="bg-[#EAF2F8] dark:bg-slate-800 p-6 rounded-2xl border-2 border-[#176B68] text-[#17324D] dark:text-white text-center space-y-2 animate-fade-in">
               <Icon name="celebration" className="text-4xl text-[#176B68] block" />
               <h3 className="text-xl font-bold">
-                {isEn ? 'Great job! You reviewed all 5 checkpoints.' : 'Sehr gut! Alle 5 Prüfpunkte beachtet.'}
+                {isEn ? 'Well done! You went through all 5 questions.' : 'Sehr gut! Alle 5 Prüfpunkte beachtet.'}
               </h3>
               <p className="text-sm text-[#202B36] dark:text-slate-200 max-w-lg mx-auto">
                 {isEn
-                  ? 'You carefully examined the message. If even one item raised suspicion: do not click, and verify directly through a known phone number.'
-                  : 'Sie haben die Nachricht gründlich analysiert. Wenn auch nur ein Punkt Zweifel geweckt hat: Klicken Sie nicht und rufen Sie den Absender im Zweifel an.'}
+                  ? 'If even one answer made you doubt: do not click. Check with the sender on a phone number you already know.'
+                  : 'Hat auch nur eine Antwort Zweifel geweckt: Klicken Sie nicht. Fragen Sie beim Absender unter einer Nummer nach, die Sie schon kennen.'}
               </p>
             </div>
           )}
@@ -187,12 +218,12 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                 <Icon name="phishing" className="text-2xl" />
               </div>
               <h3 className="text-xl font-bold text-[#17324D] dark:text-white">
-                {isEn ? '1. Phishing & Counterfeit Emails' : '1. Phishing & gefälschte E-Mails'}
+                {isEn ? '1. Fake emails and messages' : '1. Gefälschte E-Mails und Nachrichten'}
               </h3>
               <p className="text-sm text-[#202B36] dark:text-slate-300 leading-relaxed">
                 {isEn
-                  ? 'Never disclose passwords or PINs upon an email request. Legitimate companies never ask for secret credentials via email.'
-                  : 'Niemals Passwörter oder TANs nach Aufforderung per E-Mail herausgeben. Seriöse Firmen fragen Sie niemals nach geheimen Zugangsdaten.'}
+                  ? 'Never give your password, PIN or a code because an email or message asks for it. Real companies never ask for them this way.'
+                  : 'Geben Sie nie Passwort, PIN oder einen Code heraus, weil eine E-Mail oder Nachricht danach fragt. Echte Firmen fragen nie auf diesem Weg danach.'}
               </p>
               <button
                 onClick={() => {
@@ -201,7 +232,7 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                 }}
                 className="text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]"
               >
-                <span>{isEn ? 'Open the phishing guide' : 'Phishing-Anleitung öffnen'}</span>
+                <span>{isEn ? 'Open the lesson on fake emails' : 'Lektion zu falschen E-Mails öffnen'}</span>
                 <Icon name="arrow_forward" className="text-base" />
               </button>
             </div>
@@ -212,12 +243,12 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                 <Icon name="key" className="text-2xl" />
               </div>
               <h3 className="text-xl font-bold text-[#17324D] dark:text-white">
-                {isEn ? '2. Strong Passwords Without Notes' : '2. Sichere Kennwörter ohne Zettel'}
+                {isEn ? '2. Strong passwords you can remember' : '2. Sichere Passwörter, die Sie sich merken'}
               </h3>
               <p className="text-sm text-[#202B36] dark:text-slate-300 leading-relaxed">
                 {isEn
-                  ? 'Use the sentence technique to generate passwords with 12+ characters in seconds that are simple for you to recall but impossible for computers to guess.'
-                  : 'Mit der Merksatz-Methode bauen Sie in Sekunden ein Kennwort aus 12 oder mehr Zeichen, das kein Computer erraten kann.'}
+                  ? 'Turn a sentence you like into a long password. It is easy for you to remember and very hard for others to guess. Use a different one for each account.'
+                  : 'Machen Sie aus einem Satz, den Sie mögen, ein langes Passwort. Sie können es sich leicht merken, andere können es kaum erraten. Nehmen Sie für jedes Konto ein anderes.'}
               </p>
               <button
                 onClick={() => {
@@ -226,7 +257,7 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                 }}
                 className="text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]"
               >
-                <span>{isEn ? 'Open the password guide' : 'Passwort-Anleitung öffnen'}</span>
+                <span>{isEn ? 'Open the password lesson' : 'Lektion zu Passwörtern öffnen'}</span>
                 <Icon name="arrow_forward" className="text-base" />
               </button>
             </div>
@@ -237,12 +268,12 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                 <Icon name="shield" className="text-2xl" />
               </div>
               <h3 className="text-xl font-bold text-[#17324D] dark:text-white">
-                {isEn ? '3. Two-Factor Authentication (2FA)' : '3. Zwei-Faktor-Authentifizierung (2FA)'}
+                {isEn ? '3. A second lock for your accounts' : '3. Ein zweites Schloss für Ihre Konten'}
               </h3>
               <p className="text-sm text-[#202B36] dark:text-slate-300 leading-relaxed">
                 {isEn
-                  ? 'The second lock: Even if somebody manages to steal your password, they cannot access your account without your personal smartphone approval.'
-                  : 'Das zweite Schutzschloss: Selbst wenn jemand Ihr Passwort stehlen sollte, kommt er ohne den Code auf Ihrem Smartphone nicht an Ihre Daten.'}
+                  ? 'With two-step login, a password alone is not enough. Even if someone steals it, they also need the code or approval on your phone.'
+                  : 'Mit der Anmeldung in zwei Schritten reicht ein Passwort allein nicht. Selbst wenn jemand es stiehlt, braucht er noch den Code oder die Freigabe auf Ihrem Handy.'}
               </p>
               <button
                 onClick={() => {
@@ -251,7 +282,7 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                 }}
                 className="text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]"
               >
-                <span>{isEn ? 'Open the two-step login guide' : 'Anleitung zur Anmeldung in zwei Schritten öffnen'}</span>
+                <span>{isEn ? 'Open the two-step login lesson' : 'Lektion zur Anmeldung in zwei Schritten öffnen'}</span>
                 <Icon name="arrow_forward" className="text-base" />
               </button>
             </div>
@@ -262,12 +293,12 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                 <Icon name="shopping_bag" className="text-2xl" />
               </div>
               <h3 className="text-xl font-bold text-[#17324D] dark:text-white">
-                {isEn ? '4. Spotting Fake Online Stores' : '4. Fake-Shops beim Einkaufen erkennen'}
+                {isEn ? '4. Shop safely online' : '4. Sicher online einkaufen'}
               </h3>
               <p className="text-sm text-[#202B36] dark:text-slate-300 leading-relaxed">
                 {isEn
-                  ? 'Always review the legal imprint and contact information before buying, and ensure trusted buyer-protected payment methods are offered.'
-                  : 'Prüfen Sie vor dem Bezahlen immer das Impressum und achten Sie darauf, ob sichere Bezahlmethoden wie Lastschrift oder Rechnung angeboten werden.'}
+                  ? 'Before you buy from a shop you do not know, look for its address and contact details. Prefer paying on invoice or another way with buyer protection.'
+                  : 'Bevor Sie in einem unbekannten Shop kaufen, suchen Sie Adresse und Kontaktdaten. Zahlen Sie lieber auf Rechnung oder auf einem anderen Weg mit Käuferschutz.'}
               </p>
               <button
                 onClick={() => {
@@ -276,7 +307,7 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                 }}
                 className="text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]"
               >
-                <span>{isEn ? 'Open the fake shop guide' : 'Fake-Shop-Anleitung öffnen'}</span>
+                <span>{isEn ? 'Open the lesson on fake shops' : 'Lektion zu Fake-Shops öffnen'}</span>
                 <Icon name="arrow_forward" className="text-base" />
               </button>
             </div>

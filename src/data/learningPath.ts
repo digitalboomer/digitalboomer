@@ -8,10 +8,10 @@
 import type { Tutorial } from '../types';
 
 const SERVICE_ORDER: { kinds: string[]; after: string[] }[] = [
-  { kinds: ['message', 'photo', 'voice', 'reply', 'group', 'call'], after: ['videotelefonie-familie', 'passwoerter-erstellen'] },
-  { kinds: ['reply', 'new', 'forward', 'attach', 'search', 'star', 'archive', 'restore', 'spam', 'unsubscribe'], after: ['email-write-well', 'phishing-erkennen'] },
+  { kinds: ['message', 'photo', 'voice', 'reply', 'group', 'call'], after: ['videotelefonie-familie', 'messaging-privacy'] },
+  { kinds: ['reply', 'new', 'forward', 'attach', 'search', 'star', 'archive', 'restore', 'spam', 'unsubscribe'], after: ['email-write-well', 'email-account'] },
   { kinds: ['like', 'search', 'post', 'message', 'share', 'follow', 'block'], after: ['social-before-posting', 'social-privacy'] },
-  { kinds: ['balance', 'transfer', 'statement', 'own', 'scheduled', 'standing', 'stop-standing', 'international', 'namecheck', 'reject', 'block-card'], after: ['banking-scam-calls', 'banking-abroad-guide'] },
+  { kinds: ['balance', 'transfer', 'statement', 'own', 'scheduled', 'standing', 'stop-standing', 'international', 'namecheck', 'reject', 'block-card'], after: ['banking-approve', 'banking-scam-calls'] },
 ];
 // The "Get started on the computer" lesson ("desktop") is not in these chains, so phone learners are never sent to it.
 // It is shown first for computer learners, and leads on to the service's first lessons.
@@ -20,13 +20,17 @@ const GROUP_ORDER: Record<string, number> = { messaging: 0, email: 1, 'social-me
 
 const NEXT: Record<string, string[]> = {
   'whatsapp-nachrichten': ['whatsapp-photo', 'whatsapp-voice'],
-  'videotelefonie-familie': ['whatsapp-call', 'whatsapp-group'],
+  'videotelefonie-familie': ['whatsapp-call', 'messaging-groups'],
+  'messaging-choose-app': ['whatsapp-message', 'messaging-privacy'],
+  'messaging-privacy': ['messaging-groups', 'safety-sms-scams'],
+  'messaging-groups': ['whatsapp-group', 'videotelefonie-familie'],
   'phishing-erkennen': ['safety-phishing-examples', 'e-mail-anhaenge-pruefen'],
   'safety-phishing-examples': ['e-mail-anhaenge-pruefen', 'safety-sms-scams'],
   'e-mail-anhaenge-pruefen': ['safety-sms-scams', 'passwoerter-erstellen'],
   'safety-sms-scams': ['safety-phone-scams', 'safety-qr'],
   'safety-phone-scams': ['safety-popups', 'banking-scam-calls'],
-  'safety-popups': ['fake-shops-entlarven', 'safety-updates'],
+  'safety-popups': ['safety-fake-websites', 'safety-updates'],
+  'safety-fake-websites': ['fake-shops-entlarven', 'safety-qr'],
   'fake-shops-entlarven': ['safety-qr', 'social-fake-news'],
   'safety-qr': ['passwoerter-erstellen', 'safety-wifi'],
   'passwoerter-erstellen': ['safety-2fa', 'safety-updates'],
@@ -35,16 +39,19 @@ const NEXT: Record<string, string[]> = {
   'safety-wifi': ['safety-lost-phone', 'safety-what-if'],
   'safety-lost-phone': ['safety-what-if', 'passwoerter-erstellen'],
   'safety-what-if': ['safety-phishing-examples', 'safety-phone-scams'],
-  'online-banking-grundlagen': ['banking-balance-practice', 'banking-scam-calls'],
+  'online-banking-grundlagen': ['banking-approve', 'banking-balance-practice'],
+  'banking-approve': ['banking-balance-practice', 'banking-scam-calls'],
   'banking-balance-practice': ['banking-transfer-practice', 'online-banking-grundlagen'],
   'banking-transfer-practice': ['banking-direct-debit', 'banking-scam-calls'],
   'banking-direct-debit': ['banking-abroad-guide', 'banking-scam-calls'],
   'banking-abroad-guide': ['banking-scam-calls', 'banking-direct-debit'],
   'banking-scam-calls': ['safety-phone-scams', 'phishing-erkennen'],
-  'email-reply-practice': ['email-write-well', 'phishing-erkennen'],
+  'email-reply-practice': ['email-write-well', 'email-account'],
+  'email-account': ['safety-2fa', 'email-write-well'],
   'email-write-well': ['email-cc-bcc', 'email-away-message'],
   'email-cc-bcc': ['email-away-message', 'e-mail-anhaenge-pruefen'],
-  'email-away-message': ['phishing-erkennen', 'e-mail-anhaenge-pruefen'],
+  'email-away-message': ['email-account', 'phishing-erkennen'],
+  'social-which-network': ['social-privacy', 'facebook-like'],
   'social-before-posting': ['social-privacy', 'social-strangers'],
   'social-privacy': ['social-strangers', 'social-fake-news'],
   'social-strangers': ['social-fake-news', 'banking-scam-calls'],

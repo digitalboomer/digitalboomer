@@ -13,6 +13,7 @@ import { APP_IDS, appInfo, appStyle, type AppId } from '../components/practice/m
 import { SERVICES, Service } from './services';
 import { generalSocialLessons, socialLessons } from './socialLessons';
 import { aiLessons } from './aiLessons';
+import { generalMessagingLessons } from './messagingGuides';
 
 const common = {
   en: {
@@ -583,6 +584,7 @@ export function practiceLessons(lang: Language): Tutorial[] {
         const service = SERVICES.find((s) => s.id === app);
         return service ? [...lessons, desktopLesson(lang, service, lessons[0])] : lessons;
       }),
+      ...generalMessagingLessons(lang),
       bankingLesson(lang),
       bankingLesson(lang, undefined, 'balance'),
       ...services('banking').flatMap((bank) => {
