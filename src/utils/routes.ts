@@ -31,10 +31,12 @@ export interface Route {
 
 export const URL_LANGUAGES: UiLanguage[] = ['en', 'de', 'tr', 'es', 'hr'];
 /**
- * Languages search engines may index. Turkish, Spanish and Croatian are machine-written and
- * not yet checked by native speakers, so their pages say "noindex" until they are.
+ * Languages search engines may index: they get "index" on their pages, a place in sitemap.xml
+ * and hreflang links. All five since Nov 2026 (the team's decision). The Turkish, Spanish and
+ * Croatian texts are machine-written and should still be checked by native speakers; to take
+ * a language out of search again, remove it here.
  */
-export const INDEXED_LANGUAGES: UiLanguage[] = ['en', 'de'];
+export const INDEXED_LANGUAGES: UiLanguage[] = ['en', 'de', 'tr', 'es', 'hr'];
 /** The public address of the site, for canonical links, the sitemap and QR codes. */
 export const SITE_ORIGIN = 'https://digitalboomer.github.io';
 export const SITE_BASE = '/digitalboomer/';
