@@ -7,6 +7,8 @@ import { handleImageError } from '../assets/images';
 import { fitsDevice, useChosenDevice } from '../utils/phoneType';
 import { ServiceLogo } from '../components/ServiceLogo';
 import { SERVICES, groupOfCategory } from '../data/services';
+import { linkTo } from '../utils/router';
+import { categoryRoute, topicTasks } from '../utils/categoryRoute';
 
 interface TopicsScreenProps {
   onNavigate: (page: PageId) => void;
@@ -26,7 +28,7 @@ export const TopicsScreen: React.FC<TopicsScreenProps> = ({ onNavigate, onSelect
       <div className="max-w-[1200px] mx-auto space-y-8">
         <div className="space-y-2">
           <nav className="flex items-center gap-2 text-sm text-[#202B36]" aria-label={isEn ? 'Breadcrumb' : 'Brotkrumen-Navigation'}>
-            <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">{isEn ? 'Home' : 'Startseite'}</button>
+            <a {...linkTo({ page: 'home' }, () => onNavigate('home'))} className="underline text-[#17324D] min-h-[44px] inline-flex items-center">{isEn ? 'Home' : 'Startseite'}</a>
             <span aria-hidden="true">/</span>
             <span className="font-bold text-[#17324D]">{isEn ? 'Topics' : 'Themen'}</span>
           </nav>
@@ -47,6 +49,7 @@ export const TopicsScreen: React.FC<TopicsScreenProps> = ({ onNavigate, onSelect
                   <OfficialTopicIcon topicId={cat.id} size="lg" />
                   <span className="min-w-0">{cat.title}</span>
                 </h2>
+                {topicTasks(cat.id, isEn) && <p className="text-lg font-bold text-[#17324D] dark:text-white">{topicTasks(cat.id, isEn)}</p>}
                 <p className="text-[#202B36] max-w-[65ch]">{cat.description}</p>
                 {group && (
                   <ul className="flex flex-wrap gap-2" aria-label={isEn ? 'Available services' : 'Verfügbare Dienste'}>
@@ -59,26 +62,26 @@ export const TopicsScreen: React.FC<TopicsScreenProps> = ({ onNavigate, onSelect
                   <ul className="grid grid-cols-1 lg:grid-cols-2 gap-2">
                     {lessons.slice(0, 4).map((tut) => (
                       <li key={tut.id}>
-                        <button
-                          onClick={() => onSelectTutorial(tut.id)}
-                          className="w-full h-full text-left px-3 py-2 min-h-[48px] rounded-xl border-2 border-[#667382] text-[#17324D] font-bold text-base flex items-center justify-between gap-2 hover:bg-[#EAF2F8] dark:hover:bg-slate-800"
+                        <a
+                          {...linkTo({ page: 'tutorial-detail', tutorialId: tut.id }, () => onSelectTutorial(tut.id))}
+                          className="link-card w-full h-full text-left px-3 py-2 min-h-[48px] rounded-xl border-2 border-[#667382] text-[#17324D] font-bold text-base flex items-center justify-between gap-2 hover:bg-[#EAF2F8] dark:hover:bg-slate-800"
                         >
                           <span className="min-w-0">{tut.title}</span>
                           <Icon name="arrow_forward" className="text-xl" />
-                        </button>
+                        </a>
                       </li>
                     ))}
                   </ul>
                 )}
-                <button
-                  onClick={() => onSelectCategoryFilter(cat.id)}
-                  className="inline-flex items-center gap-2 px-5 min-h-[48px] rounded-xl bg-[#176B68] hover:bg-[#0F514F] text-white font-bold text-base"
+                <a
+                  {...linkTo(categoryRoute(cat.id), () => onSelectCategoryFilter(cat.id))}
+                  className="link-card inline-flex items-center gap-2 px-5 min-h-[48px] rounded-xl bg-[#176B68] hover:bg-[#0F514F] text-white font-bold text-base"
                 >
                   {group
                     ? (isEn ? 'Choose your service' : 'Ihren Dienst wählen')
                     : (isEn ? `All ${lessons.length} lessons` : `Alle ${lessons.length} Lektionen`)}
                   <Icon name="arrow_forward" className="text-xl" />
-                </button>
+                </a>
               </div>
             </section>
           );

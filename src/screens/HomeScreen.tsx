@@ -7,6 +7,8 @@ import { IMAGES, handleImageError } from '../assets/images';
 import { ServiceLogo } from '../components/ServiceLogo';
 import { SERVICES, groupOfCategory } from '../data/services';
 import { fitsDevice, useChosenDevice } from '../utils/phoneType';
+import { linkTo } from '../utils/router';
+import { categoryRoute } from '../utils/categoryRoute';
 
 interface HomeScreenProps {
   onNavigate: (page: PageId) => void;
@@ -55,13 +57,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate, onSelectTuto
                 : 'Üben Sie Nachrichten, E-Mail, soziale Medien, Online-Banking und mehr an einem sicheren Ort. Ohne Konto und ohne Vorkenntnisse.'}
             </p>
             <div className="flex flex-wrap gap-3">
-              <button onClick={() => onNavigate('themen')} className={primary}>
+              <a {...linkTo({ page: 'themen' }, () => onNavigate('themen'))} className={`link-card ${primary}`}>
                 {isEn ? 'Choose a topic' : 'Thema wählen'}
                 <Icon name="arrow_forward" className="text-xl" />
-              </button>
-              <button onClick={() => onSelectTutorial('whatsapp-photo')} className={outline}>
+              </a>
+              <a {...linkTo({ page: 'tutorial-detail', tutorialId: 'whatsapp-photo' }, () => onSelectTutorial('whatsapp-photo'))} className={`link-card ${outline}`}>
                 {isEn ? 'Try it: send a photo' : 'Ausprobieren: Foto senden'}
-              </button>
+              </a>
             </div>
           </div>
           <img
@@ -96,12 +98,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate, onSelectTuto
                     ) : (
                       <p className="hidden sm:block text-[#202B36] text-sm">{isEn ? `${count} lessons` : `${count} Lektionen`}</p>
                     )}
-                    <button
-                      onClick={() => onSelectCategory(cat.id)}
-                      className={`${secondary} w-full !px-2`}
+                    <a
+                      {...linkTo(categoryRoute(cat.id), () => onSelectCategory(cat.id))}
+                      aria-label={`${isEn ? 'Open topic' : 'Thema öffnen'}: ${cat.title}`}
+                      className={`link-card ${secondary} w-full !px-2`}
                     >
                       {isEn ? 'Open topic' : 'Thema öffnen'}
-                    </button>
+                    </a>
                   </div>
                 </article>
               );

@@ -19,8 +19,9 @@ const SERVICE_ORDER: { kinds: string[]; after: string[] }[] = [
 const GROUP_ORDER: Record<string, number> = { messaging: 0, email: 1, 'social-media': 2, banking: 3 };
 
 const NEXT: Record<string, string[]> = {
-  'whatsapp-nachrichten': ['whatsapp-photo', 'whatsapp-voice'],
+  'whatsapp-nachrichten': ['whatsapp-photo', 'send-photo-overview'],
   'videotelefonie-familie': ['whatsapp-call', 'messaging-groups'],
+  'send-photo-overview': ['whatsapp-photo', 'gmail-attach'],
   'messaging-choose-app': ['whatsapp-message', 'messaging-privacy'],
   'messaging-privacy': ['messaging-groups', 'safety-sms-scams'],
   'messaging-groups': ['whatsapp-group', 'videotelefonie-familie'],

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { linkTo } from '../utils/router';
 import { Icon } from '../components/Icon';
 import { ServiceLogo } from '../components/ServiceLogo';
 import { serviceById } from '../data/services';
@@ -55,9 +56,9 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
         {/* Breadcrumb & Header */}
         <div>
           <nav className="flex items-center gap-2 text-xs text-[#202B36] dark:text-slate-400 mb-2">
-            <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">
+            <a {...linkTo({ page: 'home' }, () => onNavigate('home'))} className="underline text-[#17324D] min-h-[44px] inline-flex items-center">
               {isEn ? 'Home' : 'Startseite'}
-            </button>
+            </a>
             <span>/</span>
             <span className="font-bold text-[#17324D] dark:text-white">
               {isEn ? 'Search results' : 'Suchergebnisse'}
@@ -127,12 +128,9 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
                 ? 'Try a broader term like "Safety", "Message", or "Account".'
                 : 'Probieren Sie ein allgemeineres Wort wie „Sicherheit“, „Nachrichten“ oder „Konto“ aus.'}
             </p>
-            <button
-              onClick={() => onNavigate('tutorials')}
-              className="px-6 min-h-[48px] rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-base shadow-sm"
-            >
+            <a {...linkTo({ page: 'tutorials' }, () => onNavigate('tutorials'))} className="link-card px-6 min-h-[48px] rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-base shadow-sm inline-flex items-center">
               {isEn ? 'Show all tutorials' : 'Alle Anleitungen zeigen'}
-            </button>
+            </a>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -187,16 +185,10 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
                       </p>
                     </div>
 
-                    <button
-                      onClick={() => {
-                        onSelectTutorial(tut.id);
-                        onNavigate('tutorial-detail');
-                      }}
-                      className="w-full min-h-[48px] rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-base flex items-center justify-center gap-2 transition-colors shadow-sm"
-                    >
+                    <a {...linkTo({ page: 'tutorial-detail', tutorialId: tut.id }, () => { onSelectTutorial(tut.id); onNavigate('tutorial-detail'); })} className="link-card w-full min-h-[48px] rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-base flex items-center justify-center gap-2 transition-colors shadow-sm">
                       <span>{tut.practice ? (isEn ? 'Start practice' : 'Übung starten') : (isEn ? 'Open lesson' : 'Lektion öffnen')}</span>
                       <Icon name="arrow_forward" className="text-base" />
-                    </button>
+                    </a>
                   </div>
                 </div>
               );

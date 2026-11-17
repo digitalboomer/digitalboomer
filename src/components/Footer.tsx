@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { linkTo } from '../utils/router';
 import { Icon } from '../components/Icon';
 import { PageId, Language } from '../types';
 import { IMAGES, handleLogoError } from '../assets/images';
@@ -65,6 +66,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSupportModal, 
   const isEn = lang === 'en';
   const [confirmingReset, setConfirmingReset] = useState(false);
   const link = 'text-left text-white underline underline-offset-4 min-h-[44px] hover:text-[#EAF2F8]';
+  const pageLink = `${link} inline-flex items-center`;
 
   return (
     <footer className="bg-[#17324D] text-white mt-auto">
@@ -81,22 +83,22 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSupportModal, 
 
           <nav aria-label={isEn ? 'Learning' : 'Lernen'} className="flex flex-col items-start gap-1">
             <h2 className="text-xl font-bold text-white mb-1">{isEn ? 'Learning' : 'Lernen'}</h2>
-            <button onClick={() => onNavigate('themen')} className={link}>{isEn ? 'All topics' : 'Alle Themen'}</button>
-            <button onClick={() => onNavigate('nachrichten-apps')} className={link}>{isEn ? 'Messaging apps' : 'Nachrichten-Apps'}</button>
-            <button onClick={() => onNavigate('email-apps')} className={link}>{isEn ? 'Email' : 'E-Mail'}</button>
-            <button onClick={() => onNavigate('social-apps')} className={link}>{isEn ? 'Social media' : 'Soziale Medien'}</button>
-            <button onClick={() => onNavigate('bank-apps')} className={link}>{isEn ? 'Online banking' : 'Online-Banking'}</button>
-            <button onClick={() => onNavigate('sicherheit')} className={link}>{isEn ? 'Digital safety' : 'Digitale Sicherheit'}</button>
-            <button onClick={() => onNavigate('ki-alltag')} className={link}>{isEn ? 'Everyday AI' : 'KI im Alltag'}</button>
-            <button onClick={() => onNavigate('dashboard')} className={link}>{isEn ? 'My progress' : 'Mein Fortschritt'}</button>
+            <a {...linkTo({ page: 'themen' }, () => onNavigate('themen'))} className={pageLink}>{isEn ? 'All topics' : 'Alle Themen'}</a>
+            <a {...linkTo({ page: 'nachrichten-apps' }, () => onNavigate('nachrichten-apps'))} className={pageLink}>{isEn ? 'Messaging apps' : 'Nachrichten-Apps'}</a>
+            <a {...linkTo({ page: 'email-apps' }, () => onNavigate('email-apps'))} className={pageLink}>{isEn ? 'Email' : 'E-Mail'}</a>
+            <a {...linkTo({ page: 'social-apps' }, () => onNavigate('social-apps'))} className={pageLink}>{isEn ? 'Social media' : 'Soziale Medien'}</a>
+            <a {...linkTo({ page: 'bank-apps' }, () => onNavigate('bank-apps'))} className={pageLink}>{isEn ? 'Online banking' : 'Online-Banking'}</a>
+            <a {...linkTo({ page: 'sicherheit' }, () => onNavigate('sicherheit'))} className={pageLink}>{isEn ? 'Digital safety' : 'Digitale Sicherheit'}</a>
+            <a {...linkTo({ page: 'ki-alltag' }, () => onNavigate('ki-alltag'))} className={pageLink}>{isEn ? 'Everyday AI' : 'KI im Alltag'}</a>
+            <a {...linkTo({ page: 'dashboard' }, () => onNavigate('dashboard'))} className={pageLink}>{isEn ? 'My progress' : 'Mein Fortschritt'}</a>
           </nav>
 
           <nav aria-label={isEn ? 'Help and information' : 'Hilfe und Informationen'} className="flex flex-col items-start gap-1">
             <h2 className="text-xl font-bold text-white mb-1">{isEn ? 'Help & information' : 'Hilfe & Informationen'}</h2>
             <button onClick={onOpenSupportModal} className={link}>{isEn ? 'Help assistant (pre-written answers)' : 'Hilfe-Assistent (vorgefertigte Antworten)'}</button>
-            <button onClick={() => onNavigate('ueber-uns')} className={link}>{isEn ? 'About us & common questions' : 'Über uns & häufige Fragen'}</button>
-            <button onClick={() => onNavigate('barrierefreiheit')} className={link}>{isEn ? 'Accessibility' : 'Barrierefreiheit'}</button>
-            <button onClick={() => onNavigate('datenschutz')} className={link}>{isEn ? 'Privacy & legal notice' : 'Datenschutz & Impressum'}</button>
+            <a {...linkTo({ page: 'ueber-uns' }, () => onNavigate('ueber-uns'))} className={pageLink}>{isEn ? 'About us & common questions' : 'Über uns & häufige Fragen'}</a>
+            <a {...linkTo({ page: 'barrierefreiheit' }, () => onNavigate('barrierefreiheit'))} className={pageLink}>{isEn ? 'Accessibility' : 'Barrierefreiheit'}</a>
+            <a {...linkTo({ page: 'datenschutz' }, () => onNavigate('datenschutz'))} className={pageLink}>{isEn ? 'Privacy & legal notice' : 'Datenschutz & Impressum'}</a>
             <button onClick={onOpenQrCode} className={`${link} inline-flex items-center gap-2`}>
               <Icon name="qr_code_2" className="text-xl" />
               {isEn ? 'Open this page on a phone (QR code)' : 'Diese Seite am Handy öffnen (QR-Code)'}

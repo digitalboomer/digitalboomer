@@ -2,12 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { PageId, ThemeMode, TextScale, UserProfile, Language } from './types';
 import { INITIAL_USER_PROFILE, TUTORIALS_DE, TUTORIALS_EN } from './data/content';
 import { GuidedPractice } from './components/practice/GuidedPractice';
-import { currentRoute, goTo, leaveLesson, setLeaveGuard, stayInLesson, usePendingLeave, useRoute } from './utils/router';
+import { currentRoute, goTo, leaveLesson, setLanguage, setLeaveGuard, stayInLesson, useLanguage, usePendingLeave, useRoute } from './utils/router';
 import { clearProgress, loadProgress, saveProgress, type SavedProgress } from './utils/progress';
 import { handleAuthLink, loadAccountProgress, onAccountChange, saveAccountProgress, signOut } from './utils/auth';
 import { clearHelpLevel } from './utils/helpLevel';
 import { clearPhoneType } from './utils/phoneType';
-import { setPageLanguage, startLanguage, UI_LANGUAGES, type UiLanguage } from './i18n/translate';
+import { setPageLanguage, translateText, UI_LANGUAGES, type UiLanguage } from './i18n/translate';
+import { headInfo } from './seo/pageMeta';
+import { applyHead } from './seo/head';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { SupportModal } from './components/SupportModal';
@@ -48,22 +50,18 @@ export default function App() {
     return '100';
   });
 
-  // Language: the visitor's choice from the menu, else the browser's language if the site offers it, else English.
+  // Language: part of the address (/de/…, /hr/…), see src/utils/router.ts. A choice from the menu always wins.
   // Turkish, Spanish and Croatian show the English page, translated while it runs (src/i18n/translate.ts),
   // so `lang` (the language the page is built in) is 'en' for them.
-  const [uiLang, setLangState] = useState<UiLanguage>(startLanguage);
+  const uiLang = useLanguage();
   const lang: Language = uiLang === 'de' ? 'de' : 'en';
+  // Title, description, canonical address and language versions of the open page (src/seo).
+  const updateHead = () => applyHead(headInfo(currentRoute(), uiLang, { en: TUTORIALS_EN, de: TUTORIALS_DE }, translateText));
   useEffect(() => {
-    void setPageLanguage(uiLang);
+    void setPageLanguage(uiLang).then(updateHead); // Turkish, Spanish, Croatian: once the dictionary is there
   }, [uiLang]);
-  const setLang = (next: UiLanguage) => {
-    setLangState(next);
-    try {
-      localStorage.setItem('digital-boomer-language', next);
-    } catch {
-      // The choice then lasts until the page is reloaded.
-    }
-  };
+  useEffect(updateHead, [route]);
+  const setLang = (next: UiLanguage) => setLanguage(next);
   const [soundOn, setSoundState] = useState(isSoundOn);
   const handleSoundChange = (on: boolean) => {
     setSoundOn(on);

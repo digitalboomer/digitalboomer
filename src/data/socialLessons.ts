@@ -166,7 +166,7 @@ export function generalSocialLessons(lang: Language): Tutorial[] {
     {
       ...shared,
       id: 'social-privacy',
-      title: t('Protect Your Privacy on Social Media', 'Ihre Privatsphäre in sozialen Medien schützen'),
+      title: t('Protect Your Privacy on Facebook and Other Social Media', 'Ihre Privatsphäre auf Facebook und in anderen sozialen Medien schützen'),
       description: t('Decide who can see what you share. Three settings make a big difference.', 'Entscheiden Sie, wer sieht, was Sie teilen. Drei Einstellungen machen einen großen Unterschied.'),
       durationMinutes: 6,
       tags: [t('Privacy', 'Privatsphäre'), t('Social media', 'Soziale Medien'), t('Safety', 'Sicherheit')],

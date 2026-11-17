@@ -17,6 +17,54 @@ export function generalMessagingLessons(lang: Language): Tutorial[] {
   return [
     {
       ...shared,
+      id: 'send-photo-overview',
+      title: t('Send a Photo from Your Phone: Which Way?', 'Ein Foto vom Handy verschicken: Welcher Weg?'),
+      description: t('WhatsApp, email or text message: which way suits the person you want to send a photo to, and where to practise it.', 'WhatsApp, E-Mail oder SMS: welcher Weg zu der Person passt, der Sie ein Foto schicken möchten, und wo Sie ihn üben.'),
+      durationMinutes: 4,
+      tags: [t('Photo', 'Foto'), t('WhatsApp', 'WhatsApp'), t('Email', 'E-Mail')],
+      steps: [
+        {
+          stepNumber: 1, title: t('Which way suits you?', 'Welcher Weg passt?'), lead: t('It depends on who should get the photo.', 'Es kommt darauf an, wer das Foto bekommen soll.'),
+          paragraphs: [
+            t('Does the person use WhatsApp or another messaging app? Then send the photo in a chat. It is the quickest way, and it costs nothing extra.', 'Nutzt die Person WhatsApp oder eine andere Nachrichten-App? Dann schicken Sie das Foto in einem Chat. Das ist der schnellste Weg und kostet nichts extra.'),
+            t('Does the person not use messaging apps, or would you like to send several photos with a longer text? Then use email.', 'Nutzt die Person keine Nachrichten-Apps, oder möchten Sie mehrere Fotos mit einem längeren Text schicken? Dann nehmen Sie die E-Mail.'),
+            t('Every mobile phone can also receive a photo by text message (MMS). Depending on your contract, it can cost a little.', 'Jedes Handy kann ein Foto auch per SMS empfangen (MMS). Je nach Vertrag kann das etwas kosten.'),
+          ],
+        },
+        {
+          stepNumber: 2, title: t('In WhatsApp or another messaging app', 'In WhatsApp oder einer anderen Nachrichten-App'), lead: t('Open the chat, tap the paper clip or the plus, choose the photo and send it.', 'Öffnen Sie den Chat, tippen Sie auf die Büroklammer oder das Plus, wählen Sie das Foto und senden Sie es.'),
+          paragraphs: [
+            t('Before sending you can add a few words, for example "Our garden today".', 'Vor dem Senden können Sie ein paar Worte dazuschreiben, zum Beispiel „Unser Garten heute“.'),
+            t('Practise it step by step on a phone screen that looks like WhatsApp. Nothing is really sent.', 'Üben Sie es Schritt für Schritt auf einem Bildschirm, der wie WhatsApp aussieht. Es wird nichts wirklich gesendet.'),
+          ],
+          links: [
+            { label: t('Practise: WhatsApp: Send a Photo', 'Üben: WhatsApp: Ein Foto senden'), page: 'tutorial-detail', tutorialId: 'whatsapp-photo' },
+            { label: t('Other messaging apps', 'Andere Nachrichten-Apps'), page: 'nachrichten-apps' },
+          ],
+        },
+        {
+          stepNumber: 3, title: t('By email', 'Per E-Mail'), lead: t('Add the photo as an attachment.', 'Fügen Sie das Foto als Anhang hinzu.'),
+          paragraphs: [
+            t('Write a new email, tap the paper clip, choose the photo, and send the email as usual.', 'Schreiben Sie eine neue E-Mail, tippen Sie auf die Büroklammer, wählen Sie das Foto, und senden Sie die E-Mail wie gewohnt.'),
+            t('Choose your email service to practise it on a screen that looks like it: Gmail, Outlook, GMX, WEB.DE and more.', 'Wählen Sie Ihren E-Mail-Dienst, um es auf einem passenden Bildschirm zu üben: Gmail, Outlook, GMX, WEB.DE und mehr.'),
+          ],
+          links: [
+            { label: t('Practise: Gmail: Send a Photo by Email', 'Üben: Gmail: Ein Foto per E-Mail senden'), page: 'tutorial-detail', tutorialId: 'gmail-attach' },
+            { label: t('Other email services', 'Andere E-Mail-Dienste'), page: 'email-apps' },
+          ],
+        },
+        {
+          stepNumber: 4, title: t('Start from the photo itself', 'Beim Foto selbst beginnen'), lead: t('This works with every app.', 'Das klappt mit jeder App.'),
+          paragraphs: [
+            t('Open the Photos or Gallery app and tap the photo. Then tap the share symbol: a square with an arrow on the iPhone, three connected dots on Android.', 'Öffnen Sie die App Fotos oder Galerie und tippen Sie auf das Foto. Tippen Sie dann auf das Teilen-Symbol: ein Quadrat mit Pfeil am iPhone, drei verbundene Punkte bei Android.'),
+            t('Now choose WhatsApp, Mail or Messages, and then the person.', 'Wählen Sie jetzt WhatsApp, Mail oder Nachrichten, und dann die Person.'),
+          ],
+          tip: t('Photos of other people: ask them first before you send them on.', 'Fotos von anderen Menschen: Fragen Sie sie, bevor Sie sie weiterschicken.'),
+        },
+      ],
+    },
+    {
+      ...shared,
       id: 'messaging-choose-app',
       title: t('Which Messaging App? A Short Overview', 'Welche Nachrichten-App? Ein kurzer Überblick'),
       description: t('WhatsApp, Signal, SMS and more: what they have in common, how they differ, and what they cost.', 'WhatsApp, Signal, SMS und mehr: was sie gemeinsam haben, wie sie sich unterscheiden und was sie kosten.'),

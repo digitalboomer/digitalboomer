@@ -7,6 +7,7 @@ import { CATEGORIES_EN, CATEGORIES_DE, TUTORIALS_EN, TUTORIALS_DE } from '../dat
 import { OfficialTopicIcon } from '../components/OfficialTopicIcon';
 import { handleImageError } from '../assets/images';
 import { fitsDevice, useChosenDevice } from '../utils/phoneType';
+import { linkTo } from '../utils/router';
 
 interface TutorialsScreenProps {
   onNavigate: (page: PageId) => void;
@@ -56,9 +57,9 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
         {/* Header Breadcrumb & Title */}
         <div>
           <nav className="flex items-center gap-2 text-sm text-[#202B36] dark:text-slate-400 mb-2" aria-label="Breadcrumb">
-            <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">
+            <a {...linkTo({ page: 'home' }, () => onNavigate('home'))} className="underline text-[#17324D] min-h-[44px] inline-flex items-center">
               {isEn ? 'Home' : 'Startseite'}
-            </button>
+            </a>
             <span>/</span>
             <span className="font-bold text-[#17324D] dark:text-white">
               {isEn ? 'All tutorials' : 'Alle Anleitungen'}
@@ -278,16 +279,17 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
                       </div>
 
                     <div className="pt-4 border-t border-[#E5E9ED] dark:border-slate-800 flex items-center gap-3">
-                      <button
-                        onClick={() => {
+                      <a
+                        {...linkTo({ page: 'tutorial-detail', tutorialId: tut.id }, () => {
                           onSelectTutorial(tut.id);
                           onNavigate('tutorial-detail');
-                        }}
-                        className="flex-1 py-3 px-4 rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-base text-center flex items-center justify-center gap-2 transition-colors touch-target shadow-sm"
+                        })}
+                        aria-label={`${tut.practice ? (isEn ? 'Start practice' : 'Übung starten') : (isEn ? 'Open lesson' : 'Lektion öffnen')}: ${tut.title}`}
+                        className="link-card flex-1 py-3 px-4 min-h-[48px] rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-base text-center flex items-center justify-center gap-2 transition-colors touch-target shadow-sm"
                       >
                         <span>{tut.practice ? (isEn ? 'Start practice' : 'Übung starten') : (isEn ? 'Open lesson' : 'Lektion öffnen')}</span>
                         <Icon name="arrow_forward" className="text-lg" />
-                      </button>
+                      </a>
                     </div>
                   </div>
                 </div>

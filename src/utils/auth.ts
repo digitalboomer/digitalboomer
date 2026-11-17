@@ -20,9 +20,9 @@ export const supabase: SupabaseClient | null = url && anonKey
 
 export const accountsAvailable = supabase !== null;
 
-/** The address emails link back to: this site, without the page part. */
+/** The address emails link back to: the site's home page (each page has its own address now). */
 function siteAddress(): string {
-  return `${window.location.origin}${window.location.pathname}`;
+  return `${window.location.origin}${import.meta.env.BASE_URL || "/"}`; // the home page; the router then opens the right page
 }
 
 export type AuthLanding = 'confirmed' | 'recovery' | 'failed' | null;

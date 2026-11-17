@@ -1,6 +1,7 @@
 import {createRoot} from 'react-dom/client';
 import App from './App.tsx';
-import { isExtraLanguage, setPageLanguage, startLanguage } from './i18n/translate';
+import { isExtraLanguage, setPageLanguage } from './i18n/translate';
+import { initialLanguage } from './utils/router';
 import '@fontsource/atkinson-hyperlegible/latin-400.css';
 import '@fontsource/atkinson-hyperlegible/latin-700.css';
 // Letters such as ş, ğ, ı (Turkish) and č, ć, đ, ž (Croatian). Only downloaded when a page uses them.
@@ -33,6 +34,6 @@ if (typeof Node === 'function' && Node.prototype) {
 
 // Starting in Turkish, Spanish or Croatian (chosen earlier, or the browser's language): load that
 // dictionary before the first drawing, so the page never shows English for a moment while it downloads.
-const first = startLanguage();
+const first = initialLanguage();
 const ready = isExtraLanguage(first) ? setPageLanguage(first).catch(() => undefined) : Promise.resolve();
 void ready.then(() => createRoot(document.getElementById('root')!).render(<App />));

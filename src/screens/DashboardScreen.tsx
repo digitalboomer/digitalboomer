@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { linkTo } from '../utils/router';
 import { Icon } from '../components/Icon';
 import { PageId, UserProfile, Language } from '../types';
 import { TUTORIALS_EN, TUTORIALS_DE } from '../data/content';
@@ -123,12 +124,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
                   ? 'No lesson in progress right now. Choose a topic whenever you are ready.'
                   : 'Gerade ist keine Lektion offen. Wählen Sie ein Thema, wann immer Sie möchten.'}
               </p>
-              <button
-                onClick={() => onNavigate('themen')}
-                className="px-5 py-3 min-h-[48px] rounded-xl bg-[#176B68] hover:bg-[#0f514e] text-white text-base font-bold transition-colors shadow-sm"
-              >
+              <a {...linkTo({ page: 'themen' }, () => onNavigate('themen'))} className="link-card px-5 py-3 min-h-[48px] rounded-xl bg-[#176B68] hover:bg-[#0f514e] text-white text-base font-bold transition-colors shadow-sm inline-flex items-center">
                 {isEn ? 'Choose a topic' : 'Thema wählen'}
-              </button>
+              </a>
             </div>
           ) : (
             <div className="space-y-3">
@@ -151,12 +149,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
                         <div className="h-full bg-[#176B68] rounded-full" style={{ width: `${stepPercent}%` }} />
                       </div>
                     </div>
-                    <button
-                      onClick={() => onSelectTutorial(tut.id, stepIndex)}
-                      className="px-5 py-3 min-h-[48px] rounded-xl bg-[#176B68] hover:bg-[#0f514e] text-white text-base font-bold transition-colors shadow-sm shrink-0"
-                    >
+                    <a {...linkTo({ page: 'tutorial-detail', tutorialId: tut.id, stepIndex }, () => onSelectTutorial(tut.id, stepIndex))} className="link-card inline-flex items-center justify-center text-center px-5 py-3 min-h-[48px] rounded-xl bg-[#176B68] hover:bg-[#0f514e] text-white text-base font-bold transition-colors shadow-sm shrink-0">
                       {isEn ? 'Resume lesson' : 'Lektion fortsetzen'}
-                    </button>
+                    </a>
                   </div>
                 );
               })}
@@ -219,23 +214,17 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
               </h2>
             </div>
 
-            <button
-              onClick={() => onNavigate('tutorials')}
-              className="px-2 min-h-[44px] text-base font-bold text-[#17324D] underline"
-            >
+            <a {...linkTo({ page: 'tutorials' }, () => onNavigate('tutorials'))} className="px-2 min-h-[44px] text-base font-bold text-[#17324D] underline inline-flex items-center">
               {isEn ? 'Find more lessons' : 'Weitere Lektionen finden'}
-            </button>
+            </a>
           </div>
 
           {savedTutorials.length === 0 ? (
             <div className="text-center py-8 text-[#202B36] dark:text-slate-400 bg-[#EAF2F8]/40 dark:bg-slate-800/40 rounded-2xl border border-[#E5E9ED] dark:border-slate-700">
               <p>{isEn ? 'You have not saved any lessons yet. Use the bookmark symbol on a lesson to save it.' : 'Sie haben sich noch keine Lektionen gemerkt. Mit dem Lesezeichen-Symbol an einer Lektion merken Sie sie sich.'}</p>
-              <button
-                onClick={() => onNavigate('tutorials')}
-                className="mt-3 px-5 min-h-[48px] bg-[#17324D] hover:bg-[#0f2336] text-white rounded-xl text-base font-bold"
-              >
+              <a {...linkTo({ page: 'tutorials' }, () => onNavigate('tutorials'))} className="link-card mt-3 px-5 min-h-[48px] bg-[#17324D] hover:bg-[#0f2336] text-white rounded-xl text-base font-bold inline-flex items-center">
                 {isEn ? 'Show all tutorials' : 'Alle Anleitungen zeigen'}
-              </button>
+              </a>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
@@ -260,12 +249,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
                     </h3>
                   </div>
 
-                  <button
-                    onClick={() => onSelectTutorial(tut.id, tutorialSteps[tut.id])}
-                    className="w-full min-h-[48px] rounded-xl bg-[#176B68] hover:bg-[#0F514F] text-white text-base font-bold transition-colors shadow-sm"
-                  >
+                  <a {...linkTo({ page: 'tutorial-detail', tutorialId: tut.id, stepIndex: tutorialSteps[tut.id] }, () => onSelectTutorial(tut.id, tutorialSteps[tut.id]))} className="link-card flex items-center justify-center text-center w-full min-h-[48px] rounded-xl bg-[#176B68] hover:bg-[#0F514F] text-white text-base font-bold transition-colors shadow-sm">
                     {tut.practice ? (isEn ? 'Start practice' : 'Übung starten') : (isEn ? 'Open lesson' : 'Lektion öffnen')}
-                  </button>
+                  </a>
                 </div>
               ))}
             </div>
@@ -305,15 +291,9 @@ export const DashboardScreen: React.FC<DashboardScreenProps> = ({
                   </div>
 
                   <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => {
-                        onSelectTutorial(tut.id);
-                        onNavigate('tutorial-detail');
-                      }}
-                      className="px-3.5 py-1.5 rounded-lg border border-[#E5E9ED] dark:border-slate-700 text-xs font-semibold text-[#17324D] dark:text-slate-200 hover:bg-[#FFFFFF] transition-colors"
-                    >
+                    <a {...linkTo({ page: 'tutorial-detail', tutorialId: tut.id }, () => { onSelectTutorial(tut.id); onNavigate('tutorial-detail'); })} className="link-card inline-flex items-center justify-center text-center px-3.5 py-1.5 rounded-lg border border-[#E5E9ED] dark:border-slate-700 text-xs font-semibold text-[#17324D] dark:text-slate-200 hover:bg-[#FFFFFF] transition-colors">
                       {isEn ? 'Review' : 'Wiederholen'}
-                    </button>
+                    </a>
                     <button
                       onClick={() => setCertModalOpen(true)}
                       className="px-3.5 py-1.5 rounded-lg bg-[#17324D] hover:bg-[#0f2336] text-white text-xs font-bold transition-colors"

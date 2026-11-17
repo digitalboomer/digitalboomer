@@ -75,6 +75,7 @@ const ART: Record<string, string> = {
   // Messaging
   'whatsapp-nachrichten': scene(MINT, bubble(460, 280, 1.5) + mic(860, 360, 1.5)),
   'videotelefonie-familie': scene(BLUE, camera(540, 340, 1.9) + person(880, 360, 1)),
+  'send-photo-overview': scene(MINT, picture(430, 300, 1.2) + phone(820, 340, 1.2) + envelope(1010, 470, .45)),
   'messaging-choose-app': scene(SAND, bubble(400, 250, 1) + bubble(650, 430, 1) + phone(940, 340, 1.2)),
   'messaging-privacy': scene(BLUE, bubble(460, 300, 1.4) + lock(840, 370, 1.3)),
   'messaging-groups': scene(MINT, person(380, 400, 1) + person(600, 380, 1.2) + person(820, 400, 1) + bubble(600, 150, .6)),

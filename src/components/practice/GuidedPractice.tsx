@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from '../Icon';
 import { Language, PageId, Tutorial } from '../../types';
 import { speakText, stopSpeech } from '../../utils/speech';
-import { goTo } from '../../utils/router';
+import { goTo, linkTo } from '../../utils/router';
 import { useHelpLevel } from '../../utils/helpLevel';
 import { HelpLevelPicker } from '../HelpLevelPicker';
 import { PhonePicker } from '../PhonePicker';
@@ -274,7 +274,7 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
         <div className={`grid grid-cols-1 ${isDesktop ? '' : 'lg:grid-cols-[minmax(0,1fr)_23rem]'} gap-4 lg:gap-x-10 items-start`}>
         <div className="lg:col-start-1 lg:row-start-1 space-y-3 min-w-0">
         <nav className="flex flex-wrap items-center gap-2 text-sm text-[#202B36]" aria-label={isEn ? 'Breadcrumb' : 'Brotkrumen-Navigation'}>
-          <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">{isEn ? 'Home' : 'Startseite'}</button>
+          <a {...linkTo({ page: 'home' }, () => onNavigate('home'))} className="underline text-[#17324D] min-h-[44px] inline-flex items-center">{isEn ? 'Home' : 'Startseite'}</a>
           <span aria-hidden="true">/</span>
           <button onClick={onLeave} className="underline text-[#17324D] min-h-[44px]">{tutorial.categoryTitle}</button>
           <span aria-hidden="true">/</span>

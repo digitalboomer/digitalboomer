@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { linkTo } from '../utils/router';
 import { Icon } from '../components/Icon';
 import { PageId, Language } from '../types';
 import { CONTRAST_DOCUMENTATION_EN, CONTRAST_DOCUMENTATION_DE } from '../data/content';
@@ -25,9 +26,9 @@ export const AccessibilityPrivacyScreen: React.FC<AccessibilityPrivacyScreenProp
         {/* Breadcrumb & Title */}
         <div>
           <nav className="flex items-center gap-2 text-sm text-[#202B36] dark:text-slate-400 mb-2" aria-label={isEn ? 'Breadcrumb' : 'Brotkrumen-Navigation'}>
-            <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">
+            <a {...linkTo({ page: 'home' }, () => onNavigate('home'))} className="underline text-[#17324D] min-h-[44px] inline-flex items-center">
               {isEn ? 'Home' : 'Startseite'}
-            </button>
+            </a>
             <span>/</span>
             <span className="font-bold text-[#17324D] dark:text-white">
               {activeTab === 'barrierefreiheit'

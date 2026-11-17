@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { linkTo } from '../utils/router';
 import { Icon } from '../components/Icon';
 import { PageId, ThemeMode, TextScale, UserProfile, Language } from '../types';
 import { IMAGES, handleLogoError } from '../assets/images';
@@ -159,30 +160,28 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Same header on every page. Fixed at the top from tablet size; on phones it scrolls away, so the lesson gets the screen. */}
       <header className="md:sticky md:top-0 z-40 w-full bg-white dark:bg-slate-900 border-b-2 border-[#E5E9ED] dark:border-slate-800">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-8 py-2 flex items-center justify-between gap-3">
-          <button
-            type="button"
-            onClick={() => { onNavigate('home'); setMenuOpen(false); }}
-            className="shrink-0 rounded-xl p-1 bg-white"
+          <a
+            {...linkTo({ page: 'home' }, () => { onNavigate('home'); setMenuOpen(false); })}
+            className="link-card shrink-0 inline-block rounded-xl p-1 bg-white"
             aria-label={isEn ? 'Digital Boomer, go to the home page' : 'Digital Boomer, zur Startseite'}
           >
             <img src={IMAGES.logo} alt="" className="h-12 sm:h-14 w-auto max-w-[180px] object-contain" onError={handleLogoError} />
-          </button>
+          </a>
 
           <nav className="hidden lg:flex items-center gap-1" aria-label={isEn ? 'Main navigation' : 'Hauptnavigation'}>
             {navItems.map((item) => {
               const isActive = currentPage === item.id;
               return (
-                <button
+                <a
                   key={item.id}
-                  type="button"
-                  onClick={() => onNavigate(item.id)}
+                  {...linkTo({ page: item.id }, () => onNavigate(item.id))}
                   aria-current={isActive ? 'page' : undefined}
-                  className={`px-2 xl:px-3 min-h-[44px] text-base whitespace-nowrap text-[#17324D] border-b-4 hover:bg-[#EAF2F8] dark:hover:bg-slate-800 ${
+                  className={`link-card inline-flex items-center px-2 xl:px-3 min-h-[44px] text-base whitespace-nowrap text-[#17324D] border-b-4 hover:bg-[#EAF2F8] dark:hover:bg-slate-800 ${
                     isActive ? 'font-bold border-[#17324D] dark:border-white' : 'font-normal border-transparent'
                   }`}
                 >
                   {item.label}
-                </button>
+                </a>
               );
             })}
           </nav>
@@ -190,21 +189,19 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="flex items-center gap-2 shrink-0">
             {/* Everyone: "My progress" (guests' progress is saved in this browser). Guests also get "Sign in" (on phones in the menu). */}
             {!user.isLoggedIn && (
-              <button
-                type="button"
-                onClick={() => { onNavigate('anmelden'); setMenuOpen(false); }}
+              <a
+                {...linkTo({ page: 'anmelden' }, () => { onNavigate('anmelden'); setMenuOpen(false); })}
                 aria-current={currentPage === 'anmelden' ? 'page' : undefined}
-                className="hidden sm:inline-flex items-center gap-2 px-3 min-h-[48px] rounded-xl border-2 border-[#17324D] bg-[#FFFFFF] text-[#17324D] font-bold text-sm hover:bg-[#EAF2F8]"
+                className="link-card hidden sm:inline-flex items-center gap-2 px-3 min-h-[48px] rounded-xl border-2 border-[#17324D] bg-[#FFFFFF] text-[#17324D] font-bold text-sm hover:bg-[#EAF2F8]"
               >
                 <Icon name="account_circle" className="text-xl" />
                 <span className="whitespace-nowrap">{isEn ? 'Sign in' : 'Anmelden'}</span>
-              </button>
+              </a>
             )}
-            <button
-              type="button"
-              onClick={() => { onNavigate('dashboard'); setMenuOpen(false); }}
+            <a
+              {...linkTo({ page: 'dashboard' }, () => { onNavigate('dashboard'); setMenuOpen(false); })}
               aria-current={currentPage === 'dashboard' ? 'page' : undefined}
-              className="inline-flex items-center gap-2 px-3 min-h-[48px] rounded-xl border-2 border-[#17324D] bg-[#FFFFFF] text-[#17324D] font-bold text-sm hover:bg-[#EAF2F8]"
+              className="link-card inline-flex items-center gap-2 px-3 min-h-[48px] rounded-xl border-2 border-[#17324D] bg-[#FFFFFF] text-[#17324D] font-bold text-sm hover:bg-[#EAF2F8]"
             >
               <Icon name="task_alt" className="text-xl" />
               <span className="hidden sm:inline whitespace-nowrap">{isEn ? 'My progress' : 'Mein Fortschritt'}</span>
@@ -212,7 +209,7 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="sr-only">
                 {isEn ? `, ${user.completedTutorialIds.length} lessons completed` : `, ${user.completedTutorialIds.length} Lektionen abgeschlossen`}
               </span>
-            </button>
+            </a>
             <button
               type="button"
               onClick={() => setMenuOpen(!menuOpen)}
@@ -229,32 +226,30 @@ export const Header: React.FC<HeaderProps> = ({
           <div className="lg:hidden border-t-2 border-[#E5E9ED] dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-3 space-y-3 max-h-[75vh] overflow-y-auto">
             <nav className="flex flex-col gap-1" aria-label={isEn ? 'Main navigation' : 'Hauptnavigation'}>
               {navItems.map((item) => (
-                <button
+                <a
                   key={item.id}
-                  type="button"
-                  onClick={() => { onNavigate(item.id); setMenuOpen(false); }}
+                  {...linkTo({ page: item.id }, () => { onNavigate(item.id); setMenuOpen(false); })}
                   aria-current={currentPage === item.id ? 'page' : undefined}
-                  className={`flex items-center gap-3 px-3 min-h-[52px] rounded-xl text-left text-base text-[#17324D] hover:bg-[#EAF2F8] dark:hover:bg-slate-800 ${
+                  className={`link-card flex items-center gap-3 px-3 min-h-[52px] rounded-xl text-left text-base text-[#17324D] hover:bg-[#EAF2F8] dark:hover:bg-slate-800 ${
                     currentPage === item.id ? 'font-bold underline decoration-4 underline-offset-4' : ''
                   }`}
                 >
                   <Icon name={item.icon} className="text-2xl text-[#176B68]" />
                   {item.label}
-                </button>
+                </a>
               ))}
               {/* On phones guests sign in from the menu (from sm the button is in the header). */}
               {!user.isLoggedIn && (
-                <button
-                  type="button"
-                  onClick={() => { onNavigate('anmelden'); setMenuOpen(false); }}
+                <a
+                  {...linkTo({ page: 'anmelden' }, () => { onNavigate('anmelden'); setMenuOpen(false); })}
                   aria-current={currentPage === 'anmelden' ? 'page' : undefined}
-                  className={`sm:hidden flex items-center gap-3 px-3 min-h-[52px] rounded-xl text-left text-base text-[#17324D] hover:bg-[#EAF2F8] dark:hover:bg-slate-800 ${
+                  className={`link-card sm:hidden flex items-center gap-3 px-3 min-h-[52px] rounded-xl text-left text-base text-[#17324D] hover:bg-[#EAF2F8] dark:hover:bg-slate-800 ${
                     currentPage === 'anmelden' ? 'font-bold underline decoration-4 underline-offset-4' : ''
                   }`}
                 >
                   <Icon name="account_circle" className="text-2xl text-[#176B68]" />
                   {isEn ? 'Sign in' : 'Anmelden'}
-                </button>
+                </a>
               )}
             </nav>
             <div className="md:hidden">{searchForm('search-menu')}</div>

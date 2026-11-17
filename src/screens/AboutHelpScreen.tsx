@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { linkTo } from '../utils/router';
 import { Icon } from '../components/Icon';
 import { formProblem } from '../utils/formCheck';
 import { PageId, Language } from '../types';
-import { FAQS_EN, FAQS_DE } from '../data/content';
+import { FAQS_EN, FAQS_DE, TUTORIALS_EN, TUTORIALS_DE } from '../data/content';
 import { TEAM_EMAIL, sendContactMessage } from '../utils/contact';
 
 interface AboutHelpScreenProps {
@@ -61,9 +62,9 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
         {/* Breadcrumb & Title */}
         <div>
           <nav className="flex items-center gap-2 text-xs text-[#202B36] dark:text-slate-400 mb-2">
-            <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">
+            <a {...linkTo({ page: 'home' }, () => onNavigate('home'))} className="underline text-[#17324D] min-h-[44px] inline-flex items-center">
               {isEn ? 'Home' : 'Startseite'}
-            </button>
+            </a>
             <span>/</span>
             <span className="font-bold text-[#17324D] dark:text-white">
               {isEn ? 'About us' : 'Über uns'}
@@ -143,18 +144,29 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
                     isOpen ? 'border-[#176B68]' : 'border-[#E5E9ED] dark:border-slate-800'
                   }`}
                 >
-                  <button
-                    onClick={() => toggleFaq(faq.id)}
-                    className="w-full text-left p-5 flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-[#17324D] dark:text-white hover:bg-[#EAF2F8]/50 dark:hover:bg-slate-800 transition-colors"
-                    aria-expanded={isOpen}
-                  >
-                    <span>{faq.question}</span>
-                    <Icon name="expand_more" className={`text-2xl text-[#176B68] transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
-                  </button>
+                  <h3>
+                    <button
+                      onClick={() => toggleFaq(faq.id)}
+                      className="w-full text-left p-5 flex items-center justify-between gap-4 font-bold text-base sm:text-lg text-[#17324D] dark:text-white hover:bg-[#EAF2F8]/50 dark:hover:bg-slate-800 transition-colors"
+                      aria-expanded={isOpen}
+                    >
+                      <span>{faq.question}</span>
+                      <Icon name="expand_more" className={`text-2xl text-[#176B68] transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                  </h3>
 
                   {isOpen && (
-                    <div className="px-5 pb-5 pt-1 text-[#202B36] dark:text-slate-300 text-base leading-relaxed border-t border-[#E5E9ED] dark:border-slate-800 bg-[#EAF2F8]/20 dark:bg-slate-800/20 animate-fade-in">
-                      {faq.answer}
+                    <div className="px-5 pb-5 pt-1 text-[#202B36] dark:text-slate-300 text-base leading-relaxed border-t border-[#E5E9ED] dark:border-slate-800 bg-[#EAF2F8]/20 dark:bg-slate-800/20 animate-fade-in space-y-3">
+                      <p>{faq.answer}</p>
+                      {(() => {
+                        const lesson = faq.lessonId ? (isEn ? TUTORIALS_EN : TUTORIALS_DE).find((t) => t.id === faq.lessonId) : undefined;
+                        return lesson ? (
+                          <a {...linkTo({ page: 'tutorial-detail', tutorialId: lesson.id })} className="inline-flex items-center gap-2 min-h-[44px] font-bold text-[#17324D] dark:text-white underline">
+                            {isEn ? 'Open the lesson' : 'Zur Lektion'}: {lesson.title}
+                            <Icon name="arrow_forward" className="text-xl" />
+                          </a>
+                        ) : null;
+                      })()}
                     </div>
                   )}
                 </div>
@@ -279,9 +291,9 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
                 {isEn
                   ? 'We only use your name and email address to answer you. Please do not write passwords, bank details or other private data. '
                   : 'Wir nutzen Ihren Namen und Ihre E-Mail-Adresse nur, um Ihnen zu antworten. Bitte schreiben Sie keine Passwörter, Bankdaten oder andere private Daten. '}
-                <button type="button" onClick={() => onNavigate('datenschutz')} className="underline font-bold text-[#17324D] dark:text-white">
+                <a {...linkTo({ page: 'datenschutz' }, () => onNavigate('datenschutz'))} className="underline font-bold text-[#17324D] dark:text-white inline-flex items-center">
                   {isEn ? 'Privacy' : 'Datenschutz'}
-                </button>
+                </a>
               </p>
 
               {sendState === 'failed' && (

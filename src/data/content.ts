@@ -263,7 +263,7 @@ export const TUTORIALS_EN: Tutorial[] = [
   },
   {
     id: 'online-banking-grundlagen',
-    title: 'Online Banking: Make Transfers and Review Transactions Safely',
+    title: 'Learn Online Banking: Safe Transfers and Checking Your Account',
     categoryId: 'banking',
     categoryTitle: 'Online banking',
     description: 'Handle finances comfortably from home. Step-by-step guidance on filling out transfer slips and confirming with your bank\'s secure mobile app.',
@@ -523,6 +523,48 @@ export const SECURITY_CHECKLIST_EN: SecurityChecklistItem[] = [
 ];
 
 export const FAQS_EN: FAQItem[] = [
+  {
+    id: 'faq-task-whatsapp-photo',
+    category: 'Tasks',
+    question: "How do I send a photo on WhatsApp?",
+    answer: "Open the chat with the person, tap the paper clip or the plus symbol, choose the photo and tap Send. Our practice lesson shows every tap on a screen that looks like WhatsApp, and nothing is really sent.",
+    lessonId: 'whatsapp-photo',
+  },
+  {
+    id: 'faq-task-email-photo',
+    category: 'Tasks',
+    question: "How do I send a photo by email?",
+    answer: "Write a new email, tap the paper clip, choose the photo and send the email as usual. Not sure whether email or WhatsApp suits better? The overview helps you choose.",
+    lessonId: 'send-photo-overview',
+  },
+  {
+    id: 'faq-task-phishing',
+    category: 'Tasks',
+    question: "How do I recognise a phishing email?",
+    answer: "Look at the full address of the sender, be careful when a message rushes you, and never enter a password or PIN through a link in an email. Practise on five example emails and find the warning signs yourself.",
+    lessonId: 'safety-phishing-examples',
+  },
+  {
+    id: 'faq-task-banking',
+    category: 'Tasks',
+    question: "How do I learn online banking safely?",
+    answer: "Start with the basics, then practise checking your balance and making a transfer with made-up money on a neutral practice bank. Nothing real happens, and mistakes are no problem.",
+    lessonId: 'online-banking-grundlagen',
+  },
+  {
+    id: 'faq-task-chatgpt',
+    category: 'Tasks',
+    question: "What is ChatGPT, and how do I use it?",
+    answer: "ChatGPT is a chatbot: you write a question in normal sentences and get an answer. Try a short conversation on our practice chatbot, and learn how to check what it says.",
+    lessonId: 'ai-first-question',
+  },
+  {
+    id: 'faq-task-facebook',
+    category: 'Tasks',
+    question: "How do I protect my privacy on Facebook?",
+    answer: "Set your posts to \"Friends\", accept only people you know, and keep your address, phone number and holiday plans private.",
+    lessonId: 'social-privacy',
+  },
   {
     id: 'faq-1',
     category: 'General',
@@ -915,7 +957,7 @@ export const TUTORIALS_DE: Tutorial[] = [
   },
   {
     id: 'online-banking-grundlagen',
-    title: 'Online-Banking: Überweisungen sicher ausführen und kontrollieren',
+    title: 'Online-Banking lernen: sicher überweisen und das Konto prüfen',
     categoryId: 'banking',
     categoryTitle: 'Online-Banking',
     description: 'Bankgeschäfte bequem von zu Hause erledigen. Schritt für Schritt eine Überweisung ausfüllen und mit der Bestätigungs-App (Freigabe) absichern.',
@@ -1175,6 +1217,48 @@ export const SECURITY_CHECKLIST_DE: SecurityChecklistItem[] = [
 ];
 
 export const FAQS_DE: FAQItem[] = [
+  {
+    id: 'faq-task-whatsapp-photo',
+    category: 'Aufgaben',
+    question: "Wie sende ich ein Foto per WhatsApp?",
+    answer: "Öffnen Sie den Chat mit der Person, tippen Sie auf die Büroklammer oder das Plus-Symbol, wählen Sie das Foto und tippen Sie auf Senden. Unsere Übung zeigt jeden Tipp auf einem Bildschirm, der wie WhatsApp aussieht, und es wird nichts wirklich gesendet.",
+    lessonId: 'whatsapp-photo',
+  },
+  {
+    id: 'faq-task-email-photo',
+    category: 'Aufgaben',
+    question: "Wie sende ich ein Foto per E-Mail?",
+    answer: "Schreiben Sie eine neue E-Mail, tippen Sie auf die Büroklammer, wählen Sie das Foto und senden Sie die E-Mail wie gewohnt. Unsicher, ob E-Mail oder WhatsApp besser passt? Der Überblick hilft bei der Wahl.",
+    lessonId: 'send-photo-overview',
+  },
+  {
+    id: 'faq-task-phishing',
+    category: 'Aufgaben',
+    question: "Wie erkenne ich eine Phishing-E-Mail?",
+    answer: "Schauen Sie auf die ganze Adresse des Absenders, seien Sie vorsichtig, wenn eine Nachricht Sie drängt, und geben Sie nie ein Passwort oder eine PIN über einen Link in einer E-Mail ein. Üben Sie an fünf Beispiel-E-Mails und finden Sie die Warnzeichen selbst.",
+    lessonId: 'safety-phishing-examples',
+  },
+  {
+    id: 'faq-task-banking',
+    category: 'Aufgaben',
+    question: "Wie lerne ich Online-Banking sicher?",
+    answer: "Beginnen Sie mit den Grundlagen, und üben Sie dann Kontostand und Überweisung mit Spielgeld in einer neutralen Übungsbank. Es passiert nichts Echtes, und Fehler sind kein Problem.",
+    lessonId: 'online-banking-grundlagen',
+  },
+  {
+    id: 'faq-task-chatgpt',
+    category: 'Aufgaben',
+    question: "Was ist ChatGPT, und wie benutze ich es?",
+    answer: "ChatGPT ist ein Chatbot: Sie schreiben eine Frage in normalen Sätzen und bekommen eine Antwort. Probieren Sie ein kurzes Gespräch mit unserem Übungs-Chatbot, und lernen Sie, seine Antworten zu prüfen.",
+    lessonId: 'ai-first-question',
+  },
+  {
+    id: 'faq-task-facebook',
+    category: 'Aufgaben',
+    question: "Wie schütze ich meine Privatsphäre auf Facebook?",
+    answer: "Stellen Sie Ihre Beiträge auf „Freunde“, nehmen Sie nur Menschen an, die Sie kennen, und behalten Sie Adresse, Telefonnummer und Urlaubspläne für sich.",
+    lessonId: 'social-privacy',
+  },
   {
     id: 'faq-1',
     category: 'Allgemein',

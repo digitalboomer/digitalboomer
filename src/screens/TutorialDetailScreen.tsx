@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { goTo, linkTo } from '../utils/router';
 import { Icon } from '../components/Icon';
 import { PageId, Language } from '../types';
 import { TUTORIALS_EN, TUTORIALS_DE } from '../data/content';
@@ -146,14 +147,14 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
         {/* Top Breadcrumb & Actions */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <nav className="flex flex-wrap items-center gap-2 text-sm text-[#202B36] dark:text-slate-400" aria-label="Breadcrumb">
-            <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">
+            <a {...linkTo({ page: 'home' }, () => onNavigate('home'))} className="underline text-[#17324D] min-h-[44px] inline-flex items-center">
               {isEn ? 'Home' : 'Startseite'}
-            </button>
+            </a>
             <span>/</span>
             {/* The lesson's own topic, like the practice lessons' breadcrumb */}
-            <button onClick={() => onNavigate(TOPIC_PAGE[tutorial.categoryId] ?? 'tutorials')} className="underline text-[#17324D] min-h-[44px]">
+            <a {...linkTo({ page: TOPIC_PAGE[tutorial.categoryId] ?? 'tutorials' }, () => onNavigate(TOPIC_PAGE[tutorial.categoryId] ?? 'tutorials'))} className="underline text-[#17324D] min-h-[44px] inline-flex items-center">
               {tutorial.categoryTitle}
-            </button>
+            </a>
             <span>/</span>
             <span className="font-bold text-[#17324D] dark:text-white">{tutorial.title}</span>
           </nav>
@@ -289,6 +290,26 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
               <p key={i}>{p}</p>
             ))}
           </div>
+
+          {/* Links to the lessons this step points to (an overview that leads to the right lesson). Opening one needs no question first. */}
+          {currentStep.links && currentStep.links.length > 0 && (
+            <ul className="flex flex-col sm:flex-row sm:flex-wrap gap-3 mt-5">
+              {currentStep.links.map((target) => {
+                const to = { page: target.page, tutorialId: target.tutorialId, category: target.category };
+                return (
+                  <li key={`${target.page}-${target.tutorialId ?? target.category ?? ''}`}>
+                    <a
+                      {...linkTo(to, () => goTo(to, { force: true }))}
+                      className="link-card inline-flex items-center gap-2 px-5 py-2 min-h-[48px] rounded-xl bg-[#176B68] hover:bg-[#0F514F] active:bg-[#0A3D3B] text-white font-bold text-base"
+                    >
+                      {target.label}
+                      <Icon name="arrow_forward" className="text-xl" />
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
 
           {/* INTERACTIVE COMPONENT: Phishing Email Mockup (Step 2) */}
           {currentStep.visualType === 'phishing-mockup' && (
@@ -616,11 +637,10 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {(tutorial.nextIds ?? []).map((id) => tutorials.find((t) => t.id === id)).filter((t): t is NonNullable<typeof t> => !!t).map((other) => (
-              <button
-                type="button"
+              <a
                 key={other.id}
-                onClick={() => onSelectTutorial(other.id)}
-                className="w-full text-left bg-[#FFFFFF] dark:bg-slate-900 p-5 rounded-2xl border-2 border-[#E5E9ED] dark:border-slate-800 hover:border-[#176B68] cursor-pointer flex items-center justify-between group transition-colors shadow-sm"
+                {...linkTo({ page: 'tutorial-detail', tutorialId: other.id }, () => onSelectTutorial(other.id))}
+                className="link-card w-full text-left bg-[#FFFFFF] dark:bg-slate-900 p-5 rounded-2xl border-2 border-[#E5E9ED] dark:border-slate-800 hover:border-[#176B68] cursor-pointer flex items-center justify-between group transition-colors shadow-sm"
               >
                 <div>
                   <span className="text-xs font-bold text-[#176B68] block">{other.categoryTitle}</span>
@@ -632,7 +652,7 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
                   </span>
                 </div>
                 <Icon name="arrow_forward" className="text-xl text-[#176B68] group-hover:translate-x-1 transition-transform" />
-              </button>
+              </a>
             ))}
           </div>
         </div>

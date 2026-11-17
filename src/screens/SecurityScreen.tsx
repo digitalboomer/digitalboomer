@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { linkTo } from '../utils/router';
 import { Icon } from '../components/Icon';
 import { PageId, Language } from '../types';
 import { SECURITY_CHECKLIST_EN, SECURITY_CHECKLIST_DE, TUTORIALS_DE, TUTORIALS_EN } from '../data/content';
@@ -64,9 +65,9 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
         {/* Breadcrumb & Title */}
         <div>
           <nav className="flex items-center gap-2 text-sm text-[#202B36] dark:text-slate-400 mb-2" aria-label="Breadcrumb">
-            <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">
+            <a {...linkTo({ page: 'home' }, () => onNavigate('home'))} className="underline text-[#17324D] min-h-[44px] inline-flex items-center">
               {isEn ? 'Home' : 'Startseite'}
-            </button>
+            </a>
             <span>/</span>
             <span className="font-bold text-[#17324D] dark:text-white">
               {isEn ? 'Digital safety' : 'Digitale Sicherheit'}
@@ -89,16 +90,10 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
               </p>
             </div>
 
-            <button
-              onClick={() => {
-                onSelectTutorial('safety-phishing-examples');
-                onNavigate('tutorial-detail');
-              }}
-              className="px-6 py-3.5 rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-base flex items-center gap-2 shadow-sm shrink-0 touch-target"
-            >
+            <a {...linkTo({ page: 'tutorial-detail', tutorialId: 'safety-phishing-examples' }, () => { onSelectTutorial('safety-phishing-examples'); onNavigate('tutorial-detail'); })} className="link-card px-6 py-3.5 rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-base flex items-center gap-2 shadow-sm shrink-0 touch-target">
               <span>{isEn ? 'Practise on 5 phishing emails' : 'An 5 Phishing-E-Mails üben'}</span>
               <Icon name="arrow_forward" className="text-xl" />
-            </button>
+            </a>
           </div>
         </div>
 
@@ -114,16 +109,10 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
           <ul className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             {group.lessons.map((guide) => (
               <li key={guide.id}>
-                <button
-                  onClick={() => {
-                    onSelectTutorial(guide.id);
-                    onNavigate('tutorial-detail');
-                  }}
-                  className="w-full h-full text-left bg-[#FFFFFF] dark:bg-slate-900 rounded-2xl border-2 border-[#667382] hover:border-[#176B68] overflow-hidden flex flex-col"
-                >
+                <a {...linkTo({ page: 'tutorial-detail', tutorialId: guide.id }, () => { onSelectTutorial(guide.id); onNavigate('tutorial-detail'); })} className="link-card w-full h-full text-left bg-[#FFFFFF] dark:bg-slate-900 rounded-2xl border-2 border-[#667382] hover:border-[#176B68] overflow-hidden flex flex-col">
                   <img src={guide.image} alt="" className="w-full h-20 sm:h-32 object-cover" />
                   <span className="p-3 font-bold text-base text-[#17324D] dark:text-white">{guide.title}</span>
-                </button>
+                </a>
               </li>
             ))}
           </ul>
@@ -225,16 +214,10 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                   ? 'Never give your password, PIN or a code because an email or message asks for it. Real companies never ask for them this way.'
                   : 'Geben Sie nie Passwort, PIN oder einen Code heraus, weil eine E-Mail oder Nachricht danach fragt. Echte Firmen fragen nie auf diesem Weg danach.'}
               </p>
-              <button
-                onClick={() => {
-                  onSelectTutorial('phishing-erkennen');
-                  onNavigate('tutorial-detail');
-                }}
-                className="text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]"
-              >
+              <a {...linkTo({ page: 'tutorial-detail', tutorialId: 'phishing-erkennen' }, () => { onSelectTutorial('phishing-erkennen'); onNavigate('tutorial-detail'); })} className="link-card text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]">
                 <span>{isEn ? 'Open the lesson on fake emails' : 'Lektion zu falschen E-Mails öffnen'}</span>
                 <Icon name="arrow_forward" className="text-base" />
-              </button>
+              </a>
             </div>
 
             {/* Pillar 2 */}
@@ -250,16 +233,10 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                   ? 'Turn a sentence you like into a long password. It is easy for you to remember and very hard for others to guess. Use a different one for each account.'
                   : 'Machen Sie aus einem Satz, den Sie mögen, ein langes Passwort. Sie können es sich leicht merken, andere können es kaum erraten. Nehmen Sie für jedes Konto ein anderes.'}
               </p>
-              <button
-                onClick={() => {
-                  onSelectTutorial('passwoerter-erstellen');
-                  onNavigate('tutorial-detail');
-                }}
-                className="text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]"
-              >
+              <a {...linkTo({ page: 'tutorial-detail', tutorialId: 'passwoerter-erstellen' }, () => { onSelectTutorial('passwoerter-erstellen'); onNavigate('tutorial-detail'); })} className="link-card text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]">
                 <span>{isEn ? 'Open the password lesson' : 'Lektion zu Passwörtern öffnen'}</span>
                 <Icon name="arrow_forward" className="text-base" />
-              </button>
+              </a>
             </div>
 
             {/* Pillar 3 */}
@@ -275,16 +252,10 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                   ? 'With two-step login, a password alone is not enough. Even if someone steals it, they also need the code or approval on your phone.'
                   : 'Mit der Anmeldung in zwei Schritten reicht ein Passwort allein nicht. Selbst wenn jemand es stiehlt, braucht er noch den Code oder die Freigabe auf Ihrem Handy.'}
               </p>
-              <button
-                onClick={() => {
-                  onSelectTutorial('safety-2fa');
-                  onNavigate('tutorial-detail');
-                }}
-                className="text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]"
-              >
+              <a {...linkTo({ page: 'tutorial-detail', tutorialId: 'safety-2fa' }, () => { onSelectTutorial('safety-2fa'); onNavigate('tutorial-detail'); })} className="link-card text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]">
                 <span>{isEn ? 'Open the two-step login lesson' : 'Lektion zur Anmeldung in zwei Schritten öffnen'}</span>
                 <Icon name="arrow_forward" className="text-base" />
-              </button>
+              </a>
             </div>
 
             {/* Pillar 4 */}
@@ -300,16 +271,10 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
                   ? 'Before you buy from a shop you do not know, look for its address and contact details. Prefer paying on invoice or another way with buyer protection.'
                   : 'Bevor Sie in einem unbekannten Shop kaufen, suchen Sie Adresse und Kontaktdaten. Zahlen Sie lieber auf Rechnung oder auf einem anderen Weg mit Käuferschutz.'}
               </p>
-              <button
-                onClick={() => {
-                  onSelectTutorial('fake-shops-entlarven');
-                  onNavigate('tutorial-detail');
-                }}
-                className="text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]"
-              >
+              <a {...linkTo({ page: 'tutorial-detail', tutorialId: 'fake-shops-entlarven' }, () => { onSelectTutorial('fake-shops-entlarven'); onNavigate('tutorial-detail'); })} className="link-card text-base font-bold text-[#17324D] underline inline-flex items-center gap-1 min-h-[44px]">
                 <span>{isEn ? 'Open the lesson on fake shops' : 'Lektion zu Fake-Shops öffnen'}</span>
                 <Icon name="arrow_forward" className="text-base" />
-              </button>
+              </a>
             </div>
           </div>
         </div>

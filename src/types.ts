@@ -65,6 +65,8 @@ export interface TutorialStep {
   practice?: PracticeStep;
   /** A picture example shown in the lesson, see LessonExample. */
   example?: string;
+  /** Links to other lessons or pages, shown as buttons in the step (e.g. an overview that leads to the right lesson). */
+  links?: { label: string; page: PageId; tutorialId?: string; category?: string }[];
 }
 
 /** What the learner must tap in one step of a guided practice. */
@@ -148,6 +150,8 @@ export interface FAQItem {
   category: string;
   question: string;
   answer: string;
+  /** The lesson that answers the question in detail. */
+  lessonId?: string;
 }
 
 export interface UserProfile {

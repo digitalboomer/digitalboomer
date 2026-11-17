@@ -3,6 +3,7 @@ import { Icon } from '../components/Icon';
 import QRCode from 'qrcode';
 import { Language } from '../types';
 import { useDialogFocus } from '../utils/useDialogFocus';
+import { publicUrl } from '../utils/router';
 
 interface QRCodeModalProps {
   isOpen: boolean;
@@ -29,7 +30,7 @@ export const QRCodeModal: React.FC<QRCodeModalProps> = ({
   // Get current browser URL safely
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setCurrentUrl(/^(localhost|127\.|192\.168\.|10\.)/.test(window.location.hostname) ? `${SITE_URL}${window.location.hash}` : window.location.href);
+      setCurrentUrl(/^(localhost|127\.|192\.168\.|10\.)/.test(window.location.hostname) ? publicUrl() : window.location.href);
     }
   }, [isOpen]);
 

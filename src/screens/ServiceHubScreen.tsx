@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Icon } from '../components/Icon';
-import { goTo } from '../utils/router';
+import { goTo, linkTo } from '../utils/router';
 import { ServiceLogo } from '../components/ServiceLogo';
 import { PageId, Language } from '../types';
 import { TUTORIALS_EN, TUTORIALS_DE } from '../data/content';
@@ -60,13 +60,13 @@ export const ServiceHubScreen: React.FC<ServiceHubScreenProps> = ({ group, selec
     const done = completedIds.includes(id);
     return (
       <li key={id}>
-        <button
-          onClick={() => onSelectTutorial(id)}
-          className="w-full h-full text-left px-4 py-3 min-h-[56px] rounded-xl bg-[#176B68] hover:bg-[#0F514F] text-white font-bold text-base flex items-center justify-between gap-2"
+        <a
+          {...linkTo({ page: 'tutorial-detail', tutorialId: id }, () => onSelectTutorial(id))}
+          className="link-card w-full h-full text-left px-4 py-3 min-h-[56px] rounded-xl bg-[#176B68] hover:bg-[#0F514F] text-white font-bold text-base flex items-center justify-between gap-2"
         >
           <span className="min-w-0">{label}{done && (isEn ? ' (done)' : ' (geschafft)')}</span>
           <Icon name={done ? 'check_circle' : 'arrow_forward'} className="text-xl" />
-        </button>
+        </a>
       </li>
     );
   };
@@ -76,9 +76,9 @@ export const ServiceHubScreen: React.FC<ServiceHubScreenProps> = ({ group, selec
       <div className="max-w-[1200px] mx-auto space-y-6">
         <div className="space-y-2">
           <nav className="flex flex-wrap items-center gap-2 text-sm text-[#202B36]" aria-label={isEn ? 'Breadcrumb' : 'Brotkrumen-Navigation'}>
-            <button onClick={() => onNavigate('home')} className="underline text-[#17324D]">{isEn ? 'Home' : 'Startseite'}</button>
+            <a {...linkTo({ page: 'home' }, () => onNavigate('home'))} className="underline text-[#17324D] min-h-[44px] inline-flex items-center">{isEn ? 'Home' : 'Startseite'}</a>
             <span aria-hidden="true">/</span>
-            <button onClick={() => onNavigate('themen')} className="underline text-[#17324D]">{isEn ? 'Topics' : 'Themen'}</button>
+            <a {...linkTo({ page: 'themen' }, () => onNavigate('themen'))} className="underline text-[#17324D] min-h-[44px] inline-flex items-center">{isEn ? 'Topics' : 'Themen'}</a>
             <span aria-hidden="true">/</span>
             <span className="font-bold text-[#17324D]">{crumb}</span>
           </nav>

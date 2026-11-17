@@ -274,8 +274,8 @@ html.high-contrast li:not(.phone-sim *) {
   color: #ffffff !important;
 }
 
-/* High contrast links, icons, and special text in vivid yellow */
-html.high-contrast a:not(.phone-sim *),
+/* High contrast links, icons, and special text in vivid yellow (cards and menu items that are links keep their own look) */
+html.high-contrast a:not(.phone-sim *):not(.link-card),
 html.high-contrast [class^="text-[#176B68]"]:not(.phone-sim *),
 html.high-contrast [class*=" text-[#176B68]"]:not(.phone-sim *),
 html.high-contrast [class^="text-teal"]:not(.phone-sim *),
@@ -286,7 +286,7 @@ html.high-contrast .ui-icon:not(.phone-sim *) {
   color: #ffff00 !important;
 }
 
-html.high-contrast a:not(.phone-sim *) {
+html.high-contrast a:not(.phone-sim *):not(.link-card) {
   text-decoration: underline !important;
   text-underline-offset: 4px !important;
 }
@@ -461,6 +461,12 @@ main a,
 footer a {
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* Cards, lesson tiles and menu items are real links (for bookmarks, new tabs and search engines) but look like before. */
+main a.link-card,
+footer a.link-card {
+  text-decoration: none;
 }
 
 @media (prefers-reduced-motion: reduce) {

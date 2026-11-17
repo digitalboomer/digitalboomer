@@ -1,4 +1,5 @@
 import React from 'react';
+import { linkTo } from '../utils/router';
 import { Icon } from '../components/Icon';
 import { OfficialTopicIcon } from '../components/OfficialTopicIcon';
 import { handleImageError } from '../assets/images';
@@ -24,9 +25,9 @@ export const AiLessonsScreen: React.FC<AiLessonsScreenProps> = ({ onNavigate, on
       <div className="max-w-6xl mx-auto space-y-8">
         <div className="space-y-3">
           <nav className="flex flex-wrap items-center gap-2 text-sm text-[#202B36]" aria-label={isEn ? 'Breadcrumb' : 'Brotkrumen-Navigation'}>
-            <button onClick={() => onNavigate('home')} className="underline text-[#17324D] min-h-[44px]">{isEn ? 'Home' : 'Startseite'}</button>
+            <a {...linkTo({ page: 'home' }, () => onNavigate('home'))} className="underline text-[#17324D] min-h-[44px] inline-flex items-center">{isEn ? 'Home' : 'Startseite'}</a>
             <span aria-hidden="true">/</span>
-            <button onClick={() => onNavigate('themen')} className="underline text-[#17324D] min-h-[44px]">{isEn ? 'Topics' : 'Themen'}</button>
+            <a {...linkTo({ page: 'themen' }, () => onNavigate('themen'))} className="underline text-[#17324D] min-h-[44px] inline-flex items-center">{isEn ? 'Topics' : 'Themen'}</a>
             <span aria-hidden="true">/</span>
             <span className="font-bold text-[#17324D]">{category?.title}</span>
           </nav>
@@ -48,10 +49,7 @@ export const AiLessonsScreen: React.FC<AiLessonsScreenProps> = ({ onNavigate, on
               const isDone = completedIds.includes(lesson.id);
               return (
                 <li key={lesson.id}>
-                  <button
-                    onClick={() => onSelectTutorial(lesson.id)}
-                    className="w-full h-full text-left bg-[#FFFFFF] dark:bg-slate-900 rounded-2xl border-2 border-[#667382] hover:border-[#176B68] hover:bg-[#EAF2F8] overflow-hidden flex flex-col"
-                  >
+                  <a {...linkTo({ page: 'tutorial-detail', tutorialId: lesson.id }, () => onSelectTutorial(lesson.id))} className="link-card w-full h-full text-left bg-[#FFFFFF] dark:bg-slate-900 rounded-2xl border-2 border-[#667382] hover:border-[#176B68] hover:bg-[#EAF2F8] overflow-hidden flex flex-col">
                     <img src={lesson.image} alt="" loading="lazy" className="w-full h-32 object-cover" onError={(e) => handleImageError(e)} />
                     <span className="p-4 flex flex-col gap-2 flex-1">
                       <span className="font-bold text-lg text-[#17324D]">{index + 1}. {lesson.title}</span>
@@ -63,17 +61,17 @@ export const AiLessonsScreen: React.FC<AiLessonsScreenProps> = ({ onNavigate, on
                         )}
                       </span>
                     </span>
-                  </button>
+                  </a>
                 </li>
               );
             })}
           </ul>
         </section>
 
-        <button onClick={() => onNavigate('themen')} className="inline-flex items-center gap-2 px-5 min-h-[48px] rounded-xl border-2 border-[#17324D] text-[#17324D] font-bold text-base hover:bg-[#EAF2F8]">
+        <a {...linkTo({ page: 'themen' }, () => onNavigate('themen'))} className="link-card inline-flex items-center gap-2 px-5 min-h-[48px] rounded-xl border-2 border-[#17324D] text-[#17324D] font-bold text-base hover:bg-[#EAF2F8]">
           <Icon name="arrow_back" className="text-xl" />
           {isEn ? 'Back to all topics' : 'Zurück zu allen Themen'}
-        </button>
+        </a>
       </div>
     </div>
   );
