@@ -3862,7 +3862,6 @@
  "Account Confirmed": "Hesap onaylandı",
  "New Password": "Yeni şifre",
  "Explore an App": "Bir uygulamayı keşfedin",
- "Send WhatsApp messages, photos and voice messages": "WhatsApp mesajları, fotoğrafları ve sesli mesajlar gönderin",
  "Like, comment and protect your privacy on Facebook and Co.": "Facebook ve benzerlerinde beğenin, yorum yapın ve gizliliğinizi koruyun",
  "Write emails, send photos and open attachments safely": "E-posta yazın, fotoğraf gönderin ve ekleri güvenle açın",
  "Practise online banking: balance, transfers and standing orders": "İnternet bankacılığı alıştırması: bakiye, havale ve düzenli ödeme talimatı",
@@ -3907,5 +3906,6 @@
  "How do I protect my privacy on Facebook?": "Facebook'ta gizliliğimi nasıl korurum?",
  "Set your posts to \"Friends\", accept only people you know, and keep your address, phone number and holiday plans private.": "Gönderilerinizi \"Arkadaşlar\" olarak ayarlayın, yalnızca tanıdığınız kişileri kabul edin ve adresinizi, telefon numaranızı ve tatil planlarınızı gizli tutun.",
  "Open the lesson": "Derse git",
- "Tasks": "Görevler"
+ "Tasks": "Görevler",
+ "Send messages, photos and voice messages": "Mesaj, fotoğraf ve sesli mesaj gönderin"
 }

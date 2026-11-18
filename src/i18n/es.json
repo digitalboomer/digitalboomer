@@ -3858,7 +3858,6 @@
  "Account Confirmed": "Cuenta confirmada",
  "New Password": "Nueva contraseña",
  "Explore an App": "Explorar una app",
- "Send WhatsApp messages, photos and voice messages": "Envíe mensajes, fotos y mensajes de voz por WhatsApp",
  "Like, comment and protect your privacy on Facebook and Co.": "Dé «Me gusta», comente y proteja su privacidad en Facebook y similares",
  "Write emails, send photos and open attachments safely": "Escriba correos, envíe fotos y abra adjuntos con seguridad",
  "Practise online banking: balance, transfers and standing orders": "Practique la banca online: saldo, transferencias y órdenes permanentes",
@@ -3903,5 +3902,6 @@
  "How do I protect my privacy on Facebook?": "¿Cómo protejo mi privacidad en Facebook?",
  "Set your posts to \"Friends\", accept only people you know, and keep your address, phone number and holiday plans private.": "Ponga sus publicaciones en «Amigos», acepte solo a personas que conoce y mantenga en privado su dirección, su teléfono y sus planes de vacaciones.",
  "Open the lesson": "Abrir la lección",
- "Tasks": "Tareas"
+ "Tasks": "Tareas",
+ "Send messages, photos and voice messages": "Envíe mensajes, fotos y mensajes de voz"
 }

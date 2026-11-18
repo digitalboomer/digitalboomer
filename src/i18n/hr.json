@@ -3858,7 +3858,6 @@
  "Account Confirmed": "Račun potvrđen",
  "New Password": "Nova lozinka",
  "Explore an App": "Istražite aplikaciju",
- "Send WhatsApp messages, photos and voice messages": "Šaljite WhatsApp poruke, fotografije i glasovne poruke",
  "Like, comment and protect your privacy on Facebook and Co.": "Označite da Vam se sviđa, komentirajte i zaštitite privatnost na Facebooku i sličnima",
  "Write emails, send photos and open attachments safely": "Pišite e-poruke, šaljite fotografije i sigurno otvarajte privitke",
  "Practise online banking: balance, transfers and standing orders": "Vježbajte internetsko bankarstvo: stanje, uplate i trajni nalozi",
@@ -3903,5 +3902,6 @@
  "How do I protect my privacy on Facebook?": "Kako zaštititi privatnost na Facebooku?",
  "Set your posts to \"Friends\", accept only people you know, and keep your address, phone number and holiday plans private.": "Postavite objave na \"Prijatelji\", prihvaćajte samo ljude koje poznajete i zadržite adresu, broj telefona i planove za odmor za sebe.",
  "Open the lesson": "Otvorite lekciju",
- "Tasks": "Zadaci"
+ "Tasks": "Zadaci",
+ "Send messages, photos and voice messages": "Šaljite poruke, fotografije i glasovne poruke"
 }

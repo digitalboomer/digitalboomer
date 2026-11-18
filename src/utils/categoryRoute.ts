@@ -13,7 +13,7 @@ export function categoryRoute(categoryId: string): Route {
 /** A short task line per topic, in the words people search with. */
 export function topicTasks(categoryId: string, isEn: boolean): string | undefined {
   const tasks: Record<string, [string, string]> = {
-    messaging: ['Send WhatsApp messages, photos and voice messages', 'WhatsApp-Nachrichten, Fotos und Sprachnachrichten senden'],
+    messaging: ['Send messages, photos and voice messages', 'Nachrichten, Fotos und Sprachnachrichten senden'],
     'social-media': ['Like, comment and protect your privacy on Facebook and Co.', 'Liken, kommentieren und die Privatsphäre auf Facebook und Co. schützen'],
     email: ['Write emails, send photos and open attachments safely', 'E-Mails schreiben, Fotos senden und Anhänge sicher öffnen'],
     banking: ['Practise online banking: balance, transfers and standing orders', 'Online-Banking üben: Kontostand, Überweisung und Dauerauftrag'],
