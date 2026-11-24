@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
-  ArrowLeft, ArrowUp, AudioLines, Bell, Calendar, Camera, Check, CheckCheck, ChevronLeft, ChevronRight, CircleCheck, CircleDashed, CirclePlus, Compass, Copy, Crop,
+  ArrowLeft, ArrowUp, AudioLines, Ban, Bell, Calendar, Camera, Check, CheckCheck, ChevronLeft, ChevronRight, CircleCheck, CircleDashed, CirclePlus, Compass, Copy, Crop,
   FileText, Forward, Hash, House, Image as ImageIcon, LockKeyhole, MapPin, Menu as MenuIcon, MessageCircle, MessageSquarePlus, Mic, MicOff, MoreHorizontal, MoreVertical, Newspaper, Paperclip, Pencil, Phone, PhoneOff,
   Play, Plus, Reply, Search, Send, Smile, SquarePen, Trash2, User, UserPlus, Users, Video, Volume2, Wallet, X,
 } from 'lucide-react';
@@ -204,10 +204,11 @@ const ListTop: React.FC<{ id: AppId; app: AppStyle; labels: L }> = ({ id, app, l
   }
 };
 
-/** The chat list. */
-const ChatList: React.FC<{ id: AppId; app: AppStyle; labels: L; lang: string }> = ({ id, app, labels, lang }) => {
+/** The chat list. With `stranger`, a message from an unknown number is at the top. */
+const ChatList: React.FC<{ id: AppId; app: AppStyle; labels: L; lang: string; stranger?: boolean }> = ({ id, app, labels, lang, stranger }) => {
   const time = clockTime();
   const chats = [
+    ...(stranger ? [{ id: 'chat-stranger', name: labels.strangerNumber, last: labels.strangerLast, when: time, unread: 2, color: '#8A8D91', avatar: <User size={24} aria-hidden="true" /> }] : []),
     { id: 'chat-family', name: labels.family, last: labels.familyLast, when: time, unread: 2, color: '#6D8AA8', avatar: <Users size={24} aria-hidden="true" /> },
     { id: 'chat-anna', name: labels.anna, last: labels.annaLast, when: labels.yesterday, unread: 0, color: '#C0689B' },
     { id: 'chat-club', name: labels.club, last: labels.clubLast, when: labels.yesterday, unread: 0, color: '#7E9B5D' },
@@ -492,7 +493,7 @@ const Chat: React.FC<{ id: AppId; app: AppStyle; labels: L; screen: string; isDo
   const typing = screen === 'typing' || screen === 'reply-typing' ;
   const time = clockTime();
   const [stage, setStage] = useState(0); // 0 sent, 1 delivered, 2 read, 3 reply is being written, 4 reply there
-  const answers = isDone && kind !== 'call' && kind !== 'group';
+  const answers = isDone && kind !== 'call' && kind !== 'group' && kind !== 'delete';
 
   useEffect(() => {
     if (!isDone) return;
@@ -531,11 +532,22 @@ const Chat: React.FC<{ id: AppId; app: AppStyle; labels: L; screen: string; isDo
               {labels.today}
             </span>
             {annaMsg}
-            {canHold ? (
+            {canHold || screen === 'hold-own' ? (
               <PracticeTap id="bubble-peter" label={`${labels.peter}: ${peterText}`} hold pointer="below" className={`self-start text-left rounded-2xl`}>
                 {peterMsg}
               </PracticeTap>
             ) : peterMsg}
+            {/* "Delete a message": the message that went to the wrong chat */}
+            {kind === 'delete' && !isDone && (screen === 'hold-own' ? (
+              <PracticeTap id="bubble-own" label={`${labels.you}: ${labels.wrongMessage}`} hold pointer="below" className="self-end text-left rounded-2xl">
+                <Message app={app} out time={time} stage={1}>{labels.wrongMessage}</Message>
+              </PracticeTap>
+            ) : <Message app={app} out time={time} stage={1}>{labels.wrongMessage}</Message>)}
+            {kind === 'delete' && isDone && (
+              <Message app={app} out time={time} animate>
+                <span className="flex items-center gap-1.5 italic" style={{ opacity: 0.85 }}><Ban size={16} aria-hidden="true" />{labels.deletedNote}</span>
+              </Message>
+            )}
           </>
         )}
         {isDone && kind === 'photo' && (
@@ -582,12 +594,13 @@ const Chat: React.FC<{ id: AppId; app: AppStyle; labels: L; screen: string; isDo
   );
 };
 
-/** The menu after pressing and holding a message. */
-const MessageMenu: React.FC<{ id: AppId; app: AppStyle; labels: L; lang: string }> = ({ id, app, labels, lang }) => {
+/** The menu after pressing and holding a message. `own`: your own message, which can also be edited. */
+const MessageMenu: React.FC<{ id: AppId; app: AppStyle; labels: L; lang: string; own?: boolean }> = ({ id, app, labels, own }) => {
   const items = [
     { id: 'menu-reply', label: labels.replyWord, Icon: Reply },
     { id: 'menu-forward', label: labels.forwardWord, Icon: Forward },
     { id: 'menu-copy', label: labels.copyWord, Icon: Copy },
+    ...(own ? [{ id: 'menu-edit', label: labels.edit, Icon: Pencil }] : []),
     { id: 'menu-delete', label: labels.deleteWord, Icon: Trash2 },
   ];
   const time = clockTime();
@@ -595,8 +608,10 @@ const MessageMenu: React.FC<{ id: AppId; app: AppStyle; labels: L; lang: string 
     <div className="flex flex-col flex-1 min-h-0 relative" style={{ background: app.wallpaper }}>
       <ChatHeader id={id} app={app} labels={labels} interactive={false} title={labels.family} />
       <div className="flex-1 min-h-0 flex flex-col justify-end p-2.5 gap-2" style={{ background: 'rgba(0,0,0,0.35)' }}>
-        <Message app={app} sender={labels.peter} color="#7E9B5D" time={time}>{labels.bubbleTwo}</Message>
-        <div className="sim-fade self-start w-[85%] rounded-2xl overflow-hidden flex flex-col" style={{ background: app.dark ? '#1E1F22' : '#FFFFFF', color: app.text }}>
+        {own
+          ? <Message app={app} out time={time} stage={1}>{labels.wrongMessage}</Message>
+          : <Message app={app} sender={labels.peter} color="#7E9B5D" time={time}>{labels.bubbleTwo}</Message>}
+        <div className={`sim-fade ${own ? 'self-end' : 'self-start'} w-[85%] rounded-2xl overflow-hidden flex flex-col`} style={{ background: app.dark ? '#1E1F22' : '#FFFFFF', color: app.text }}>
           {items.map(({ id: itemId, label, Icon }) => (
             <PracticeTap key={itemId} id={itemId} label={label} className="flex items-center gap-3 px-3 text-left text-[1rem] border-b" style={{ borderColor: app.border }}>
               <Icon size={20} aria-hidden="true" />{label}
@@ -604,10 +619,93 @@ const MessageMenu: React.FC<{ id: AppId; app: AppStyle; labels: L; lang: string 
           ))}
         </div>
       </div>
-      <span className="sr-only">{lang}</span>
     </div>
   );
 };
+
+/** A question in the middle of the screen, as phones show before deleting or blocking. */
+const PhoneDialog: React.FC<{ id: AppId; app: AppStyle; labels: L; title: string; subtitle?: string; behind: React.ReactNode; children: React.ReactNode }> = ({ id, app, labels, title, subtitle, behind, children }) => (
+  <div className="flex flex-col flex-1 min-h-0 relative" style={{ background: app.wallpaper }}>
+    <ChatHeader id={id} app={app} labels={labels} interactive={false} title={title} subtitle={subtitle} />
+    <div className="flex-1 min-h-0 flex flex-col justify-end p-2.5 gap-2 relative">
+      {behind}
+      <div className="absolute inset-0 flex items-center justify-center p-4" style={{ background: 'rgba(0,0,0,0.45)' }}>
+        <div className="sim-fade w-full rounded-2xl p-3 flex flex-col gap-1" style={{ background: app.dark ? '#2B2D31' : '#FFFFFF', color: app.text, boxShadow: '0 4px 16px rgba(0,0,0,0.3)' }}>
+          {children}
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const dialogOption = 'w-full px-2 text-left text-[1rem] font-bold rounded-lg';
+
+/** "Delete message?": for everyone, only for me, or cancel. */
+const DeleteConfirm: React.FC<{ id: AppId; app: AppStyle; labels: L }> = ({ id, app, labels }) => (
+  <PhoneDialog id={id} app={app} labels={labels} title={labels.family} behind={<Message app={app} out time={clockTime()} stage={1}>{labels.wrongMessage}</Message>}>
+    <p className="text-[1.05rem] font-bold px-2 pb-1">{labels.deleteQuestion}</p>
+    <PracticeTap id="delete-everyone" label={labels.deleteEveryone} pointer="below-right" className={dialogOption} style={{ color: app.text }}>{labels.deleteEveryone}</PracticeTap>
+    <PracticeTap id="delete-me" label={labels.deleteMe} className={dialogOption} style={{ color: app.text }}>{labels.deleteMe}</PracticeTap>
+    <PracticeTap id="delete-cancel" label={labels.cancelWord} className={dialogOption} style={{ color: app.subText }}>{labels.cancelWord}</PracticeTap>
+  </PhoneDialog>
+);
+
+/** A chat with an unknown number: most apps show a bar with "Block" above it. After blocking, a note says so. */
+const StrangerChat: React.FC<{ id: AppId; app: AppStyle; labels: L; lang: string; done?: boolean }> = ({ id, app, labels: allLabels, done }) => {
+  const time = clockTime();
+  const light = app.dark ? '#2B2D31' : '#FFFFFF';
+  const danger = app.dark ? '#FF7B72' : '#C62828';
+  // Some apps name the chat in the text field ("Message Family"): here it is the stranger's chat.
+  const labels: L = { ...allLabels, field: allLabels.field ? allLabels.field.replace(allLabels.family, allLabels.strangerNumber) : allLabels.field };
+  return (
+    <div className="flex flex-col flex-1 min-h-0" style={{ background: app.wallpaper, color: app.text }}>
+      <ChatHeader id={id} app={app} labels={labels} interactive={!done} title={labels.strangerNumber} subtitle={labels.notInContacts} />
+      {!done && (
+        <div className="shrink-0 px-3 py-2 flex flex-col gap-1.5 text-[0.9rem]" style={{ background: light, color: app.text, borderBottom: `1px solid ${app.border}` }}>
+          <span>{labels.notInContactsLong}</span>
+          <span className="flex gap-2">
+            <PracticeTap id="block-start" label={labels.blockWord} className="flex-1 flex items-center justify-center gap-1.5 rounded-lg font-bold" style={{ border: `1px solid ${app.border}`, color: danger }}>
+              <Ban size={17} aria-hidden="true" />{labels.blockWord}
+            </PracticeTap>
+            <PracticeTap id="add-contact" label={labels.addContact} className="flex-1 flex items-center justify-center gap-1.5 rounded-lg font-bold" style={{ border: `1px solid ${app.border}`, color: app.text }}>
+              <UserPlus size={17} aria-hidden="true" />{labels.addContact}
+            </PracticeTap>
+          </span>
+        </div>
+      )}
+      <div className="flex-1 min-h-0 overflow-hidden flex flex-col justify-end gap-1.5 p-2.5">
+        <Message app={app} sender={labels.strangerNumber} color="#8A8D91" time={time}>{labels.strangerOne}</Message>
+        <Message app={app} sender={labels.strangerNumber} color="#8A8D91" time={time}>{labels.strangerTwo}</Message>
+        {done && (
+          <span className="self-center flex items-center gap-2 px-3 py-1.5 rounded-xl text-[0.9rem] sim-fade" style={{ background: light, color: app.text, boxShadow: '0 1px 1px rgba(0,0,0,0.13)' }}>
+            <Ban size={17} aria-hidden="true" style={{ color: danger }} />{labels.blockedNote}
+          </span>
+        )}
+      </div>
+      {done
+        ? <p className="shrink-0 text-center text-[0.85rem] px-3 py-2" style={{ background: light, color: app.subText }}>{labels.blockedFooter}</p>
+        : <Composer id={id} app={app} labels={labels} typing={false} />}
+    </div>
+  );
+};
+
+/** "Block this number?" with the box for reporting it too. */
+const BlockConfirm: React.FC<{ id: AppId; app: AppStyle; labels: L; checked: boolean }> = ({ id, app, labels, checked }) => (
+  <PhoneDialog id={id} app={app} labels={labels} title={labels.strangerNumber} subtitle={labels.notInContacts} behind={<Message app={app} sender={labels.strangerNumber} color="#8A8D91" time={clockTime()}>{labels.strangerTwo}</Message>}>
+    <p className="text-[1.05rem] font-bold px-2">{labels.blockTitle}</p>
+    <p className="text-[0.92rem] px-2 pb-1" style={{ color: app.subText }}>{labels.blockInfo}</p>
+    <PracticeTap id="report-check" label={labels.alsoReport} pointer="above-left" className="w-full flex items-center gap-2 px-2 text-left text-[0.98rem] rounded-lg" style={{ color: app.text }}>
+      <span aria-hidden="true" className="w-6 h-6 rounded flex items-center justify-center shrink-0" style={checked ? { background: app.accent, color: app.accentText } : { border: `2px solid ${app.subText}` }}>
+        {checked && <Check size={16} />}
+      </span>
+      {labels.alsoReport}
+    </PracticeTap>
+    <span className="flex justify-end gap-2 pt-1">
+      <PracticeTap id="block-cancel" label={labels.cancelWord} className="px-3 rounded-lg font-bold text-[1rem]" style={{ color: app.subText }}>{labels.cancelWord}</PracticeTap>
+      <PracticeTap id="block-ok" label={labels.blockWord} pointer="above-right" className="px-4 rounded-lg font-bold text-[1rem]" style={{ background: '#C62828', color: '#FFFFFF' }}>{labels.blockWord}</PracticeTap>
+    </span>
+  </PhoneDialog>
+);
 
 /** While a voice message is being recorded. */
 const Recording: React.FC<{ id: AppId; app: AppStyle; labels: L }> = ({ id, app, labels }) => {
@@ -838,13 +936,18 @@ export const MessengerScreen: React.FC<PracticeScreenProps> = ({ screen, isDone,
   const app = appStyle((appId ?? 'whatsapp') as AppId, platform);
   const blackScreen = !isDone && (screen === 'preview' || screen === 'call');
   const listBar: Partial<Record<AppId, string>> = { telegram: '#517DA2', threema: '#1F1F1F', viber: '#7360F2', teams: '#4B53BC' };
-  const headerColor = !isDone && screen === 'list' ? listBar[id] ?? app.bg : app.chatHeaderBg;
+  const headerColor = !isDone && (screen === 'list' || screen === 'list-stranger') ? listBar[id] ?? app.bg : app.chatHeaderBg;
   const barBg = blackScreen ? (screen === 'call' ? '#1F2C34' : '#0B141A') : headerColor;
   const lightText = blackScreen || app.dark || ['#517DA2', '#1F1F1F', '#7360F2', '#4B53BC'].includes(barBg);
 
   let body: React.ReactNode;
-  if (isDone) body = <Chat id={id} app={app} labels={labels} screen="done" isDone kind={kind} lang={lang} />;
-  else if (screen === 'list') body = <ChatList id={id} app={app} labels={labels} lang={lang} />;
+  if (isDone && kind === 'block') body = <StrangerChat id={id} app={app} labels={labels} lang={lang} done />;
+  else if (isDone) body = <Chat id={id} app={app} labels={labels} screen="done" isDone kind={kind} lang={lang} />;
+  else if (screen === 'list' || screen === 'list-stranger') body = <ChatList id={id} app={app} labels={labels} lang={lang} stranger={screen === 'list-stranger'} />;
+  else if (screen === 'msgmenu-own') body = <MessageMenu id={id} app={app} labels={labels} lang={lang} own />;
+  else if (screen === 'delete-confirm') body = <DeleteConfirm id={id} app={app} labels={labels} />;
+  else if (screen === 'stranger') body = <StrangerChat id={id} app={app} labels={labels} lang={lang} />;
+  else if (screen === 'block-confirm' || screen === 'block-confirm2') body = <BlockConfirm id={id} app={app} labels={labels} checked={screen === 'block-confirm2'} />;
   else if (screen === 'attach') body = <AttachMenu id={id} app={app} labels={labels} />;
   else if (screen === 'gallery') body = <Gallery app={app} labels={labels} />;
   else if (screen === 'preview') body = <Preview app={app} labels={labels} />;

@@ -38,6 +38,14 @@ const common = {
     space: 'space', deleteKey: 'Delete letter', shift: 'Capital letter',
     calling: 'Ringing...', inCall: 'In call', noRealCall: 'Practice only: nobody is really being called.',
     speaker: 'Speaker', mute: 'Microphone off', hangup: 'End call', callEnded: 'Video call ended',
+    wrongMessage: 'Anna, the present for Peter is hidden in the cupboard!', deletedNote: 'You deleted this message',
+    deleteQuestion: 'Delete message?', deleteEveryone: 'Delete for everyone', deleteMe: 'Delete for me', cancelWord: 'Cancel',
+    strangerNumber: '+49 000 1234 567', strangerLast: 'Hi Mum, this is my new number',
+    strangerOne: 'Hi Mum, my phone broke. This is my new number.', strangerTwo: 'Can you help me pay a bill today?',
+    notInContacts: 'Not in your contacts', notInContactsLong: 'This number is not in your contacts.',
+    blockWord: 'Block', addContact: 'Add', blockTitle: 'Block +49 000 1234 567?',
+    blockInfo: 'Blocked contacts cannot call you or send you messages.', alsoReport: 'Also report this number',
+    blockedNote: 'You blocked this contact', blockedFooter: 'You cannot exchange messages with a blocked contact.',
   },
   de: {
     tapHere: 'Hier tippen',
@@ -61,6 +69,14 @@ const common = {
     space: 'Leerzeichen', deleteKey: 'Buchstabe löschen', shift: 'Großbuchstabe',
     calling: 'Es klingelt...', inCall: 'Im Gespräch', noRealCall: 'Nur Übung: Es wird niemand wirklich angerufen.',
     speaker: 'Lautsprecher', mute: 'Mikrofon aus', hangup: 'Auflegen', callEnded: 'Videoanruf beendet',
+    wrongMessage: 'Anna, das Geschenk für Peter liegt versteckt im Schrank!', deletedNote: 'Sie haben diese Nachricht gelöscht',
+    deleteQuestion: 'Nachricht löschen?', deleteEveryone: 'Für alle löschen', deleteMe: 'Für mich löschen', cancelWord: 'Abbrechen',
+    strangerNumber: '+49 000 1234 567', strangerLast: 'Hallo Mama, das ist meine neue Nummer',
+    strangerOne: 'Hallo Mama, mein Handy ist kaputt. Das ist meine neue Nummer.', strangerTwo: 'Kannst du mir heute helfen, eine Rechnung zu bezahlen?',
+    notInContacts: 'Nicht in Ihren Kontakten', notInContactsLong: 'Diese Nummer ist nicht in Ihren Kontakten.',
+    blockWord: 'Blockieren', addContact: 'Hinzufügen', blockTitle: '+49 000 1234 567 blockieren?',
+    blockInfo: 'Blockierte Kontakte können Sie nicht anrufen und Ihnen keine Nachrichten senden.', alsoReport: 'Diese Nummer auch melden',
+    blockedNote: 'Sie haben diesen Kontakt blockiert', blockedFooter: 'Mit einem blockierten Kontakt können Sie keine Nachrichten austauschen.',
   },
 };
 
@@ -105,6 +121,17 @@ const tapNames: Record<string, { en: string; de: string }> = {
   speaker: { en: 'the speaker', de: 'der Lautsprecher' },
   flip: { en: 'the camera', de: 'die Kamera' },
   mute: { en: 'the button for your microphone', de: 'der Knopf für Ihr Mikrofon' },
+  'chat-family': { en: 'the family chat', de: 'der Familien-Chat' },
+  'chat-stranger': { en: 'the message from the unknown number', de: 'die Nachricht von der unbekannten Nummer' },
+  'bubble-peter': { en: 'Peter\'s message', de: 'Peters Nachricht' },
+  'menu-reply': { en: 'Reply, which answers the message', de: 'Antworten, damit beantworten Sie die Nachricht' },
+  'menu-edit': { en: 'Edit, which corrects the text', de: 'Bearbeiten, damit korrigieren Sie den Text' },
+  'delete-me': { en: '"Delete for me", which only removes it from your own phone', de: '„Für mich löschen“, das entfernt sie nur von Ihrem eigenen Handy' },
+  'delete-cancel': { en: 'Cancel, which keeps the message', de: 'Abbrechen, damit bleibt die Nachricht' },
+  'add-contact': { en: '"Add", which would save the stranger in your contacts', de: '„Hinzufügen“, damit würden Sie die fremde Person in Ihren Kontakten speichern' },
+  'block-cancel': { en: 'Cancel, which closes this without blocking', de: 'Abbrechen, damit schließen Sie das, ohne zu blockieren' },
+  'block-ok': { en: 'the Block button', de: 'der Knopf Blockieren' },
+  'report-check': { en: 'the box for reporting, which is already ticked', de: 'das Kästchen zum Melden, es ist schon angehakt' },
 };
 
 function hintsFor(lang: Language, where: string): Record<string, string> {
@@ -171,7 +198,7 @@ function messagingLessons(lang: Language, app: AppId, platform: 'iphone' | 'andr
     durationMinutes: duration,
     difficulty: t('Easy', 'Einfach') as Tutorial['difficulty'],
     image: IMAGES.topicWhatsappPhone,
-    tags: [name, t('Practice', 'Übung'), t('Family', 'Familie'), ...(kind === 'photo' ? [t('Photo', 'Foto')] : kind === 'call' ? [t('Video call', 'Videoanruf')] : [t('Message', 'Nachricht')])],
+    tags: [name, t('Practice', 'Übung'), ...(kind === 'block' ? [] : [t('Family', 'Familie')]), ...(kind === 'photo' ? [t('Photo', 'Foto')] : kind === 'call' ? [t('Video call', 'Videoanruf')] : kind === 'delete' ? [t('Delete', 'Löschen'), t('Message', 'Nachricht'), t('Wrong chat', 'Falscher Chat')] : kind === 'block' ? [t('Block', 'Blockieren'), t('Report', 'Melden'), t('Unknown number', 'Unbekannte Nummer'), t('Safety', 'Sicherheit')] : [t('Message', 'Nachricht')])],
     isPopular: id === 'whatsapp-photo',
     practice: {
       screenId: 'messenger',
@@ -292,8 +319,56 @@ function messagingLessons(lang: Language, app: AppId, platform: 'iphone' | 'andr
       ]));
   }
 
+  // Delete a message that went to the wrong chat. SMS cannot be taken back, and iMessage uses "Undo Send"
+  // instead: both are explained in the general lesson "Sent to the wrong person?".
   if (app !== 'sms' && app !== 'imessage') {
-    const whereNew = t('The button for a new chat has a pencil or a plus sign on it.', 'Der Knopf für einen neuen Chat zeigt einen Stift oder ein Pluszeichen.');
+    const whereOwn = t('Your own message is on the right, at the bottom.', 'Ihre eigene Nachricht ist rechts, ganz unten.');
+    lessons.push(base('delete', `${app}-delete`, t(`${name}: Delete a Message You Sent`, `${name}: Eine gesendete Nachricht löschen`),
+      t('Sent something to the wrong chat? Practise deleting it for everyone, so nobody else reads it.', 'Etwas in den falschen Chat geschickt? Üben Sie, es für alle zu löschen, damit es niemand sonst liest.'),
+      4, `${app}-reply`, t('Well done! The message is gone.', 'Gut gemacht! Die Nachricht ist weg.'),
+      t('The others now only see a short note that a message was deleted. Be quick in real life: most apps allow "Delete for everyone" only for a limited time after sending, and someone may already have read it. This was only practice.', 'Die anderen sehen jetzt nur einen kurzen Hinweis, dass eine Nachricht gelöscht wurde. Im echten Leben gilt: schnell sein. Die meisten Apps erlauben „Für alle löschen“ nur für eine begrenzte Zeit nach dem Senden, und vielleicht hat sie schon jemand gelesen. Das war nur eine Übung.'),
+      noticeMessage,
+      t(`You sent a message to the family group that was meant only for Anna. You will delete it for everyone in 4 steps. ${youKnow}`, `Sie haben der Familiengruppe eine Nachricht geschickt, die nur für Anna gedacht war. Sie löschen sie in 4 Schritten für alle. ${youKnow}`),
+      [
+        familyStep(1, t('That was right. The family chat is open.', 'Das war richtig. Der Familien-Chat ist offen.')),
+        practiceStep(lang, 2, t('Press and hold your message', 'Halten Sie Ihre Nachricht gedrückt'), t('Put your finger on your own message and keep it there for a moment.', 'Legen Sie den Finger auf Ihre eigene Nachricht und lassen Sie ihn einen Moment dort.'),
+          [t('Your own messages are on the right. Pressing and holding opens extra choices.', 'Ihre eigenen Nachrichten stehen rechts. Gedrückt halten öffnet weitere Möglichkeiten.')],
+          'hold-own', 'bubble-own', whereOwn, t('That was right. A menu has opened.', 'Das war richtig. Ein Menü ist offen.'), { hold: true }),
+        practiceStep(lang, 3, t('Tap "Delete"', 'Tippen Sie auf „Löschen“'), t('It is the last line in the menu, with the bin.', 'Das ist die letzte Zeile im Menü, mit dem Papierkorb.'),
+          [t('"Edit" would let you correct a typing mistake instead. Not every app has it.', '„Bearbeiten“ würde stattdessen einen Tippfehler korrigieren. Nicht jede App hat das.')],
+          'msgmenu-own', 'menu-delete', t('"Delete" is the last line in the menu.', '„Löschen“ ist die letzte Zeile im Menü.'), t('That was right. Now choose who should no longer see it.', 'Das war richtig. Jetzt wählen Sie, wer sie nicht mehr sehen soll.')),
+        practiceStep(lang, 4, t('Tap "Delete for everyone"', 'Tippen Sie auf „Für alle löschen“'), t('Only this removes the message from the others\' phones too.', 'Nur so verschwindet die Nachricht auch von den Handys der anderen.'),
+          [t('"Delete for me" only removes it from your own phone. The others could still read it.', '„Für mich löschen“ entfernt sie nur von Ihrem eigenen Handy. Die anderen könnten sie weiter lesen.'), t('Some apps call it "Unsend" or "Recall".', 'Manche Apps nennen es „Zurückziehen“ oder „Zurückrufen“.')],
+          'delete-confirm', 'delete-everyone', t('"Delete for everyone" is the first choice.', '„Für alle löschen“ ist die erste Auswahl.'), t('That was right.', 'Das war richtig.')),
+      ]));
+  }
+
+  // Block and report a stranger: most apps show a bar with "Block" above messages from unknown numbers.
+  if (app !== 'teams') {
+    lessons.push(base('block', `${app}-block`, t(`${name}: Block and Report a Stranger`, `${name}: Fremde blockieren und melden`),
+      t('A stranger writes to you, perhaps with a scam. Practise blocking and reporting the number, so it cannot write to you again.', 'Eine fremde Person schreibt Ihnen, vielleicht mit einem Betrug. Üben Sie, die Nummer zu blockieren und zu melden, damit sie Ihnen nicht mehr schreiben kann.'),
+      4, `${app}-delete`, t('Well done! The number is blocked.', 'Gut gemacht! Die Nummer ist blockiert.'),
+      t('It can no longer send you messages or call you in this app. Blocked someone by mistake? You can unblock them in the app\'s settings, under privacy. This was only practice.', 'Sie kann Ihnen in dieser App keine Nachrichten mehr senden und Sie nicht anrufen. Aus Versehen blockiert? In den Einstellungen der App, unter Datenschutz, heben Sie es wieder auf. Das war nur eine Übung.'),
+      t('Practice mode: nobody is really blocked or reported.', 'Übungsmodus: Es wird niemand wirklich blockiert oder gemeldet.'),
+      t(`A message arrives from a number you do not know. You will block and report it in 4 steps. ${youKnow}`, `Eine Nachricht kommt von einer Nummer, die Sie nicht kennen. Sie blockieren und melden sie in 4 Schritten. ${youKnow}`),
+      [
+        practiceStep(lang, 1, t('Open the message from the unknown number', 'Öffnen Sie die Nachricht der unbekannten Nummer'), t('Tap the top line, with the number.', 'Tippen Sie auf die oberste Zeile, mit der Nummer.'),
+          [t('Opening it is safe. Just do not tap any link in it, and do not answer.', 'Öffnen ist ungefährlich. Tippen Sie nur auf keinen Link darin, und antworten Sie nicht.')],
+          'list-stranger', 'chat-stranger', t('The unknown number is the top line.', 'Die unbekannte Nummer ist die oberste Zeile.'), t('That was right. This is the "Hi Mum" trick: a stranger pretends to be your child.', 'Das war richtig. Das ist der „Hallo Mama“-Trick: Eine fremde Person gibt sich als Ihr Kind aus.')),
+        practiceStep(lang, 2, t('Tap "Block"', 'Tippen Sie auf „Blockieren“'), t('Most apps show a bar above messages from people who are not in your contacts.', 'Die meisten Apps zeigen über Nachrichten von Menschen, die nicht in Ihren Kontakten sind, eine Leiste.'),
+          [t('You do not have to answer first. If your real child might have a new number, call them on the old number to check.', 'Sie müssen vorher nicht antworten. Könnte Ihr echtes Kind eine neue Nummer haben, rufen Sie es unter der alten Nummer an, um nachzufragen.')],
+          'stranger', 'block-start', t('"Block" is in the bar above the messages, on the left.', '„Blockieren“ ist in der Leiste über den Nachrichten, links.'), t('That was right. The app asks to make sure.', 'Das war richtig. Die App fragt zur Sicherheit nach.')),
+        practiceStep(lang, 3, t('Tick "Also report this number"', 'Haken Sie „Diese Nummer auch melden“ an'), t('Tap the box, so the app learns about this number.', 'Tippen Sie auf das Kästchen, damit die App von dieser Nummer erfährt.'),
+          [t('Reporting helps to stop the number for other people too. The other person is not told who reported them.', 'Melden hilft, die Nummer auch für andere zu stoppen. Die andere Person erfährt nicht, wer sie gemeldet hat.')],
+          'block-confirm', 'report-check', t('The box is above the two buttons.', 'Das Kästchen ist über den beiden Knöpfen.'), t('That was right. The box is ticked.', 'Das war richtig. Das Kästchen ist angehakt.')),
+        practiceStep(lang, 4, t('Tap "Block"', 'Tippen Sie auf „Blockieren“'), t('Confirm with the red button.', 'Bestätigen Sie mit dem roten Knopf.'),
+          [t('Cancel would close this without blocking.', 'Abbrechen würde das schließen, ohne zu blockieren.')],
+          'block-confirm2', 'block-ok', t('"Block" is the red button at the bottom right.', '„Blockieren“ ist der rote Knopf unten rechts.'), t('That was right.', 'Das war richtig.')),
+      ]));
+  }
+
+  if (app !== 'sms' && app !== 'imessage') {
+    const whereNew =t('The button for a new chat has a pencil or a plus sign on it.', 'Der Knopf für einen neuen Chat zeigt einen Stift oder ein Pluszeichen.');
     lessons.push(base('group', `${app}-group`, t(`${name}: Create a Group`, `${name}: Eine Gruppe erstellen`),
       t('Write to several people at once. Create your own group, for example for the family.', 'Schreiben Sie mehreren Personen gleichzeitig. Erstellen Sie eine eigene Gruppe, zum Beispiel für die Familie.'),
       6, `${app}-reply`, t('Well done! You created a group.', 'Gut gemacht! Sie haben eine Gruppe erstellt.'),

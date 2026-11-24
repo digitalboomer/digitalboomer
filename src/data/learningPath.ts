@@ -8,7 +8,7 @@
 import type { Tutorial } from '../types';
 
 const SERVICE_ORDER: { kinds: string[]; after: string[] }[] = [
-  { kinds: ['message', 'photo', 'voice', 'reply', 'group', 'call'], after: ['videotelefonie-familie', 'messaging-privacy'] },
+  { kinds: ['message', 'photo', 'voice', 'reply', 'delete', 'block', 'group', 'call'], after: ['videotelefonie-familie', 'messaging-privacy'] },
   { kinds: ['reply', 'new', 'forward', 'attach', 'search', 'star', 'archive', 'restore', 'spam', 'unsubscribe'], after: ['email-write-well', 'email-account'] },
   { kinds: ['like', 'search', 'post', 'message', 'share', 'follow', 'block'], after: ['social-before-posting', 'social-privacy'] },
   { kinds: ['balance', 'transfer', 'statement', 'own', 'scheduled', 'standing', 'stop-standing', 'international', 'namecheck', 'reject', 'block-card'], after: ['banking-approve', 'banking-scam-calls'] },
@@ -25,10 +25,14 @@ const NEXT: Record<string, string[]> = {
   'messaging-choose-app': ['whatsapp-message', 'messaging-privacy'],
   'messaging-privacy': ['messaging-groups', 'safety-sms-scams'],
   'messaging-groups': ['whatsapp-group', 'videotelefonie-familie'],
+  'messaging-wrong-chat': ['whatsapp-delete', 'messaging-privacy'],
+  'messaging-new-phone': ['safety-account-code', 'safety-lost-phone'],
+  'messaging-share-location': ['messaging-privacy', 'messaging-groups'],
+  'safety-account-code': ['whatsapp-block', 'safety-2fa'],
   'phishing-erkennen': ['safety-phishing-examples', 'e-mail-anhaenge-pruefen'],
   'safety-phishing-examples': ['e-mail-anhaenge-pruefen', 'safety-sms-scams'],
   'e-mail-anhaenge-pruefen': ['safety-sms-scams', 'passwoerter-erstellen'],
-  'safety-sms-scams': ['safety-phone-scams', 'safety-qr'],
+  'safety-sms-scams': ['safety-account-code', 'safety-phone-scams'],
   'safety-phone-scams': ['safety-popups', 'banking-scam-calls'],
   'safety-popups': ['safety-fake-websites', 'safety-updates'],
   'safety-fake-websites': ['fake-shops-entlarven', 'safety-qr'],

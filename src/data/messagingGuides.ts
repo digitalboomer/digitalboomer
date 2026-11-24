@@ -168,5 +168,125 @@ export function generalMessagingLessons(lang: Language): Tutorial[] {
         },
       ],
     },
+    {
+      ...shared,
+      id: 'messaging-wrong-chat',
+      title: t('Sent to the Wrong Person? Delete or Correct a Message', 'An die falsche Person geschickt? Eine Nachricht löschen oder korrigieren'),
+      description: t('It happens to everyone. How to take a message back, correct a typing mistake, and what to do when it was something private.', 'Das passiert jedem. Wie Sie eine Nachricht zurücknehmen, einen Tippfehler korrigieren, und was Sie tun, wenn es etwas Privates war.'),
+      durationMinutes: 4,
+      tags: [t('Delete', 'Löschen'), t('Edit', 'Bearbeiten'), t('Message', 'Nachricht'), t('Wrong chat', 'Falscher Chat')],
+      steps: [
+        {
+          stepNumber: 1, title: t('Act quickly: delete it for everyone', 'Schnell sein: für alle löschen'), lead: t('Press and hold the message, tap "Delete", then "Delete for everyone".', 'Halten Sie die Nachricht gedrückt, tippen Sie auf „Löschen“, dann auf „Für alle löschen“.'),
+          paragraphs: [
+            t('The others then only see a short note that a message was deleted.', 'Die anderen sehen dann nur einen kurzen Hinweis, dass eine Nachricht gelöscht wurde.'),
+            t('This only works for a limited time after sending, and the time depends on the app. If someone has already read it, deleting cannot undo that.', 'Das geht nur eine begrenzte Zeit nach dem Senden, und wie lange, hängt von der App ab. Hat es schon jemand gelesen, macht Löschen das nicht rückgängig.'),
+            t('"Delete for me" is different: it only removes the message from your own phone.', '„Für mich löschen“ ist etwas anderes: Es entfernt die Nachricht nur von Ihrem eigenen Handy.'),
+          ],
+          links: [
+            { label: t('Practise: WhatsApp: Delete a Message You Sent', 'Üben: WhatsApp: Eine gesendete Nachricht löschen'), page: 'tutorial-detail', tutorialId: 'whatsapp-delete' },
+            { label: t('Other messaging apps', 'Andere Nachrichten-Apps'), page: 'nachrichten-apps' },
+          ],
+        },
+        {
+          stepNumber: 2, title: t('Only a typing mistake? Edit it', 'Nur ein Tippfehler? Bearbeiten'), lead: t('Many apps let you correct a message for a short time.', 'Viele Apps lassen Sie eine Nachricht für kurze Zeit korrigieren.'),
+          paragraphs: [
+            t('Press and hold your message and tap "Edit". The corrected message is marked as edited, so everyone knows.', 'Halten Sie Ihre Nachricht gedrückt und tippen Sie auf „Bearbeiten“. Die korrigierte Nachricht ist als bearbeitet markiert, damit alle es wissen.'),
+            t('Not every app offers this. Then simply send a short correction, for example: "Sorry, I meant Tuesday."', 'Nicht jede App bietet das. Dann schicken Sie einfach eine kurze Korrektur, zum Beispiel: „Entschuldigung, ich meinte Dienstag.“'),
+          ],
+        },
+        {
+          stepNumber: 3, title: t('iPhone messages and SMS', 'iPhone-Nachrichten und SMS'), lead: t('Here it works differently.', 'Hier ist es anders.'),
+          paragraphs: [
+            t('Blue iMessage messages on the iPhone can be taken back for a few minutes: press and hold the message, then tap "Undo Send".', 'Blaue iMessage-Nachrichten auf dem iPhone lassen sich einige Minuten lang zurückholen: Halten Sie die Nachricht gedrückt und tippen Sie auf „Senden widerrufen“.'),
+            t('Green SMS messages cannot be taken back once they are sent. Deleting one only removes it from your own phone.', 'Grüne SMS lassen sich nach dem Senden nicht zurückholen. Löschen entfernt sie nur von Ihrem eigenen Handy.'),
+          ],
+        },
+        {
+          stepNumber: 4, title: t('When it was something private', 'Wenn es etwas Privates war'), lead: t('Stay calm, and be honest.', 'Bleiben Sie ruhig, und seien Sie ehrlich.'),
+          paragraphs: [
+            t('A short message such as "Sorry, that was meant for someone else, please ignore it" is usually enough.', 'Eine kurze Nachricht wie „Entschuldigung, das war für jemand anderen gedacht, bitte ignorieren“ genügt meistens.'),
+            t('Sent a password, a PIN or bank details by mistake? Change them straight away, even after deleting the message.', 'Aus Versehen ein Passwort, eine PIN oder Bankdaten geschickt? Ändern Sie sie sofort, auch wenn Sie die Nachricht gelöscht haben.'),
+          ],
+          tip: t('Before sending, a quick look at the name at the top of the chat saves most mistakes.', 'Ein kurzer Blick auf den Namen oben im Chat vor dem Senden erspart die meisten Fehler.'),
+        },
+      ],
+    },
+    {
+      ...shared,
+      id: 'messaging-new-phone',
+      title: t('New Phone: Keep Your Chats and Photos', 'Neues Handy: Chats und Fotos mitnehmen'),
+      description: t('Make a backup before you change, keep your number, restore everything on the new phone, then clear the old one safely.', 'Vor dem Wechsel eine Sicherung machen, die Nummer behalten, auf dem neuen Handy alles zurückholen und das alte sicher leeren.'),
+      durationMinutes: 6,
+      tags: [t('New phone', 'Neues Handy'), t('Backup', 'Sicherung'), t('Chats', 'Chats'), t('Photos', 'Fotos')],
+      steps: [
+        {
+          stepNumber: 1, title: t('Before you change: make a backup', 'Vor dem Wechsel: eine Sicherung machen'), lead: t('A backup is a copy of your chats and photos, kept safely outside the phone.', 'Eine Sicherung ist eine Kopie Ihrer Chats und Fotos, sicher außerhalb des Handys aufbewahrt.'),
+          paragraphs: [
+            t('WhatsApp: Settings, then "Chats", then "Chat backup", then "Back up". On Android phones the copy goes to your Google account, on the iPhone to iCloud.', 'WhatsApp: Einstellungen, dann „Chats“, dann „Chat-Backup“, dann „Sichern“. Bei Android-Handys geht die Kopie in Ihr Google-Konto, beim iPhone in die iCloud.'),
+            t('Photos: switch on Google Photos backup on Android, or iCloud Photos on the iPhone. Then your photos are copied automatically.', 'Fotos: Schalten Sie bei Android die Sicherung in Google Fotos ein, beim iPhone iCloud-Fotos. Dann werden Ihre Fotos automatisch kopiert.'),
+            t('Some apps, for example Signal and Threema, do not keep a copy online. They move your chats from the old phone to the new one, so keep the old phone until everything has arrived.', 'Manche Apps, zum Beispiel Signal und Threema, bewahren keine Kopie im Internet auf. Sie übertragen Ihre Chats vom alten auf das neue Handy, also behalten Sie das alte Handy, bis alles angekommen ist.'),
+          ],
+        },
+        {
+          stepNumber: 2, title: t('Keep your phone number', 'Behalten Sie Ihre Nummer'), lead: t('Your messaging account belongs to your phone number.', 'Ihr Nachrichten-Konto gehört zu Ihrer Telefonnummer.'),
+          paragraphs: [
+            t('Keep your SIM card or your number when you get a new phone. Then you sign in with the same number and receive a code by text message.', 'Behalten Sie Ihre SIM-Karte oder Ihre Nummer, wenn Sie ein neues Handy bekommen. Dann melden Sie sich mit derselben Nummer an und bekommen einen Code per SMS.'),
+            t('Getting a new number? Most apps have "Change number" in the account settings. Use it on the old phone first, so your chats come along.', 'Bekommen Sie eine neue Nummer? Die meisten Apps haben „Nummer ändern“ in den Kontoeinstellungen. Nutzen Sie das zuerst auf dem alten Handy, damit Ihre Chats mitkommen.'),
+          ],
+          warning: t('The code you receive is only for you. Nobody from WhatsApp or the shop will ask you for it.', 'Der Code, den Sie bekommen, ist nur für Sie. Niemand von WhatsApp oder aus dem Laden fragt Sie danach.'),
+        },
+        {
+          stepNumber: 3, title: t('On the new phone: restore', 'Auf dem neuen Handy: zurückholen'), lead: t('Install the app, sign in with your number, and restore your backup.', 'App installieren, mit Ihrer Nummer anmelden und die Sicherung zurückholen.'),
+          paragraphs: [
+            t('Install the app from the official app store on your phone. Enter your number and the code you receive by text message.', 'Installieren Sie die App aus dem offiziellen App-Store Ihres Handys. Geben Sie Ihre Nummer ein und den Code, den Sie per SMS bekommen.'),
+            t('The app then offers to restore your backup. Tap "Restore" and wait until it has finished. Keep the phone connected to Wi-Fi and the charger.', 'Die App bietet dann an, Ihre Sicherung zurückzuholen. Tippen Sie auf „Wiederherstellen“ und warten Sie, bis es fertig ist. Lassen Sie das Handy dabei im WLAN und am Ladekabel.'),
+            t('Changing from Android to iPhone or the other way round? Both phones offer a moving assistant when you set up the new phone. Ask a family member or the shop to help.', 'Wechseln Sie von Android zum iPhone oder umgekehrt? Beide Handys bieten beim Einrichten einen Umzugs-Assistenten an. Bitten Sie ein Familienmitglied oder den Laden um Hilfe.'),
+          ],
+        },
+        {
+          stepNumber: 4, title: t('Before you give the old phone away', 'Bevor Sie das alte Handy weitergeben'), lead: t('First check, then reset.', 'Erst prüfen, dann zurücksetzen.'),
+          paragraphs: [
+            t('Open your chats and photos on the new phone and check that everything is there.', 'Öffnen Sie auf dem neuen Handy Ihre Chats und Fotos und prüfen Sie, ob alles da ist.'),
+            t('Then reset the old phone to factory settings, in its settings. This deletes your data, so the next owner cannot see it.', 'Setzen Sie dann das alte Handy in seinen Einstellungen auf Werkseinstellungen zurück. Das löscht Ihre Daten, damit der nächste Besitzer sie nicht sieht.'),
+          ],
+          tip: t('Do you use an app that shows login codes? Move it to the new phone too, before you reset the old one.', 'Nutzen Sie eine App, die Anmelde-Codes anzeigt? Übertragen Sie auch sie auf das neue Handy, bevor Sie das alte zurücksetzen.'),
+          links: [{ label: t('Lesson: Someone Asks for Your 6-Digit Code', 'Lektion: Jemand fragt nach Ihrem 6-stelligen Code'), page: 'tutorial-detail', tutorialId: 'safety-account-code' }],
+        },
+      ],
+    },
+    {
+      ...shared,
+      id: 'messaging-share-location',
+      title: t('Share Your Location: Show Where You Are', 'Standort teilen: Zeigen, wo Sie sind'),
+      description: t('Send your family a point on the map, or let them follow your way home for a while, and stay in control of who sees it.', 'Schicken Sie Ihrer Familie einen Punkt auf der Karte, oder lassen Sie sie eine Weile Ihren Heimweg verfolgen, und behalten Sie im Blick, wer ihn sieht.'),
+      durationMinutes: 4,
+      tags: [t('Location', 'Standort'), t('Map', 'Karte'), t('Family', 'Familie'), t('Safety', 'Sicherheit')],
+      steps: [
+        {
+          stepNumber: 1, title: t('What it is for', 'Wofür es gut ist'), lead: t('Your phone can show others where you are, on a map.', 'Ihr Handy kann anderen auf einer Karte zeigen, wo Sie sind.'),
+          paragraphs: [
+            t('Useful when you meet your family in a busy place, or on a walk, so someone knows you got home safely.', 'Praktisch, wenn Sie sich mit der Familie an einem belebten Ort treffen, oder auf einem Spaziergang, damit jemand weiß, dass Sie gut nach Hause gekommen sind.'),
+            t('There are two kinds. Your current location is one point on the map, sent once. Live location moves along with you, for a time you choose.', 'Es gibt zwei Arten. Der aktuelle Standort ist ein Punkt auf der Karte, einmal gesendet. Der Live-Standort bewegt sich mit Ihnen mit, für eine Zeit, die Sie wählen.'),
+          ],
+        },
+        {
+          stepNumber: 2, title: t('How to send it', 'So senden Sie ihn'), lead: t('In the chat, tap the paper clip or the plus, then "Location".', 'Tippen Sie im Chat auf die Büroklammer oder das Plus, dann auf „Standort“.'),
+          paragraphs: [
+            t('Choose "Send your current location" for one point, or "Share live location" and a time, for example 15 minutes or 1 hour.', 'Wählen Sie „Aktuellen Standort senden“ für einen Punkt, oder „Live-Standort teilen“ und eine Zeit, zum Beispiel 15 Minuten oder 1 Stunde.'),
+            t('The first time, your phone asks whether the app may use your location. Choose "While using the app".', 'Beim ersten Mal fragt Ihr Handy, ob die App Ihren Standort verwenden darf. Wählen Sie „Beim Verwenden der App“.'),
+          ],
+          links: [{ label: t('Practise the paper clip: WhatsApp: Send a Photo', 'Die Büroklammer üben: WhatsApp: Ein Foto senden'), page: 'tutorial-detail', tutorialId: 'whatsapp-photo' }],
+        },
+        {
+          stepNumber: 3, title: t('Stay in control', 'Behalten Sie die Kontrolle'), lead: t('Share your location only with people you know well.', 'Teilen Sie Ihren Standort nur mit Menschen, die Sie gut kennen.'),
+          paragraphs: [
+            t('Live location ends by itself after the time you chose. You can also end it earlier in the chat, with "Stop sharing".', 'Der Live-Standort endet von selbst nach der gewählten Zeit. Sie können ihn auch früher im Chat beenden, mit „Teilen beenden“.'),
+            t('Never share it in large groups, or with people you only know online.', 'Teilen Sie ihn nie in großen Gruppen, oder mit Menschen, die Sie nur aus dem Internet kennen.'),
+          ],
+          warning: t('Someone you met online asks where you live or wants your location? Do not send it. That is a common start of a scam.', 'Jemand aus dem Internet fragt, wo Sie wohnen, oder will Ihren Standort? Schicken Sie ihn nicht. So beginnt oft ein Betrug.'),
+        },
+      ],
+    },
   ];
 }

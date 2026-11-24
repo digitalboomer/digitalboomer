@@ -30,7 +30,7 @@ export const SecurityScreen: React.FC<SecurityScreenProps> = ({
     {
       title: isEn ? 'Recognise scams' : 'Betrug erkennen',
       text: isEn ? 'Emails, text messages, calls and websites that want your money or your data.' : 'E-Mails, SMS, Anrufe und Websites, die an Ihr Geld oder Ihre Daten wollen.',
-      ids: ['phishing-erkennen', 'safety-phishing-examples', 'safety-sms-scams', 'safety-phone-scams', 'e-mail-anhaenge-pruefen', 'safety-fake-websites', 'fake-shops-entlarven', 'safety-popups', 'safety-qr'],
+      ids: ['phishing-erkennen', 'safety-phishing-examples', 'safety-sms-scams', 'safety-account-code', 'safety-phone-scams', 'e-mail-anhaenge-pruefen', 'safety-fake-websites', 'fake-shops-entlarven', 'safety-popups', 'safety-qr'],
     },
     {
       title: isEn ? 'Protect your accounts and devices' : 'Konten und Geräte schützen',
