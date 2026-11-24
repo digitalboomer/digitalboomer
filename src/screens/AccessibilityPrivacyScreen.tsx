@@ -3,6 +3,7 @@ import { linkTo } from '../utils/router';
 import { Icon } from '../components/Icon';
 import { PageId, Language } from '../types';
 import { CONTRAST_DOCUMENTATION_EN, CONTRAST_DOCUMENTATION_DE } from '../data/content';
+import { aiHelpConfigured } from '../utils/helpChat';
 
 interface AccessibilityPrivacyScreenProps {
   initialTab?: 'barrierefreiheit' | 'datenschutz';
@@ -210,6 +211,11 @@ export const AccessibilityPrivacyScreen: React.FC<AccessibilityPrivacyScreenProp
                   ? 'If you write to us with the form on the Help page, we receive your name, your email address, the topic and your message. We use them only to answer you. The message is stored with our provider Supabase on servers in the EU, and only our team can read it. A copy is sent to our team email address (Gmail) through our email provider Brevo, and we answer from there. We delete messages when they are answered and no longer needed.'
                   : 'Wenn Sie uns über das Formular auf der Hilfe-Seite schreiben, erhalten wir Ihren Namen, Ihre E-Mail-Adresse, das Thema und Ihre Nachricht. Wir nutzen sie nur, um Ihnen zu antworten. Die Nachricht wird bei unserem Anbieter Supabase auf Servern in der EU gespeichert, und nur unser Team kann sie lesen. Eine Kopie geht über unseren E-Mail-Anbieter Brevo an die E-Mail-Adresse unseres Teams (Gmail), und wir antworten von dort. Wir löschen Nachrichten, wenn sie beantwortet sind und nicht mehr gebraucht werden.'}
               </p>
+              {aiHelpConfigured && <p>
+                {isEn
+                  ? 'If you type a question into the AI help assistant, your question, the earlier messages of this conversation and a list of matching lessons are sent through our server (Supabase, EU) to Google\'s Gemini service, which writes the answer. Google may process them outside the EU. We use Google\'s paid service, under which Google does not use your questions to improve its products; it keeps them for a limited time to prevent misuse. We do not store your questions or the answers. To keep a daily limit, we count questions per visitor with a code that is made from your internet address, cannot be turned back into it and changes every day; these counts are deleted after a week. Please do not type personal information into the assistant. The suggested questions get pre-written answers, and nothing is sent.'
+                  : 'Wenn Sie dem KI-Hilfe-Assistenten eine Frage eintippen, werden Ihre Frage, die bisherigen Nachrichten dieses Gesprächs und eine Liste passender Lektionen über unseren Server (Supabase, EU) an den Dienst Gemini von Google gesendet, der die Antwort schreibt. Google verarbeitet sie möglicherweise außerhalb der EU. Wir nutzen den kostenpflichtigen Dienst von Google, bei dem Google Ihre Fragen nicht zur Verbesserung seiner Produkte nutzt; Google bewahrt sie eine begrenzte Zeit auf, um Missbrauch zu verhindern. Wir speichern Ihre Fragen und die Antworten nicht. Für ein Tageslimit zählen wir die Fragen pro Besucher mit einem Code, der aus Ihrer Internetadresse gebildet wird, nicht in sie zurückverwandelt werden kann und sich jeden Tag ändert; diese Zählungen werden nach einer Woche gelöscht. Bitte tippen Sie keine persönlichen Angaben in den Assistenten ein. Die vorgeschlagenen Fragen erhalten vorgefertigte Antworten, und es wird nichts gesendet.'}
+              </p>}
 
               <h3 className="text-lg font-bold text-[#17324D] dark:text-white">
                 {isEn ? '2. No advertising, no data sales' : '2. Keine Werbung, kein Verkauf Ihrer Daten'}

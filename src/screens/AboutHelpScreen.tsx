@@ -5,6 +5,7 @@ import { formProblem } from '../utils/formCheck';
 import { PageId, Language } from '../types';
 import { FAQS_EN, FAQS_DE, TUTORIALS_EN, TUTORIALS_DE } from '../data/content';
 import { TEAM_EMAIL, sendContactMessage } from '../utils/contact';
+import { aiHelpConfigured } from '../utils/helpChat';
 
 interface AboutHelpScreenProps {
   onNavigate: (page: PageId) => void;
@@ -321,7 +322,9 @@ export const AboutHelpScreen: React.FC<AboutHelpScreenProps> = ({
                   className="text-[#17324D] font-bold text-base underline flex items-center gap-1.5 min-h-[44px] text-left"
                 >
                   <Icon name="smart_toy" className="text-lg text-[#176B68]" />
-                  <span>{isEn ? 'Need help now? Open the help assistant (pre-written answers)' : 'Jetzt Hilfe nötig? Zum Hilfe-Assistenten (vorgefertigte Antworten)'}</span>
+                  <span>{aiHelpConfigured
+                    ? (isEn ? 'Need help now? Ask the AI help assistant' : 'Jetzt Hilfe nötig? Fragen Sie den KI-Hilfe-Assistenten')
+                    : (isEn ? 'Need help now? Open the help assistant (pre-written answers)' : 'Jetzt Hilfe nötig? Zum Hilfe-Assistenten (vorgefertigte Antworten)')}</span>
                 </button>
 
                 <button

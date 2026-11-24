@@ -4,6 +4,7 @@ import { Icon } from '../components/Icon';
 import { PageId, Language } from '../types';
 import { IMAGES, handleLogoError } from '../assets/images';
 import { useDialogFocus } from '../utils/useDialogFocus';
+import { aiHelpConfigured } from '../utils/helpChat';
 
 interface FooterProps {
   onNavigate: (page: PageId) => void;
@@ -95,7 +96,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSupportModal, 
 
           <nav aria-label={isEn ? 'Help and information' : 'Hilfe und Informationen'} className="flex flex-col items-start gap-1">
             <h2 className="text-xl font-bold text-white mb-1">{isEn ? 'Help & information' : 'Hilfe & Informationen'}</h2>
-            <button onClick={onOpenSupportModal} className={link}>{isEn ? 'Help assistant (pre-written answers)' : 'Hilfe-Assistent (vorgefertigte Antworten)'}</button>
+            <button onClick={onOpenSupportModal} className={link}>{aiHelpConfigured ? (isEn ? 'AI help assistant' : 'KI-Hilfe-Assistent') : (isEn ? 'Help assistant (pre-written answers)' : 'Hilfe-Assistent (vorgefertigte Antworten)')}</button>
             <a {...linkTo({ page: 'ueber-uns' }, () => onNavigate('ueber-uns'))} className={pageLink}>{isEn ? 'About us & common questions' : 'Über uns & häufige Fragen'}</a>
             <a {...linkTo({ page: 'barrierefreiheit' }, () => onNavigate('barrierefreiheit'))} className={pageLink}>{isEn ? 'Accessibility' : 'Barrierefreiheit'}</a>
             <a {...linkTo({ page: 'datenschutz' }, () => onNavigate('datenschutz'))} className={pageLink}>{isEn ? 'Privacy & legal notice' : 'Datenschutz & Impressum'}</a>

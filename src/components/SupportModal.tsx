@@ -1,8 +1,13 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Icon } from '../components/Icon';
 import { Language } from '../types';
 import { useDialogFocus } from '../utils/useDialogFocus';
 import { TEAM_EMAIL, composeLinks } from '../utils/contact';
+import { TUTORIALS_DE, TUTORIALS_EN } from '../data/content';
+import { goTo, linkTo, useLanguage } from '../utils/router';
+import { buildSearchIndex, searchLessons } from '../utils/search';
+import { isExtraLanguage, translateText } from '../i18n/translate';
+import { aiHelpConfigured, askHelpAssistant, type HelpTurn } from '../utils/helpChat';
 
 interface SupportModalProps {
   isOpen: boolean;
@@ -17,6 +22,12 @@ interface ChatMessage {
   steps?: string[];
   tip?: string;
   timestamp: string;
+  /** Where an answer comes from, shown on it: the AI, or our pre-written answers. */
+  source?: 'ai' | 'prewritten';
+  /** Lessons the AI recommends, shown as buttons under its answer. */
+  lessonIds?: string[];
+  /** Why a pre-written answer is shown instead of the AI's. */
+  notice?: string;
 }
 
 export const SupportModal: React.FC<SupportModalProps> = ({
@@ -31,26 +42,41 @@ export const SupportModal: React.FC<SupportModalProps> = ({
   const dialogRef = useDialogFocus<HTMLDivElement>(isOpen, onClose);
 
   const isEn = lang === 'en';
+  const uiLang = useLanguage();
   const supportEmail = TEAM_EMAIL;
   const compose = composeLinks(isEn);
+  const [waiting, setWaiting] = useState(false);
 
-  const initialMessages: ChatMessage[] = isEn
+  // Lessons in the language shown, to find the ones that fit a question and to show them as buttons.
+  const lessons = isEn ? TUTORIALS_EN : TUTORIALS_DE;
+  const lessonIndex = useMemo(
+    () => buildSearchIndex(lessons, isExtraLanguage(uiLang) ? translateText : undefined),
+    [isEn, uiLang] // `lessons` follows from these
+  );
+
+  const initialMessages: ChatMessage[] = aiHelpConfigured
     ? [
         {
           id: 'welcome',
           sender: 'ai',
-          text: 'Hello! I am the help assistant. I have pre-written answers to common questions about WhatsApp, safety, passwords and online banking. I am not a real AI yet.',
-          tip: 'Tip: The questions below work best. You can also type your own.',
-          timestamp: 'Just now',
+          text: isEn
+            ? 'Hello! I am the AI help assistant. Ask me anything about phones, apps, email, online banking or staying safe online. I am an AI, so I can make mistakes: check important things.'
+            : 'Guten Tag! Ich bin der KI-Hilfe-Assistent. Fragen Sie mich alles zu Handy, Apps, E-Mail, Online-Banking oder Sicherheit im Internet. Ich bin eine KI und kann mich irren: Prüfen Sie Wichtiges bitte nach.',
+          tip: isEn
+            ? 'Please never type passwords, PINs, bank details or other personal information.'
+            : 'Bitte tippen Sie nie Passwörter, PINs, Bankdaten oder andere persönliche Angaben ein.',
+          timestamp: isEn ? 'Just now' : 'Gerade eben',
         },
       ]
     : [
         {
           id: 'welcome',
           sender: 'ai',
-          text: 'Guten Tag! Ich bin der Hilfe-Assistent. Ich habe vorgefertigte Antworten auf häufige Fragen zu WhatsApp, Sicherheit, Passwörtern und Online-Banking. Ich bin noch keine echte KI.',
-          tip: 'Tipp: Die Fragen unten funktionieren am besten. Sie können auch selbst etwas eintippen.',
-          timestamp: 'Gerade eben',
+          text: isEn
+            ? 'Hello! I am the help assistant. I have pre-written answers to common questions about WhatsApp, safety, passwords and online banking. I am not a real AI.'
+            : 'Guten Tag! Ich bin der Hilfe-Assistent. Ich habe vorgefertigte Antworten auf häufige Fragen zu WhatsApp, Sicherheit, Passwörtern und Online-Banking. Ich bin keine echte KI.',
+          tip: isEn ? 'Tip: The questions below work best. You can also type your own.' : 'Tipp: Die Fragen unten funktionieren am besten. Sie können auch selbst etwas eintippen.',
+          timestamp: isEn ? 'Just now' : 'Gerade eben',
         },
       ];
 
@@ -174,9 +200,13 @@ export const SupportModal: React.FC<SupportModalProps> = ({
     setTimeout(() => setCopiedEmail(false), 3000);
   };
 
-  const handleSendMessage = (textToSend?: string) => {
-    const userQuery = textToSend || inputMessage;
-    if (!userQuery.trim()) return;
+  /**
+   * A typed question goes to the AI (when it is set up). The suggested questions keep their
+   * checked, pre-written answers. If the AI cannot answer, a pre-written answer is shown, and labelled.
+   */
+  const handleSendMessage = async (textToSend?: string) => {
+    const userQuery = (textToSend || inputMessage).trim();
+    if (!userQuery || waiting) return;
 
     const newMsg: ChatMessage = {
       id: `u-${Date.now()}`,
@@ -188,7 +218,43 @@ export const SupportModal: React.FC<SupportModalProps> = ({
     setMessages((prev) => [...prev, newMsg]);
     if (!textToSend) setInputMessage('');
 
-    // Scripted: the answer is chosen by matching words in the question, not written by an AI.
+    const suggested = suggestedQuestions.some((sq) => sq.label === userQuery);
+    if (suggested || !aiHelpConfigured) {
+      setMessages((prev) => [...prev, prewrittenReply(userQuery)]);
+      return;
+    }
+
+    // The conversation so far (without the greeting), so follow-up questions make sense.
+    const history: HelpTurn[] = [...messages.slice(1), newMsg].map((m) => ({
+      role: m.sender === 'user' ? 'user' : 'assistant',
+      text: [m.text, ...(m.steps ?? []), m.tip ?? ''].filter(Boolean).join('\n'),
+    }));
+    // Lessons that may fit, found with the site search, so the AI can point to real lessons.
+    const earlierQuestion = [...messages].reverse().find((m) => m.sender === 'user')?.text ?? '';
+    let hits = searchLessons(lessonIndex, userQuery).results;
+    if (hits.length === 0 && earlierQuestion) hits = searchLessons(lessonIndex, `${earlierQuestion} ${userQuery}`).results;
+    const hints = hits.slice(0, 8).map((t) => ({ id: t.id, title: isExtraLanguage(uiLang) ? translateText(t.title) : t.title }));
+
+    setWaiting(true);
+    const result = await askHelpAssistant(history, uiLang, hints);
+    setWaiting(false);
+
+    if (result.ok) {
+      setMessages((prev) => [
+        ...prev,
+        { id: `ai-${Date.now()}`, sender: 'ai', text: result.answer, lessonIds: result.lessonIds, source: 'ai', timestamp: isEn ? 'Just now' : 'Gerade eben' },
+      ]);
+      return;
+    }
+    const fallback = prewrittenReply(userQuery);
+    const note = result.reason === 'limit'
+      ? (isEn ? 'Many questions were asked today, so the AI is resting until tomorrow. Here is a pre-written answer.' : 'Heute wurden schon viele Fragen gestellt, deshalb pausiert die KI bis morgen. Hier ist eine vorgefertigte Antwort.')
+      : (isEn ? 'The AI cannot answer right now. Here is a pre-written answer.' : 'Die KI kann gerade nicht antworten. Hier ist eine vorgefertigte Antwort.');
+    setMessages((prev) => [...prev, { ...fallback, notice: note }]);
+  };
+
+  /** Pre-written: the answer is chosen by matching words in the question, not written by an AI. */
+  const prewrittenReply = (userQuery: string): ChatMessage => {
     const match = suggestedQuestions.find((sq) =>
       userQuery.toLowerCase().includes(sq.label.toLowerCase().slice(0, 15))
     );
@@ -266,7 +332,7 @@ export const SupportModal: React.FC<SupportModalProps> = ({
       }
     }
 
-    setMessages((prev) => [...prev, reply]);
+    return { ...reply, source: 'prewritten' };
   };
 
   return (
@@ -314,11 +380,13 @@ export const SupportModal: React.FC<SupportModalProps> = ({
         {activeTab === 'ai' && (
           <div className="flex-1 min-h-0 flex flex-col bg-white dark:bg-slate-900">
             <p className="px-4 py-1 bg-[#EAF2F8] dark:bg-slate-800 text-sm font-bold text-[#17324D] shrink-0">
-              {isEn ? 'Help assistant (pre-written answers). Not real AI yet.' : 'Hilfe-Assistent (vorgefertigte Antworten). Noch keine echte KI.'}
+              {aiHelpConfigured
+                ? (isEn ? 'AI help assistant (Google Gemini). It can make mistakes. Do not type personal information.' : 'KI-Hilfe-Assistent (Google Gemini). Er kann sich irren. Tippen Sie keine persönlichen Angaben ein.')
+                : (isEn ? 'Help assistant (pre-written answers). Not real AI.' : 'Hilfe-Assistent (vorgefertigte Antworten). Keine echte KI.')}
             </p>
 
             {/* Chat Messages Body */}
-            <div className="flex-1 min-h-0 overflow-y-auto p-3 sm:p-4 space-y-3">
+            <div className="flex-1 min-h-0 overflow-y-auto p-3 sm:p-4 space-y-3" role="log" aria-live="polite" aria-label={isEn ? 'Conversation' : 'Gespräch'}>
               {messages.map((msg, index) => (
                 <div
                   ref={index === messages.length - 1 ? lastMessageRef : undefined}
@@ -338,7 +406,16 @@ export const SupportModal: React.FC<SupportModalProps> = ({
                           : 'bg-[#F7F8F5] dark:bg-slate-800 text-[#202B36] dark:text-slate-100 border border-[#E5E9ED] dark:border-slate-700 rounded-bl-none shadow-sm'
                       }`}
                     >
-                      <p className="font-normal">{msg.text}</p>
+                      {msg.source && (
+                        <p className="mb-2 text-sm font-bold text-[#176B68] dark:text-teal-300 flex items-center gap-1.5">
+                          <Icon name={msg.source === 'ai' ? 'smart_toy' : 'menu_book'} className="text-base" />
+                          {msg.source === 'ai'
+                            ? (isEn ? 'AI answer – can contain mistakes' : 'KI-Antwort – kann Fehler enthalten')
+                            : (isEn ? 'Pre-written answer' : 'Vorgefertigte Antwort')}
+                        </p>
+                      )}
+                      {msg.notice && <p className="mb-2 font-bold">{msg.notice}</p>}
+                      <p className="font-normal whitespace-pre-line">{msg.text}</p>
 
                       {msg.steps && (
                         <div className="mt-3 space-y-2 pt-2 border-t border-[#E5E9ED] dark:border-slate-700">
@@ -358,10 +435,41 @@ export const SupportModal: React.FC<SupportModalProps> = ({
                           <span>{msg.tip}</span>
                         </div>
                       )}
+
+                      {/* Lessons the AI recommends: open them right here */}
+                      {msg.lessonIds && msg.lessonIds.length > 0 && (
+                        <div className="mt-3 pt-2 border-t border-[#E5E9ED] dark:border-slate-700 space-y-2">
+                          <p className="text-sm font-bold text-[#17324D] dark:text-white">{isEn ? 'Practise it in this lesson:' : 'Üben Sie es in dieser Lektion:'}</p>
+                          {msg.lessonIds.map((lessonId) => {
+                            const lesson = lessons.find((t) => t.id === lessonId);
+                            if (!lesson) return null;
+                            const route = { page: 'tutorial-detail' as const, tutorialId: lesson.id };
+                            return (
+                              <a
+                                key={lessonId}
+                                {...linkTo(route, () => { onClose(); goTo(route); })}
+                                className="link-card w-full min-h-[48px] px-4 py-2 rounded-xl bg-[#176B68] hover:bg-[#0F514F] active:bg-[#0A3D3B] text-white font-bold text-base flex items-center justify-between gap-2"
+                              >
+                                <span>{lesson.title}</span>
+                                <Icon name="arrow_forward" className="text-lg shrink-0" />
+                              </a>
+                            );
+                          })}
+                        </div>
+                      )}
                     </div>
                   </div>
                   </div>
               ))}
+
+              {waiting && (
+                <div className="flex items-center gap-2.5 text-base text-[#202B36] dark:text-slate-200">
+                  <div className="w-8 h-8 rounded-full bg-[#176B68] text-white flex items-center justify-center shrink-0 shadow-sm">
+                    <Icon name="smart_toy" className="text-lg" />
+                  </div>
+                  <span className="font-bold">{isEn ? 'The AI is writing an answer…' : 'Die KI schreibt eine Antwort …'}</span>
+                </div>
+              )}
 
               {/* Suggested questions scroll with the answers, so they never squeeze them */}
               <div className="pt-3 border-t border-[#E5E9ED] dark:border-slate-800">
@@ -372,7 +480,8 @@ export const SupportModal: React.FC<SupportModalProps> = ({
                 {suggestedQuestions.map((sq, idx) => (
                   <button
                     key={idx}
-                    onClick={() => handleSendMessage(sq.label)}
+                    onClick={() => void handleSendMessage(sq.label)}
+                    disabled={waiting}
                     className="px-3 py-1 rounded-xl bg-white dark:bg-slate-800 text-sm text-[#17324D] border-2 border-[#667382] hover:bg-[#EAF2F8] text-left"
                   >
                     {sq.label}
@@ -386,7 +495,7 @@ export const SupportModal: React.FC<SupportModalProps> = ({
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                handleSendMessage();
+                void handleSendMessage();
               }}
               className="p-2 sm:p-3 bg-white dark:bg-slate-900 border-t-2 border-[#E5E9ED] dark:border-slate-800 flex items-center gap-2 shrink-0"
             >
@@ -404,7 +513,7 @@ export const SupportModal: React.FC<SupportModalProps> = ({
               />
               <button
                 type="submit"
-                disabled={!inputMessage.trim()}
+                disabled={!inputMessage.trim() || waiting}
                 className="px-5 sm:px-6 py-3 rounded-xl bg-[#176B68] hover:bg-[#0f514e] disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold text-sm sm:text-base flex items-center gap-2 transition-colors cursor-pointer shadow-sm touch-target"
                 aria-label={isEn ? 'Send question' : 'Frage absenden'}
               >
