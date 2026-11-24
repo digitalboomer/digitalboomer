@@ -33,6 +33,22 @@ import { AboutHelpScreen } from './screens/AboutHelpScreen';
 import { AccessibilityPrivacyScreen } from './screens/AccessibilityPrivacyScreen';
 import { SearchResultsScreen } from './screens/SearchResultsScreen';
 
+// Settings in this browser. Storage can be blocked (strict privacy settings): the site then still works, it just forgets.
+function readSetting(key: string): string | null {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+function writeSetting(key: string, value: string): void {
+  try {
+    localStorage.setItem(key, value);
+  } catch {
+    // Not kept; the choice lasts until the page is closed.
+  }
+}
+
 export default function App() {
   const route = useRoute();
   const currentPage = route.page;
@@ -41,13 +57,8 @@ export default function App() {
   const searchQuery = route.query ?? '';
 
   const [textScale, setTextScale] = useState<TextScale>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('digital-boomer-text-scale') as TextScale;
-      if (saved === '100' || saved === '115' || saved === '130') {
-        return saved;
-      }
-    }
-    return '100';
+    const saved = readSetting('digital-boomer-text-scale');
+    return saved === '100' || saved === '115' || saved === '130' ? saved : '100';
   });
 
   // Language: part of the address (/de/…, /hr/…), see src/utils/router.ts. A choice from the menu always wins.
@@ -113,7 +124,6 @@ export default function App() {
       if (account) {
         if (accountRef.current === account.id) return;
         accountRef.current = account.id;
-        setAccountId(account.id);
         const meta = account.user_metadata as { name?: string };
         setUser((prev) => ({
           ...prev,
@@ -124,7 +134,15 @@ export default function App() {
           joinedDate: account.created_at,
         }));
         // What was done before signing in is kept and added to the account.
-        const saved = await loadAccountProgress(account.id);
+        // Saving to the account starts only after its progress has been read, so a slow
+        // connection can never overwrite progress made on another device.
+        let saved = await loadAccountProgress(account.id);
+        if (saved === 'error') {
+          await new Promise((resolve) => window.setTimeout(resolve, 2000));
+          saved = await loadAccountProgress(account.id);
+        }
+        if (accountRef.current !== account.id) return; // signed out in the meantime
+        if (saved === 'error') return; // progress stays in this browser; the account keeps what it has
         if (saved) {
           setUser((prev) => ({
             ...prev,
@@ -133,6 +151,7 @@ export default function App() {
           }));
           setTutorialSteps((prev) => ({ ...saved.tutorialSteps, ...prev }));
         }
+        setAccountId(account.id);
       } else if (accountRef.current) {
         // Signed out: this browser goes back to an empty guest, so the next person on a shared computer sees nothing.
         accountRef.current = null;
@@ -154,17 +173,12 @@ export default function App() {
 
   // Automatic dark mode detection or persisted preference
   const [theme, setTheme] = useState<ThemeMode>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('digital-boomer-theme') as ThemeMode;
-      if (saved === 'light' || saved === 'dark' || saved === 'high-contrast') {
-        return saved;
-      }
-      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
-      }
-    }
-    return 'light';
+    const saved = readSetting('digital-boomer-theme');
+    if (saved === 'light' || saved === 'dark' || saved === 'high-contrast') return saved;
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
+  // Once the visitor picks a theme, the device's own light/dark switch no longer changes it.
+  const themeChosenRef = useRef(readSetting('digital-boomer-theme') !== null);
 
   // AI & Email Support Modal (Replaces Phone Helpline)
   const [supportModalOpen, setSupportModalOpen] = useState(false);
@@ -215,16 +229,13 @@ export default function App() {
 
   const handleTextScaleChange = (scale: TextScale) => {
     setTextScale(scale);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('digital-boomer-text-scale', scale);
-    }
+    writeSetting('digital-boomer-text-scale', scale);
   };
 
   const handleThemeChange = (newTheme: ThemeMode) => {
+    themeChosenRef.current = true;
     setTheme(newTheme);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('digital-boomer-theme', newTheme);
-    }
+    writeSetting('digital-boomer-theme', newTheme);
   };
 
   // Apply theme classes and attributes to root HTML element and body
@@ -256,15 +267,12 @@ export default function App() {
     }
   }, [theme]);
 
-  // Listen to system prefers-color-scheme changes only if user hasn't explicitly set a preference
+  // Follow the device's light/dark switch, until the visitor picks a theme themselves (also later in this visit).
   useEffect(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) return;
-    const hasManual = localStorage.getItem('digital-boomer-theme');
-    if (hasManual) return;
-
+    if (!window.matchMedia) return;
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
     const handleChange = (e: MediaQueryListEvent) => {
-      setTheme(e.matches ? 'dark' : 'light');
+      if (!themeChosenRef.current) setTheme(e.matches ? 'dark' : 'light');
     };
     mediaQuery.addEventListener('change', handleChange);
     return () => mediaQuery.removeEventListener('change', handleChange);

@@ -687,8 +687,9 @@ select:disabled {
 .sim-scroll::-webkit-scrollbar-thumb { background: rgba(0, 0, 0, 0.35); border-radius: 3px; }
 .sim-scroll::-webkit-scrollbar-track { background: transparent; }
 
-/* The current step on the practice frame stays navy on white, also in dark mode. */
-html.dark .sim-strip {
+/* The current step on the practice frame stays navy on white, also in dark and high-contrast mode.
+   The doubled class outranks the general "html.dark p:not(.phone-sim *)" text rules above. */
+html.dark p.sim-strip.sim-strip {
   color: #17324D !important;
 }
 

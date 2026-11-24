@@ -69,7 +69,7 @@ export const SupportModal: React.FC<SupportModalProps> = ({
               '3. Select "Gallery" or "Photos" and tap on the picture you would like to share.',
               '4. Finally, tap the green circle with the small paper plane at the bottom right to send it.',
             ],
-            tip: 'You can practice this anytime with a family member!',
+            tip: 'You can practise this safely in our lesson "WhatsApp: Send a Photo".',
           },
         },
         {
@@ -87,13 +87,13 @@ export const SupportModal: React.FC<SupportModalProps> = ({
         {
           label: 'How do I create a strong password?',
           response: {
-            text: 'A strong password doesn\'t need to be difficult to remember if you use a "sentence password":',
+            text: 'A strong password can still be easy to remember. Length matters most:',
             steps: [
-              '1. Think of a sentence you easily remember, for example: "Every morning I drink 1 hot cup of coffee!"',
-              '2. Take the first letter of each word plus the numbers and punctuation: "EmId1hcoc!"',
-              '3. This password is super secure, hard for computers to guess, but very easy for you to recall.',
+              '1. Choose four or more words that do not belong together, for example "Garden Blue Bicycle Tea".',
+              '2. Join them with a sign and add a number: "Garden-Blue-Bicycle-Tea-7".',
+              '3. Use a different password for every account, above all for email and online banking.',
             ],
-            tip: 'Write your passwords in a personal notebook kept safely at home.',
+            tip: 'A password manager can remember them for you. A notebook at home also works, but never keep it next to the computer.',
           },
         },
         {
@@ -120,7 +120,7 @@ export const SupportModal: React.FC<SupportModalProps> = ({
               '3. Wählen Sie „Galerie“ oder „Fotos“ aus und tippen Sie das gewünschte Foto an.',
               '4. Tippen Sie unten rechts auf den grünen Kreis mit dem kleinen Papierflieger, um das Bild abzusenden.',
             ],
-            tip: 'Sie können das ganz in Ruhe mit einem Familienmitglied ausprobieren!',
+            tip: 'Üben können Sie das gefahrlos in unserer Lektion „WhatsApp: Ein Foto senden“.',
           },
         },
         {
@@ -138,13 +138,13 @@ export const SupportModal: React.FC<SupportModalProps> = ({
         {
           label: 'Wie erstelle ich ein sicheres Passwort?',
           response: {
-            text: 'Ein sicheres Passwort muss nicht kompliziert sein, wenn Sie die „Satz-Methode“ nutzen:',
+            text: 'Ein sicheres Passwort kann trotzdem leicht zu merken sein. Am wichtigsten ist die Länge:',
             steps: [
-              '1. Denken Sie sich einen einfachen Satz aus: „Jeden Morgen trinke ich 1 heiße Tasse Kaffee!“',
-              '2. Nehmen Sie von jedem Wort den ersten Buchstaben plus Zahlen und Zeichen: „JMti1hTK!“',
-              '3. Dieses Passwort ist extrem sicher gegen Knack-Programme, für Sie aber leicht zu merken.',
+              '1. Wählen Sie vier oder mehr Wörter, die nicht zusammengehören, zum Beispiel „Garten Blau Fahrrad Tee“.',
+              '2. Verbinden Sie sie mit einem Zeichen und hängen Sie eine Zahl an: „Garten-Blau-Fahrrad-Tee-7“.',
+              '3. Nutzen Sie für jedes Konto ein anderes Passwort, vor allem für E-Mail und Online-Banking.',
             ],
-            tip: 'Notieren Sie Passwörter gerne in einem handschriftlichen Notizbuch zu Hause.',
+            tip: 'Ein Passwort-Manager kann sie sich für Sie merken. Ein Notizbuch zu Hause geht auch, aber nie direkt neben dem Computer.',
           },
         },
         {
@@ -218,15 +218,15 @@ export const SupportModal: React.FC<SupportModalProps> = ({
                 '1. Open the WhatsApp app on your home screen.',
                 '2. Tap the chat with your family member or friend.',
                 '3. Tap the text box to type, or tap the microphone icon once to send a spoken voice message.',
-                '4. Take all the time you need. Messages can be deleted or edited anytime.',
+                '4. Take all the time you need, and read your message once before you send it. A sent message can only be corrected or deleted for a short time.',
               ]
             : [
                 '1. Öffnen Sie WhatsApp auf Ihrem Startbildschirm.',
                 '2. Tippen Sie auf den Kontakt Ihrer Wahl.',
                 '3. Tippen Sie in das Eingabefeld zum Schreiben oder auf das Mikrofon für eine Sprachnachricht.',
-                '4. Nehmen Sie sich Zeit – Sie können Nachrichten jederzeit nachträglich bearbeiten oder löschen.',
+                '4. Nehmen Sie sich Zeit und lesen Sie die Nachricht vor dem Senden noch einmal. Eine gesendete Nachricht lässt sich nur kurze Zeit korrigieren oder löschen.',
               ],
-          tip: isEn ? 'Try our interactive WhatsApp tutorial for hands-on practice!' : 'Schauen Sie gerne auch in unsere interaktive WhatsApp-Anleitung hinein!',
+          tip: isEn ? 'Practise it in our lesson "WhatsApp: Send a Message".' : 'Üben Sie es in unserer Lektion „WhatsApp: Eine Nachricht senden“.',
           timestamp: isEn ? 'Just now' : 'Gerade eben',
         };
       } else if (queryLower.includes('phishing') || queryLower.includes('betrug') || queryLower.includes('scam') || queryLower.includes('sicher')) {
@@ -247,7 +247,7 @@ export const SupportModal: React.FC<SupportModalProps> = ({
                 '2. Geben Sie niemals Bankdaten oder Passwörter als Antwort auf eine E-Mail preis.',
                 '3. Im Zweifel fragen Sie eine Vertrauensperson.',
               ],
-          tip: isEn ? 'You can also inspect our interactive Phishing Simulator on this site.' : 'Probieren Sie gerne auch unseren interaktiven Phishing-Detektor auf dieser Plattform aus.',
+          tip: isEn ? 'Practise with our lesson "Phishing Emails: 5 Examples to Practise On".' : 'Üben Sie mit unserer Lektion „Phishing-E-Mails: 5 Beispiele zum Üben“.',
           timestamp: isEn ? 'Just now' : 'Gerade eben',
         };
       } else {

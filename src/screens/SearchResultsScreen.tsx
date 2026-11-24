@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { linkTo } from '../utils/router';
+import React, { useMemo, useState } from 'react';
+import { linkTo, useLanguage } from '../utils/router';
+import { buildSearchIndex, searchLessons } from '../utils/search';
+import { isExtraLanguage, translateText } from '../i18n/translate';
 import { Icon } from '../components/Icon';
 import { ServiceLogo } from '../components/ServiceLogo';
 import { serviceById } from '../data/services';
@@ -40,15 +42,14 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
     }
   };
 
-  const results = tutorials.filter((t) => {
-    const q = searchQuery.toLowerCase();
-    return (
-      t.title.toLowerCase().includes(q) ||
-      t.description.toLowerCase().includes(q) ||
-      t.categoryTitle.toLowerCase().includes(q) ||
-      t.tags.some((tag) => tag.toLowerCase().includes(q))
-    );
-  });
+  // Word by word, with other words for the same thing and small typos (src/utils/search.ts).
+  // Turkish, Spanish and Croatian: the translated texts are searched as well.
+  const uiLang = useLanguage();
+  const index = useMemo(
+    () => buildSearchIndex(tutorials, isExtraLanguage(uiLang) ? translateText : undefined),
+    [isEn, device, uiLang] // `tutorials` follows from these
+  );
+  const { results, partial } = useMemo(() => searchLessons(index, searchQuery), [index, searchQuery]);
 
   return (
     <div className="flex-1 w-full bg-[#F7F8F5] dark:bg-slate-950 py-10 px-4 sm:px-8">
@@ -73,6 +74,13 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
               ? `${results.length} matching ${results.length === 1 ? 'lesson' : 'lessons'} found`
               : `${results.length} passende ${results.length === 1 ? 'Lektion' : 'Lektionen'} gefunden`}
           </p>
+          {partial && results.length > 0 && (
+            <p className="text-base text-[#202B36] dark:text-slate-300 mt-1">
+              {isEn
+                ? 'No lesson contains all of your words. These lessons come closest.'
+                : 'Keine Lektion enthält alle Ihre Wörter. Diese Lektionen passen am besten.'}
+            </p>
+          )}
         </div>
 
         {/* Refined Search Field */}
@@ -129,7 +137,7 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
                 : 'Probieren Sie ein allgemeineres Wort wie „Sicherheit“, „Nachrichten“ oder „Konto“ aus.'}
             </p>
             <a {...linkTo({ page: 'tutorials' }, () => onNavigate('tutorials'))} className="link-card px-6 min-h-[48px] rounded-xl bg-[#17324D] hover:bg-[#0f2336] text-white font-bold text-base shadow-sm inline-flex items-center">
-              {isEn ? 'Show all tutorials' : 'Alle Anleitungen zeigen'}
+              {isEn ? 'Show all lessons' : 'Alle Lektionen zeigen'}
             </a>
           </div>
         ) : (

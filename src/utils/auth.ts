@@ -113,12 +113,20 @@ export function onAccountChange(callback: (user: User | null) => void): () => vo
   return () => data.subscription.unsubscribe();
 }
 
-/** Progress saved to the account, so it is there on every device. */
-export async function loadAccountProgress(userId: string): Promise<SavedProgress | null> {
+/**
+ * Progress saved to the account, so it is there on every device.
+ * null: the account has no progress yet. 'error': it could not be read (then nothing may be saved over it).
+ */
+export async function loadAccountProgress(userId: string): Promise<SavedProgress | null | 'error'> {
   if (!supabase) return null;
-  const { data, error } = await supabase.from('progress').select('completed, saved, steps').eq('user_id', userId).maybeSingle();
-  if (error || !data) return null;
-  return { completedTutorialIds: data.completed ?? [], savedTutorialIds: data.saved ?? [], tutorialSteps: data.steps ?? {} };
+  try {
+    const { data, error } = await supabase.from('progress').select('completed, saved, steps').eq('user_id', userId).maybeSingle();
+    if (error) return 'error';
+    if (!data) return null;
+    return { completedTutorialIds: data.completed ?? [], savedTutorialIds: data.saved ?? [], tutorialSteps: data.steps ?? {} };
+  } catch {
+    return 'error';
+  }
 }
 
 export async function saveAccountProgress(userId: string, progress: SavedProgress): Promise<void> {

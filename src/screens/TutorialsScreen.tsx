@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Icon } from '../components/Icon';
 import { ServiceLogo } from '../components/ServiceLogo';
 import { serviceById } from '../data/services';
@@ -7,7 +7,9 @@ import { CATEGORIES_EN, CATEGORIES_DE, TUTORIALS_EN, TUTORIALS_DE } from '../dat
 import { OfficialTopicIcon } from '../components/OfficialTopicIcon';
 import { handleImageError } from '../assets/images';
 import { fitsDevice, useChosenDevice } from '../utils/phoneType';
-import { linkTo } from '../utils/router';
+import { linkTo, useLanguage } from '../utils/router';
+import { buildSearchIndex, searchLessons } from '../utils/search';
+import { isExtraLanguage, translateText } from '../i18n/translate';
 
 interface TutorialsScreenProps {
   onNavigate: (page: PageId) => void;
@@ -39,16 +41,19 @@ export const TutorialsScreen: React.FC<TutorialsScreenProps> = ({
   const device = useChosenDevice();
   const tutorials = (isEn ? TUTORIALS_EN : TUTORIALS_DE).filter((tut) => fitsDevice(tut, device));
 
-  const filteredTutorials = tutorials.filter((tut) => {
+  // Typing filters word by word, like the site search (src/utils/search.ts); best matches first.
+  const uiLang = useLanguage();
+  const index = useMemo(
+    () => buildSearchIndex(tutorials, isExtraLanguage(uiLang) ? translateText : undefined),
+    [isEn, device, uiLang] // `tutorials` follows from these
+  );
+  const searched = searchTerm.trim() ? searchLessons(index, searchTerm).results : tutorials;
+
+  const filteredTutorials = searched.filter((tut) => {
     const matchesCategory =
       activeCategoryFilter === 'all' || tut.categoryId === activeCategoryFilter;
     const matchesSaved = !onlySaved || savedTutorialIds.includes(tut.id);
-    const matchesSearch =
-      tut.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tut.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      tut.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()));
-
-    return matchesCategory && matchesSaved && matchesSearch;
+    return matchesCategory && matchesSaved;
   });
 
   return (
