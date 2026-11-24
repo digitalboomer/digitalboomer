@@ -41,6 +41,7 @@ const AuthScreens = named(() => import('./screens/AuthScreens'), 'AuthScreens');
 const AboutHelpScreen = named(() => import('./screens/AboutHelpScreen'), 'AboutHelpScreen');
 const AccessibilityPrivacyScreen = named(() => import('./screens/AccessibilityPrivacyScreen'), 'AccessibilityPrivacyScreen');
 const SearchResultsScreen = named(() => import('./screens/SearchResultsScreen'), 'SearchResultsScreen');
+const GlossaryScreen = named(() => import('./screens/GlossaryScreen'), 'GlossaryScreen');
 const SupportModal = named(() => import('./components/SupportModal'), 'SupportModal');
 const QRCodeModal = named(() => import('./components/QRCodeModal'), 'QRCodeModal');
 
@@ -584,6 +585,10 @@ export default function App() {
             onNavigate={handleNavigate}
             lang={lang}
           />
+        )}
+
+        {currentPage === 'glossar' && (
+          <GlossaryScreen lang={lang} selectedWord={route.category} onNavigate={handleNavigate} />
         )}
 
         {currentPage === 'suche' && (

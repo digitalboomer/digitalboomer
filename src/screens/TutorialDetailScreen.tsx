@@ -5,6 +5,7 @@ import { PageId, Language } from '../types';
 import { TUTORIALS_EN, TUTORIALS_DE } from '../data/content';
 import { speakText, stopSpeech } from '../utils/speech';
 import { LessonExample } from '../components/LessonExample';
+import { WordHelp } from '../components/WordHelp';
 import type { HelpLevel } from '../utils/helpLevel';
 
 interface TutorialDetailScreenProps {
@@ -290,6 +291,9 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
               <p key={i}>{p}</p>
             ))}
           </div>
+
+          {/* "Words explained": the glossary words this step uses */}
+          <WordHelp texts={[currentStep.title, currentStep.lead, ...currentStep.paragraphs, currentStep.tip, currentStep.warning]} lang={lang} />
 
           {/* Links to the lessons this step points to (an overview that leads to the right lesson). Opening one needs no question first. */}
           {currentStep.links && currentStep.links.length > 0 && (

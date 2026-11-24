@@ -80,6 +80,11 @@ const PAGES: Record<Exclude<PageId, 'tutorial-detail'>, PageText> = {
     de: ['Datenschutz und Impressum', 'Was Digital Boomer speichert, und wer für dieses studentische Projekt verantwortlich ist.'],
     index: true,
   },
+  glossar: {
+    en: ['Digital Words Explained', 'What does app, update, link, cloud or Wi-Fi mean? Plain explanations of the words you meet on your phone and online.'],
+    de: ['Digitale Begriffe erklärt', 'Was heißt App, Update, Link, Cloud oder WLAN? Einfache Erklärungen der Wörter, die Ihnen am Handy und im Internet begegnen.'],
+    index: true,
+  },
   dashboard: { en: ['My Progress', HOME_DESCRIPTION[0]], de: ['Mein Fortschritt', HOME_DESCRIPTION[1]], index: false },
   anmelden: { en: ['Sign In', HOME_DESCRIPTION[0]], de: ['Anmelden', HOME_DESCRIPTION[1]], index: false },
   registrieren: { en: ['Create an Account', HOME_DESCRIPTION[0]], de: ['Konto erstellen', HOME_DESCRIPTION[1]], index: false },

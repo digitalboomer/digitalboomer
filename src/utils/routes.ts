@@ -66,6 +66,7 @@ export const SLUGS: Record<ListPageId, string> = {
   suche: 'search',
   barrierefreiheit: 'accessibility',
   datenschutz: 'privacy',
+  glossar: 'glossary',
 };
 
 const PAGE_BY_SEGMENT = new Map<string, ListPageId>();
@@ -130,6 +131,9 @@ function routeFromSegments(segments: string[], params: URLSearchParams): Route {
   if (page === 'suche') {
     return { page, query: params.get('q') ?? '' };
   }
+  if (page === 'glossar') {
+    return { page, category: params.get('word') ?? undefined }; // one word opened on the glossary page
+  }
   return { page };
 }
 
@@ -153,6 +157,9 @@ export function routePath(route: Route): string {
   if (route.page === 'suche' && route.query) {
     return `${base}?q=${encodeURIComponent(route.query)}`;
   }
+  if (route.page === 'glossar' && route.category) {
+    return `${base}?word=${encodeURIComponent(route.category)}`;
+  }
   return base;
 }
 
@@ -166,5 +173,6 @@ export function urlFor(route: Route, lang: UiLanguage, base: string): string {
 export function canonicalRoute(route: Route): Route {
   if (route.page === 'tutorial-detail') return { page: 'tutorial-detail', tutorialId: route.tutorialId };
   if (route.page === 'suche') return { page: 'suche' };
+  if (route.page === 'glossar') return { page: 'glossar' };
   return route;
 }

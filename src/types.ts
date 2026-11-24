@@ -24,7 +24,8 @@ export type PageId =
   | 'ueber-uns'
   | 'suche'
   | 'barrierefreiheit'
-  | 'datenschutz';
+  | 'datenschutz'
+  | 'glossar';
 
 export type ThemeMode = 'system' | 'light' | 'dark' | 'high-contrast';
 

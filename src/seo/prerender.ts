@@ -22,6 +22,7 @@ import type { PageId, Tutorial } from '../types';
 import { categoryRoute, topicTasks } from '../utils/categoryRoute';
 import { INDEXED_LANGUAGES, SITE_BASE, SITE_ORIGIN, SLUGS, URL_LANGUAGES, routePath, urlFor, type Route } from '../utils/routes';
 import { headHtml } from './head';
+import { glossary } from '../data/glossary';
 import { headInfo } from './pageMeta';
 
 const BASE = import.meta.env.BASE_URL || '/';
@@ -102,6 +103,10 @@ function render(route: Route, lang: UiLanguage): { file: string; html: string; i
   } else if (route.page === 'tutorials') {
     for (const cat of categories) {
       parts.push(`<h2>${esc(tx(cat.title))}</h2>`, lessonList(tutorials.filter((t) => t.categoryId === cat.id)));
+    }
+  } else if (route.page === 'glossar') {
+    for (const word of glossary(isDe ? 'de' : 'en')) {
+      parts.push(`<h2 id="${word.id}">${esc(tx(word.term))}</h2>`, `<p>${esc(tx(word.text))}</p>`, word.example ? `<p>${esc(tx(word.example))}</p>` : '');
     }
   } else if (route.page === 'ueber-uns') {
     const faqs = isDe ? FAQS_DE : FAQS_EN;

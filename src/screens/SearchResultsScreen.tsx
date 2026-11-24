@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { linkTo, useLanguage } from '../utils/router';
 import { buildSearchIndex, searchLessons } from '../utils/search';
+import { wordsIn } from '../data/glossary';
 import { isExtraLanguage, translateText } from '../i18n/translate';
 import { Icon } from '../components/Icon';
 import { ServiceLogo } from '../components/ServiceLogo';
@@ -50,6 +51,8 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
     [isEn, device, uiLang] // `tutorials` follows from these
   );
   const { results, partial } = useMemo(() => searchLessons(index, searchQuery), [index, searchQuery]);
+  // "What is a browser?": the explanation comes first, from "Digital words explained".
+  const explained = useMemo(() => wordsIn([searchQuery], lang, 2), [searchQuery, lang]);
 
   return (
     <div className="flex-1 w-full bg-[#F7F8F5] dark:bg-slate-950 py-10 px-4 sm:px-8">
@@ -123,6 +126,16 @@ export const SearchResultsScreen: React.FC<SearchResultsScreenProps> = ({
             ))}
           </div>
         </div>
+
+        {explained.map((word) => (
+          <section key={word.id} aria-labelledby={`explain-${word.id}`} className="bg-[#EAF2F8] dark:bg-slate-800 rounded-2xl p-5 sm:p-6 border-2 border-[#17324D] dark:border-slate-600">
+            <p className="flex items-center gap-2 text-base font-bold text-[#176B68] dark:text-teal-300"><Icon name="menu_book" className="text-xl" />{isEn ? 'Word explained' : 'Begriff erklärt'}</p>
+            <h2 id={`explain-${word.id}`} className="text-2xl font-bold text-[#17324D] dark:text-white mt-1">{word.term}</h2>
+            <p className="text-lg text-[#202B36] dark:text-slate-200 mt-1">{word.text}</p>
+            {word.example && <p className="text-base text-[#202B36] dark:text-slate-300 mt-1"><strong>{isEn ? 'For example: ' : 'Zum Beispiel: '}</strong>{word.example}</p>}
+            <a {...linkTo({ page: 'glossar', category: word.id })} className="mt-2 inline-flex items-center gap-2 underline font-bold text-[#17324D] dark:text-white min-h-[44px]">{isEn ? 'All words explained' : 'Alle Begriffe erklärt'}</a>
+          </section>
+        ))}
 
         {/* Results Grid */}
         {results.length === 0 ? (

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from '../Icon';
+import { WordHelp } from '../WordHelp';
 import { Language, PageId, Tutorial } from '../../types';
 import { speakText, stopSpeech } from '../../utils/speech';
 import { goTo, linkTo } from '../../utils/router';
@@ -350,6 +351,7 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
                     {step.paragraphs.map((text) => (
                       <p key={text} className="text-[#202B36]">{text}</p>
                     ))}
+                    <WordHelp texts={[step.title, step.lead, ...step.paragraphs]} lang={lang} />
                   </>
                 )}
               </>
