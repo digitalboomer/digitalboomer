@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Icon } from '../Icon';
 import { WordHelp } from '../WordHelp';
+import { PrintLessonButton } from '../PrintLesson';
 import { Language, PageId, Tutorial } from '../../types';
 import { speakText, stopSpeech } from '../../utils/speech';
 import { goTo, linkTo } from '../../utils/router';
@@ -287,10 +288,14 @@ export const GuidedPractice: React.FC<GuidedPracticeProps> = ({
             {service && <ServiceLogo service={service} size={48} />}
             <span className="min-w-0">{tutorial.title}</span>
           </h1>
-          <button onClick={() => onToggleBookmark(tutorial.id)} aria-pressed={isSaved} className={outlineButton}>
-            <Icon name={isSaved ? 'bookmark' : 'bookmark_border'} className="text-xl" />
-            {isSaved ? (isEn ? 'Saved' : 'Gemerkt') : (isEn ? 'Save' : 'Merken')}
-          </button>
+          <div className="flex flex-wrap gap-2">
+            <button onClick={() => onToggleBookmark(tutorial.id)} aria-pressed={isSaved} className={outlineButton}>
+              <Icon name={isSaved ? 'bookmark' : 'bookmark_border'} className="text-xl" />
+              {isSaved ? (isEn ? 'Saved' : 'Gemerkt') : (isEn ? 'Save' : 'Merken')}
+            </button>
+            {/* Prints the steps as shown here: iPhone, Android or computer */}
+            <PrintLessonButton lesson={tutorial} lang={lang} className={outlineButton} />
+          </div>
         </div>
 
         {/* Always visible: nothing real happens here */}

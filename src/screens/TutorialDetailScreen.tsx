@@ -6,6 +6,7 @@ import { TUTORIALS_EN, TUTORIALS_DE } from '../data/content';
 import { speakText, stopSpeech } from '../utils/speech';
 import { LessonExample } from '../components/LessonExample';
 import { WordHelp } from '../components/WordHelp';
+import { PrintLessonButton } from '../components/PrintLesson';
 import type { HelpLevel } from '../utils/helpLevel';
 
 interface TutorialDetailScreenProps {
@@ -189,6 +190,12 @@ export const TutorialDetailScreen: React.FC<TutorialDetailScreenProps> = ({
               <Icon name={isSaved ? 'bookmark' : 'bookmark_border'} className={`text-lg ${isSaved ? 'text-[#176B68]' : 'text-[#202B36]'}`} />
               <span>{isSaved ? (isEn ? 'Saved' : 'Gemerkt') : (isEn ? 'Save' : 'Merken')}</span>
             </button>
+
+            <PrintLessonButton
+              lesson={tutorial}
+              lang={lang}
+              className="flex items-center gap-2 px-4 py-2 min-h-[44px] rounded-xl text-sm font-bold border transition-colors bg-[#FFFFFF] dark:bg-slate-800 text-[#202B36] dark:text-slate-200 border-[#E5E9ED] dark:border-slate-700 hover:bg-[#EAF2F8]"
+            />
           </div>
         </div>
 
