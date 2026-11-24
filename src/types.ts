@@ -25,7 +25,9 @@ export type PageId =
   | 'suche'
   | 'barrierefreiheit'
   | 'datenschutz'
-  | 'glossar';
+  | 'glossar'
+  | 'familie'
+  | 'fuer-dich';
 
 export type ThemeMode = 'system' | 'light' | 'dark' | 'high-contrast';
 

@@ -23,6 +23,7 @@ import { categoryRoute, topicTasks } from '../utils/categoryRoute';
 import { INDEXED_LANGUAGES, SITE_BASE, SITE_ORIGIN, SLUGS, URL_LANGUAGES, routePath, urlFor, type Route } from '../utils/routes';
 import { headHtml } from './head';
 import { glossary } from '../data/glossary';
+import { FAMILY_STARTERS } from '../utils/familyLink';
 import { headInfo } from './pageMeta';
 
 const BASE = import.meta.env.BASE_URL || '/';
@@ -103,6 +104,10 @@ function render(route: Route, lang: UiLanguage): { file: string; html: string; i
   } else if (route.page === 'tutorials') {
     for (const cat of categories) {
       parts.push(`<h2>${esc(tx(cat.title))}</h2>`, lessonList(tutorials.filter((t) => t.categoryId === cat.id)));
+    }
+  } else if (route.page === 'familie') {
+    for (const group of FAMILY_STARTERS) {
+      parts.push(`<h2>${esc(tx(isDe ? group.title[1] : group.title[0]))}</h2>`, lessonList(group.ids.map((id) => tutorials.find((t) => t.id === id)).filter((t): t is Tutorial => !!t)));
     }
   } else if (route.page === 'glossar') {
     for (const word of glossary(isDe ? 'de' : 'en')) {

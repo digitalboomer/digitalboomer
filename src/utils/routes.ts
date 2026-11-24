@@ -67,6 +67,8 @@ export const SLUGS: Record<ListPageId, string> = {
   barrierefreiheit: 'accessibility',
   datenschutz: 'privacy',
   glossar: 'glossary',
+  familie: 'for-families',
+  'fuer-dich': 'for-you',
 };
 
 const PAGE_BY_SEGMENT = new Map<string, ListPageId>();
@@ -131,6 +133,10 @@ function routeFromSegments(segments: string[], params: URLSearchParams): Route {
   if (page === 'suche') {
     return { page, query: params.get('q') ?? '' };
   }
+  if (page === 'fuer-dich') {
+    // A link from a family member: l = lesson ids, n = first name (optional).
+    return { page, query: params.get('l') ?? '', category: params.get('n') ?? undefined };
+  }
   if (page === 'glossar') {
     return { page, category: params.get('word') ?? undefined }; // one word opened on the glossary page
   }
@@ -157,6 +163,9 @@ export function routePath(route: Route): string {
   if (route.page === 'suche' && route.query) {
     return `${base}?q=${encodeURIComponent(route.query)}`;
   }
+  if (route.page === 'fuer-dich' && route.query) {
+    return `${base}?l=${encodeURIComponent(route.query).replace(/%2C/g, ',')}${route.category ? `&n=${encodeURIComponent(route.category)}` : ''}`;
+  }
   if (route.page === 'glossar' && route.category) {
     return `${base}?word=${encodeURIComponent(route.category)}`;
   }
@@ -174,5 +183,6 @@ export function canonicalRoute(route: Route): Route {
   if (route.page === 'tutorial-detail') return { page: 'tutorial-detail', tutorialId: route.tutorialId };
   if (route.page === 'suche') return { page: 'suche' };
   if (route.page === 'glossar') return { page: 'glossar' };
+  if (route.page === 'fuer-dich') return { page: 'fuer-dich' };
   return route;
 }

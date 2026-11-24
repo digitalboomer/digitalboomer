@@ -99,6 +99,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenSupportModal, 
             <button onClick={onOpenSupportModal} className={link}>{aiHelpConfigured ? (isEn ? 'AI help assistant' : 'KI-Hilfe-Assistent') : (isEn ? 'Help assistant (pre-written answers)' : 'Hilfe-Assistent (vorgefertigte Antworten)')}</button>
             <a {...linkTo({ page: 'ueber-uns' }, () => onNavigate('ueber-uns'))} className={pageLink}>{isEn ? 'About us & common questions' : 'Über uns & häufige Fragen'}</a>
             <a {...linkTo({ page: 'glossar' }, () => onNavigate('glossar'))} className={pageLink}>{isEn ? 'Digital words explained' : 'Digitale Begriffe erklärt'}</a>
+            <a {...linkTo({ page: 'familie' }, () => onNavigate('familie'))} className={pageLink}>{isEn ? 'For families: send lessons' : 'Für Familien: Lektionen schicken'}</a>
             <a {...linkTo({ page: 'barrierefreiheit' }, () => onNavigate('barrierefreiheit'))} className={pageLink}>{isEn ? 'Accessibility' : 'Barrierefreiheit'}</a>
             <a {...linkTo({ page: 'datenschutz' }, () => onNavigate('datenschutz'))} className={pageLink}>{isEn ? 'Privacy & legal notice' : 'Datenschutz & Impressum'}</a>
             <button onClick={onOpenQrCode} className={`${link} inline-flex items-center gap-2`}>

@@ -85,6 +85,12 @@ const PAGES: Record<Exclude<PageId, 'tutorial-detail'>, PageText> = {
     de: ['Digitale Begriffe erklärt', 'Was heißt App, Update, Link, Cloud oder WLAN? Einfache Erklärungen der Wörter, die Ihnen am Handy und im Internet begegnen.'],
     index: true,
   },
+  familie: {
+    en: ['For Families: Send Lessons to Your Parents', 'Helping a parent or grandparent with their phone? Pick a few lessons and send them a link by WhatsApp, email or QR code. No account needed.'],
+    de: ['Für Familien: Lektionen an Ihre Eltern schicken', 'Sie helfen Eltern oder Großeltern mit dem Handy? Wählen Sie ein paar Lektionen aus und schicken Sie ihnen einen Link per WhatsApp, E-Mail oder QR-Code. Ohne Konto.'],
+    index: true,
+  },
+  'fuer-dich': { en: ['Lessons Picked for You', HOME_DESCRIPTION[0]], de: ['Für Sie ausgesuchte Lektionen', HOME_DESCRIPTION[1]], index: false },
   dashboard: { en: ['My Progress', HOME_DESCRIPTION[0]], de: ['Mein Fortschritt', HOME_DESCRIPTION[1]], index: false },
   anmelden: { en: ['Sign In', HOME_DESCRIPTION[0]], de: ['Anmelden', HOME_DESCRIPTION[1]], index: false },
   registrieren: { en: ['Create an Account', HOME_DESCRIPTION[0]], de: ['Konto erstellen', HOME_DESCRIPTION[1]], index: false },

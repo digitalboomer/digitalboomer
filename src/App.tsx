@@ -42,6 +42,8 @@ const AboutHelpScreen = named(() => import('./screens/AboutHelpScreen'), 'AboutH
 const AccessibilityPrivacyScreen = named(() => import('./screens/AccessibilityPrivacyScreen'), 'AccessibilityPrivacyScreen');
 const SearchResultsScreen = named(() => import('./screens/SearchResultsScreen'), 'SearchResultsScreen');
 const GlossaryScreen = named(() => import('./screens/GlossaryScreen'), 'GlossaryScreen');
+const FamilyScreen = named(() => import('./screens/FamilyScreen'), 'FamilyScreen');
+const ForYouScreen = named(() => import('./screens/ForYouScreen'), 'ForYouScreen');
 const SupportModal = named(() => import('./components/SupportModal'), 'SupportModal');
 const QRCodeModal = named(() => import('./components/QRCodeModal'), 'QRCodeModal');
 
@@ -376,6 +378,11 @@ export default function App() {
     });
   };
 
+  // A link from a family member: keep all its lessons as bookmarks, so they are in "My progress".
+  const handleSaveAll = (ids: string[]) => {
+    setUser((prev) => ({ ...prev, savedTutorialIds: Array.from(new Set([...prev.savedTutorialIds, ...ids])) }));
+  };
+
   // Mark tutorial completed
   const handleMarkCompleted = (tutId: string) => {
     playSuccess();
@@ -584,6 +591,20 @@ export default function App() {
             initialTab={currentPage}
             onNavigate={handleNavigate}
             lang={lang}
+          />
+        )}
+
+        {currentPage === 'familie' && <FamilyScreen lang={lang} onNavigate={handleNavigate} />}
+
+        {currentPage === 'fuer-dich' && (
+          <ForYouScreen
+            lang={lang}
+            lessonList={route.query ?? ''}
+            name={route.category}
+            completedIds={user.completedTutorialIds}
+            savedIds={user.savedTutorialIds}
+            onSaveAll={handleSaveAll}
+            onNavigate={handleNavigate}
           />
         )}
 

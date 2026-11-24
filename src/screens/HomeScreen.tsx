@@ -151,6 +151,20 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ onNavigate, onSelectTuto
           </div>
         </div>
       </section>
+
+      {/* Family members who help someone get started: pick lessons and send a link */}
+      <section className="bg-[#EAF2F8] dark:bg-slate-900 px-4 sm:px-8 py-12">
+        <div className="max-w-[1200px] mx-auto space-y-3">
+          <h2 className="text-3xl font-bold text-[#17324D]">{isEn ? 'Helping a parent or grandparent?' : 'Sie helfen Eltern oder Großeltern?'}</h2>
+          <p className="text-[#202B36] max-w-[65ch]">
+            {isEn ? 'Pick a few lessons for them and send a link by WhatsApp, email or QR code. They start right away, without an account.' : 'Wählen Sie ein paar Lektionen für sie aus und schicken Sie einen Link per WhatsApp, E-Mail oder QR-Code. Sie legen sofort los, ohne Konto.'}
+          </p>
+          <a {...linkTo({ page: 'familie' }, () => onNavigate('familie'))} className={`link-card ${outline}`}>
+            <Icon name="send" className="text-xl" />
+            {isEn ? 'Send lessons to someone' : 'Lektionen an jemanden schicken'}
+          </a>
+        </div>
+      </section>
     </div>
   );
 };
