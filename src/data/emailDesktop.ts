@@ -30,6 +30,9 @@ function whereTable(service: string, labels: Record<string, string>): Where {
     delete: ['The bin symbol is in the bar above the email.', 'Das Papierkorb-Symbol ist in der Leiste über der E-Mail.'],
     back: ['The arrow is at the top left, above the email.', 'Der Pfeil ist oben links, über der E-Mail.'],
     unsubscribe: ['"Unsubscribe" is in the note at the top of the email.', '„Abmelden“ steht im Hinweis oben in der E-Mail.'],
+    sender: ['Anna\'s name is above the text of the email, next to her picture.', 'Annas Name steht über dem Text der E-Mail, neben ihrem Bild.'],
+    'add-contact': [`"${labels.addContact ?? 'Add to contacts'}" is on the small card, under the address.`, `„${labels.addContact ?? 'Zu Kontakten hinzufügen'}“ steht auf der kleinen Karte, unter der Adresse.`],
+    'save-contact': ['"Save" is at the bottom right of the window.', '„Speichern“ ist unten rechts im Fenster.'],
   };
   const byService: Record<string, Where> = {
     gmail: {

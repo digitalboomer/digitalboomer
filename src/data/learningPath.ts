@@ -9,7 +9,7 @@ import type { Tutorial } from '../types';
 
 const SERVICE_ORDER: { kinds: string[]; after: string[] }[] = [
   { kinds: ['message', 'photo', 'voice', 'reply', 'delete', 'block', 'group', 'call'], after: ['videotelefonie-familie', 'messaging-privacy'] },
-  { kinds: ['reply', 'new', 'forward', 'attach', 'search', 'star', 'archive', 'restore', 'spam', 'unsubscribe'], after: ['email-write-well', 'email-account'] },
+  { kinds: ['reply', 'new', 'contact', 'forward', 'attach', 'search', 'star', 'archive', 'restore', 'spam', 'unsubscribe'], after: ['email-write-well', 'email-account'] },
   { kinds: ['like', 'search', 'post', 'message', 'share', 'follow', 'block'], after: ['social-before-posting', 'social-privacy'] },
   { kinds: ['balance', 'transfer', 'statement', 'own', 'scheduled', 'standing', 'stop-standing', 'international', 'namecheck', 'reject', 'block-card'], after: ['banking-approve', 'banking-scam-calls'] },
 ];

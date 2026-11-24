@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import {
-  ArrowLeft, Archive, ArrowUp, Calendar, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Circle, FileText, Filter, Flag, Folder, Forward, Image as ImageIcon, Mail, Menu, MoreVertical, Paperclip, Pencil, Reply, Search, Send, SquarePen, Star, Trash2, TriangleAlert, User, Video, X,
+  ArrowLeft, Archive, ArrowUp, Calendar, CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, Circle, Copy, FileText, UserPlus, Filter, Flag, Folder, Forward, Image as ImageIcon, Mail, Menu, MoreVertical, Paperclip, Pencil, Reply, Search, Send, SquarePen, Star, Trash2, TriangleAlert, User, Video, X,
 } from 'lucide-react';
 import { PracticeContext, PracticeTap } from './PracticeTap';
 import { Avatar, PhoneKeyboard, StatusBar, clockTime, BackGlyph } from './PhoneParts';
@@ -387,8 +387,18 @@ const OpenMail: React.FC<{ layout: Layout; style: (typeof STYLES)[string]; label
       <div className="px-4 pt-2 flex-1 min-h-0 overflow-hidden">
         <h3 className="text-[1.25rem] font-bold leading-tight mb-2">{subject}</h3>
         <div className="flex items-center gap-2 mb-3">
-          <Avatar name={from} color="#C0689B" size={38} />
-          <span className="text-[0.9rem] leading-tight min-w-0 flex-1"><span className="block font-bold truncate">{from}</span><span className="block truncate" style={{ color: '#5F6368' }}>{labels.toMe}</span></span>
+          {kind === 'contact' ? (
+            // "Save an address": the sender's name opens a small card with the address.
+            <PracticeTap id="sender" label={`${from}, ${labels.mailAnna}`} pointer="below" className="flex items-center gap-2 min-w-0 flex-1 text-left rounded-xl" style={{ color: '#1F1F1F' }}>
+              <Avatar name={from} color="#C0689B" size={38} />
+              <span className="text-[0.9rem] leading-tight min-w-0 flex-1"><span className="block font-bold truncate">{from}</span><span className="block truncate" style={{ color: '#5F6368' }}>{labels.mailAnna}</span></span>
+            </PracticeTap>
+          ) : (
+            <>
+              <Avatar name={from} color="#C0689B" size={38} />
+              <span className="text-[0.9rem] leading-tight min-w-0 flex-1"><span className="block font-bold truncate">{from}</span><span className="block truncate" style={{ color: '#5F6368' }}>{labels.toMe}</span></span>
+            </>
+          )}
           {isNews && <PracticeTap id="unsubscribe" label={labels.unsubscribe} pointer="below-right" className="px-2 rounded-lg text-[0.9rem] font-bold underline shrink-0" style={{ color: style.ink }}>{labels.unsubscribe}</PracticeTap>}
         </div>
         <p className="text-[1rem] leading-snug whitespace-pre-line">{text}</p>
@@ -430,8 +440,8 @@ const EmailPhone: React.FC<PracticeScreenProps> = ({ screen, isDone, appId, kind
       <h3 className="flex-1 text-[1.15rem] font-bold truncate">{title}</h3>
     </div>
   );
-  const listRow = (id: string, title: string, note?: string, Glyph?: React.ElementType) => (
-    <PracticeTap key={id} id={id} label={title} className="flex items-center gap-3 p-2 rounded-xl text-left w-full" style={{ borderBottom: '1px solid #E5E5EA', borderRadius: 0 }}>
+  const listRow = (id: string, title: string, note?: string, Glyph?: React.ElementType, pointer?: 'below-right') => (
+    <PracticeTap key={id} id={id} label={title} pointer={pointer} className="flex items-center gap-3 p-2 rounded-xl text-left w-full" style={{ borderBottom: '1px solid #E5E5EA', borderRadius: 0 }}>
       {Glyph && <Glyph size={22} aria-hidden="true" style={{ color: style.ink }} />}
       <span className="flex-1 min-w-0 text-[1rem]"><span className="block font-bold truncate">{title}</span>{note && <span className="block text-[0.88rem] truncate" style={{ color: '#5F6368' }}>{note}</span>}</span>
       <ChevronRight size={19} aria-hidden="true" />
@@ -511,6 +521,45 @@ const EmailPhone: React.FC<PracticeScreenProps> = ({ screen, isDone, appId, kind
     );
   } else if (screen === 'search-results') {
     body = page(labels.resultsWord, [listRow('result-anna', labels.anna, labels.subjectAnna), listRow('result-other', labels.club, labels.subjectClub)]);
+  } else if (screen === 'sender-card') {
+    // The sender's card: name, address, and what you can do with it.
+    body = page(labels.anna, (
+      <div className="flex-1 flex flex-col gap-1">
+        <div className="flex flex-col items-center gap-1 py-3">
+          <Avatar name={labels.anna} color="#C0689B" size={64} />
+          <p className="text-[1.15rem] font-bold">{labels.anna}</p>
+          <p className="text-[0.95rem]" style={{ color: '#5F6368' }}>{labels.mailAnna}</p>
+        </div>
+        {listRow('add-contact', labels.addContact, undefined, UserPlus, 'below-right')}
+        {listRow('card-mail', labels.sendEmailTo, undefined, Mail)}
+        {listRow('card-copy', labels.copyAddress, undefined, Copy)}
+      </div>
+    ));
+  } else if (screen === 'contact-save') {
+    // A new contact, already filled in from the email.
+    const field = (label: string, value: string) => (
+      <div className="py-1.5 border-b-2" style={{ borderColor: '#C8CDD3' }}>
+        <p className="text-[0.8rem]" style={{ color: '#5F6368' }}>{label}</p>
+        <p className="text-[1.02rem] break-all">{value}</p>
+      </div>
+    );
+    const [first, ...rest] = labels.anna.split(' ');
+    body = (
+      <div className="flex-1 flex flex-col min-h-0" style={{ background: '#FFFFFF', color: '#1F1F1F' }}>
+        <div className="flex items-center gap-1 px-1 shrink-0" style={layout === 'outlook' || layout === 'portal' ? { background: style.color, color: style.fg } : layout === 'proton' ? { background: '#1C1B24', color: '#FFFFFF' } : { color: layout === 'apple' ? style.ink : '#1F1F1F' }}>
+          <PracticeTap id="back" label={labels.cancelWord} className={iconBtn}><X size={23} aria-hidden="true" /></PracticeTap>
+          <h3 className="flex-1 text-[1.1rem] font-bold truncate">{labels.newContactTitle}</h3>
+          <PracticeTap id="save-contact" label={labels.saveWord} pointer="below-right" className="px-3 rounded-full font-bold text-[1rem]" style={layout === 'outlook' || layout === 'portal' || layout === 'proton' ? { background: '#FFFFFF', color: '#1F1F1F' } : { background: style.color, color: style.fg }}>{labels.saveWord}</PracticeTap>
+        </div>
+        <div className="flex-1 min-h-0 p-4 flex flex-col gap-1 sim-fade">
+          <div className="flex justify-center pb-2"><Avatar name={labels.anna} color="#C0689B" size={56} /></div>
+          {field(labels.firstName, first)}
+          {field(labels.lastName, rest.join(' '))}
+          {field(labels.emailWord, labels.mailAnna)}
+          <p className="text-[0.85rem] pt-1" style={{ color: '#5F6368' }}>{labels.phoneOptional}</p>
+        </div>
+      </div>
+    );
   } else {
     body = <Compose screen={screen} layout={layout} style={style} labels={labels} lang={lang} />;
   }

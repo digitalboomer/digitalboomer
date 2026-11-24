@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import {
   Archive, ArrowLeft, ArchiveRestore, Calendar, CheckCircle2, Video, File, FileText, Flag, Forward, HelpCircle, Image as ImageIcon, Inbox as InboxIcon,
   LayoutGrid, Mail, Menu, MoreHorizontal, MoreVertical, Paperclip, Pencil, RefreshCw, Reply, ReplyAll, Search, Send, Settings, SquarePen, Star, Trash2,
-  TriangleAlert, User, Users, X,
+  TriangleAlert, User, UserPlus, Users, Copy, X,
 } from 'lucide-react';
 import { PracticeContext, PracticeTap } from './PracticeTap';
 import { Avatar, clockTime } from './PhoneParts';
@@ -61,7 +61,7 @@ export const EmailWeb: React.FC<PracticeScreenProps> = ({ screen: givenScreen, i
   const composing = !isDone && COMPOSE_SCREENS.includes(screen);
   const isReply = screen === 'reply';
   const isForward = screen === 'forward-to' || screen === 'forward-body';
-  const mailOpen = !isDone && (['mail', 'mail-starred', 'mail-menu', 'unsub-confirm', 'trash-mail'].includes(screen) || ((isReply || isForward) && (look.replyAt === 'below' || pane)));
+  const mailOpen = !isDone && (['mail', 'mail-starred', 'mail-menu', 'unsub-confirm', 'trash-mail', 'sender-card', 'contact-save'].includes(screen) || ((isReply || isForward) && (look.replyAt === 'below' || pane)));
   const folder = screen === 'trash' || screen === 'trash-mail' ? 'trash' : screen === 'starred' ? 'starred' : screen === 'search-results' ? '' : 'inbox';
   const afterDelete = kind === 'restore' && ['inbox-after', 'folders'].includes(screen);
   const starred = screen === 'mail-starred' || (kind === 'star' && screen === 'folders');
@@ -260,10 +260,13 @@ export const EmailWeb: React.FC<PracticeScreenProps> = ({ screen: givenScreen, i
             <h3 className="flex-1 text-[1.3rem] font-bold leading-tight">{open.subject}</h3>
             {service === 'gmail' && <span aria-hidden="true" className="px-2 rounded text-[0.75rem]" style={{ background: '#E8EAED' }}>{inTrash ? labels.trashFolder : labels.inbox}</span>}
           </div>
-          <div className="flex items-center gap-2 mb-3">
+          <div className="flex items-center gap-2 mb-3 relative">
             <Avatar name={open.from} color={open.color} size={38} />
             <span className="min-w-0 flex-1 text-[0.9rem] leading-tight">
-              <span className="flex items-center gap-2"><strong className="truncate">{open.from}</strong>
+              <span className="flex items-center gap-2">
+                {kind === 'contact'
+                  ? <PracticeTap id="sender" label={`${open.from}, ${labels.mailAnna}`} pointer="below" className="px-1 -mx-1 rounded-md text-left font-bold truncate" style={{ color: '#1F1F1F' }}>{open.from} <span className="font-normal" style={{ color: '#5F6368' }}>&lt;{labels.mailAnna}&gt;</span></PracticeTap>
+                  : <strong className="truncate">{open.from}</strong>}
                 {isNews && unsubInline && <PracticeTap id="unsubscribe" label={labels.unsubscribe} pointer="below" className="px-1 rounded text-[0.85rem] underline shrink-0" style={{ color: '#444746' }}>{labels.unsubscribe}</PracticeTap>}
               </span>
               <span className="block truncate" style={{ color: '#5F6368' }}>{labels.toMe}</span>
@@ -413,8 +416,42 @@ export const EmailWeb: React.FC<PracticeScreenProps> = ({ screen: givenScreen, i
     </div>
   );
 
+  const [firstName, ...lastNames] = (labels.anna ?? '').split(' ');
   const dialogs = (
     <>
+      {screen === 'sender-card' && (
+        // Clicking the sender's name: a small card with the address and what you can do with it.
+        <div className="absolute inset-0 z-40 flex items-start justify-center pt-24 sim-fade" style={{ background: 'rgba(0,0,0,0.2)' }}>
+          <div role="dialog" aria-label={labels.anna} className="w-[340px] rounded-xl overflow-hidden shadow-xl" style={{ background: '#FFFFFF', color: '#1F1F1F', border: '1px solid #DADCE0' }}>
+            <div className="flex items-center gap-3 p-4">
+              <Avatar name={labels.anna} color="#C0689B" size={48} />
+              <span className="min-w-0"><strong className="block text-[1.05rem]">{labels.anna}</strong><span className="block text-[0.9rem] truncate" style={{ color: '#5F6368' }}>{labels.mailAnna}</span></span>
+            </div>
+            <PracticeTap id="add-contact" label={labels.addContact} pointer="below-right" className="flex items-center gap-3 px-4 w-full text-left text-[0.95rem] font-bold" style={{ color: look.send === '#FFD800' ? '#333333' : look.send }}><UserPlus size={19} aria-hidden="true" />{labels.addContact}</PracticeTap>
+            <PracticeTap id="card-mail" label={labels.sendEmailTo} className="flex items-center gap-3 px-4 w-full text-left text-[0.95rem]"><Mail size={19} aria-hidden="true" />{labels.sendEmailTo}</PracticeTap>
+            <PracticeTap id="card-copy" label={labels.copyAddress} className="flex items-center gap-3 px-4 w-full text-left text-[0.95rem]"><Copy size={19} aria-hidden="true" />{labels.copyAddress}</PracticeTap>
+          </div>
+        </div>
+      )}
+      {screen === 'contact-save' && (
+        // The new contact, already filled in from the email.
+        <div className="absolute inset-0 z-40 flex items-center justify-center sim-fade" style={{ background: 'rgba(0,0,0,0.35)' }}>
+          <div role="dialog" aria-label={labels.newContactTitle} className="w-[420px] rounded-xl p-4 space-y-2" style={{ background: '#FFFFFF', color: '#1F1F1F' }}>
+            <p className="text-[1.1rem] font-bold">{labels.newContactTitle}</p>
+            {[[labels.firstName, firstName], [labels.lastName, lastNames.join(' ')], [labels.emailWord, labels.mailAnna]].map(([label, value]) => (
+              <div key={label} className="px-3 py-1.5 rounded-md" style={{ border: '1px solid #9AA0A6' }}>
+                <p className="text-[0.78rem]" style={{ color: '#5F6368' }}>{label}</p>
+                <p className="text-[1rem] break-all">{value}</p>
+              </div>
+            ))}
+            <p className="text-[0.85rem]" style={{ color: '#5F6368' }}>{labels.phoneOptional}</p>
+            <div className="flex justify-end gap-2">
+              <PracticeTap id="back" label={labels.cancelWord} className="px-4 rounded-md font-bold text-[0.95rem]" style={{ color: '#1F1F1F', border: '1px solid #9AA0A6' }}>{labels.cancelWord}</PracticeTap>
+              <PracticeTap id="save-contact" label={labels.saveWord} pointer="below-right" className="px-4 rounded-md font-bold text-[0.95rem]" style={{ background: look.send, color: look.sendFg }}>{labels.saveWord}</PracticeTap>
+            </div>
+          </div>
+        </div>
+      )}
       {screen === 'unsub-confirm' && (
         <div className="absolute inset-0 z-40 flex items-center justify-center sim-fade" style={{ background: 'rgba(0,0,0,0.35)' }}>
           <div role="dialog" aria-label={labels.unsubscribe} className="w-[380px] rounded-xl p-4 space-y-3" style={{ background: '#FFFFFF', color: '#1F1F1F' }}>

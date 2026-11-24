@@ -8,15 +8,15 @@ import { Language, Tutorial, TutorialStep } from '../types';
 import type { Service } from './services';
 
 type Pair = [string, string];
-const TERMS: Record<string, { star: Pair; starred: Pair; spam: Pair; report: Pair; trash: Pair; where: Pair }> = {
-  gmail: { star: ['Star', 'Markieren'], starred: ['Starred', 'Markiert'], spam: ['Spam', 'Spam'], report: ['Report spam', 'Spam melden'], trash: ['Bin', 'Papierkorb'], where: ['The star is at the top of the email.', 'Der Stern ist oben in der E-Mail.'] },
-  outlook: { star: ['Flag', 'Kennzeichnen'], starred: ['Flagged', 'Gekennzeichnet'], spam: ['Junk Email', 'Junk-E-Mail'], report: ['Report junk', 'Als Junk melden'], trash: ['Deleted Items', 'Gelöschte Elemente'], where: ['The flag symbol is at the top of the email.', 'Das Fähnchen-Symbol ist oben in der E-Mail.'] },
-  applemail: { star: ['Flag', 'Markieren'], starred: ['Flagged', 'Markiert'], spam: ['Junk', 'Werbung'], report: ['Move to Junk', 'In „Werbung“ bewegen'], trash: ['Trash', 'Papierkorb'], where: ['The flag symbol is at the top of the email.', 'Das Fähnchen-Symbol ist oben in der E-Mail.'] },
-  gmx: { star: ['Favourite', 'Favorit'], starred: ['Favourites', 'Favoriten'], spam: ['Spam', 'Spam'], report: ['Mark as spam', 'Als Spam markieren'], trash: ['Trash', 'Papierkorb'], where: ['The star is at the top of the email.', 'Der Stern ist oben in der E-Mail.'] },
-  webde: { star: ['Favourite', 'Favorit'], starred: ['Favourites', 'Favoriten'], spam: ['Spam', 'Spam'], report: ['Mark as spam', 'Als Spam markieren'], trash: ['Trash', 'Papierkorb'], where: ['The star is at the top of the email.', 'Der Stern ist oben in der E-Mail.'] },
-  tonline: { star: ['Mark', 'Markieren'], starred: ['Marked', 'Markiert'], spam: ['Spam', 'Spam'], report: ['Mark as spam', 'Als Spam markieren'], trash: ['Trash', 'Papierkorb'], where: ['The star is at the top of the email.', 'Der Stern ist oben in der E-Mail.'] },
-  yahoo: { star: ['Star', 'Markieren'], starred: ['Starred', 'Markiert'], spam: ['Spam', 'Spam'], report: ['Mark as spam', 'Als Spam markieren'], trash: ['Trash', 'Papierkorb'], where: ['The star is at the top of the email.', 'Der Stern ist oben in der E-Mail.'] },
-  proton: { star: ['Star', 'Markieren'], starred: ['Starred', 'Markiert'], spam: ['Spam', 'Spam'], report: ['Move to spam', 'In Spam verschieben'], trash: ['Trash', 'Papierkorb'], where: ['The star is at the top of the email.', 'Der Stern ist oben in der E-Mail.'] },
+const TERMS: Record<string, { star: Pair; starred: Pair; spam: Pair; report: Pair; trash: Pair; where: Pair; add: Pair }> = {
+  gmail: { star: ['Star', 'Markieren'], starred: ['Starred', 'Markiert'], spam: ['Spam', 'Spam'], report: ['Report spam', 'Spam melden'], trash: ['Bin', 'Papierkorb'], where: ['The star is at the top of the email.', 'Der Stern ist oben in der E-Mail.'], add: ['Add to contacts', 'Zu Kontakten hinzufügen'] },
+  outlook: { star: ['Flag', 'Kennzeichnen'], starred: ['Flagged', 'Gekennzeichnet'], spam: ['Junk Email', 'Junk-E-Mail'], report: ['Report junk', 'Als Junk melden'], trash: ['Deleted Items', 'Gelöschte Elemente'], where: ['The flag symbol is at the top of the email.', 'Das Fähnchen-Symbol ist oben in der E-Mail.'], add: ['Add contact', 'Kontakt hinzufügen'] },
+  applemail: { star: ['Flag', 'Markieren'], starred: ['Flagged', 'Markiert'], spam: ['Junk', 'Werbung'], report: ['Move to Junk', 'In „Werbung“ bewegen'], trash: ['Trash', 'Papierkorb'], where: ['The flag symbol is at the top of the email.', 'Das Fähnchen-Symbol ist oben in der E-Mail.'], add: ['Create New Contact', 'Neuen Kontakt erstellen'] },
+  gmx: { star: ['Favourite', 'Favorit'], starred: ['Favourites', 'Favoriten'], spam: ['Spam', 'Spam'], report: ['Mark as spam', 'Als Spam markieren'], trash: ['Trash', 'Papierkorb'], where: ['The star is at the top of the email.', 'Der Stern ist oben in der E-Mail.'], add: ['Add to address book', 'Ins Adressbuch aufnehmen'] },
+  webde: { star: ['Favourite', 'Favorit'], starred: ['Favourites', 'Favoriten'], spam: ['Spam', 'Spam'], report: ['Mark as spam', 'Als Spam markieren'], trash: ['Trash', 'Papierkorb'], where: ['The star is at the top of the email.', 'Der Stern ist oben in der E-Mail.'], add: ['Add to address book', 'Ins Adressbuch aufnehmen'] },
+  tonline: { star: ['Mark', 'Markieren'], starred: ['Marked', 'Markiert'], spam: ['Spam', 'Spam'], report: ['Mark as spam', 'Als Spam markieren'], trash: ['Trash', 'Papierkorb'], where: ['The star is at the top of the email.', 'Der Stern ist oben in der E-Mail.'], add: ['Add to address book', 'Ins Adressbuch aufnehmen'] },
+  yahoo: { star: ['Star', 'Markieren'], starred: ['Starred', 'Markiert'], spam: ['Spam', 'Spam'], report: ['Mark as spam', 'Als Spam markieren'], trash: ['Trash', 'Papierkorb'], where: ['The star is at the top of the email.', 'Der Stern ist oben in der E-Mail.'], add: ['Add to contacts', 'Zu Kontakten hinzufügen'] },
+  proton: { star: ['Star', 'Markieren'], starred: ['Starred', 'Markiert'], spam: ['Spam', 'Spam'], report: ['Move to spam', 'In Spam verschieben'], trash: ['Trash', 'Papierkorb'], where: ['The star is at the top of the email.', 'Der Stern ist oben in der E-Mail.'], add: ['Add to contacts', 'Zu Kontakten hinzufügen'] },
 };
 
 /** Added to every email lesson, so free roam and all lessons can show the new screens. */
@@ -40,6 +40,9 @@ export function emailExtraLabels(lang: Language, provider?: Service): Record<str
     suggestSearch1: 'Anna', suggestSearch2: t('Lunch', 'Mittagessen'), suggestSearch3: t('Invoice', 'Rechnung'),
     chooseFile: t('Choose a file', 'Datei wählen'), filePhoto: t('Photo_Garden.jpg', 'Foto_Garten.jpg'), fileDoc: t('Recipe.pdf', 'Rezept.pdf'),
     fwdText: t('Forwarded email', 'Weitergeleitete E-Mail'),
+    addContact: pick(term.add), sendEmailTo: t('Send an email', 'E-Mail senden'), copyAddress: t('Copy address', 'Adresse kopieren'),
+    newContactTitle: t('New contact', 'Neuer Kontakt'), saveWord: t('Save', 'Speichern'), firstName: t('First name', 'Vorname'), lastName: t('Last name', 'Nachname'),
+    emailWord: t('Email', 'E-Mail'), phoneOptional: t('You could also add a phone number. That is optional.', 'Sie könnten auch eine Telefonnummer ergänzen. Das ist freiwillig.'),
     suggestF1: t('Hello Peter', 'Hallo Peter'), suggestF2: t('For your information', 'Zu Ihrer Information'), suggestF3: t('Best wishes', 'Viele Grüße'),
     doneTitle: '', doneText: '',
   };
@@ -80,6 +83,8 @@ export function emailTasks(lang: Language, provider: Service, base: Tutorial): T
     'mark-unread': t(`That would mark it as new again. ${where}`, `Damit würden Sie sie wieder als neu markieren. ${where}`),
     'result-other': t(`That is a different email. ${where}`, `Das ist eine andere E-Mail. ${where}`),
     'file-doc': t(`That is a different file. ${where}`, `Das ist eine andere Datei. ${where}`),
+    'card-mail': t(`That would start a new email to Anna. ${where}`, `Damit würden Sie Anna eine neue E-Mail schreiben. ${where}`),
+    'card-copy': t(`That would copy the address. ${where}`, `Damit würden Sie die Adresse kopieren. ${where}`),
   });
 
   const step = (title: string, lead: string, paragraphs: string[], screen: string, targetId: string, where: string, options: { field?: string; requiresText?: boolean } = {}): Omit<TutorialStep, 'stepNumber'> => ({
@@ -114,6 +119,7 @@ export function emailTasks(lang: Language, provider: Service, base: Tutorial): T
   const trash = pick(term.trash);
   const report = pick(term.report);
   const noReal = t('This was only practice.', 'Das war nur eine Übung.');
+  const addLabel = pick(term.add);
 
   return [
     lesson('forward', t('Forward an Email', 'Eine E-Mail weiterleiten'), t("Send Anna's invitation on to Peter.", 'Leiten Sie Annas Einladung an Peter weiter.'), 4,
@@ -194,6 +200,17 @@ export function emailTasks(lang: Language, provider: Service, base: Tutorial): T
         open(t('Open the newsletter', 'Newsletter öffnen'), t('the garden newsletter', 'dem Garten-Newsletter'), 'mail-news', t('The newsletter is the third line.', 'Der Newsletter ist die dritte Zeile.'), t('Unsubscribing is better than reporting it as spam, if you once signed up yourself.', 'Abmelden ist besser als Spam melden, wenn Sie sich selbst einmal angemeldet haben.')),
         step(t('Tap "Unsubscribe"', 'Tippen Sie auf „Abmelden“'), t('It is at the top of the email, near the sender.', 'Das steht oben in der E-Mail, beim Absender.'), [t('Often it is also at the very end of the newsletter, in small print.', 'Oft steht es auch ganz am Ende des Newsletters, im Kleingedruckten.')], 'mail', 'unsubscribe', t('"Unsubscribe" is near the sender.', '„Abmelden“ steht beim Absender.')),
         step(t('Confirm', 'Bestätigen'), t('Tap "Yes, unsubscribe".', 'Tippen Sie auf „Ja, abmelden“.'), [t('You never need a password or bank details for this.', 'Dafür brauchen Sie nie ein Passwort oder Bankdaten.')], 'unsub-confirm', 'unsub-yes', t('The coloured button confirms it.', 'Der farbige Knopf bestätigt es.')),
+      ]),
+    lesson('contact', t('Save an Address to Your Contacts', 'Eine Adresse in Ihren Kontakten speichern'), t('Save Anna\'s address once, and you never have to type it again.', 'Speichern Sie Annas Adresse einmal, dann müssen Sie sie nie wieder eintippen.'), 3,
+      t('You will save Anna in your contacts in 4 steps.', 'Sie speichern Anna in 4 Schritten in Ihren Kontakten.'),
+      t('Well done! Anna is in your contacts.', 'Gut gemacht! Anna ist in Ihren Kontakten.'),
+      t(`Next time, type the first letters of "Anna" in the "To" field, and her address appears by itself. Your contacts are also in the phone's own address book, depending on your settings. ${noReal}`, `Beim nächsten Mal tippen Sie die ersten Buchstaben von „Anna“ ins Feld „An“, und ihre Adresse erscheint von selbst. Je nach Einstellung stehen Ihre Kontakte auch im Adressbuch des Handys. ${noReal}`),
+      t('Anna was saved', 'Anna wurde gespeichert'), t('anna@beispiel.example is now in your contacts.', 'anna@beispiel.example ist jetzt in Ihren Kontakten.'),
+      [
+        openAnna,
+        step(t('Tap Anna\'s name', 'Tippen Sie auf Annas Namen'), t('Her name is at the top of the email, next to the round picture.', 'Ihr Name steht oben in der E-Mail, neben dem runden Bild.'), [t('This opens a small card with her email address.', 'So öffnet sich eine kleine Karte mit ihrer E-Mail-Adresse.')], 'mail', 'sender', t('Anna\'s name is under the subject, next to her picture.', 'Annas Name steht unter dem Betreff, neben ihrem Bild.')),
+        step(t(`Tap "${addLabel}"`, `Tippen Sie auf „${addLabel}“`), t('It is the first line on the card.', 'Das ist die erste Zeile auf der Karte.'), [t('Check the address first. Only save people you know.', 'Prüfen Sie zuerst die Adresse. Speichern Sie nur Menschen, die Sie kennen.')], 'sender-card', 'add-contact', t(`"${addLabel}" is the first line.`, `„${addLabel}“ ist die erste Zeile.`)),
+        step(t('Tap "Save"', 'Tippen Sie auf „Speichern“'), t('Name and address are already filled in.', 'Name und Adresse sind schon ausgefüllt.'), [t('You can change the name, for example to "Anna (neighbour)", so you know who she is later.', 'Sie können den Namen ändern, zum Beispiel in „Anna (Nachbarin)“, damit Sie später wissen, wer sie ist.')], 'contact-save', 'save-contact', t('"Save" is at the top right.', '„Speichern“ ist oben rechts.')),
       ]),
     lesson('archive', t('Archive Instead of Delete', 'Archivieren statt löschen'), t('Tidy your inbox without losing anything.', 'Räumen Sie Ihren Posteingang auf, ohne etwas zu verlieren.'), 2,
       t('You will archive an email in 2 steps.', 'Sie archivieren in 2 Schritten eine E-Mail.'),
