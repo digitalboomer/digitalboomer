@@ -243,6 +243,55 @@ export function scamExamples(lang: Language): Record<string, ScamCard> {
       ],
       advice: t('Do not send the code to anyone. Call Monika on the phone and tell her that her account has been taken over.', 'Schicken Sie den Code an niemanden. Rufen Sie Monika an und sagen Sie ihr, dass ihr Konto übernommen wurde.'),
     },
+    'friend-copy': {
+      kind: 'chat',
+      heading: t('A friend request on social media', 'Eine Freundschaftsanfrage in sozialen Medien'),
+      blocks: [
+        { kind: 'label', sign: 1, text: t('Friend request from Helga Berger', 'Freundschaftsanfrage von Helga Berger') },
+        { kind: 'small', sign: 2, text: t('Joined 3 days ago · 2 photos · 1 mutual friend', 'Seit 3 Tagen dabei · 2 Fotos · 1 gemeinsamer Freund') },
+        { kind: 'body', sign: 3, text: t('"Hello dear! This is my new profile, the old one was hacked. Please accept me again."', '„Hallo, meine Liebe! Das ist mein neues Profil, das alte wurde gehackt. Bitte nimm mich wieder an.“') },
+        { kind: 'body', sign: 4, text: t('"Could you help me quickly? I need 300 euros for a bill. I will pay you back tomorrow."', '„Kannst du mir schnell helfen? Ich brauche 300 Euro für eine Rechnung. Ich zahle es dir morgen zurück.“') },
+      ],
+      signs: [
+        { title: t('You are already friends', 'Sie sind schon befreundet'), text: t('Helga is already in your friends list. A second profile with the same name and photo is a warning sign.', 'Helga ist schon in Ihrer Freundesliste. Ein zweites Profil mit demselben Namen und Foto ist ein Warnzeichen.') },
+        { title: t('A brand-new, empty profile', 'Ein ganz neues, leeres Profil'), text: t('Real profiles have years of posts, photos and friends. Copies are new and nearly empty.', 'Echte Profile haben jahrelange Beiträge, Fotos und Freunde. Kopien sind neu und fast leer.') },
+        { title: t('"My old profile was hacked"', '„Mein altes Profil wurde gehackt“'), text: t('This story is meant to explain the new profile. Check it with Helga herself, by phone.', 'Diese Geschichte soll das neue Profil erklären. Prüfen Sie es bei Helga selbst, am Telefon.') },
+        { title: t('Money, quickly', 'Geld, schnell'), text: t('The urgent request for money is what the copy is really for.', 'Die eilige Bitte um Geld ist der eigentliche Zweck der Kopie.') },
+      ],
+      advice: t('Do not accept the request. Call Helga, or ask her in the chat you already have with her. Then report the copied profile.', 'Nehmen Sie die Anfrage nicht an. Rufen Sie Helga an, oder fragen Sie sie im Chat, den Sie schon mit ihr haben. Dann melden Sie das kopierte Profil.'),
+    },
+    'market-buyer': {
+      kind: 'chat',
+      heading: t('Chat about the armchair you are selling', 'Chat zum Sessel, den Sie verkaufen'),
+      blocks: [
+        { kind: 'body', sign: 1, text: t('"Hello, I will take the armchair without seeing it. I will pay right away."', '„Hallo, ich nehme den Sessel ohne Besichtigung. Ich zahle sofort.“') },
+        { kind: 'body', sign: 2, text: t('"I do not use the chat here. Please write to me on WhatsApp: +49 000 7654 321."', '„Ich nutze den Chat hier nicht. Bitte schreiben Sie mir auf WhatsApp: +49 000 7654 321.“') },
+        { kind: 'body', sign: 3, text: t('"I have paid with Safe Payment. Click here to receive your money: safe-payment-receive.example"', '„Ich habe mit Sicher Bezahlen gezahlt. Klicken Sie hier, um Ihr Geld zu erhalten: sicher-bezahlen-empfang.example“') },
+        { kind: 'button', sign: 4, text: t('Enter card details to receive the money', 'Kartendaten eingeben, um das Geld zu erhalten') },
+      ],
+      signs: [
+        { title: t('No questions, no viewing', 'Keine Fragen, keine Besichtigung'), text: t('Real buyers ask about the item and often haggle. Buying quickly and unseen is typical for scammers.', 'Echte Käufer fragen nach der Ware und handeln oft. Schnell und ungesehen kaufen ist typisch für Betrüger.') },
+        { title: t('Away from the app', 'Weg von der App'), text: t('Outside the app\'s own chat, nobody protects you, and the scammer gets your phone number.', 'Außerhalb des Chats der App schützt Sie niemand, und der Betrüger bekommt Ihre Telefonnummer.') },
+        { title: t('A link to "receive" money', 'Ein Link, um Geld zu „erhalten“'), text: t('You never need a link to receive money. The page copies the real app and steals what you type.', 'Um Geld zu erhalten, brauchen Sie nie einen Link. Die Seite kopiert die echte App und stiehlt, was Sie eintippen.') },
+        { title: t('Card details to get paid', 'Kartendaten, um bezahlt zu werden'), text: t('Nobody needs your card number, PIN or a code to send you money.', 'Niemand braucht Ihre Kartennummer, PIN oder einen Code, um Ihnen Geld zu senden.') },
+      ],
+      advice: t('Do not click. Stay in the app\'s own chat, and only accept cash when the item is collected, or a payment you can see arrive in your own banking app.', 'Klicken Sie nicht. Bleiben Sie im Chat der App, und nehmen Sie nur Bargeld bei Abholung an, oder eine Zahlung, die Sie in Ihrer eigenen Banking-App ankommen sehen.'),
+    },
+    'market-seller': {
+      kind: 'chat',
+      heading: t('Chat about a bicycle you want to buy', 'Chat zu einem Fahrrad, das Sie kaufen möchten'),
+      blocks: [
+        { kind: 'body', sign: 1, text: t('"The bike is like new, only 90 euros. Lots of people want it, so please decide today."', '„Das Rad ist wie neu, nur 90 Euro. Viele wollen es, bitte entscheiden Sie heute.“') },
+        { kind: 'body', sign: 2, text: t('"I live far away and will send it. Please transfer the money first."', '„Ich wohne weit weg und schicke es. Bitte überweisen Sie das Geld vorher.“') },
+        { kind: 'body', sign: 3, text: t('"Please pay with PayPal \'Friends and family\', then there are no fees."', '„Bitte zahlen Sie mit PayPal ‚Freunde und Familie‘, dann gibt es keine Gebühren.“') },
+      ],
+      signs: [
+        { title: t('Cheap and urgent', 'Billig und eilig'), text: t('A price far below the usual one, plus time pressure, is bait.', 'Ein Preis weit unter dem üblichen, dazu Zeitdruck, ist ein Köder.') },
+        { title: t('Pay first, by bank transfer', 'Erst zahlen, per Überweisung'), text: t('Once you have transferred money to a stranger, it is very hard to get back.', 'Haben Sie einem Fremden Geld überwiesen, bekommen Sie es nur sehr schwer zurück.') },
+        { title: t('"Friends and family"', '„Freunde und Familie“'), text: t('This PayPal option has no buyer protection. It is meant for sending money to people you know.', 'Diese PayPal-Option hat keinen Käuferschutz. Sie ist für Geld an Menschen gedacht, die Sie kennen.') },
+      ],
+      advice: t('Collect it yourself and pay on the spot. If it has to be sent, use a payment with buyer protection, for example PayPal "Goods and services".', 'Holen Sie es selbst ab und zahlen Sie vor Ort. Muss es verschickt werden, nutzen Sie eine Zahlung mit Käuferschutz, zum Beispiel PayPal „Waren und Dienstleistungen“.'),
+    },
     shop: {
       kind: 'shop',
       heading: t('A bargain in an online shop', 'Ein Schnäppchen in einem Online-Shop'),
