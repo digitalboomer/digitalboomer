@@ -21,21 +21,24 @@ export interface HelpTurn {
 export interface HelpLessonHint {
   id: string;
   title: string;
+  /** The lesson's steps as text, for the best matches, so the AI answers like our lessons. */
+  text?: string;
 }
 
 export type HelpChatResult =
   | { ok: true; answer: string; lessonIds: string[] }
   | { ok: false; reason: 'limit' | 'unavailable' };
 
-export async function askHelpAssistant(messages: HelpTurn[], lang: string, lessons: HelpLessonHint[]): Promise<HelpChatResult> {
+/** `current`: where the person is on the site (lesson and step), so the AI can help with that step. */
+export async function askHelpAssistant(messages: HelpTurn[], lang: string, lessons: HelpLessonHint[], current: string): Promise<HelpChatResult> {
   if (!url || !anonKey) return { ok: false, reason: 'unavailable' };
   try {
     const response = await fetch(`${url}/functions/v1/help-chat`, {
       method: 'POST',
       // The publishable key is not a token, so the function runs with "Verify JWT" off (docs/ai-help-setup.md).
       headers: { apikey: anonKey, 'content-type': 'application/json' },
-      body: JSON.stringify({ messages, lang, lessons }),
-      signal: AbortSignal.timeout(45000),
+      body: JSON.stringify({ messages, lang, lessons, current }),
+      signal: AbortSignal.timeout(70000), // up to three models are tried, 20 seconds each
     });
     if (response.status === 429) return { ok: false, reason: 'limit' };
     if (!response.ok) return { ok: false, reason: 'unavailable' };

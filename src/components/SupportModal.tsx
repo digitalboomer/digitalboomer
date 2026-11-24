@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Icon } from '../components/Icon';
-import { Language } from '../types';
+import { Language, Tutorial } from '../types';
 import { useDialogFocus } from '../utils/useDialogFocus';
 import { TEAM_EMAIL, composeLinks } from '../utils/contact';
 import { TUTORIALS_DE, TUTORIALS_EN } from '../data/content';
-import { goTo, linkTo, useLanguage } from '../utils/router';
+import { currentRoute, goTo, linkTo, useLanguage } from '../utils/router';
 import { buildSearchIndex, searchLessons } from '../utils/search';
 import { isExtraLanguage, translateText } from '../i18n/translate';
 import { aiHelpConfigured, askHelpAssistant, type HelpTurn } from '../utils/helpChat';
@@ -229,14 +229,23 @@ export const SupportModal: React.FC<SupportModalProps> = ({
       role: m.sender === 'user' ? 'user' : 'assistant',
       text: [m.text, ...(m.steps ?? []), m.tip ?? ''].filter(Boolean).join('\n'),
     }));
-    // Lessons that may fit, found with the site search, so the AI can point to real lessons.
+    // Lessons that may fit, found with the site search. The best ones go with their full text,
+    // so the AI answers with the same steps people practise here.
     const earlierQuestion = [...messages].reverse().find((m) => m.sender === 'user')?.text ?? '';
     let hits = searchLessons(lessonIndex, userQuery).results;
     if (hits.length === 0 && earlierQuestion) hits = searchLessons(lessonIndex, `${earlierQuestion} ${userQuery}`).results;
-    const hints = hits.slice(0, 8).map((t) => ({ id: t.id, title: isExtraLanguage(uiLang) ? translateText(t.title) : t.title }));
+    // The lesson the person is in comes first: "what do I tap now?" is about that lesson.
+    const route = currentRoute();
+    const inLesson = route.page === 'tutorial-detail' ? lessons.find((t) => t.id === route.tutorialId) : undefined;
+    if (inLesson) hits = [inLesson, ...hits.filter((t) => t.id !== inLesson.id)];
+    const hints = hits.slice(0, 8).map((t, i) => ({
+      id: t.id,
+      title: isExtraLanguage(uiLang) ? translateText(t.title) : t.title,
+      text: i < 3 ? lessonText(t) : undefined,
+    }));
 
     setWaiting(true);
-    const result = await askHelpAssistant(history, uiLang, hints);
+    const result = await askHelpAssistant(history, uiLang, hints, whereNow());
     setWaiting(false);
 
     if (result.ok) {
@@ -251,6 +260,29 @@ export const SupportModal: React.FC<SupportModalProps> = ({
       ? (isEn ? 'Many questions were asked today, so the AI is resting until tomorrow. Here is a pre-written answer.' : 'Heute wurden schon viele Fragen gestellt, deshalb pausiert die KI bis morgen. Hier ist eine vorgefertigte Antwort.')
       : (isEn ? 'The AI cannot answer right now. Here is a pre-written answer.' : 'Die KI kann gerade nicht antworten. Hier ist eine vorgefertigte Antwort.');
     setMessages((prev) => [...prev, { ...fallback, notice: note }]);
+  };
+
+  /** A lesson as plain text for the AI: its steps with their explanations, tips and warnings. */
+  const lessonText = (lesson: Tutorial): string =>
+    [
+      lesson.description,
+      ...lesson.steps.map((s) =>
+        [`${s.stepNumber}. ${s.title}: ${s.lead}`, ...s.paragraphs, s.tip ? `Tip: ${s.tip}` : '', s.warning ? `Warning: ${s.warning}` : '']
+          .filter(Boolean)
+          .join(' ')
+      ),
+    ].join('\n');
+
+  /** Where the person is, so "what do I tap now?" gets an answer about this exact step. */
+  const whereNow = (): string => {
+    const route = currentRoute();
+    const lesson = route.page === 'tutorial-detail' ? lessons.find((t) => t.id === route.tutorialId) : undefined;
+    if (!lesson) return `On the page "${document.title}".`;
+    const kind = lesson.practice ? 'a practice lesson on a simulated screen, where nothing real happens' : 'a lesson to read';
+    if (route.isDone) return `Just finished "${lesson.title}" (${kind}).`;
+    if (route.stepIndex === undefined) return `On the start page of "${lesson.title}" (${kind}).`;
+    const step = lesson.steps[Math.min(route.stepIndex, lesson.steps.length - 1)];
+    return `In "${lesson.title}" (${kind}), step ${step.stepNumber} of ${lesson.steps.length}: ${step.title}. ${step.lead} ${step.paragraphs.join(' ')}`;
   };
 
   /** Pre-written: the answer is chosen by matching words in the question, not written by an AI. */

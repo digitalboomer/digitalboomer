@@ -24,6 +24,8 @@ const STOP_WORDS = new Set(
     a an the and or of to in on at for with by from my your our me i you we it is are be can could
     how do does did what when where which who why will would should please want wish help need
     get make use using about this that these those there here some any one just also not
+    now next then again still okay ok thing things something stuck
+    jetzt nun dann danach weiter noch mal wieder sache etwas
     ein eine einen einem einer der die das den dem des und oder von zu im in an am auf fur mit bei
     aus mein meine meinen meiner ihr ihre ihren sie ich wir es ist sind kann konnen wie was wann wo
     welche welcher wer warum mochte will bitte brauche hilfe etwas man mir mich uns
