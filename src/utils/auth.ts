@@ -7,18 +7,55 @@
  *
  * The anon key is meant to be public. Row level security on the database makes
  * sure every user can only read and change their own progress.
+ *
+ * The Supabase library is large, so it is only loaded when it is needed: when this browser
+ * has a saved sign-in, when a link from an account email is opened, or when someone signs in,
+ * registers or sends the contact form. Guests who just learn never download it.
  */
-import { createClient, type SupabaseClient, type User } from '@supabase/supabase-js';
+import type { SupabaseClient, User } from '@supabase/supabase-js';
 import type { SavedProgress } from './progress';
 
 const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
 const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
 
-export const supabase: SupabaseClient | null = url && anonKey
-  ? createClient(url, anonKey, { auth: { flowType: 'pkce', detectSessionInUrl: false, persistSession: true, autoRefreshToken: true } })
-  : null;
+export const accountsAvailable = Boolean(url && anonKey);
 
-export const accountsAvailable = supabase !== null;
+let clientPromise: Promise<SupabaseClient | null> | null = null;
+const accountListeners = new Set<(user: User | null) => void>();
+let lastUser: User | null | undefined;
+
+function tellListeners(user: User | null): void {
+  lastUser = user;
+  accountListeners.forEach((listener) => listener(user));
+}
+
+/** The Supabase client, loaded the first time it is needed. Null when accounts are switched off. */
+export function getSupabase(): Promise<SupabaseClient | null> {
+  if (!url || !anonKey) return Promise.resolve(null);
+  if (!clientPromise) {
+    clientPromise = import('@supabase/supabase-js')
+      .then(({ createClient }) => {
+        const client = createClient(url, anonKey, { auth: { flowType: 'pkce', detectSessionInUrl: false, persistSession: true, autoRefreshToken: true } });
+        client.auth.onAuthStateChange((_event, session) => tellListeners(session?.user ?? null));
+        client.auth.getSession().then(({ data }) => tellListeners(data.session?.user ?? null));
+        return client;
+      })
+      .catch(() => {
+        clientPromise = null; // offline for a moment: try again next time
+        return null;
+      });
+  }
+  return clientPromise;
+}
+
+/** Whether this browser has a saved sign-in (Supabase keeps it under "sb-…-auth-token"). */
+function hasSavedSignIn(): boolean {
+  try {
+    return Object.keys(localStorage).some((key) => key.startsWith('sb-') && key.includes('-auth-token'));
+  } catch {
+    return false;
+  }
+}
 
 /** The address emails link back to: the site's home page (each page has its own address now). */
 function siteAddress(): string {
@@ -32,13 +69,14 @@ export type AuthLanding = 'confirmed' | 'recovery' | 'failed' | null;
  * work on any device; links with a code only in the browser that asked for them.
  */
 export async function handleAuthLink(): Promise<AuthLanding> {
-  if (!supabase) return null;
   const params = new URLSearchParams(window.location.search);
   const tokenHash = params.get('token_hash');
   const type = params.get('type');
   const code = params.get('code');
   const failed = params.get('error_description') || params.get('error');
   if (!tokenHash && !code && !failed) return null;
+  const supabase = await getSupabase();
+  if (!supabase) return null;
 
   let landing: AuthLanding = 'failed';
   try {
@@ -70,6 +108,7 @@ export function friendlyError(message: string, isEn: boolean): string {
 }
 
 export async function signUp(name: string, email: string, password: string, lang: string): Promise<string | null> {
+  const supabase = await getSupabase();
   if (!supabase) return 'not available';
   const { data, error } = await supabase.auth.signUp({ email, password, options: { emailRedirectTo: siteAddress(), data: { name, lang } } });
   if (error) return error.message;
@@ -79,38 +118,48 @@ export async function signUp(name: string, email: string, password: string, lang
 }
 
 export async function resendConfirmation(email: string): Promise<string | null> {
+  const supabase = await getSupabase();
   if (!supabase) return 'not available';
   const { error } = await supabase.auth.resend({ type: 'signup', email, options: { emailRedirectTo: siteAddress() } });
   return error ? error.message : null;
 }
 
 export async function signIn(email: string, password: string): Promise<string | null> {
+  const supabase = await getSupabase();
   if (!supabase) return 'not available';
   const { error } = await supabase.auth.signInWithPassword({ email, password });
   return error ? error.message : null;
 }
 
 export async function signOut(): Promise<void> {
-  await supabase?.auth.signOut();
+  if (!clientPromise && !hasSavedSignIn()) return; // never signed in here
+  await (await getSupabase())?.auth.signOut();
 }
 
 export async function sendPasswordReset(email: string): Promise<string | null> {
+  const supabase = await getSupabase();
   if (!supabase) return 'not available';
   const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${siteAddress()}?reset=1` });
   return error ? error.message : null;
 }
 
 export async function setNewPassword(password: string): Promise<string | null> {
+  const supabase = await getSupabase();
   if (!supabase) return 'not available';
   const { error } = await supabase.auth.updateUser({ password });
   return error ? error.message : null;
 }
 
+/**
+ * Tells `callback` who is signed in, now and whenever it changes. Loads the library right
+ * away only when this browser has a saved sign-in; otherwise it waits until it is needed.
+ */
 export function onAccountChange(callback: (user: User | null) => void): () => void {
-  if (!supabase) return () => {};
-  supabase.auth.getSession().then(({ data }) => callback(data.session?.user ?? null));
-  const { data } = supabase.auth.onAuthStateChange((_event, session) => callback(session?.user ?? null));
-  return () => data.subscription.unsubscribe();
+  if (!accountsAvailable) return () => {};
+  accountListeners.add(callback);
+  if (lastUser !== undefined) callback(lastUser);
+  if (hasSavedSignIn()) void getSupabase();
+  return () => accountListeners.delete(callback);
 }
 
 /**
@@ -118,6 +167,7 @@ export function onAccountChange(callback: (user: User | null) => void): () => vo
  * null: the account has no progress yet. 'error': it could not be read (then nothing may be saved over it).
  */
 export async function loadAccountProgress(userId: string): Promise<SavedProgress | null | 'error'> {
+  const supabase = await getSupabase();
   if (!supabase) return null;
   try {
     const { data, error } = await supabase.from('progress').select('completed, saved, steps').eq('user_id', userId).maybeSingle();
@@ -130,6 +180,7 @@ export async function loadAccountProgress(userId: string): Promise<SavedProgress
 }
 
 export async function saveAccountProgress(userId: string, progress: SavedProgress): Promise<void> {
+  const supabase = await getSupabase();
   if (!supabase) return;
   await supabase.from('progress').upsert({
     user_id: userId,

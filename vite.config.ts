@@ -1,27 +1,13 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import fs from 'fs';
 import path from 'path';
-import {defineConfig, type Plugin} from 'vite';
-
-/** Keeps AI Studio leftovers and duplicate image folders out of the published site. */
-function excludeLeftovers(): Plugin {
-  return {
-    name: 'exclude-leftovers',
-    apply: 'build',
-    closeBundle() {
-      for (const folder of ['assets/aistudio', 'images', 'src']) {
-        fs.rmSync(path.resolve(__dirname, 'dist', folder), {recursive: true, force: true});
-      }
-    },
-  };
-}
+import {defineConfig} from 'vite';
 
 export default defineConfig(() => {
   return {
     // GitHub Pages serves the site under /digitalboomer/ (the repository name). Locally (npm run dev) it stays at /.
     base: process.env.GITHUB_ACTIONS ? '/digitalboomer/' : '/',
-    plugins: [react(), tailwindcss(), excludeLeftovers()],
+    plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

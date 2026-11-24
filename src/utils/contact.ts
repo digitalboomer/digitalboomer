@@ -2,7 +2,7 @@
  * Contacting the team: links that open a new email, and the contact form.
  * The form is saved in Supabase (table contact_messages). Setup: docs/contact-form-setup.md.
  */
-import { supabase } from './auth';
+import { getSupabase } from './auth';
 
 export const TEAM_EMAIL = 'digitalboomer.team@gmail.com';
 
@@ -40,8 +40,9 @@ export interface ContactMessage {
  * The team reads them in the Supabase dashboard. True when the message was saved.
  */
 export async function sendContactMessage(contact: ContactMessage): Promise<boolean> {
-  if (!supabase) return false;
   try {
+    const supabase = await getSupabase(); // loaded on first use
+    if (!supabase) return false;
     const { error } = await supabase.from('contact_messages').insert({
       name: contact.name.slice(0, 200),
       email: contact.email.slice(0, 320),
