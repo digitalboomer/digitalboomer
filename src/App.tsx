@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { PageId, ThemeMode, TextScale, UserProfile, Language } from './types';
 import { INITIAL_USER_PROFILE, TUTORIALS_DE, TUTORIALS_EN } from './data/content';
-import { GuidedPractice } from './components/practice/GuidedPractice';
+import { PageLoading } from './components/PageLoading';
 import { currentRoute, goTo, leaveLesson, setLanguage, setLeaveGuard, stayInLesson, useLanguage, usePendingLeave, useRoute } from './utils/router';
 import { clearProgress, loadProgress, saveProgress, type SavedProgress } from './utils/progress';
 import { handleAuthLink, loadAccountProgress, onAccountChange, saveAccountProgress, signOut } from './utils/auth';
@@ -12,26 +12,44 @@ import { headInfo } from './seo/pageMeta';
 import { applyHead } from './seo/head';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
-import { SupportModal } from './components/SupportModal';
-import { QRCodeModal } from './components/QRCodeModal';
 import { CelebrationDialog } from './components/CelebrationDialog';
 import { LeaveLessonDialog } from './components/LeaveLessonDialog';
 
 import { HomeScreen } from './screens/HomeScreen';
-import { ServiceHubScreen } from './screens/ServiceHubScreen';
-import { FreeRoam } from './components/practice/FreeRoam';
 import { GROUP_PAGE, ServiceGroup, groupOfCategory, serviceById } from './data/services';
 import { isSoundOn, playClick, playSuccess, setSoundOn } from './utils/feedback';
-import { TopicsScreen } from './screens/TopicsScreen';
-import { TutorialsScreen } from './screens/TutorialsScreen';
-import { TutorialDetailScreen } from './screens/TutorialDetailScreen';
-import { SecurityScreen } from './screens/SecurityScreen';
-import { AiLessonsScreen } from './screens/AiLessonsScreen';
-import { DashboardScreen } from './screens/DashboardScreen';
-import { AuthScreens } from './screens/AuthScreens';
-import { AboutHelpScreen } from './screens/AboutHelpScreen';
-import { AccessibilityPrivacyScreen } from './screens/AccessibilityPrivacyScreen';
-import { SearchResultsScreen } from './screens/SearchResultsScreen';
+
+// Everything except the home page loads when it is first needed, so the first visit is quicker
+// on older phones and slow connections. After the first page is shown, the most used parts are
+// fetched quietly in the background (see `preloadCommonPages`), so moving on stays instant.
+const named = <K extends string, M extends Record<K, React.ComponentType<any>>>(load: () => Promise<M>, name: K) =>
+  lazy(() => load().then((module) => ({ default: module[name] })));
+const loadPractice = () => import('./components/practice/GuidedPractice');
+const loadDetail = () => import('./screens/TutorialDetailScreen');
+const loadHub = () => import('./screens/ServiceHubScreen');
+const loadTopics = () => import('./screens/TopicsScreen');
+const GuidedPractice = named(loadPractice, 'GuidedPractice');
+const FreeRoam = named(() => import('./components/practice/FreeRoam'), 'FreeRoam');
+const TutorialDetailScreen = named(loadDetail, 'TutorialDetailScreen');
+const ServiceHubScreen = named(loadHub, 'ServiceHubScreen');
+const TopicsScreen = named(loadTopics, 'TopicsScreen');
+const TutorialsScreen = named(() => import('./screens/TutorialsScreen'), 'TutorialsScreen');
+const SecurityScreen = named(() => import('./screens/SecurityScreen'), 'SecurityScreen');
+const AiLessonsScreen = named(() => import('./screens/AiLessonsScreen'), 'AiLessonsScreen');
+const DashboardScreen = named(() => import('./screens/DashboardScreen'), 'DashboardScreen');
+const AuthScreens = named(() => import('./screens/AuthScreens'), 'AuthScreens');
+const AboutHelpScreen = named(() => import('./screens/AboutHelpScreen'), 'AboutHelpScreen');
+const AccessibilityPrivacyScreen = named(() => import('./screens/AccessibilityPrivacyScreen'), 'AccessibilityPrivacyScreen');
+const SearchResultsScreen = named(() => import('./screens/SearchResultsScreen'), 'SearchResultsScreen');
+const SupportModal = named(() => import('./components/SupportModal'), 'SupportModal');
+const QRCodeModal = named(() => import('./components/QRCodeModal'), 'QRCodeModal');
+
+/** Fetches the parts most visitors open next, once the browser has nothing else to do. */
+function preloadCommonPages(): void {
+  const run = () => { void loadTopics(); void loadHub(); void loadDetail(); void loadPractice(); };
+  if (typeof window.requestIdleCallback === 'function') window.requestIdleCallback(run, { timeout: 4000 });
+  else setTimeout(run, 2500); // older Safari
+}
 
 // Settings in this browser. Storage can be blocked (strict privacy settings): the site then still works, it just forgets.
 function readSetting(key: string): string | null {
@@ -185,6 +203,14 @@ export default function App() {
 
   // Mobile prototype QR code modal
   const [qrModalOpen, setQrModalOpen] = useState(false);
+
+  // The help and QR windows load the first time they are opened, and then stay ready (the chat keeps its messages).
+  const supportUsed = useRef(false);
+  const qrUsed = useRef(false);
+  if (supportModalOpen) supportUsed.current = true;
+  if (qrModalOpen) qrUsed.current = true;
+
+  useEffect(preloadCommonPages, []);
 
   // The lesson just finished, for the celebration window
   const [celebratedId, setCelebratedId] = useState<string | null>(null);
@@ -407,6 +433,7 @@ export default function App() {
 
       {/* Main Content Router */}
       <main key={`${currentPage}-${selectedTutorialId}`} className="page-enter flex-1 w-full flex flex-col">
+        <Suspense fallback={<PageLoading lang={lang} />}>
         {currentPage === 'home' && (
           <HomeScreen
             onNavigate={handleNavigate}
@@ -570,6 +597,7 @@ export default function App() {
             lang={lang}
           />
         )}
+        </Suspense>
       </main>
 
       {/* Accessible Footer */}
@@ -603,19 +631,23 @@ export default function App() {
 
       <LeaveLessonDialog isOpen={pendingLeave !== null} onStay={stayInLesson} onLeave={leaveLesson} lang={lang} />
 
-      {/* Help assistant (pre-written answers) & email support */}
-      <SupportModal
-        isOpen={supportModalOpen}
-        onClose={() => setSupportModalOpen(false)}
-        lang={lang}
-      />
-
-      {/* Universal Mobile Prototype QR Code Modal */}
-      <QRCodeModal
-        isOpen={qrModalOpen}
-        onClose={() => setQrModalOpen(false)}
-        lang={lang}
-      />
+      {/* Help assistant & email support, and the QR code: loaded when first opened */}
+      <Suspense fallback={null}>
+        {supportUsed.current && (
+          <SupportModal
+            isOpen={supportModalOpen}
+            onClose={() => setSupportModalOpen(false)}
+            lang={lang}
+          />
+        )}
+        {qrUsed.current && (
+          <QRCodeModal
+            isOpen={qrModalOpen}
+            onClose={() => setQrModalOpen(false)}
+            lang={lang}
+          />
+        )}
+      </Suspense>
     </div>
   );
 }
