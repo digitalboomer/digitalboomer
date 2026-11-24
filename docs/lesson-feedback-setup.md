@@ -25,11 +25,13 @@ create table if not exists public.lesson_feedback (
 alter table public.lesson_feedback enable row level security;
 
 -- Anyone may send an answer. There is no "select" policy, so nobody can read answers through the website.
+-- (The "drop" line only makes it safe to run this block twice.)
+drop policy if exists "Anyone can rate a lesson" on public.lesson_feedback;
 create policy "Anyone can rate a lesson" on public.lesson_feedback
   for insert to anon, authenticated with check (true);
 ```
 
-Until this is done, the window thanks people but says their answer could not be saved.
+Until this is done, the window thanks people but says their answer could not be saved. (Done on 24 Nov 2026 and tested with one answer for the lesson id `setup-test`; delete it with `delete from public.lesson_feedback where lesson_id = 'setup-test';`.)
 
 ## Reading the answers
 **Table Editor → lesson_feedback** shows every answer. For an overview per lesson, run this in the **SQL Editor**:
