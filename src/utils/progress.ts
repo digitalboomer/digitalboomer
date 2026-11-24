@@ -1,6 +1,6 @@
 /**
  * Saves learning progress in this browser only (localStorage), so a guest
- * can continue later without an account. Nothing is sent to a server.
+ * can continue later without an account. The progress is not sent to a server.
  */
 const STORAGE_KEY = 'digital-boomer-progress';
 

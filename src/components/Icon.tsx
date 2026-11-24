@@ -5,7 +5,7 @@ import {
   ExternalLink, Eye, EyeOff, Fish, Globe, GraduationCap, Heart, House, Info, KeyRound, Keyboard, LayoutGrid, Library,
   Lightbulb, Link, ListChecks, Loader2, Lock, LockOpen, Mail, MailCheck, Menu, Moon, Palette, PartyPopper, Printer,
   QrCode, ScanLine, Search, SearchX, Send, Shield, ShieldCheck, ShoppingBag, Smartphone, Sun, TrendingUp, Type,
-  Volume2, X, RotateCcw, TriangleAlert, Trash2, Languages, ChevronDown, Accessibility, type LucideIcon,
+  Volume2, X, RotateCcw, TriangleAlert, Trash2, Languages, ChevronDown, Accessibility, Smile, Meh, Frown, MessageSquare, type LucideIcon,
 } from 'lucide-react';
 
 const ICONS: Record<string, LucideIcon> = {
@@ -22,6 +22,7 @@ const ICONS: Record<string, LucideIcon> = {
   stop_circle: CircleStop, task_alt: CheckCircle2, trending_up: TrendingUp, verified: BadgeCheck,
   verified_user: ShieldCheck, visibility: Eye, visibility_off: EyeOff, volume_up: Volume2, award: Award,
   restart_alt: RotateCcw, warning: TriangleAlert, delete: Trash2, translate: Languages, expand_more: ChevronDown,
+  sentiment_satisfied: Smile, sentiment_neutral: Meh, sentiment_dissatisfied: Frown, comment: MessageSquare,
 };
 
 /** Decorative icon. It takes its size from the text size class, and always sits next to a word or an accessible label. */

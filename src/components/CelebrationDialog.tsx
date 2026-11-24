@@ -2,9 +2,11 @@ import React, { useMemo } from 'react';
 import { Icon } from './Icon';
 import { Language } from '../types';
 import { useDialogFocus } from '../utils/useDialogFocus';
+import { LessonFeedback } from './LessonFeedback';
 
 interface CelebrationDialogProps {
   isOpen: boolean;
+  lessonId: string;
   lessonTitle: string;
   isPractice: boolean;
   completedCount: number;
@@ -54,7 +56,7 @@ const Confetti: React.FC = () => {
 
 /** Opens when the learner finishes a lesson, and says which one. */
 export const CelebrationDialog: React.FC<CelebrationDialogProps> = ({
-  isOpen, lessonTitle, isPractice, completedCount, nextTitle, onNext, onProgress, onClose, lang = 'en',
+  isOpen, lessonId, lessonTitle, isPractice, completedCount, nextTitle, onNext, onProgress, onClose, lang = 'en',
 }) => {
   const dialogRef = useDialogFocus<HTMLDivElement>(isOpen, onClose);
   if (!isOpen) return null;
@@ -114,6 +116,8 @@ export const CelebrationDialog: React.FC<CelebrationDialogProps> = ({
             {isEn ? 'See my progress' : 'Meinen Fortschritt ansehen'}
           </button>
         </div>
+        {/* key: a fresh question for every finished lesson */}
+        <LessonFeedback key={lessonId} lessonId={lessonId} isPractice={isPractice} lang={lang} />
       </div>
     </div>
   );

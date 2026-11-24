@@ -639,6 +639,7 @@ export default function App() {
       {/* A practice lesson opens this once its success page is showing, so focus lands in the window. */}
       <CelebrationDialog
         isOpen={!!celebrated && (!celebrated.practice || !!route.isDone)}
+        lessonId={celebrated?.id ?? ''}
         lessonTitle={celebrated?.title ?? ''}
         isPractice={!!celebrated?.practice}
         completedCount={user.completedTutorialIds.length}
