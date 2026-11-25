@@ -171,6 +171,30 @@ export function viewId(id: AppId, platform: 'iphone' | 'android' = 'android'): A
   return platform === 'iphone' && id === 'sms' ? 'imessage' : id;
 }
 
+/**
+ * How each app lets you block (and report) a stranger who writes to you. Checked against the apps'
+ * own help pages in Nov 2026 (WhatsApp, Signal, Messenger, Apple, Google Messages, Viber, LINE, Discord,
+ * Threema; Telegram from its API docs). WeChat (strangers need an accepted friend request first) and
+ * Teams (work chats) have no block lesson.
+ */
+export type BlockFlow = 'wa-android' | 'wa-iphone' | 'signal' | 'telegram' | 'messenger' | 'apple' | 'gmessages' | 'threema' | 'viber' | 'line' | 'discord';
+
+export function blockFlow(id: AppId, platform: 'iphone' | 'android' = 'android'): BlockFlow | null {
+  switch (id) {
+    case 'whatsapp': return platform === 'iphone' ? 'wa-iphone' : 'wa-android';
+    case 'imessage': return 'apple';
+    case 'sms': return platform === 'iphone' ? 'apple' : 'gmessages';
+    case 'wechat':
+    case 'teams': return null;
+    default: return id;
+  }
+}
+
+/** Who the stranger is in each app: a phone number, or a name they chose themselves. */
+export function strangerKind(flow: BlockFlow): 'number' | 'name' {
+  return flow === 'wa-android' || flow === 'wa-iphone' || flow === 'apple' || flow === 'gmessages' || flow === 'viber' ? 'number' : 'name';
+}
+
 function info(name: string, fieldEn: string, fieldDe: string, attach: 'plus' | 'paperclip' | 'picture', side: 'left' | 'right' | 'below', noteEn?: string, noteDe?: string) {
   const en = { plus: 'the plus sign', paperclip: 'the paperclip', picture: 'the picture symbol' }[attach];
   const de = { plus: 'das Pluszeichen', paperclip: 'die Büroklammer', picture: 'das Bild-Symbol' }[attach];

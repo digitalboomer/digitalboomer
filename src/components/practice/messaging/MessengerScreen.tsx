@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
-  ArrowLeft, ArrowUp, AudioLines, Ban, Bell, Calendar, Camera, Check, CheckCheck, ChevronLeft, ChevronRight, CircleCheck, CircleDashed, CirclePlus, Compass, Copy, Crop,
-  FileText, Forward, Hash, House, Image as ImageIcon, LockKeyhole, MapPin, Menu as MenuIcon, MessageCircle, MessageSquarePlus, Mic, MicOff, MoreHorizontal, MoreVertical, Newspaper, Paperclip, Pencil, Phone, PhoneOff,
-  Play, Plus, Reply, Search, Send, Smile, SquarePen, Trash2, User, UserPlus, Users, Video, Volume2, Wallet, X,
+  Archive, ArrowLeft, ArrowUp, AtSign, AudioLines, Ban, Bell, Calendar, Camera, Check, CheckCheck, ChevronLeft, ChevronRight, CircleCheck, CircleDashed, CirclePlus, Compass, Copy, Crop,
+  FileText, Flag, Forward, Hash, House, Inbox, Info, Image as ImageIcon, LockKeyhole, MapPin, Menu as MenuIcon, MessageCircle, MessageSquareDot, MessageSquarePlus, Mic, MicOff, MoreHorizontal, MoreVertical, Newspaper, Paperclip, Pencil, Phone, PhoneOff,
+  Play, Plus, Reply, Search, Send, Smile, SquarePen, Store, Trash2, User, UserPlus, Users, Video, Volume2, Wallet, X,
 } from 'lucide-react';
 import { PracticeContext, PracticeTap } from '../PracticeTap';
 import { Avatar, FlowersPhoto, PHOTOS, PhoneKeyboard, StatusBar, clockTime, BackGlyph } from '../PhoneParts';
 import { playReceived } from '../../../utils/feedback';
 import type { PracticeScreenProps } from '../practiceScreens';
-import { APP_STYLES, appStyle, viewId, type AppId, type AppStyle, type ComposerSlot } from './apps';
+import { APP_STYLES, appStyle, blockFlow, viewId, type AppId, type AppStyle, type BlockFlow, type ComposerSlot } from './apps';
 
 const iconBtn = 'flex items-center justify-center rounded-full shrink-0';
 type L = Record<string, string>;
@@ -204,11 +204,17 @@ const ListTop: React.FC<{ id: AppId; app: AppStyle; labels: L }> = ({ id, app, l
   }
 };
 
-/** The chat list. With `stranger`, a message from an unknown number is at the top. */
-const ChatList: React.FC<{ id: AppId; app: AppStyle; labels: L; lang: string; stranger?: boolean }> = ({ id, app, labels, lang, stranger }) => {
+interface ListRow { id: string; name: string; last: string; unread: number; avatar: React.ReactNode }
+
+/**
+ * The chat list. `top` puts one more line at the top (a stranger's message, or a requests inbox);
+ * `topBar` replaces the app's own top part (the selection bar after pressing and holding);
+ * `selected` marks a line as chosen.
+ */
+const ChatList: React.FC<{ id: AppId; app: AppStyle; labels: L; lang: string; top?: ListRow; topBar?: React.ReactNode; selected?: string }> = ({ id, app, labels, lang, top, topBar, selected }) => {
   const time = clockTime();
   const chats = [
-    ...(stranger ? [{ id: 'chat-stranger', name: labels.strangerNumber, last: labels.strangerLast, when: time, unread: 2, color: '#8A8D91', avatar: <User size={24} aria-hidden="true" /> }] : []),
+    ...(top ? [{ ...top, when: time, color: '#8A8D91' }] : []),
     { id: 'chat-family', name: labels.family, last: labels.familyLast, when: time, unread: 2, color: '#6D8AA8', avatar: <Users size={24} aria-hidden="true" /> },
     { id: 'chat-anna', name: labels.anna, last: labels.annaLast, when: labels.yesterday, unread: 0, color: '#C0689B' },
     { id: 'chat-club', name: labels.club, last: labels.clubLast, when: labels.yesterday, unread: 0, color: '#7E9B5D' },
@@ -217,7 +223,7 @@ const ChatList: React.FC<{ id: AppId; app: AppStyle; labels: L; lang: string; st
 
   return (
     <div className="flex flex-col flex-1 min-h-0" style={{ background: app.bg, color: app.text }}>
-      <ListTop id={id} app={app} labels={labels} />
+      {topBar ?? <ListTop id={id} app={app} labels={labels} />}
       {id === 'discord' && (
         <div aria-hidden="true" className="absolute left-0" />
       )}
@@ -228,10 +234,12 @@ const ChatList: React.FC<{ id: AppId; app: AppStyle; labels: L; lang: string; st
             id={chat.id}
             label={chat.name}
             className={`flex items-center gap-3 w-full text-left ${id === 'wechat' ? 'px-3 py-2' : 'px-2 py-1.5 rounded-xl'}`}
-            style={{ color: app.text, borderBottom: id === 'wechat' || id === 'imessage' ? `1px solid ${app.border}` : undefined }}
+            style={{ color: app.text, borderBottom: id === 'wechat' || id === 'imessage' ? `1px solid ${app.border}` : undefined, background: selected === chat.id ? (app.dark ? '#3F4147' : '#D3E3FD') : undefined }}
           >
             {app.ios && <span aria-hidden="true" className="w-2.5 h-2.5 rounded-full shrink-0 -mr-1" style={{ background: chat.unread ? '#007AFF' : 'transparent' }} />}
-            <People app={app} name={chat.name} color={app.ios ? '#A2A5AD' : chat.color} size={id === 'wechat' ? 46 : 50}>{chat.avatar}</People>
+            {selected === chat.id
+              ? <span aria-hidden="true" className="shrink-0 w-[50px] h-[50px] rounded-full flex items-center justify-center" style={{ background: app.accent, color: app.accentText }}><Check size={26} /></span>
+              : <People app={app} name={chat.name} color={app.ios ? '#A2A5AD' : chat.color} size={id === 'wechat' ? 46 : 50}>{chat.avatar}</People>}
             <span className="min-w-0 flex-1">
               <span className="flex justify-between gap-2 items-baseline">
                 <span className="font-bold text-[1.03rem] truncate">{chat.name}</span>
@@ -244,7 +252,8 @@ const ChatList: React.FC<{ id: AppId; app: AppStyle; labels: L; lang: string; st
                 <span className="text-[0.93rem] truncate flex items-center gap-1" style={{ color: app.subText }}>
                   {id === 'threema' && (
                     <span aria-hidden="true" className="flex gap-0.5 shrink-0">
-                      {[0, 1, 2].map((dot) => <span key={dot} className="w-1.5 h-1.5 rounded-full" style={{ background: dot <= (2 - index) ? '#05A63F' : '#CFCFCF' }} />)}
+                      {/* Verification level: a stranger has one red dot (unverified); the others are green, by how well they are checked. */}
+                      {[0, 1, 2].map((dot) => <span key={dot} className="w-1.5 h-1.5 rounded-full" style={{ background: chat.id === 'chat-stranger' ? (dot === 0 ? '#E53935' : '#CFCFCF') : dot <= (2 - (index - (top ? 1 : 0))) ? '#05A63F' : '#CFCFCF' }} />)}
                     </span>
                   )}
                   <span className="truncate">{chat.last}</span>
@@ -275,8 +284,16 @@ const ChatList: React.FC<{ id: AppId; app: AppStyle; labels: L; lang: string; st
   );
 };
 
-const ChatHeader: React.FC<{ id: AppId; app: AppStyle; labels: L; interactive: boolean; title: string; subtitle?: string }> = ({ id, app, labels, interactive, title, subtitle }) => {
+/**
+ * The bar at the top of a chat. `person`: a single person, not a group. `titleTap`: the picture and
+ * name can be tapped (they open the person's details), with this practice id.
+ */
+const ChatHeader: React.FC<{ id: AppId; app: AppStyle; labels: L; interactive: boolean; title: string; subtitle?: string; person?: boolean; titleTap?: string }> = ({ id, app, labels, interactive, title, subtitle, person, titleTap }) => {
   const color = app.chatHeaderText;
+  const face = (size: number) => person ? <User size={size} aria-hidden="true" /> : <Users size={size} aria-hidden="true" />;
+  const tappable = (content: React.ReactNode, className: string) => titleTap
+    ? <PracticeTap id={titleTap} label={title} pointer="below" className={className} style={{ color: 'inherit' }}>{content}</PracticeTap>
+    : <div className={className}>{content}</div>;
   const back = interactive ? <PracticeTap id="back" label={labels.back} className={iconBtn}>{app.ios || app.iosChrome || id === 'wechat' ? <ChevronLeft size={28} aria-hidden="true" /> : <BackGlyph size={23} />}</PracticeTap> : <span className="w-3" />;
   const video = interactive && app.hasVideoCall && <PracticeTap id="video-call" label={labels.videoCall} className={iconBtn}><Video size={23} aria-hidden="true" /></PracticeTap>;
   const voice = interactive && <PracticeTap id="voice-call" label={labels.voiceCall} className={iconBtn}><Phone size={20} aria-hidden="true" /></PracticeTap>;
@@ -285,10 +302,10 @@ const ChatHeader: React.FC<{ id: AppId; app: AppStyle; labels: L; interactive: b
     return (
       <div className="flex items-center px-1 py-1 shrink-0 border-b" style={{ background: app.chatHeaderBg, color, borderColor: app.border }}>
         <span style={{ color: '#007AFF' }}>{back}</span>
-        <div className="flex-1 flex flex-col items-center min-w-0">
-          <Avatar name={title} color="#A2A5AD" size={36}><Users size={19} aria-hidden="true" /></Avatar>
+        {tappable(<>
+          <Avatar name={title} color="#A2A5AD" size={36}>{face(19)}</Avatar>
           <span className="text-[0.78rem] truncate flex items-center">{title}<ChevronRight size={12} aria-hidden="true" /></span>
-        </div>
+        </>, 'flex-1 flex flex-col items-center min-w-0')}
         <span className="w-11 flex justify-center" style={{ color: '#007AFF' }}>{interactive && <PracticeTap id="voice-call" label={labels.voiceCall} className={iconBtn}><Video size={23} aria-hidden="true" /></PracticeTap>}</span>
       </div>
     );
@@ -306,8 +323,10 @@ const ChatHeader: React.FC<{ id: AppId; app: AppStyle; labels: L; interactive: b
     return (
       <div className="flex items-center gap-1 px-1 shrink-0 border-b" style={{ background: app.chatHeaderBg, color, borderColor: app.border }}>
         {back}
-        <Hash size={20} aria-hidden="true" style={{ color: app.subText }} />
-        <h3 className="flex-1 text-[1.05rem] font-bold truncate">{title}</h3>
+        {tappable(<>
+          {person ? <AtSign size={20} aria-hidden="true" style={{ color: app.subText }} /> : <Hash size={20} aria-hidden="true" style={{ color: app.subText }} />}
+          <h3 className="text-[1.05rem] font-bold truncate">{title}</h3>
+        </>, 'flex-1 min-w-0 flex items-center gap-1 text-left')}
         {voice}
       </div>
     );
@@ -315,11 +334,13 @@ const ChatHeader: React.FC<{ id: AppId; app: AppStyle; labels: L; interactive: b
   return (
     <div className="flex items-center gap-1 px-1 py-0.5 shrink-0" style={{ background: app.chatHeaderBg, color, boxShadow: '0 1px 2px rgba(0,0,0,0.12)', zIndex: 1 }}>
       <span style={id === 'messenger' ? { color: app.accent } : undefined}>{back}</span>
-      <Avatar name={title} color="#6D8AA8" size={36}><Users size={19} aria-hidden="true" /></Avatar>
-      <div className="flex-1 min-w-0 pl-1">
-        <h3 className="text-[1.03rem] font-bold truncate leading-tight">{title}</h3>
-        <p className="text-[0.74rem] truncate leading-tight" style={{ opacity: 0.85 }}>{subtitle ?? labels.members}</p>
-      </div>
+      {tappable(<>
+        <Avatar name={title} color={person ? '#8A8D91' : '#6D8AA8'} size={36}>{face(19)}</Avatar>
+        <span className="flex-1 min-w-0 pl-1 block">
+          <span className="block text-[1.03rem] font-bold truncate leading-tight">{title}</span>
+          <span className="block text-[0.74rem] truncate leading-tight" style={{ opacity: 0.85 }}>{subtitle ?? labels.members}</span>
+        </span>
+      </>, 'flex-1 min-w-0 flex items-center gap-1 text-left')}
       <span className="flex" style={id === 'messenger' ? { color: app.accent } : undefined}>
         {voice}
         {video}
@@ -650,62 +671,371 @@ const DeleteConfirm: React.FC<{ id: AppId; app: AppStyle; labels: L }> = ({ id, 
   </PhoneDialog>
 );
 
-/** A chat with an unknown number: most apps show a bar with "Block" above it. After blocking, a note says so. */
-const StrangerChat: React.FC<{ id: AppId; app: AppStyle; labels: L; lang: string; done?: boolean }> = ({ id, app, labels: allLabels, done }) => {
+/*
+ * Blocking a stranger (lessons from data/blockLessons.ts). Every app does it differently, so `flow`
+ * decides where the stranger appears, where "Block" is and what the app asks. Texts come from the
+ * lesson's `bk*` labels.
+ */
+const strangerRow = (labels: L): ListRow => ({ id: 'chat-stranger', name: labels.strangerNumber, last: labels.strangerLast, unread: 2, avatar: <User size={24} aria-hidden="true" /> });
+const BAR_FLOWS: BlockFlow[] = ['wa-android', 'wa-iphone', 'telegram', 'viber', 'line'];
+const PANEL_FLOWS: BlockFlow[] = ['signal', 'messenger', 'discord'];
+const HEADER_FLOWS: BlockFlow[] = ['apple', 'threema', 'discord'];
+
+/** A simple list screen with its own title, as requests inboxes look. */
+const SubList: React.FC<{ app: AppStyle; labels: L; title: string }> = ({ app, labels, title }) => (
+  <div className="flex flex-col flex-1 min-h-0" style={{ background: app.bg, color: app.text }}>
+    <div className="flex items-center gap-1 px-1 shrink-0 border-b" style={{ borderColor: app.border, background: app.dark ? '#2B2D31' : app.bg }}>
+      <span aria-hidden="true" className="w-11 h-11 flex items-center justify-center">{app.iosChrome ? <ChevronLeft size={26} /> : <ArrowLeft size={22} />}</span>
+      <h3 className="flex-1 text-[1.15rem] font-bold truncate">{title}</h3>
+    </div>
+    <div className="p-1">
+      <PracticeTap id="chat-stranger" label={labels.strangerNumber} className="flex items-center gap-3 w-full text-left px-2 py-1.5 rounded-xl" style={{ color: app.text }}>
+        <Avatar name={labels.strangerNumber} color="#8A8D91" size={50}><User size={24} aria-hidden="true" /></Avatar>
+        <span className="min-w-0 flex-1">
+          <span className="block font-bold text-[1.03rem] truncate">{labels.strangerNumber}</span>
+          <span className="block text-[0.93rem] truncate" style={{ color: app.subText }}>{labels.strangerLast}</span>
+        </span>
+      </PracticeTap>
+    </div>
+  </div>
+);
+
+/** A button in a bar or panel under or above a stranger's messages. */
+const BarButton: React.FC<{ app: AppStyle; id: string; label: string; danger?: boolean; filled?: boolean; icon?: React.ReactNode }> = ({ app, id, label, danger, filled, icon }) => (
+  <PracticeTap
+    id={id}
+    label={label}
+    className="flex-1 flex items-center justify-center gap-1.5 rounded-lg font-bold text-[0.95rem] px-1"
+    style={filled ? { background: app.accent, color: app.accentText } : { border: `1px solid ${app.dark ? '#4E5058' : app.border}`, color: danger ? (app.dark ? '#FF7B72' : '#C62828') : app.text }}
+  >
+    {icon}{label}
+  </PracticeTap>
+);
+
+/** The stranger's chat, with the app's own way of offering "Block". After blocking (`done`), a note says so. */
+const BlockChat: React.FC<{ flow: BlockFlow; id: AppId; app: AppStyle; labels: L; done?: boolean; overlay?: React.ReactNode }> = ({ flow, id, app, labels: allLabels, done, overlay }) => {
   const time = clockTime();
   const light = app.dark ? '#2B2D31' : '#FFFFFF';
   const danger = app.dark ? '#FF7B72' : '#C62828';
   // Some apps name the chat in the text field ("Message Family"): here it is the stranger's chat.
   const labels: L = { ...allLabels, field: allLabels.field ? allLabels.field.replace(allLabels.family, allLabels.strangerNumber) : allLabels.field };
+  const bar = !done && !overlay && BAR_FLOWS.includes(flow);
+  const panel = !done && !overlay && PANEL_FLOWS.includes(flow);
   return (
-    <div className="flex flex-col flex-1 min-h-0" style={{ background: app.wallpaper, color: app.text }}>
-      <ChatHeader id={id} app={app} labels={labels} interactive={!done} title={labels.strangerNumber} subtitle={labels.notInContacts} />
-      {!done && (
+    <div className="flex flex-col flex-1 min-h-0 relative" style={{ background: app.wallpaper, color: app.text }}>
+      <ChatHeader id={id} app={app} labels={labels} interactive={!done && !overlay} person title={labels.strangerNumber} subtitle={labels.notInContacts}
+        titleTap={!done && !overlay && HEADER_FLOWS.includes(flow) ? 'bk-header' : undefined} />
+      {bar && (
         <div className="shrink-0 px-3 py-2 flex flex-col gap-1.5 text-[0.9rem]" style={{ background: light, color: app.text, borderBottom: `1px solid ${app.border}` }}>
-          <span>{labels.notInContactsLong}</span>
+          {labels.bkBanner && <span>{labels.bkBanner}</span>}
           <span className="flex gap-2">
-            <PracticeTap id="block-start" label={labels.blockWord} className="flex-1 flex items-center justify-center gap-1.5 rounded-lg font-bold" style={{ border: `1px solid ${app.border}`, color: danger }}>
-              <Ban size={17} aria-hidden="true" />{labels.blockWord}
-            </PracticeTap>
-            <PracticeTap id="add-contact" label={labels.addContact} className="flex-1 flex items-center justify-center gap-1.5 rounded-lg font-bold" style={{ border: `1px solid ${app.border}`, color: app.text }}>
-              <UserPlus size={17} aria-hidden="true" />{labels.addContact}
-            </PracticeTap>
+            {flow === 'line' && <BarButton app={app} id="add-contact" label={labels.bkAdd} icon={<UserPlus size={17} aria-hidden="true" />} />}
+            <BarButton app={app} id="block-start" label={labels.bkBlock} danger icon={<Ban size={17} aria-hidden="true" />} />
+            {flow !== 'line' && <BarButton app={app} id="add-contact" label={labels.bkAdd} icon={<UserPlus size={17} aria-hidden="true" />} />}
+            {flow === 'line' && <BarButton app={app} id="bk-third" label={labels.bkThird} icon={<Flag size={17} aria-hidden="true" />} />}
           </span>
         </div>
       )}
       <div className="flex-1 min-h-0 overflow-hidden flex flex-col justify-end gap-1.5 p-2.5">
         <Message app={app} sender={labels.strangerNumber} color="#8A8D91" time={time}>{labels.strangerOne}</Message>
         <Message app={app} sender={labels.strangerNumber} color="#8A8D91" time={time}>{labels.strangerTwo}</Message>
+        {flow === 'apple' && !done && (
+          <p className="self-center text-center text-[0.8rem] px-2" style={{ color: app.subText }}>
+            {labels.bkBanner}{' '}
+            <PracticeTap id="bk-report-spam" label={labels.bkReportSpam} className="inline-flex min-h-0 min-w-0 font-bold" style={{ color: '#007AFF' }}>{labels.bkReportSpam}</PracticeTap>
+          </p>
+        )}
         {done && (
           <span className="self-center flex items-center gap-2 px-3 py-1.5 rounded-xl text-[0.9rem] sim-fade" style={{ background: light, color: app.text, boxShadow: '0 1px 1px rgba(0,0,0,0.13)' }}>
             <Ban size={17} aria-hidden="true" style={{ color: danger }} />{labels.blockedNote}
           </span>
         )}
       </div>
+      {panel && (
+        <div className="shrink-0 px-3 pt-2 pb-3 flex flex-col gap-2 text-[0.88rem]" style={{ background: light, color: app.text, borderTop: `1px solid ${app.border}` }}>
+          <span className="text-center" style={{ color: app.subText }}>{labels.bkBanner}</span>
+          <span className="flex gap-2">
+            {flow !== 'discord' && <BarButton app={app} id="block-start" label={labels.bkBlock} danger />}
+            <BarButton app={app} id="bk-third" label={labels.bkThird} />
+            <BarButton app={app} id="bk-accept" label={labels.bkAccept} filled />
+          </span>
+        </div>
+      )}
       {done
         ? <p className="shrink-0 text-center text-[0.85rem] px-3 py-2" style={{ background: light, color: app.subText }}>{labels.blockedFooter}</p>
-        : <Composer id={id} app={app} labels={labels} typing={false} />}
+        : !panel && !overlay && <Composer id={id} app={app} labels={labels} typing={false} />}
+      {overlay}
     </div>
   );
 };
 
-/** "Block this number?" with the box for reporting it too. */
-const BlockConfirm: React.FC<{ id: AppId; app: AppStyle; labels: L; checked: boolean }> = ({ id, app, labels, checked }) => (
-  <PhoneDialog id={id} app={app} labels={labels} title={labels.strangerNumber} subtitle={labels.notInContacts} behind={<Message app={app} sender={labels.strangerNumber} color="#8A8D91" time={clockTime()}>{labels.strangerTwo}</Message>}>
-    <p className="text-[1.05rem] font-bold px-2">{labels.blockTitle}</p>
-    <p className="text-[0.92rem] px-2 pb-1" style={{ color: app.subText }}>{labels.blockInfo}</p>
-    <PracticeTap id="report-check" label={labels.alsoReport} pointer="above-left" className="w-full flex items-center gap-2 px-2 text-left text-[0.98rem] rounded-lg" style={{ color: app.text }}>
-      <span aria-hidden="true" className="w-6 h-6 rounded flex items-center justify-center shrink-0" style={checked ? { background: app.accent, color: app.accentText } : { border: `2px solid ${app.subText}` }}>
-        {checked && <Check size={16} />}
-      </span>
-      {labels.alsoReport}
-    </PracticeTap>
-    <span className="flex justify-end gap-2 pt-1">
-      <PracticeTap id="block-cancel" label={labels.cancelWord} className="px-3 rounded-lg font-bold text-[1rem]" style={{ color: app.subText }}>{labels.cancelWord}</PracticeTap>
-      <PracticeTap id="block-ok" label={labels.blockWord} pointer="above-right" className="px-4 rounded-lg font-bold text-[1rem]" style={{ background: '#C62828', color: '#FFFFFF' }}>{labels.blockWord}</PracticeTap>
-    </span>
-  </PhoneDialog>
+/** A window over the stranger's chat: a question in the middle, or choices at the bottom. */
+const BlockOverlay: React.FC<{ app: AppStyle; bottom?: boolean; children: React.ReactNode }> = ({ app, bottom, children }) => (
+  <div className={`absolute inset-0 flex justify-center p-3 ${bottom ? 'items-end' : 'items-center'}`} style={{ background: 'rgba(0,0,0,0.45)', zIndex: 5 }}>
+    <div className={`sim-fade w-full p-3 flex flex-col gap-1 ${bottom && app.iosChrome ? 'rounded-2xl' : 'rounded-2xl'}`} style={{ background: app.dark ? '#2B2D31' : '#FFFFFF', color: app.text, boxShadow: '0 4px 16px rgba(0,0,0,0.3)' }}>
+      {children}
+    </div>
+  </div>
 );
+
+const sheetOption = 'w-full px-2 text-[1rem] font-bold rounded-lg';
+
+const BlockScreens: React.FC<{ flow: BlockFlow; screen: string; isDone: boolean; id: AppId; app: AppStyle; labels: L; lang: string }> = ({ flow, screen, isDone, id, app, labels, lang }) => {
+  const danger = app.dark ? '#FF7B72' : '#C62828';
+  if (isDone) return <BlockChat flow={flow} id={id} app={app} labels={labels} done />;
+
+  switch (screen) {
+    case 'bk-list': {
+      if (flow === 'messenger') return <ChatList id={id} app={app} labels={labels} lang={lang} />;
+      if (flow === 'line' || flow === 'discord') {
+        return <ChatList id={id} app={app} labels={labels} lang={lang} top={{ id: 'bk-requests-row', name: labels.bkRequests, last: labels.strangerNumber, unread: 1, avatar: <Inbox size={24} aria-hidden="true" /> }} />;
+      }
+      return <ChatList id={id} app={app} labels={labels} lang={lang} top={strangerRow(labels)} />;
+    }
+
+    case 'bk-hold': {
+      // Google Messages: after pressing and holding, a bar with Archive, Delete and Block replaces the top.
+      const bar = (
+        <div className="flex items-center gap-1 px-1 py-1 shrink-0" style={{ background: '#F8FAFD', color: '#1F1F1F' }}>
+          <span aria-hidden="true" className="w-11 h-11 flex items-center justify-center"><X size={22} /></span>
+          <span className="flex-1 text-[1.15rem] font-bold">1</span>
+          <PracticeTap id="bk-archive" label={labels.bkArchive} className={iconBtn}><Archive size={22} aria-hidden="true" /></PracticeTap>
+          <PracticeTap id="bk-delete" label={labels.bkDelete} className={iconBtn}><Trash2 size={22} aria-hidden="true" /></PracticeTap>
+          <PracticeTap id="bk-block" label={labels.bkBlock} pointer="below-right" className={iconBtn}><Ban size={22} aria-hidden="true" /></PracticeTap>
+          <span aria-hidden="true" className="w-9 h-11 flex items-center justify-center"><MoreVertical size={22} /></span>
+        </div>
+      );
+      return <ChatList id={id} app={app} labels={labels} lang={lang} top={strangerRow(labels)} topBar={bar} selected="chat-stranger" />;
+    }
+
+    case 'bk-drawer': {
+      // Messenger: the menu with the three lines. "Message requests" is the third line.
+      const item = (itemId: string, label: string, Icon: typeof MessageCircle, badge?: number, on?: boolean) => (
+        <PracticeTap key={label} id={itemId} label={label} className="w-full flex items-center gap-3 px-3 rounded-xl text-left text-[1rem] font-bold" style={{ background: on ? '#F0F0F0' : undefined, color: '#050505' }}>
+          <span aria-hidden="true" className="w-9 h-9 rounded-full flex items-center justify-center" style={{ background: '#E4E6EB' }}><Icon size={19} /></span>
+          <span className="flex-1">{label}</span>
+          {badge ? <span className="min-w-[1.3rem] h-[1.3rem] px-1 rounded-full text-[0.75rem] flex items-center justify-center" style={{ background: '#0A7CFF', color: '#FFFFFF' }}>{badge}</span> : null}
+        </PracticeTap>
+      );
+      return (
+        <div className="flex flex-1 min-h-0 relative">
+          <div className="absolute inset-0 flex flex-col"><ChatList id={id} app={app} labels={labels} lang={lang} /></div>
+          <div className="absolute inset-0" style={{ background: 'rgba(0,0,0,0.4)' }} />
+          <div className="sim-fade relative w-[82%] h-full flex flex-col gap-1 p-2" style={{ background: '#FFFFFF' }}>
+            <p className="px-3 py-2 text-[1.3rem] font-bold" style={{ color: '#050505' }}>messenger</p>
+            {item('bk-chats-row', labels.bkChats, MessageCircle, 0, true)}
+            {item('bk-other-item', labels.bkMarketplace, Store)}
+            {item('bk-requests-row', labels.bkRequests, MessageSquareDot, 1)}
+            {item('bk-archive', labels.bkArchived, Archive)}
+          </div>
+        </div>
+      );
+    }
+
+    case 'bk-requests':
+      return <SubList app={app} labels={labels} title={labels.bkRequestsTitle ?? labels.bkRequests} />;
+
+    case 'bk-chat':
+      return <BlockChat flow={flow} id={id} app={app} labels={labels} />;
+
+    case 'bk-pop':
+      // iPhone Messages: tapping the icon at the top shows round buttons; "Info" opens the details.
+      return (
+        <BlockChat flow={flow} id={id} app={app} labels={labels} overlay={
+          <div className="absolute left-0 right-0 top-[3.6rem] flex justify-center" style={{ zIndex: 5 }}>
+            <div className="sim-fade flex gap-3 px-4 py-2.5 rounded-2xl" style={{ background: '#FFFFFF', boxShadow: '0 4px 16px rgba(0,0,0,0.25)' }}>
+              {[['voice-call', labels.bkCall, Phone], ['video-call', labels.bkFaceTime, Video], ['bk-info', labels.bkInfo, Info]].map(([tapId, label, Icon]) => {
+                const Glyph = Icon as typeof Phone;
+                return (
+                  <PracticeTap key={tapId as string} id={tapId as string} label={label as string} pointer={tapId === 'bk-info' ? 'below-right' : undefined} className="flex flex-col items-center gap-0.5 rounded-xl px-1 text-[0.75rem]" style={{ color: '#007AFF' }}>
+                    <span aria-hidden="true" className="w-11 h-11 rounded-full flex items-center justify-center" style={{ background: '#E9E9EB' }}><Glyph size={20} /></span>
+                    {label as string}
+                  </PracticeTap>
+                );
+              })}
+            </div>
+          </div>
+        } />
+      );
+
+    case 'bk-details':
+    case 'bk-moremenu': {
+      const menuOpen = screen === 'bk-moremenu';
+      if (flow === 'apple') {
+        return (
+          <div className="flex flex-col flex-1 min-h-0 overflow-hidden" style={{ background: '#F2F2F7', color: '#000000' }}>
+            <div className="flex items-center px-1 shrink-0"><span aria-hidden="true" className="w-11 h-11 flex items-center justify-center" style={{ color: '#007AFF' }}><ChevronLeft size={26} /></span></div>
+            <div className="flex flex-col items-center gap-1 pb-3">
+              <Avatar name={labels.strangerNumber} color="#A2A5AD" size={72}><User size={36} aria-hidden="true" /></Avatar>
+              <span className="text-[1.3rem] font-bold">{labels.strangerNumber}</span>
+            </div>
+            <div className="mx-3 rounded-xl overflow-hidden flex flex-col" style={{ background: '#FFFFFF' }}>
+              <PracticeTap id="bk-row" label={labels.bkRow1} className="w-full px-3 text-left text-[1rem] border-b" style={{ color: '#007AFF', borderColor: '#E5E5EA' }}>{labels.bkRow1}</PracticeTap>
+              <span aria-hidden="true" className="px-3 py-2.5 text-[1rem]" style={{ color: '#007AFF' }}>{labels.bkRow2}</span>
+            </div>
+            <div className="mx-3 mt-3 rounded-xl overflow-hidden" style={{ background: '#FFFFFF' }}>
+              <PracticeTap id="bk-block" label={labels.bkBlockContact} pointer="above-left" className="w-full px-3 text-left text-[1rem]" style={{ color: '#FF3B30' }}>{labels.bkBlockContact}</PracticeTap>
+            </div>
+          </div>
+        );
+      }
+      const isDiscord = flow === 'discord';
+      const menu = menuOpen && (
+        <div className="absolute right-2 top-12 sim-fade w-[70%] rounded-xl overflow-hidden flex flex-col" style={{ background: isDiscord ? '#2B2D31' : '#FFFFFF', color: isDiscord ? '#F2F3F5' : '#111111', boxShadow: '0 4px 16px rgba(0,0,0,0.35)', zIndex: 5 }}>
+          {isDiscord
+            ? <PracticeTap id="bk-third" label={labels.bkReportUser} className="w-full px-3 text-left text-[0.98rem] font-bold" style={{ color: '#F2F3F5' }}>{labels.bkReportUser}</PracticeTap>
+            : <>
+                <PracticeTap id="bk-other-item" label={labels.bkEdit} className="w-full px-3 text-left text-[0.98rem]" style={{ color: '#111111' }}>{labels.bkEdit}</PracticeTap>
+                <PracticeTap id="bk-share" label={labels.bkShare} className="w-full px-3 text-left text-[0.98rem]" style={{ color: '#111111' }}>{labels.bkShare}</PracticeTap>
+              </>}
+          <PracticeTap id="bk-block" label={labels.bkBlockContact} pointer="below-right" className="w-full px-3 text-left text-[0.98rem] font-bold" style={{ color: isDiscord ? '#FF7B72' : '#111111' }}>{labels.bkBlockContact}</PracticeTap>
+        </div>
+      );
+      if (isDiscord) {
+        // Discord: the profile, with "..." at the top right.
+        return (
+          <div className="flex flex-col flex-1 min-h-0 relative" style={{ background: '#232428', color: '#F2F3F5' }}>
+            <div className="h-20 shrink-0 relative" style={{ background: '#5865F2' }}>
+              <PracticeTap id="bk-more" label={labels.bkMore} pointer="below-right" className={`${iconBtn} absolute right-2 top-2`} style={{ background: 'rgba(0,0,0,0.35)', color: '#FFFFFF' }}><MoreHorizontal size={22} aria-hidden="true" /></PracticeTap>
+            </div>
+            <div className="px-4 -mt-9">
+              <span className="inline-block rounded-full p-1" style={{ background: '#232428' }}><Avatar name={labels.strangerNumber} color="#8A8D91" size={72}><User size={36} aria-hidden="true" /></Avatar></span>
+              <p className="text-[1.3rem] font-bold">{labels.strangerNumber}</p>
+              <p className="text-[0.9rem]" style={{ color: '#B5BAC1' }}>{labels.bkBanner}</p>
+            </div>
+            {menu}
+          </div>
+        );
+      }
+      // Threema: the contact details, with the three dots at the top right.
+      return (
+        <div className="flex flex-col flex-1 min-h-0 relative" style={{ background: '#FFFFFF', color: '#111111' }}>
+          <div className="flex items-center gap-1 px-1 shrink-0" style={{ background: '#1F1F1F', color: '#FFFFFF' }}>
+            <span aria-hidden="true" className="w-11 h-11 flex items-center justify-center"><ArrowLeft size={22} /></span>
+            <h3 className="flex-1 text-[1.1rem] font-bold truncate">{labels.strangerNumber}</h3>
+            <PracticeTap id="bk-more" label={labels.bkMore} pointer="below-right" className={iconBtn} style={{ color: '#FFFFFF' }}><MoreVertical size={22} aria-hidden="true" /></PracticeTap>
+          </div>
+          <div className="flex flex-col items-center gap-1 py-4">
+            <Avatar name={labels.strangerNumber} color="#8A8D91" size={80}><User size={40} aria-hidden="true" /></Avatar>
+            <span className="text-[1.2rem] font-bold">{labels.strangerNumber}</span>
+          </div>
+          <div className="px-4 flex flex-col gap-2 text-[0.95rem]">
+            <span>{labels.bkId}</span>
+            <span className="flex items-center gap-2">
+              <span aria-hidden="true" className="flex gap-0.5">{[0, 1, 2].map((dot) => <span key={dot} className="w-2 h-2 rounded-full" style={{ background: dot === 0 ? '#E53935' : '#CFCFCF' }} />)}</span>
+              {labels.bkLevel}
+            </span>
+          </div>
+          {menu}
+        </div>
+      );
+    }
+
+    case 'bk-sheet': {
+      // Choices: "Block and report" or "Block" (WhatsApp on iPhone, Signal, Viber), or what to block (Messenger).
+      const isMessenger = flow === 'messenger';
+      const centred = flow === 'signal';
+      return (
+        <BlockChat flow={flow} id={id} app={app} labels={labels} overlay={
+          <BlockOverlay app={app} bottom={!centred}>
+            {labels.bkTitle && <p className={`text-[1.05rem] font-bold px-2 ${app.iosChrome ? 'text-center' : ''}`}>{labels.bkTitle}</p>}
+            {labels.bkBody && !isMessenger && <p className={`text-[0.92rem] px-2 pb-1 ${app.iosChrome ? 'text-center' : ''}`} style={{ color: app.subText }}>{labels.bkBody}</p>}
+            {isMessenger ? (
+              <>
+                <PracticeTap id="block-report" label={labels.bkOpt1} pointer="above-left" className="w-full px-2 py-1 text-left rounded-lg" style={{ color: app.text }}>
+                  <span className="block text-[1rem] font-bold">{labels.bkOpt1}</span>
+                  <span className="block text-[0.85rem]" style={{ color: app.subText }}>{labels.bkOpt1Info}</span>
+                </PracticeTap>
+                <PracticeTap id="bk-fb" label={labels.bkOpt2} className="w-full px-2 py-1 text-left rounded-lg" style={{ color: app.text }}>
+                  <span className="block text-[1rem] font-bold">{labels.bkOpt2}</span>
+                  <span className="block text-[0.85rem]" style={{ color: app.subText }}>{labels.bkOpt2Info}</span>
+                </PracticeTap>
+              </>
+            ) : (
+              <>
+                <PracticeTap id="block-report" label={labels.bkOpt1} pointer="above-left" className={`${sheetOption} ${app.iosChrome ? 'text-center' : 'text-left'}`} style={{ color: danger }}>{labels.bkOpt1}</PracticeTap>
+                <PracticeTap id="bk-block-only" label={labels.bkOpt2} className={`${sheetOption} ${app.iosChrome ? 'text-center' : 'text-left'}`} style={{ color: danger }}>{labels.bkOpt2}</PracticeTap>
+              </>
+            )}
+            <PracticeTap id="block-cancel" label={labels.cancelWord} className={`${sheetOption} ${app.iosChrome ? 'text-center' : 'text-left'}`} style={{ color: app.iosChrome ? '#007AFF' : app.subText }}>{labels.cancelWord}</PracticeTap>
+          </BlockOverlay>
+        } />
+      );
+    }
+
+    case 'bk-dialog':
+    case 'bk-dialog2': {
+      // A question with a box to tick for reporting (WhatsApp on Android, Telegram, Google Messages).
+      const ticked = screen === 'bk-dialog2';
+      const box = (on: boolean) => (
+        <span aria-hidden="true" className="w-6 h-6 rounded flex items-center justify-center shrink-0" style={on ? { background: app.accent, color: app.accentText } : { border: `2px solid ${app.subText}` }}>
+          {on && <Check size={16} />}
+        </span>
+      );
+      const okColour = flow === 'telegram' ? '#E53935' : flow === 'wa-android' ? '#1DAA61' : app.accent;
+      return (
+        <BlockChat flow={flow} id={id} app={app} labels={labels} overlay={
+          <BlockOverlay app={app}>
+            <p className="text-[1.05rem] font-bold px-2">{labels.bkTitle}</p>
+            <p className="text-[0.92rem] px-2 pb-1" style={{ color: app.subText }}>{labels.bkBody}</p>
+            <PracticeTap id="report-check" label={labels.bkCheck} pointer="above-left" className="w-full flex items-center gap-2 px-2 text-left text-[0.98rem] rounded-lg" style={{ color: app.text }}>
+              {box(ticked)}{labels.bkCheck}
+            </PracticeTap>
+            {labels.bkCheck2 && (
+              <PracticeTap id="bk-delete-check" label={labels.bkCheck2} className="w-full flex items-center gap-2 px-2 text-left text-[0.98rem] rounded-lg" style={{ color: app.text }}>
+                {box(false)}{labels.bkCheck2}
+              </PracticeTap>
+            )}
+            <span className="flex justify-end gap-2 pt-1">
+              <PracticeTap id="block-cancel" label={labels.cancelWord} className="px-3 rounded-lg font-bold text-[1rem]" style={{ color: app.subText }}>{labels.cancelWord}</PracticeTap>
+              <PracticeTap id="block-ok" label={labels.bkOk} pointer="above-right" className="px-3 rounded-lg font-bold text-[1rem]" style={{ color: okColour }}>{labels.bkOk}</PracticeTap>
+            </span>
+          </BlockOverlay>
+        } />
+      );
+    }
+
+    case 'bk-confirm': {
+      // The last question: Messenger (blue), iPhone (red choice at the bottom), LINE (green), Discord (red).
+      if (flow === 'apple') {
+        return (
+          <div className="flex flex-col flex-1 min-h-0 relative" style={{ background: '#F2F2F7' }}>
+            <div className="absolute inset-0 flex flex-col justify-end p-2 gap-2" style={{ background: 'rgba(0,0,0,0.35)', zIndex: 5 }}>
+              <div className="sim-fade rounded-2xl overflow-hidden flex flex-col" style={{ background: '#FFFFFF' }}>
+                <p className="text-center text-[0.85rem] px-3 py-2.5 border-b" style={{ color: '#8E8E93', borderColor: '#E5E5EA' }}>{labels.bkBody}</p>
+                <PracticeTap id="block-ok" label={labels.bkOk} pointer="above-right" className="w-full text-center text-[1.05rem]" style={{ color: '#FF3B30' }}>{labels.bkOk}</PracticeTap>
+              </div>
+              <PracticeTap id="block-cancel" label={labels.cancelWord} className="sim-fade w-full rounded-2xl text-center text-[1.05rem] font-bold" style={{ background: '#FFFFFF', color: '#007AFF' }}>{labels.cancelWord}</PracticeTap>
+            </div>
+          </div>
+        );
+      }
+      const okStyle = flow === 'messenger' ? { background: '#0A7CFF', color: '#FFFFFF' } : flow === 'line' ? { background: '#06C755', color: '#FFFFFF' } : { background: '#DA373C', color: '#FFFFFF' };
+      return (
+        <BlockChat flow={flow} id={id} app={app} labels={labels} overlay={
+          <BlockOverlay app={app} bottom={flow === 'messenger'}>
+            <p className="text-[1.05rem] font-bold px-2">{labels.bkTitle}</p>
+            <p className="text-[0.92rem] px-2 pb-1" style={{ color: app.subText }}>{labels.bkConfirmBody}</p>
+            <span className={`flex gap-2 pt-1 ${flow === 'messenger' ? 'flex-col' : 'justify-end'}`}>
+              {flow === 'messenger'
+                ? <>
+                    <PracticeTap id="block-ok" label={labels.bkOk} pointer="above-right" className="w-full rounded-lg font-bold text-[1rem]" style={okStyle}>{labels.bkOk}</PracticeTap>
+                    <PracticeTap id="block-cancel" label={labels.cancelWord} className="w-full rounded-lg font-bold text-[1rem]" style={{ background: '#E4E6EB', color: '#050505' }}>{labels.cancelWord}</PracticeTap>
+                  </>
+                : <>
+                    <PracticeTap id="block-cancel" label={labels.cancelWord} className="px-3 rounded-lg font-bold text-[1rem]" style={{ color: app.subText }}>{labels.cancelWord}</PracticeTap>
+                    <PracticeTap id="block-ok" label={labels.bkOk} pointer="above-right" className="px-4 rounded-lg font-bold text-[1rem]" style={okStyle}>{labels.bkOk}</PracticeTap>
+                  </>}
+            </span>
+          </BlockOverlay>
+        } />
+      );
+    }
+
+    default:
+      return <BlockChat flow={flow} id={id} app={app} labels={labels} />;
+  }
+};
 
 /** While a voice message is being recorded. */
 const Recording: React.FC<{ id: AppId; app: AppStyle; labels: L }> = ({ id, app, labels }) => {
@@ -936,18 +1266,18 @@ export const MessengerScreen: React.FC<PracticeScreenProps> = ({ screen, isDone,
   const app = appStyle((appId ?? 'whatsapp') as AppId, platform);
   const blackScreen = !isDone && (screen === 'preview' || screen === 'call');
   const listBar: Partial<Record<AppId, string>> = { telegram: '#517DA2', threema: '#1F1F1F', viber: '#7360F2', teams: '#4B53BC' };
-  const headerColor = !isDone && (screen === 'list' || screen === 'list-stranger') ? listBar[id] ?? app.bg : app.chatHeaderBg;
+  const listScreen = screen === 'list' || screen === 'bk-list' || screen === 'bk-drawer';
+  const headerColor = !isDone && listScreen ? listBar[id] ?? app.bg : !isDone && screen === 'bk-hold' ? '#F8FAFD' : app.chatHeaderBg;
+  const flow = kind === 'block' ? blockFlow((appId ?? 'whatsapp') as AppId, platform) : null;
   const barBg = blackScreen ? (screen === 'call' ? '#1F2C34' : '#0B141A') : headerColor;
   const lightText = blackScreen || app.dark || ['#517DA2', '#1F1F1F', '#7360F2', '#4B53BC'].includes(barBg);
 
   let body: React.ReactNode;
-  if (isDone && kind === 'block') body = <StrangerChat id={id} app={app} labels={labels} lang={lang} done />;
+  if (flow) body = <BlockScreens flow={flow} screen={screen} isDone={!!isDone} id={id} app={app} labels={labels} lang={lang} />;
   else if (isDone) body = <Chat id={id} app={app} labels={labels} screen="done" isDone kind={kind} lang={lang} />;
-  else if (screen === 'list' || screen === 'list-stranger') body = <ChatList id={id} app={app} labels={labels} lang={lang} stranger={screen === 'list-stranger'} />;
+  else if (screen === 'list') body = <ChatList id={id} app={app} labels={labels} lang={lang} />;
   else if (screen === 'msgmenu-own') body = <MessageMenu id={id} app={app} labels={labels} lang={lang} own />;
   else if (screen === 'delete-confirm') body = <DeleteConfirm id={id} app={app} labels={labels} />;
-  else if (screen === 'stranger') body = <StrangerChat id={id} app={app} labels={labels} lang={lang} />;
-  else if (screen === 'block-confirm' || screen === 'block-confirm2') body = <BlockConfirm id={id} app={app} labels={labels} checked={screen === 'block-confirm2'} />;
   else if (screen === 'attach') body = <AttachMenu id={id} app={app} labels={labels} />;
   else if (screen === 'gallery') body = <Gallery app={app} labels={labels} />;
   else if (screen === 'preview') body = <Preview app={app} labels={labels} />;

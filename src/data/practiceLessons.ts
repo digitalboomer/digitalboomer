@@ -9,7 +9,8 @@ import { moreGeneralSocialLessons, socialTasks } from './socialTasks';
 import { desktopLesson } from './desktopLessons';
 import { IMAGES } from '../assets/images';
 import { Tutorial, TutorialStep, Language } from '../types';
-import { APP_IDS, appInfo, appStyle, type AppId } from '../components/practice/messaging/apps';
+import { APP_IDS, appInfo, appStyle, blockFlow, type AppId } from '../components/practice/messaging/apps';
+import { blockLesson } from './blockLessons';
 import { SERVICES, Service } from './services';
 import { generalSocialLessons, socialLessons } from './socialLessons';
 import { aiLessons } from './aiLessons';
@@ -40,12 +41,6 @@ const common = {
     speaker: 'Speaker', mute: 'Microphone off', hangup: 'End call', callEnded: 'Video call ended',
     wrongMessage: 'Anna, the present for Peter is hidden in the cupboard!', deletedNote: 'You deleted this message',
     deleteQuestion: 'Delete message?', deleteEveryone: 'Delete for everyone', deleteMe: 'Delete for me', cancelWord: 'Cancel',
-    strangerNumber: '+49 000 1234 567', strangerLast: 'Hi Mum, this is my new number',
-    strangerOne: 'Hi Mum, my phone broke. This is my new number.', strangerTwo: 'Can you help me pay a bill today?',
-    notInContacts: 'Not in your contacts', notInContactsLong: 'This number is not in your contacts.',
-    blockWord: 'Block', addContact: 'Add', blockTitle: 'Block +49 000 1234 567?',
-    blockInfo: 'Blocked contacts cannot call you or send you messages.', alsoReport: 'Also report this number',
-    blockedNote: 'You blocked this contact', blockedFooter: 'You cannot exchange messages with a blocked contact.',
   },
   de: {
     tapHere: 'Hier tippen',
@@ -71,12 +66,6 @@ const common = {
     speaker: 'Lautsprecher', mute: 'Mikrofon aus', hangup: 'Auflegen', callEnded: 'Videoanruf beendet',
     wrongMessage: 'Anna, das Geschenk für Peter liegt versteckt im Schrank!', deletedNote: 'Sie haben diese Nachricht gelöscht',
     deleteQuestion: 'Nachricht löschen?', deleteEveryone: 'Für alle löschen', deleteMe: 'Für mich löschen', cancelWord: 'Abbrechen',
-    strangerNumber: '+49 000 1234 567', strangerLast: 'Hallo Mama, das ist meine neue Nummer',
-    strangerOne: 'Hallo Mama, mein Handy ist kaputt. Das ist meine neue Nummer.', strangerTwo: 'Kannst du mir heute helfen, eine Rechnung zu bezahlen?',
-    notInContacts: 'Nicht in Ihren Kontakten', notInContactsLong: 'Diese Nummer ist nicht in Ihren Kontakten.',
-    blockWord: 'Blockieren', addContact: 'Hinzufügen', blockTitle: '+49 000 1234 567 blockieren?',
-    blockInfo: 'Blockierte Kontakte können Sie nicht anrufen und Ihnen keine Nachrichten senden.', alsoReport: 'Diese Nummer auch melden',
-    blockedNote: 'Sie haben diesen Kontakt blockiert', blockedFooter: 'Mit einem blockierten Kontakt können Sie keine Nachrichten austauschen.',
   },
 };
 
@@ -132,6 +121,19 @@ const tapNames: Record<string, { en: string; de: string }> = {
   'block-cancel': { en: 'Cancel, which closes this without blocking', de: 'Abbrechen, damit schließen Sie das, ohne zu blockieren' },
   'block-ok': { en: 'the Block button', de: 'der Knopf Blockieren' },
   'report-check': { en: 'the box for reporting, which is already ticked', de: 'das Kästchen zum Melden, es ist schon angehakt' },
+  // Blocking a stranger (blockLessons.ts)
+  'bk-accept': { en: '"Accept", which would let them keep writing to you', de: '„Annehmen“, damit dürfte die Person Ihnen weiter schreiben' },
+  'bk-third': { en: 'another choice. For this practice, please block first', de: 'eine andere Auswahl. Für diese Übung blockieren Sie bitte zuerst' },
+  'bk-block-only': { en: '"Block" on its own. That also works, but this practice also reports them', de: '„Blockieren“ allein. Das geht auch, aber in dieser Übung melden Sie die Person auch' },
+  'bk-fb': { en: '"Block on Facebook". That also works, but this practice blocks messages and calls', de: '„Auf Facebook blockieren“. Das geht auch, aber in dieser Übung blockieren Sie Nachrichten und Anrufe' },
+  'bk-delete-check': { en: 'the box for deleting the chat. You can leave it', de: 'das Kästchen zum Löschen des Chats. Das können Sie so lassen' },
+  'bk-archive': { en: 'Archive, which only hides the conversation', de: 'Archivieren, das blendet die Unterhaltung nur aus' },
+  'bk-delete': { en: 'the bin, which only deletes the conversation', de: 'der Papierkorb, der nur die Unterhaltung löscht' },
+  'bk-call': { en: 'a call to this number. Do not call strangers back', de: 'ein Anruf an diese Nummer. Rufen Sie Fremde nicht zurück' },
+  'bk-report-spam': { en: '"Report Spam". It also deletes the conversation, so block first', de: '„Spam melden“. Das löscht auch die Unterhaltung, blockieren Sie also zuerst' },
+  'bk-row': { en: 'a setting for sharing your location. Do not share it with strangers', de: 'eine Einstellung zum Teilen Ihres Standorts. Teilen Sie ihn nicht mit Fremden' },
+  'bk-other-item': { en: 'another choice in the menu', de: 'eine andere Auswahl im Menü' },
+  'bk-chats-row': { en: 'your normal chats', de: 'Ihre normalen Chats' },
 };
 
 function hintsFor(lang: Language, where: string): Record<string, string> {
@@ -343,28 +345,16 @@ function messagingLessons(lang: Language, app: AppId, platform: 'iphone' | 'andr
       ]));
   }
 
-  // Block and report a stranger: most apps show a bar with "Block" above messages from unknown numbers.
-  if (app !== 'teams') {
-    lessons.push(base('block', `${app}-block`, t(`${name}: Block and Report a Stranger`, `${name}: Fremde blockieren und melden`),
-      t('A stranger writes to you, perhaps with a scam. Practise blocking and reporting the number, so it cannot write to you again.', 'Eine fremde Person schreibt Ihnen, vielleicht mit einem Betrug. Üben Sie, die Nummer zu blockieren und zu melden, damit sie Ihnen nicht mehr schreiben kann.'),
-      4, `${app}-delete`, t('Well done! The number is blocked.', 'Gut gemacht! Die Nummer ist blockiert.'),
-      t('It can no longer send you messages or call you in this app. Blocked someone by mistake? You can unblock them in the app\'s settings, under privacy. This was only practice.', 'Sie kann Ihnen in dieser App keine Nachrichten mehr senden und Sie nicht anrufen. Aus Versehen blockiert? In den Einstellungen der App, unter Datenschutz, heben Sie es wieder auf. Das war nur eine Übung.'),
-      t('Practice mode: nobody is really blocked or reported.', 'Übungsmodus: Es wird niemand wirklich blockiert oder gemeldet.'),
-      t(`A message arrives from a number you do not know. You will block and report it in 4 steps. ${youKnow}`, `Eine Nachricht kommt von einer Nummer, die Sie nicht kennen. Sie blockieren und melden sie in 4 Schritten. ${youKnow}`),
-      [
-        practiceStep(lang, 1, t('Open the message from the unknown number', 'Öffnen Sie die Nachricht der unbekannten Nummer'), t('Tap the top line, with the number.', 'Tippen Sie auf die oberste Zeile, mit der Nummer.'),
-          [t('Opening it is safe. Just do not tap any link in it, and do not answer.', 'Öffnen ist ungefährlich. Tippen Sie nur auf keinen Link darin, und antworten Sie nicht.')],
-          'list-stranger', 'chat-stranger', t('The unknown number is the top line.', 'Die unbekannte Nummer ist die oberste Zeile.'), t('That was right. This is the "Hi Mum" trick: a stranger pretends to be your child.', 'Das war richtig. Das ist der „Hallo Mama“-Trick: Eine fremde Person gibt sich als Ihr Kind aus.')),
-        practiceStep(lang, 2, t('Tap "Block"', 'Tippen Sie auf „Blockieren“'), t('Most apps show a bar above messages from people who are not in your contacts.', 'Die meisten Apps zeigen über Nachrichten von Menschen, die nicht in Ihren Kontakten sind, eine Leiste.'),
-          [t('You do not have to answer first. If your real child might have a new number, call them on the old number to check.', 'Sie müssen vorher nicht antworten. Könnte Ihr echtes Kind eine neue Nummer haben, rufen Sie es unter der alten Nummer an, um nachzufragen.')],
-          'stranger', 'block-start', t('"Block" is in the bar above the messages, on the left.', '„Blockieren“ ist in der Leiste über den Nachrichten, links.'), t('That was right. The app asks to make sure.', 'Das war richtig. Die App fragt zur Sicherheit nach.')),
-        practiceStep(lang, 3, t('Tick "Also report this number"', 'Haken Sie „Diese Nummer auch melden“ an'), t('Tap the box, so the app learns about this number.', 'Tippen Sie auf das Kästchen, damit die App von dieser Nummer erfährt.'),
-          [t('Reporting helps to stop the number for other people too. The other person is not told who reported them.', 'Melden hilft, die Nummer auch für andere zu stoppen. Die andere Person erfährt nicht, wer sie gemeldet hat.')],
-          'block-confirm', 'report-check', t('The box is above the two buttons.', 'Das Kästchen ist über den beiden Knöpfen.'), t('That was right. The box is ticked.', 'Das war richtig. Das Kästchen ist angehakt.')),
-        practiceStep(lang, 4, t('Tap "Block"', 'Tippen Sie auf „Blockieren“'), t('Confirm with the red button.', 'Bestätigen Sie mit dem roten Knopf.'),
-          [t('Cancel would close this without blocking.', 'Abbrechen würde das schließen, ohne zu blockieren.')],
-          'block-confirm2', 'block-ok', t('"Block" is the red button at the bottom right.', '„Blockieren“ ist der rote Knopf unten rechts.'), t('That was right.', 'Das war richtig.')),
-      ]));
+  // Block (and report) a stranger, the way this app really does it: see blockLessons.ts.
+  // WeChat (strangers need an accepted friend request first) and Teams (work chats) have none.
+  const flow = blockFlow(app, platform);
+  if (flow) {
+    const b = blockLesson(lang, name, flow, practiceStep, youKnow);
+    const lesson = base('block', `${app}-block`, b.title, b.description, b.steps.length, `${app}-delete`, b.successTitle, b.successText,
+      t('Practice mode: nobody is really blocked or reported.', 'Übungsmodus: Es wird niemand wirklich blockiert oder gemeldet.'), b.introText, b.steps);
+    lesson.tags = [name, t('Practice', 'Übung'), ...b.tags];
+    lesson.practice = { ...lesson.practice!, labels: { ...labels, ...b.labels } };
+    lessons.push(lesson);
   }
 
   if (app !== 'sms' && app !== 'imessage') {
