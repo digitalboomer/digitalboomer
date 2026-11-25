@@ -35,6 +35,11 @@ export function familyLinkUrl(ids: string[], name: string, lang: UiLanguage): st
 
 /** The message to send with the link, in the language the person reads. Written by the family member, so informal. */
 export function familyMessage(lang: UiLanguage, name: string, url: string): string {
+  return `${familyText(lang, name)} ${url}`;
+}
+
+/** The suggested text of the message, without the link (the family page lets people change it; the link is always added). */
+export function familyText(lang: UiLanguage, name: string): string {
   const n = cleanName(name);
   const greet: Record<UiLanguage, string> = {
     en: n ? `Hello ${n},` : 'Hello,',
@@ -50,7 +55,7 @@ export function familyMessage(lang: UiLanguage, name: string, url: string): stri
     es: 'te he elegido algunas lecciones en Digital Boomer. Allí puedes practicar paso a paso en un móvil de prueba, y no puedes romper nada:',
     hr: 'evo nekoliko lekcija za tebe na Digital Boomeru. Ondje možeš korak po korak vježbati na mobitelu za vježbu i ništa ne možeš pokvariti:',
   };
-  return `${greet[lang]} ${body[lang]} ${url}`;
+  return `${greet[lang]} ${body[lang]}`;
 }
 
 /** The subject when the message is sent by email, in the same language as the message. */

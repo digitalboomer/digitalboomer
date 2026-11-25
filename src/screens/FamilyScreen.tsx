@@ -4,7 +4,7 @@ import { linkTo, useLanguage } from '../utils/router';
 import { TUTORIALS_DE, TUTORIALS_EN } from '../data/content';
 import { buildSearchIndex, searchLessons } from '../utils/search';
 import { isExtraLanguage, translateText, UI_LANGUAGES, type UiLanguage } from '../i18n/translate';
-import { FAMILY_STARTERS, MAX_FAMILY_LESSONS, familyLinkUrl, familyMessage, familySubject } from '../utils/familyLink';
+import { FAMILY_STARTERS, MAX_FAMILY_LESSONS, familyLinkUrl, familySubject, familyText } from '../utils/familyLink';
 import { emailLinks, emailProgramHint } from '../utils/contact';
 import type { Language, PageId, Tutorial } from '../types';
 
@@ -26,6 +26,7 @@ export const FamilyScreen: React.FC<{ lang: Language; onNavigate: (page: PageId)
   const [copied, setCopied] = useState(false);
   const [qr, setQr] = useState<string | null>(null);
   const [emailOpen, setEmailOpen] = useState(false);
+  const [ownText, setOwnText] = useState<string | null>(null); // null = the suggested text
 
   const index = useMemo(() => buildSearchIndex(lessons, isExtraLanguage(uiLang) ? translateText : undefined), [isEn, uiLang]); // `lessons` follows from these
   const found = useMemo(() => (find.trim() ? searchLessons(index, find).results.slice(0, 6) : []), [index, find]);
@@ -38,7 +39,10 @@ export const FamilyScreen: React.FC<{ lang: Language; onNavigate: (page: PageId)
   };
 
   const url = picked.length ? familyLinkUrl(picked, name, theirLang) : '';
-  const message = picked.length ? familyMessage(theirLang, name, url) : '';
+  // The text can be changed; the link is kept apart and always added at the end, so it stays correct.
+  const suggested = familyText(theirLang, name);
+  const text = ownText ?? suggested;
+  const message = picked.length ? `${text.trim()} ${url}`.trim() : '';
   const q = encodeURIComponent;
   const mail = emailLinks('', familySubject(theirLang), message);
   const programHint = emailProgramHint(isEn);
@@ -138,9 +142,29 @@ export const FamilyScreen: React.FC<{ lang: Language; onNavigate: (page: PageId)
             <p className="text-base text-[#202B36] dark:text-slate-300 flex items-start gap-2"><Icon name="info" className="text-xl shrink-0" />{isEn ? 'First choose at least one lesson above.' : 'Wählen Sie oben zuerst mindestens eine Lektion aus.'}</p>
           ) : (
             <>
-              <div>
-                <p className="text-lg font-bold text-[#17324D] dark:text-white">{isEn ? 'Your message' : 'Ihre Nachricht'}</p>
-                <p translate="no" className="mt-1 p-4 rounded-xl bg-[#EAF2F8] dark:bg-slate-800 text-[#202B36] dark:text-slate-100 break-words">{message}</p>
+              <div className="space-y-2">
+                <label htmlFor="family-text" className="block text-lg font-bold text-[#17324D] dark:text-white">{isEn ? 'Your message' : 'Ihre Nachricht'}</label>
+                <p id="family-text-hint" className="text-base text-[#202B36] dark:text-slate-300">
+                  {isEn ? 'You can change the text. The link to the lessons is always added at the end.' : 'Sie können den Text ändern. Der Link zu den Lektionen wird immer am Ende angefügt.'}
+                </p>
+                <textarea
+                  id="family-text"
+                  translate="no"
+                  rows={4}
+                  maxLength={600}
+                  value={text}
+                  aria-describedby="family-text-hint"
+                  onChange={(e) => { setOwnText(e.target.value); setCopied(false); }}
+                  className="w-full px-4 py-3 rounded-xl border-2 border-[#667382] dark:border-slate-600 bg-[#FFFFFF] dark:bg-slate-800 text-[#202B36] dark:text-white text-base"
+                />
+                <p className="text-base text-[#202B36] dark:text-slate-300 break-words">
+                  <span className="font-bold">{isEn ? 'Link at the end:' : 'Link am Ende:'}</span> <span translate="no">{url}</span>
+                </p>
+                {ownText !== null && ownText !== suggested && (
+                  <button type="button" onClick={() => { setOwnText(null); setCopied(false); }} className={outline}>
+                    <Icon name="restart_alt" className="text-xl" />{isEn ? 'Use the suggested text again' : 'Wieder den vorgeschlagenen Text nehmen'}
+                  </button>
+                )}
               </div>
               <div className="flex flex-col sm:flex-row flex-wrap gap-2">
                 <a href={`https://wa.me/?text=${q(message)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-5 min-h-[48px] rounded-xl bg-[#17324D] hover:bg-[#0F2438] active:bg-[#0A1A2A] text-white font-bold text-base">

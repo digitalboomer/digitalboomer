@@ -4454,5 +4454,10 @@
  "Gmail and Outlook open in a new tab with the message already filled in.": "Gmail ve Outlook, mesaj önceden doldurulmuş olarak yeni bir sekmede açılır.",
  "You only add the address.": "Siz yalnızca adresi eklersiniz.",
  "\"Email program on this device\" opens the email app your computer or phone is set up with, such as Outlook or Apple Mail. If you use Gmail or Outlook in the browser, choose those buttons instead.": "\"Bu cihazdaki e-posta programı\", bilgisayarınızda veya telefonunuzda ayarlı olan e-posta uygulamasını açar, örneğin Outlook veya Apple Mail. Gmail'i veya Outlook'u tarayıcıda kullanıyorsanız bunun yerine o düğmeleri seçin.",
- "If you use Gmail or Outlook in the browser, choose those buttons instead.": "Gmail'i veya Outlook'u tarayıcıda kullanıyorsanız bunun yerine o düğmeleri seçin."
+ "If you use Gmail or Outlook in the browser, choose those buttons instead.": "Gmail'i veya Outlook'u tarayıcıda kullanıyorsanız bunun yerine o düğmeleri seçin.",
+ "You can change the text. The link to the lessons is always added at the end.": "Metni değiştirebilirsiniz. Derslerin bağlantısı her zaman sona eklenir.",
+ "You can change the text.": "Metni değiştirebilirsiniz.",
+ "The link to the lessons is always added at the end.": "Derslerin bağlantısı her zaman sona eklenir.",
+ "Link at the end:": "Sondaki bağlantı:",
+ "Use the suggested text again": "Önerilen metni yeniden kullan"
 }
