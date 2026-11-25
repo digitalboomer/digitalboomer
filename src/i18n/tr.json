@@ -4452,5 +4452,7 @@
  "Email program on this device": "Bu cihazdaki e-posta programı",
  "Gmail and Outlook open in a new tab with the message already filled in. You only add the address. With another email service, press \"Copy message\" and paste it into a new email.": "Gmail ve Outlook, mesaj önceden doldurulmuş olarak yeni bir sekmede açılır. Siz yalnızca adresi eklersiniz. Başka bir e-posta hizmeti kullanıyorsanız \"Mesajı kopyala\"ya basın ve mesajı yeni bir e-postaya yapıştırın.",
  "Gmail and Outlook open in a new tab with the message already filled in.": "Gmail ve Outlook, mesaj önceden doldurulmuş olarak yeni bir sekmede açılır.",
- "You only add the address.": "Siz yalnızca adresi eklersiniz."
+ "You only add the address.": "Siz yalnızca adresi eklersiniz.",
+ "\"Email program on this device\" opens the email app your computer or phone is set up with, such as Outlook or Apple Mail. If you use Gmail or Outlook in the browser, choose those buttons instead.": "\"Bu cihazdaki e-posta programı\", bilgisayarınızda veya telefonunuzda ayarlı olan e-posta uygulamasını açar, örneğin Outlook veya Apple Mail. Gmail'i veya Outlook'u tarayıcıda kullanıyorsanız bunun yerine o düğmeleri seçin.",
+ "If you use Gmail or Outlook in the browser, choose those buttons instead.": "Gmail'i veya Outlook'u tarayıcıda kullanıyorsanız bunun yerine o düğmeleri seçin."
 }

@@ -4448,5 +4448,7 @@
  "Email program on this device": "Program za e-poštu na ovom uređaju",
  "Gmail and Outlook open in a new tab with the message already filled in. You only add the address. With another email service, press \"Copy message\" and paste it into a new email.": "Gmail i Outlook otvaraju se u novoj kartici s već upisanom porukom. Vi samo dodate adresu. Ako koristite drugu uslugu e-pošte, pritisnite „Kopiraj poruku” i zalijepite je u novu e-poruku.",
  "Gmail and Outlook open in a new tab with the message already filled in.": "Gmail i Outlook otvaraju se u novoj kartici s već upisanom porukom.",
- "You only add the address.": "Vi samo dodate adresu."
+ "You only add the address.": "Vi samo dodate adresu.",
+ "\"Email program on this device\" opens the email app your computer or phone is set up with, such as Outlook or Apple Mail. If you use Gmail or Outlook in the browser, choose those buttons instead.": "„Program za e-poštu na ovom uređaju” otvara aplikaciju za e-poštu koja je postavljena na Vašem računalu ili mobitelu, primjerice Outlook ili Apple Mail. Ako Gmail ili Outlook koristite u pregledniku, radije odaberite te gumbe.",
+ "If you use Gmail or Outlook in the browser, choose those buttons instead.": "Ako Gmail ili Outlook koristite u pregledniku, radije odaberite te gumbe."
 }

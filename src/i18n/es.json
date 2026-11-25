@@ -4448,5 +4448,7 @@
  "Email program on this device": "Programa de correo de este dispositivo",
  "Gmail and Outlook open in a new tab with the message already filled in. You only add the address. With another email service, press \"Copy message\" and paste it into a new email.": "Gmail y Outlook se abren en una pestaña nueva con el mensaje ya escrito. Usted solo añade la dirección. Con otro servicio de correo, pulse \"Copiar mensaje\" y péguelo en un correo nuevo.",
  "Gmail and Outlook open in a new tab with the message already filled in.": "Gmail y Outlook se abren en una pestaña nueva con el mensaje ya escrito.",
- "You only add the address.": "Usted solo añade la dirección."
+ "You only add the address.": "Usted solo añade la dirección.",
+ "\"Email program on this device\" opens the email app your computer or phone is set up with, such as Outlook or Apple Mail. If you use Gmail or Outlook in the browser, choose those buttons instead.": "\"Programa de correo de este dispositivo\" abre la aplicación de correo configurada en su ordenador o móvil, por ejemplo Outlook o Apple Mail. Si usa Gmail u Outlook en el navegador, elija mejor esos botones.",
+ "If you use Gmail or Outlook in the browser, choose those buttons instead.": "Si usa Gmail u Outlook en el navegador, elija mejor esos botones."
 }

@@ -28,6 +28,16 @@ export function emailLinks(to: string, subject: string, body: string) {
   };
 }
 
+/**
+ * Under the "email program" button: it opens the device's default email app, never Gmail or Outlook
+ * in the browser (unless the person set that up), and nothing at all when no email app is set up.
+ */
+export function emailProgramHint(isEn: boolean): string {
+  return isEn
+    ? '"Email program on this device" opens the email app your computer or phone is set up with, such as Outlook or Apple Mail. If you use Gmail or Outlook in the browser, choose those buttons instead.'
+    : '„E-Mail-Programm auf diesem Gerät“ öffnet die E-Mail-App, die auf Ihrem Computer oder Handy eingestellt ist, zum Beispiel Outlook oder Apple Mail. Wenn Sie Gmail oder Outlook im Browser nutzen, wählen Sie lieber diese Knöpfe.';
+}
+
 /** A new email to the team. */
 export function composeLinks(isEn: boolean) {
   const { subject, body } = emailDraft(isEn);

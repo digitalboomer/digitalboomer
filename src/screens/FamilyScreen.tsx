@@ -5,7 +5,7 @@ import { TUTORIALS_DE, TUTORIALS_EN } from '../data/content';
 import { buildSearchIndex, searchLessons } from '../utils/search';
 import { isExtraLanguage, translateText, UI_LANGUAGES, type UiLanguage } from '../i18n/translate';
 import { FAMILY_STARTERS, MAX_FAMILY_LESSONS, familyLinkUrl, familyMessage, familySubject } from '../utils/familyLink';
-import { emailLinks } from '../utils/contact';
+import { emailLinks, emailProgramHint } from '../utils/contact';
 import type { Language, PageId, Tutorial } from '../types';
 
 const card = 'bg-[#FFFFFF] dark:bg-slate-900 rounded-2xl border-2 border-[#E5E9ED] dark:border-slate-800 p-5 sm:p-6';
@@ -41,6 +41,7 @@ export const FamilyScreen: React.FC<{ lang: Language; onNavigate: (page: PageId)
   const message = picked.length ? familyMessage(theirLang, name, url) : '';
   const q = encodeURIComponent;
   const mail = emailLinks('', familySubject(theirLang), message);
+  const programHint = emailProgramHint(isEn);
 
   const copy = async () => {
     try {
@@ -176,6 +177,7 @@ export const FamilyScreen: React.FC<{ lang: Language; onNavigate: (page: PageId)
                       ? 'Gmail and Outlook open in a new tab with the message already filled in. You only add the address. With another email service, press "Copy message" and paste it into a new email.'
                       : 'Gmail und Outlook öffnen sich in einem neuen Tab, mit der Nachricht schon ausgefüllt. Sie tragen nur noch die Adresse ein. Bei einem anderen E-Mail-Dienst drücken Sie „Nachricht kopieren“ und fügen sie in eine neue E-Mail ein.'}
                   </p>
+                  <p className="text-base text-[#202B36] dark:text-slate-300">{programHint}</p>
                 </div>
               )}
               <p className="sr-only" aria-live="polite">{copied ? (isEn ? 'The message was copied.' : 'Die Nachricht wurde kopiert.') : ''}</p>

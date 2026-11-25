@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { Icon } from '../components/Icon';
 import { Language, Tutorial } from '../types';
 import { useDialogFocus } from '../utils/useDialogFocus';
-import { TEAM_EMAIL, composeLinks } from '../utils/contact';
+import { TEAM_EMAIL, composeLinks, emailProgramHint } from '../utils/contact';
 import { TUTORIALS_DE, TUTORIALS_EN } from '../data/content';
 import { currentRoute, goTo, linkTo, useLanguage } from '../utils/router';
 import { buildSearchIndex, searchLessons } from '../utils/search';
@@ -636,7 +636,7 @@ export const SupportModal: React.FC<SupportModalProps> = ({
                 className="w-full py-3 px-6 min-h-[48px] rounded-xl border-2 border-[#17324D] text-[#17324D] dark:text-white dark:border-white hover:bg-[#EAF2F8] dark:hover:bg-slate-800 font-bold text-base flex items-center justify-center gap-3 transition-colors cursor-pointer text-center"
               >
                 <Icon name="mail" className="text-2xl" />
-                <span>{isEn ? 'Use the email program on this device' : 'E-Mail-Programm auf diesem Gerät nutzen'}</span>
+                <span>{isEn ? 'Email program on this device' : 'E-Mail-Programm auf diesem Gerät'}</span>
               </a>
 
               <p className="text-sm text-[#202B36] dark:text-slate-300">
@@ -644,6 +644,7 @@ export const SupportModal: React.FC<SupportModalProps> = ({
                   ? 'Gmail and Outlook open in a new tab, with our address, a subject and a greeting already filled in. You may need to sign in first. With GMX, web.de or T-Online: press "Copy" above and paste the address into a new email.'
                   : 'Gmail und Outlook öffnen sich in einem neuen Tab, mit unserer Adresse, einem Betreff und einer Anrede schon ausgefüllt. Eventuell müssen Sie sich zuerst anmelden. Bei GMX, web.de oder T-Online: Drücken Sie oben auf „Kopieren“ und fügen Sie die Adresse in eine neue E-Mail ein.'}
               </p>
+              <p className="text-sm text-[#202B36] dark:text-slate-300">{emailProgramHint(isEn)}</p>
             </div>
 
           </div>
