@@ -4444,5 +4444,9 @@
  "lessons": "lekcija",
  "You have now finished 2 lessons.": "Sada ste završili 2 lekcije.",
  "You have now finished 3 lessons.": "Sada ste završili 3 lekcije.",
- "You have now finished 4 lessons.": "Sada ste završili 4 lekcije."
+ "You have now finished 4 lessons.": "Sada ste završili 4 lekcije.",
+ "Email program on this device": "Program za e-poštu na ovom uređaju",
+ "Gmail and Outlook open in a new tab with the message already filled in. You only add the address. With another email service, press \"Copy message\" and paste it into a new email.": "Gmail i Outlook otvaraju se u novoj kartici s već upisanom porukom. Vi samo dodate adresu. Ako koristite drugu uslugu e-pošte, pritisnite „Kopiraj poruku” i zalijepite je u novu e-poruku.",
+ "Gmail and Outlook open in a new tab with the message already filled in.": "Gmail i Outlook otvaraju se u novoj kartici s već upisanom porukom.",
+ "You only add the address.": "Vi samo dodate adresu."
 }

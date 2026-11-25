@@ -52,3 +52,8 @@ export function familyMessage(lang: UiLanguage, name: string, url: string): stri
   };
   return `${greet[lang]} ${body[lang]} ${url}`;
 }
+
+/** The subject when the message is sent by email, in the same language as the message. */
+export function familySubject(lang: UiLanguage): string {
+  return { en: 'Lessons for you', de: 'Lektionen für dich', tr: 'Senin için dersler', es: 'Lecciones para ti', hr: 'Lekcije za tebe' }[lang];
+}

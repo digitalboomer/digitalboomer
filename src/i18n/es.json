@@ -4444,5 +4444,9 @@
  "lessons": "lecciones",
  "You have now finished 2 lessons.": "Ya ha terminado 2 lecciones.",
  "You have now finished 3 lessons.": "Ya ha terminado 3 lecciones.",
- "You have now finished 4 lessons.": "Ya ha terminado 4 lecciones."
+ "You have now finished 4 lessons.": "Ya ha terminado 4 lecciones.",
+ "Email program on this device": "Programa de correo de este dispositivo",
+ "Gmail and Outlook open in a new tab with the message already filled in. You only add the address. With another email service, press \"Copy message\" and paste it into a new email.": "Gmail y Outlook se abren en una pestaña nueva con el mensaje ya escrito. Usted solo añade la dirección. Con otro servicio de correo, pulse \"Copiar mensaje\" y péguelo en un correo nuevo.",
+ "Gmail and Outlook open in a new tab with the message already filled in.": "Gmail y Outlook se abren en una pestaña nueva con el mensaje ya escrito.",
+ "You only add the address.": "Usted solo añade la dirección."
 }

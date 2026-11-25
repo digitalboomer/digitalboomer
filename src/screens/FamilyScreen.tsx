@@ -4,7 +4,8 @@ import { linkTo, useLanguage } from '../utils/router';
 import { TUTORIALS_DE, TUTORIALS_EN } from '../data/content';
 import { buildSearchIndex, searchLessons } from '../utils/search';
 import { isExtraLanguage, translateText, UI_LANGUAGES, type UiLanguage } from '../i18n/translate';
-import { FAMILY_STARTERS, MAX_FAMILY_LESSONS, familyLinkUrl, familyMessage } from '../utils/familyLink';
+import { FAMILY_STARTERS, MAX_FAMILY_LESSONS, familyLinkUrl, familyMessage, familySubject } from '../utils/familyLink';
+import { emailLinks } from '../utils/contact';
 import type { Language, PageId, Tutorial } from '../types';
 
 const card = 'bg-[#FFFFFF] dark:bg-slate-900 rounded-2xl border-2 border-[#E5E9ED] dark:border-slate-800 p-5 sm:p-6';
@@ -24,6 +25,7 @@ export const FamilyScreen: React.FC<{ lang: Language; onNavigate: (page: PageId)
   const [find, setFind] = useState('');
   const [copied, setCopied] = useState(false);
   const [qr, setQr] = useState<string | null>(null);
+  const [emailOpen, setEmailOpen] = useState(false);
 
   const index = useMemo(() => buildSearchIndex(lessons, isExtraLanguage(uiLang) ? translateText : undefined), [isEn, uiLang]); // `lessons` follows from these
   const found = useMemo(() => (find.trim() ? searchLessons(index, find).results.slice(0, 6) : []), [index, find]);
@@ -38,6 +40,7 @@ export const FamilyScreen: React.FC<{ lang: Language; onNavigate: (page: PageId)
   const url = picked.length ? familyLinkUrl(picked, name, theirLang) : '';
   const message = picked.length ? familyMessage(theirLang, name, url) : '';
   const q = encodeURIComponent;
+  const mail = emailLinks('', familySubject(theirLang), message);
 
   const copy = async () => {
     try {
@@ -142,9 +145,11 @@ export const FamilyScreen: React.FC<{ lang: Language; onNavigate: (page: PageId)
                 <a href={`https://wa.me/?text=${q(message)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-5 min-h-[48px] rounded-xl bg-[#17324D] hover:bg-[#0F2438] active:bg-[#0A1A2A] text-white font-bold text-base">
                   <Icon name="send" className="text-xl" />{isEn ? 'Send with WhatsApp' : 'Mit WhatsApp senden'}<span className="sr-only">{isEn ? '(opens in a new tab)' : '(öffnet in einem neuen Tab)'}</span>
                 </a>
-                <a href={`mailto:?subject=${q(isEn ? 'Lessons for you' : 'Lektionen für dich')}&body=${q(message)}`} className={outline}>
+                {/* A plain mailto link does nothing without an email program, so people choose where they write emails. */}
+                <button type="button" onClick={() => setEmailOpen((open) => !open)} aria-expanded={emailOpen} aria-controls="family-email" className={outline}>
                   <Icon name="mail" className="text-xl" />{isEn ? 'Send by email' : 'Per E-Mail senden'}
-                </a>
+                  <Icon name="expand_more" className={`text-xl transition-transform motion-reduce:transition-none ${emailOpen ? 'rotate-180' : ''}`} />
+                </button>
                 <button type="button" onClick={copy} className={outline}>
                   <Icon name={copied ? 'check' : 'content_copy'} className="text-xl" />{copied ? (isEn ? 'Copied' : 'Kopiert') : (isEn ? 'Copy message' : 'Nachricht kopieren')}
                 </button>
@@ -152,6 +157,27 @@ export const FamilyScreen: React.FC<{ lang: Language; onNavigate: (page: PageId)
                   <Icon name="qr_code_2" className="text-xl" />{isEn ? 'Show QR code' : 'QR-Code zeigen'}
                 </button>
               </div>
+              {emailOpen && (
+                <div id="family-email" className="p-4 rounded-xl bg-[#EAF2F8] dark:bg-slate-800 space-y-3">
+                  <p className="text-lg font-bold text-[#17324D] dark:text-white">{isEn ? 'Where do you write your emails?' : 'Wo schreiben Sie Ihre E-Mails?'}</p>
+                  <div className="flex flex-col sm:flex-row flex-wrap gap-2">
+                    <a href={mail.gmail} target="_blank" rel="noopener noreferrer" className={`${outline} bg-[#FFFFFF] dark:bg-slate-900`}>
+                      <Icon name="mail" className="text-xl" />Gmail<span className="sr-only">{isEn ? '(opens in a new tab)' : '(öffnet in einem neuen Tab)'}</span><Icon name="open_in_new" className="text-lg" />
+                    </a>
+                    <a href={mail.outlook} target="_blank" rel="noopener noreferrer" className={`${outline} bg-[#FFFFFF] dark:bg-slate-900`}>
+                      <Icon name="mail" className="text-xl" />Outlook / Hotmail<span className="sr-only">{isEn ? '(opens in a new tab)' : '(öffnet in einem neuen Tab)'}</span><Icon name="open_in_new" className="text-lg" />
+                    </a>
+                    <a href={mail.program} className={`${outline} bg-[#FFFFFF] dark:bg-slate-900`}>
+                      <Icon name="mail" className="text-xl" />{isEn ? 'Email program on this device' : 'E-Mail-Programm auf diesem Gerät'}
+                    </a>
+                  </div>
+                  <p className="text-base text-[#202B36] dark:text-slate-300">
+                    {isEn
+                      ? 'Gmail and Outlook open in a new tab with the message already filled in. You only add the address. With another email service, press "Copy message" and paste it into a new email.'
+                      : 'Gmail und Outlook öffnen sich in einem neuen Tab, mit der Nachricht schon ausgefüllt. Sie tragen nur noch die Adresse ein. Bei einem anderen E-Mail-Dienst drücken Sie „Nachricht kopieren“ und fügen sie in eine neue E-Mail ein.'}
+                  </p>
+                </div>
+              )}
               <p className="sr-only" aria-live="polite">{copied ? (isEn ? 'The message was copied.' : 'Die Nachricht wurde kopiert.') : ''}</p>
               {qr && (
                 <div className="flex flex-col sm:flex-row items-start gap-4">

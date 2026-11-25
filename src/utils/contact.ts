@@ -14,16 +14,24 @@ export function emailDraft(isEn: boolean) {
   };
 }
 
-/** Webmail pages that open straight on a new, filled-in email. They open in a new tab. */
-export function composeLinks(isEn: boolean) {
-  const { subject, body } = emailDraft(isEn);
+/**
+ * A new, filled-in email: Gmail and Outlook on the web open straight on it (in a new tab);
+ * "program" uses an email program on the device (Apple Mail, Outlook, Thunderbird), which does
+ * nothing when none is set up. That is why a plain mailto link is never offered on its own.
+ */
+export function emailLinks(to: string, subject: string, body: string) {
   const q = encodeURIComponent;
   return {
-    gmail: `https://mail.google.com/mail/?view=cm&fs=1&to=${q(TEAM_EMAIL)}&su=${q(subject)}&body=${q(body)}`,
-    outlook: `https://outlook.live.com/mail/0/deeplink/compose?to=${q(TEAM_EMAIL)}&subject=${q(subject)}&body=${q(body)}`,
-    // An email program on the device (Apple Mail, Outlook, Thunderbird). Does nothing when none is set up.
-    program: `mailto:${TEAM_EMAIL}?subject=${q(subject)}&body=${q(body)}`,
+    gmail: `https://mail.google.com/mail/?view=cm&fs=1&to=${q(to)}&su=${q(subject)}&body=${q(body)}`,
+    outlook: `https://outlook.live.com/mail/0/deeplink/compose?to=${q(to)}&subject=${q(subject)}&body=${q(body)}`,
+    program: `mailto:${to}?subject=${q(subject)}&body=${q(body)}`,
   };
+}
+
+/** A new email to the team. */
+export function composeLinks(isEn: boolean) {
+  const { subject, body } = emailDraft(isEn);
+  return emailLinks(TEAM_EMAIL, subject, body);
 }
 
 export interface ContactMessage {

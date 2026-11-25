@@ -4448,5 +4448,9 @@
  "lessons": "ders",
  "You have now finished 2 lessons.": "Şimdi 2 ders tamamladınız.",
  "You have now finished 3 lessons.": "Şimdi 3 ders tamamladınız.",
- "You have now finished 4 lessons.": "Şimdi 4 ders tamamladınız."
+ "You have now finished 4 lessons.": "Şimdi 4 ders tamamladınız.",
+ "Email program on this device": "Bu cihazdaki e-posta programı",
+ "Gmail and Outlook open in a new tab with the message already filled in. You only add the address. With another email service, press \"Copy message\" and paste it into a new email.": "Gmail ve Outlook, mesaj önceden doldurulmuş olarak yeni bir sekmede açılır. Siz yalnızca adresi eklersiniz. Başka bir e-posta hizmeti kullanıyorsanız \"Mesajı kopyala\"ya basın ve mesajı yeni bir e-postaya yapıştırın.",
+ "Gmail and Outlook open in a new tab with the message already filled in.": "Gmail ve Outlook, mesaj önceden doldurulmuş olarak yeni bir sekmede açılır.",
+ "You only add the address.": "Siz yalnızca adresi eklersiniz."
 }
